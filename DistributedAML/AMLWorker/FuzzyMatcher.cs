@@ -19,9 +19,9 @@ namespace AMLWorker
         {
             
             L.Trace(
-                $"Opened server with bucket {server.BucketId} and data dir - {server.GetConfigProperty("DataDirectory")}");
+                $"Opened server with bucket {server.BucketId} and data dir - {server.GetConfigProperty("DataDirectory",server.BucketId)}");
 
-            connectionString = (string)server.GetConfigProperty("DataDirectory") +
+            connectionString = (string)server.GetConfigProperty("DataDirectory",server.BucketId) +
                                    $"/FuzzyMatcher_{server.BucketId}";
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
 
@@ -58,53 +58,70 @@ namespace AMLWorker
                     connection.Open();
                     var txn = connection.BeginTransaction();
 
+                    int cnt = 0;
                     foreach (var c in entries)
                     {
-                        var existsCmd = connection.CreateCommand();
-                        existsCmd.CommandText = "select rowid from FuzzyPhrase where Phrase=($phrase)";
-
-                        existsCmd.Parameters.AddWithValue("$phrase", c.Phrase);
-                        var exists = existsCmd.ExecuteReader();
-                        if (exists.HasRows)
+                        using (var existsCmd = connection.CreateCommand())
                         {
-                            var insert1Cmd = connection.CreateCommand();
-                            insert1Cmd.Transaction = txn;
-                            insert1Cmd.CommandText =
-                                "insert into FuzzyPhraseToDocument (phraseid,documentid) values ($phraseid,$documentid);";
+                            existsCmd.CommandText = "select rowid from FuzzyPhrase where Phrase=($phrase)";
 
-                            exists.Read();
-                            var phraseid = exists.GetInt32(0);
-
-                            insert1Cmd.Parameters.AddWithValue("$phraseid", phraseid);
-                            insert1Cmd.Parameters.AddWithValue("$documentid", c.DocId);
-
-                            try
+                            existsCmd.Parameters.AddWithValue("$phrase", c.Phrase);
+                            var exists = existsCmd.ExecuteReader();
+                            if (exists.HasRows)
                             {
-                                var res = insert1Cmd.ExecuteNonQuery();
-                                if (res != 1)
-                                    throw new Exception($"Could not update existing phrase - {c.Phrase}");
+                                using (var insert1Cmd = connection.CreateCommand())
+                                {
+                                    insert1Cmd.Transaction = txn;
+                                    insert1Cmd.CommandText =
+                                        "insert into FuzzyPhraseToDocument (phraseid,documentid) values ($phraseid,$documentid);";
+
+                                    exists.Read();
+                                    var phraseid = exists.GetInt32(0);
+
+                                    insert1Cmd.Parameters.AddWithValue("$phraseid", phraseid);
+                                    insert1Cmd.Parameters.AddWithValue("$documentid", c.DocId);
+
+                                    try
+                                    {
+                                        var res = insert1Cmd.ExecuteNonQuery();
+                                        if (res != 1)
+                                            throw new Exception($"Could not update existing phrase - {c.Phrase}");
+                                    }
+                                    catch (SqliteException)
+                                    {
+                                        //                                L.Trace(e.Message);
+                                    }
+
+                                }
                             }
-                            catch (SqliteException )
+                            else
                             {
-//                                L.Trace(e.Message);
+                                using (var insert3Cmd = connection.CreateCommand())
+                                {
+                                    insert3Cmd.Transaction = txn;
+                                    insert3Cmd.CommandText =
+                                        $@"insert into FuzzyPhrase (phrase) values ($phrase);
+                                    insert into FuzzyPhraseToDocument (phraseid,documentid) values (last_insert_rowid(),$documentid);
+                                    insert into FuzzyTriple (triple,phrase) values ($triple,$phrase);";
+
+                                    insert3Cmd.Parameters.AddWithValue("$phrase", c.Phrase);
+                                    insert3Cmd.Parameters.AddWithValue("$documentid", c.DocId);
+                                    insert3Cmd.Parameters.AddWithValue("$triple",
+                                        StringFunctions.CreateTriple(c.Phrase));
+
+                                    var row = insert3Cmd.ExecuteNonQuery();
+                                    if (row != 3)
+                                        throw new Exception($"Could not insert row .. {c.Phrase}");
+
+                                    insert3Cmd.Dispose();
+                                }
                             }
                         }
-                        else
+                        cnt++;
+                        if (cnt % 10000 == 0)
                         {
-                            var insert3Cmd = connection.CreateCommand();
-                            insert3Cmd.Transaction = txn;
-                            insert3Cmd.CommandText =
-                                $@"insert into FuzzyPhrase (phrase) values ($phrase);
-                    insert into FuzzyPhraseToDocument (phraseid,documentid) values (last_insert_rowid(),$documentid);
-                    insert into FuzzyTriple (triple,phrase) values ($triple,$phrase);";
-
-                            insert3Cmd.Parameters.AddWithValue("$phrase", c.Phrase);
-                            insert3Cmd.Parameters.AddWithValue("$documentid", c.DocId);
-                            insert3Cmd.Parameters.AddWithValue("$triple", StringFunctions.CreateTriple(c.Phrase));
-
-                            var row = insert3Cmd.ExecuteNonQuery();
-                            if (row != 3)
-                                throw new Exception($"Could not insert row .. {c.Phrase}");
+                            txn.Commit();
+                            txn = connection.BeginTransaction();
                         }
 
                     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Comms;
+using MDPCommons;
 using NetMQ;
 
 namespace AMLWorker
@@ -24,7 +25,7 @@ namespace AMLWorker
             var t = new Task(() =>
             {
 
-                var g = new MajordomoProtocol.MDPWorker("tcp://localhost:5555", parent.GetServiceName(bucketId),
+                var g = new MDPWorker("tcp://localhost:5555", parent.GetServiceName(bucketId),
                                       new byte[] { (byte)'W', (byte)(bucketId+'A') });
 
                 // logging info to be displayed on screen
@@ -60,6 +61,15 @@ namespace AMLWorker
                 throw new Exception($"Service Config does not contain key - {key}");
             return serviceConfig.Properties[key];
         }
+
+        public object GetConfigProperty(string key,int bucket)
+        {
+            var key2 = key + "_" + bucket;
+            if (serviceConfig.Properties.ContainsKey(key2) == false)
+                throw new Exception($"Service Config does not contain key - {key2}");
+            return serviceConfig.Properties[key2];
+        }
+
 
         public int BucketId => bucketId;
 

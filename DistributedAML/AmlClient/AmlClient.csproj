@@ -7,10 +7,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETCOREAPP2_0;USE_SQLITEPCL_RAW</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="4.0.2" />
+    <PackageReference Include="MDPCommons_NetMQ" Version="1.0.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.1.0-preview1-27377" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
@@ -21,8 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Comms\Comms.csproj" />
     <ProjectReference Include="..\Logger\Logger.csproj" />
-    <ProjectReference Include="..\MajordomoProtocol\MajordomoProtocol.csproj" />
-    <ProjectReference Include="..\MDPCommons\MDPCommons.csproj" />
   </ItemGroup>
 
   <ItemGroup>

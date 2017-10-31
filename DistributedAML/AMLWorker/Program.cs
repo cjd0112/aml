@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AMLWorker.AS.Application;
 using Logger;
-using MajordomoProtocol;
 using NetMQ;
 using StructureMap;
 

@@ -21,8 +21,6 @@ namespace AmlClient
         public void Add(String key, T o)
         {
             var bucket = Math.Abs(MurMurHash3.Hash(new MemoryStream(Encoding.UTF8.GetBytes(key)))) % Buckets;
-            if (bucket != 0 && bucket != 1)
-                throw new Exception("temp exception hit ...");
             List<T> vals = null;
             if (!objs.TryGetValue(bucket,out vals))
                 objs[bucket] = vals = new List<T>();

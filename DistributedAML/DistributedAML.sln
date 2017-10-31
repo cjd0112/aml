@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommsConsole", "CommsConsol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Comms", "Comms\Comms.csproj", "{5528074B-9CDA-4D7B-8729-EF6EE3E1F5CB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AMLWorker", "AMLWorker\AMLWorker.csproj", "{DD7D7D94-9B31-49BB-B9B4-309C678C6E2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmlClient", "AmlClient\AmlClient.csproj", "{43761EB3-1F7B-418A-B639-109110E711EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{5528074B-9CDA-4D7B-8729-EF6EE3E1F5CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5528074B-9CDA-4D7B-8729-EF6EE3E1F5CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5528074B-9CDA-4D7B-8729-EF6EE3E1F5CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD7D7D94-9B31-49BB-B9B4-309C678C6E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD7D7D94-9B31-49BB-B9B4-309C678C6E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD7D7D94-9B31-49BB-B9B4-309C678C6E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD7D7D94-9B31-49BB-B9B4-309C678C6E2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43761EB3-1F7B-418A-B639-109110E711EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43761EB3-1F7B-418A-B639-109110E711EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43761EB3-1F7B-418A-B639-109110E711EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43761EB3-1F7B-418A-B639-109110E711EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

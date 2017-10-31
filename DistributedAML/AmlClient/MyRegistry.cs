@@ -9,16 +9,6 @@ namespace AmlClient
 {
     namespace AS.Application
     {
-        public class PubSubObj
-        {
-            public string hostname { get; set; }
-            public int port { get; set; }
-
-        }
-        class PubSubServerConfig
-        {
-            public PubSubObj PubSub { get; set; }
-        }
         public class MyRegistry : Registry
         {
             public String DataDirectory { get; set; }
