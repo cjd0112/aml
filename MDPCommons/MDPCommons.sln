@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDPCommons", "MDPCommons\MDPCommons.csproj", "{7F9463A2-BE3D-478C-9D09-D1DD1358E3C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDPBroker", "MDPBroker\MDPBroker.csproj", "{87C0A2C0-23D7-4528-B92C-BEEB135B43DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7F9463A2-BE3D-478C-9D09-D1DD1358E3C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F9463A2-BE3D-478C-9D09-D1DD1358E3C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F9463A2-BE3D-478C-9D09-D1DD1358E3C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87C0A2C0-23D7-4528-B92C-BEEB135B43DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87C0A2C0-23D7-4528-B92C-BEEB135B43DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87C0A2C0-23D7-4528-B92C-BEEB135B43DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87C0A2C0-23D7-4528-B92C-BEEB135B43DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
