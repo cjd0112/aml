@@ -7,10 +7,10 @@ using Shared;
 
 namespace Comms
 {
-    public abstract class TransactionMapperServer : ITransactionMapper
+    public abstract class TransactionStoreServer : ITransactionStore
     {
         protected IServiceServer server;
-        protected TransactionMapperServer(IServiceServer server)
+        protected TransactionStoreServer(IServiceServer server)
         {
             this.server= server;
             this.server.OnReceived += OnReceived;
@@ -27,7 +27,7 @@ namespace Comms
                     
                         var transactions = Helpers.UnpackMessageList<Transaction>(request,Transaction.Parser.ParseDelimitedFrom);					
                     var methodResult=StoreTransactions(transactions);
-                    ret.Append(Convert.ToInt32(methodResult));
+                    ret.Append(methodResult);
                     break;
                 }
                 default:
@@ -37,7 +37,7 @@ namespace Comms
         }
 
         
-		public abstract Boolean StoreTransactions(List<Transaction> transactions);
+		public abstract Int32 StoreTransactions(List<Transaction> transactions);
 
     }
 }

@@ -22,7 +22,7 @@ namespace AMLWorker
                 $"Opened server with bucket {server.BucketId} and data dir - {server.GetConfigProperty("DataDirectory",server.BucketId)}");
 
             connectionString = (string)server.GetConfigProperty("DataDirectory",server.BucketId) +
-                                   $"/FuzzyMatcher_{server.BucketId}";
+                                   $"/AmlWorker_{server.BucketId}";
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
 
             using (var connection = newConnection())
