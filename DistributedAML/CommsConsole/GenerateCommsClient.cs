@@ -53,7 +53,7 @@ namespace Comms
 {
     public class _NAME_Client : I_NAME_
     {
-        private IServiceClient client;
+        protected IServiceClient client;
         public _NAME_Client(IServiceClient client)
         {
             this.client = client;

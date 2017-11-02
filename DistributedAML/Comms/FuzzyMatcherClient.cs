@@ -9,7 +9,7 @@ namespace Comms
 {
     public class FuzzyMatcherClient : IFuzzyMatcher
     {
-        private IServiceClient client;
+        protected IServiceClient client;
         public FuzzyMatcherClient(IServiceClient client)
         {
             this.client = client;

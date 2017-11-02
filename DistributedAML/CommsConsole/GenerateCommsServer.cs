@@ -23,7 +23,7 @@ namespace Comms
 {
     public abstract class _NAME_Server : I_NAME_
     {
-        private IServiceServer server;
+        protected IServiceServer server;
         protected _NAME_Server(IServiceServer server)
         {
             this.server= server;

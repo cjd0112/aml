@@ -1,0 +1,26 @@
+﻿syntax="proto3";
+
+message Role
+{
+	enum RoleType
+	{
+		Beneficiary=0;
+		Originator=1;
+		Intermediary1=2;
+		Intermediary2=3;
+	}
+}
+
+message Transaction
+{
+	string Id = 1;
+	double Amount=2;
+	enum TransactionType
+	{
+		type1=0;
+		type2=1;
+	}
+	TransactionType type = 3;
+
+	repeated Role Roles=4;
+};
