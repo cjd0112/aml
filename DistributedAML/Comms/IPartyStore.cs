@@ -5,8 +5,10 @@ using Google.Protobuf.Reflection;
 
 namespace Comms
 {
-    public interface IRetailStore : ICommsContract
+    public interface IPartyStore : ICommsContract
     {
-        int StoreRetail(List<Retail> retails);
+        int StoreParties(List<Party> parties);
+
+
     }
 }

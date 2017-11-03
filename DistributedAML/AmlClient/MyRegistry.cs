@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using AS.Logger;
 using Comms;
 using Logger;
@@ -12,6 +15,9 @@ namespace AmlClient
         public class MyRegistry : Registry
         {
             public String DataDirectory { get; set; }
+
+            public List<Type> ClientTypes { get; set; }
+
             public MyRegistry(string jsonFile)
             {
                 Console.WriteLine($"Opening configuration file - {jsonFile}");
@@ -34,6 +40,10 @@ namespace AmlClient
                 For<IClientProxy>().Add<ClientFactory>();
 
                 DataDirectory = config["DataDirectory"];
+
+                ClientTypes = new List<Type>();
+
+                ClientTypes.AddRange(Assembly.GetAssembly(typeof(ICommsContract)).GetTypes().Where(x=>typeof(ICommsContract).IsAssignableFrom(x)));
 
                 Scan(x =>
                 {

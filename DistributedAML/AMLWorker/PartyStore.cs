@@ -11,15 +11,12 @@ using Shared;
 
 namespace AMLWorker
 {
-    public class TransactionStore : TransactionStoreServer
+    public class PartyStore : PartyStoreServer
     {
         private string connectionString;
 
-        public TransactionStore(IServiceServer server) : base(server)
+        public PartyStore(IServiceServer server) : base(server)
         {
-            L.Trace(
-                $"Opened server with bucket {server.BucketId} and data dir - {server.GetConfigProperty("DataDirectory", server.BucketId)}");
-
             connectionString = SqlHelper.GetConnectionString((string)server.GetConfigProperty("DataDirectory", server.BucketId),
                 server.BucketId, "AmlWorker");
 
@@ -37,16 +34,18 @@ namespace AMLWorker
             }
         }
 
-        public override int StoreTransactions(List<Transaction> transactions)
+      
+
+        public override int StoreParties(List<Party> parties)
         {
             using (var connection = SqlHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
-                return SqlHelper.InsertOrUpdateRows(connection, "TransactionStore", transactions.Cast<Object>().ToList(),
+                return SqlHelper.InsertOrUpdateRows(connection, "TransactionStore", parties.Cast<Object>().ToList(),
                     (x) =>
                     {
-                        var t = (Transaction) x;
+                        var t = (Transaction)x;
                         return new Tuple<string, byte[]>(t.Id, t.ToByteArray());
 
                     });

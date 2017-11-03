@@ -128,7 +128,7 @@ namespace Comms
             var parameters = method.GetParameters().Select(GenerateSignatureParameter)
                 .Select(x => x.Item1 + " " + x.Item2).Aggregate("", (x, y) => x + y + ",");
 
-            if (parameters.Last() == ',')
+            if (parameters.Any() && parameters.Last() == ',')
                 parameters = parameters.Substring(0, parameters.Length - 1);
 
             return $"\t\t{access} {ret} {name}({parameters})\n";

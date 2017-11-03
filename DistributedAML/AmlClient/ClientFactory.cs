@@ -45,7 +45,20 @@ namespace AmlClient
 
         public T GetClient<T>(int bucket) where T:ICommsContract
         {
-            var str = typeof(T).Name + "_" + bucket;
+            return (T)GetClient(bucket, typeof(T));
+        }
+
+        public IEnumerable<int> GetClientBuckets<T>() where T : ICommsContract
+        {
+            return GetClientBuckets(typeof(T));
+        }
+
+        public Object GetClient(int bucket,Type t) 
+        {
+            if (typeof(ICommsContract).IsAssignableFrom(t) == false)
+                throw new Exception($"Invalid type specified to GetClient - {t.Name}");
+
+            var str = t.Name + "_" + bucket;
             if (serviceQueue.ContainsKey(str) == false)
                 throw new Exception($"Service with name - {str} not found");
 
@@ -54,14 +67,17 @@ namespace AmlClient
             if (serviceClient.Underlying == null)
                 throw new Exception($"Underlying for service - {str} is null ...");
 
-            return (T) serviceClient.Underlying;
+            return serviceClient.Underlying;
         }
 
-        public IEnumerable<int> GetClientBuckets<T>() where T : ICommsContract
+        public IEnumerable<int> GetClientBuckets(Type t) 
         {
+            if (typeof(ICommsContract).IsAssignableFrom(t) == false)
+                throw new Exception($"Invalid type specified to GetClient - {t.Name}");
+
             foreach (var c in serviceQueue.Keys)
             {
-                if (c.StartsWith(typeof(T).Name))
+                if (c.StartsWith(t.Name))
                     yield return serviceQueue[c].Bucket;
             }
         }

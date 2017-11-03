@@ -1,0 +1,32 @@
+﻿syntax="proto3";
+
+
+message Party
+{
+	enum PartyType
+	{
+		Retail=0;
+		Corporate=1;
+		FinancialInstitution=2;
+	}
+	 string Id = 1;
+	 PartyType Type = 2;
+	 string Name = 3;
+	 string CompanyName = 4;
+	 string Address1 = 5;
+	 string Address2 = 6;
+	 string Town = 7;
+	 string Country = 8;
+	 string PostCode = 9;
+	 string Telephone1 = 10;
+	 string Telephone2 = 11;
+	 string Email = 12;
+	 string WebAddress = 13;
+	 string TxnProfile = 14;
+	 string Sector = 15;
+	 string CEOName = 16;
+	 string CEOEmail = 17;
+	 string Website = 18;
+	 string City = 19;
+
+};

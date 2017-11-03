@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using AmlClient.AS.Application;
+using AmlClient.Commands;
 using Comms;
 using CsvHelper;
 using Logger;
@@ -38,36 +39,12 @@ namespace AmlClient
                 c = new Container(reg);
                 reg.For<IContainer>().Use(c);
 
-                var db = new SQLiteConnection(reg.DataDirectory + "\\db\\client.mdb");
 
-                db.CreateTable<ClientWithBucket>();
+                var init = c.GetInstance<Initialize>();
+                init.Run();
 
-                bool clearBucketState = false;
-                if (clearBucketState)
-                {
-                    db.Delete<ClientWithBucket>("IFuzzyMatcher");
-                }
-
-                var clientFactory = new ClientFactory(c);
-
-                var bucketMax = clientFactory.GetClientBuckets<IFuzzyMatcher>().Max();
-                var bucketMin = clientFactory.GetClientBuckets<IFuzzyMatcher>().Min();
-
-                if (bucketMin != 0)
-                    throw new Exception($"Minimum bucket is not zero it is - {bucketMin} - should be zero");
-
-                if (db.Find<ClientWithBucket>("IFuzzyMatcher") == null)
-                {
-                    db.Insert(new ClientWithBucket {BucketCount = bucketMax,ClientName= "IFuzzyMatcher"});
-                }
-                else
-                {
-                    var ppp = db.Find < ClientWithBucket>("IFuzzyMatcher");
-                    if (ppp.BucketCount != bucketMax)
-                    {
-                        throw new Exception($"We have (dynamic) bucketMax for 'IFuzzyMatcher = {bucketMax} - but last recorded run bucketMax was - {ppp.BucketCount}... cannot continue - need to match bucketCount - or rebuild");
-                    }
-                }
+                reg.For<Initialize>().Use(init);
+              
 
                 if (true)
                 {
