@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AmlClient
 {
-    public class Retail
+    public class RetailBak
     {
         public String Id { get; set; }
         public String Name { get; set; }

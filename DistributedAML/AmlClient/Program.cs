@@ -69,7 +69,7 @@ namespace AmlClient
                     }
                 }
 
-                if (false)
+                if (true)
                 {
                     var multiplexer = new Multiplexer<FuzzyWordEntry>(bucketMax + 1 /*number of buckets*/);
 
