@@ -26,7 +26,7 @@ namespace AMLWorker
             {
 
                 var g = new MDPWorker("tcp://localhost:5555", parent.GetServiceName(bucketId),
-                                      new byte[] { (byte)'W', (byte)(bucketId+'A') });
+                    Encoding.ASCII.GetBytes(parent.GetServiceName(bucketId)));
 
                 // logging info to be displayed on screen
                 g.LogInfoReady += (s, e) => Console.WriteLine($"{e.Info}");
