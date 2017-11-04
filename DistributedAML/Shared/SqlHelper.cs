@@ -11,7 +11,7 @@ namespace Shared
     {
         public static String GetConnectionString(String dataDirectory, int bucket, String dbFile)
         {
-            return $"{dataDirectory}/{dbFile}_bucket.mdb";
+            return $"{dataDirectory}/{dbFile}_{bucket}.mdb";
 
         }
 
@@ -46,7 +46,7 @@ namespace Shared
 
         public static int CreateBlobTable(SqliteConnection conn, String tableName)
         {
-            return ExecuteCommandLog(conn,$"create table {tableName} (id string primary key, blob transaction);");
+            return ExecuteCommandLog(conn,$"create table {tableName} (id string primary key, blob data);");
         }
 
         public static int InsertOrUpdateRows(SqliteConnection connection, String tableName, List<Object> objs,

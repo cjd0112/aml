@@ -21,8 +21,8 @@ namespace AMLWorker
             L.Trace(
                 $"Opened server with bucket {server.BucketId} and data dir - {server.GetConfigProperty("DataDirectory",server.BucketId)}");
 
-            connectionString = (string)server.GetConfigProperty("DataDirectory",server.BucketId) +
-                                   $"/AmlWorker_{server.BucketId}";
+            connectionString = SqlHelper.GetConnectionString((string)server.GetConfigProperty("DataDirectory", server.BucketId),
+                server.BucketId, "AmlWorker");
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
 
             using (var connection = newConnection())

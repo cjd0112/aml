@@ -12,15 +12,23 @@ namespace AmlClient.Commands
 {
     public class Initialize
     {
+        public class ClientWithBucket
+        {
+            [PrimaryKey]
+            public string ClientName { get; set; }
+            public int BucketCount { get; set; }
+        }
+
+
         private MyRegistry reg;
         private Container c;
         private ClientFactory clientFactory;
         private string dbConnection;
-        public Initialize(Container c,MyRegistry reg)
+        public Initialize(Container c,MyRegistry reg,ClientFactory factory)
         {
             this.reg = reg;
             this.c = c;
-            this.clientFactory = new ClientFactory(c);
+            this.clientFactory = factory;
             dbConnection = reg.DataDirectory + "\\db\\client.mdb";
         }
 
@@ -58,8 +66,8 @@ namespace AmlClient.Commands
                         var action = Console.ReadLine();
                         if (action.ToLower() == "y")
                         {
-                            db.CreateTable<Program.ClientWithBucket>();
-                            db.Delete<Program.ClientWithBucket>(service);
+                            db.CreateTable<Initialize.ClientWithBucket>();
+                            db.Delete<Initialize.ClientWithBucket>(service);
                         }
                         else
                         {
@@ -85,13 +93,13 @@ namespace AmlClient.Commands
                     throw new Exception(
                         $"Minimum bucket is not zero it is - {bucketMin} - should be zero, for {serviceType.Name}");
 
-                if (db.Find<Program.ClientWithBucket>(serviceType.Name) == null)
+                if (db.Find<Initialize.ClientWithBucket>(serviceType.Name) == null)
                 {
-                    db.Insert(new Program.ClientWithBucket {BucketCount = bucketMax, ClientName = serviceType.Name});
+                    db.Insert(new Initialize.ClientWithBucket {BucketCount = bucketMax, ClientName = serviceType.Name});
                 }
                 else
                 {
-                    var ppp = db.Find<Program.ClientWithBucket>(serviceType.Name);
+                    var ppp = db.Find<Initialize.ClientWithBucket>(serviceType.Name);
                     if (ppp.BucketCount != bucketMax)
                     {
                         throw new Exception(

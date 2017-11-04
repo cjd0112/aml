@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,142 +23,72 @@ namespace AmlClient
 {
     class Program
     {
-        public class ClientWithBucket
-        {
-            [PrimaryKey]
-            public string ClientName { get; set; }
-            public int BucketCount { get; set; }
-        }
-
-
+      
         static void Main(string[] args)
         {
-            try
+            String userCommand = "";
+            bool initialized  = false;
+            Container c = null;
+            while (userCommand != "q")
             {
-                Container c = null;
-                var reg = new MyRegistry(args.Any() == false ? "appsettings.json" : args[0]);
-                c = new Container(reg);
-                reg.For<IContainer>().Use(c);
-
-
-                var init = c.GetInstance<Initialize>();
-                init.Run();
-
-                reg.For<Initialize>().Use(init);
-              
-
-                if (true)
+                try
                 {
-                    var multiplexer = new Multiplexer<FuzzyWordEntry>(bucketMax + 1 /*number of buckets*/);
-
-                    CsvReader rdr = new CsvReader(new StreamReader($@"{reg.DataDirectory}\input\Retail-Large.csv"));
-                    var records = rdr.GetRecords<Retail>();
-                    records.Take(1000000)
-                        .Do(x => multiplexer.Add(x.Name,
-                            new FuzzyWordEntry {DocId = Int32.Parse(x.Id), Phrase = x.Name}));
-
-                    List<Task> tasks = new List<Task>();
-                    multiplexer.GetBuckets().Do(x =>
+                    if (!initialized)
                     {
-                        tasks.Add(new Task(() => clientFactory.GetClient<IFuzzyMatcher>(x.Item1).AddEntry(x.Item2)));
-                        tasks.Last().Start();
-                    });
-
-                    Task.WaitAll(tasks.ToArray());
-                }
-                else
-                {
-                    var data = new List<string>(new[]
-                    {
-                        "aleshia tomkiewicz",
-                        "daniel towers",
-                        "morna dick",
-                        "colin dick",
-                        "potatoe head",
-                        "my french teacher",
-                        "mrs gilbert custard",
-                        "hello stranger",
-                        "free fridges and gloombszyte",
-                        "blue x parlour fish",
-                        "aleshia x tomkiewicz",
-                        "daniel x towers",
-                        "morna x dick",
-                        "colin x dick",
-                        "potatoe x head",
-                        "my french x teacher",
-                        "mrs gilbert x custard",
-                        "hello x stranger",
-                        "free fridges x and gloombszyte",
-                        "blue parlour x fish",
-                        "stephen marsh",
-                        "paul purbrook",
-                        "michael towers",
-                        "linda miskell",
-                        "dan wagner",
-                        "peter funnell",
-                        "shane lamont",
-                        "myra hindley",
-                        "flash gordon",
-                        "peter purves",
-                        "gordon brown",
-                        "tony blair",
-                        "donald trump",
-                        "henry kissinger",
-                        "george bush",
-                        "david cameron",
-                        "angela leadsom",
-                        "david davies",
-                        "boris jonson"
-
-                    });
-
-
-                    Stopwatch sw = new Stopwatch();
-                    sw.Start();
-                    List<Task<List<FuzzyQueryResponse>>> tasks = new List<Task<List<FuzzyQueryResponse>>>();
-                    List<Object> results = new List<object>();
-                    foreach (var bucket in clientFactory.GetClientBuckets<IFuzzyMatcher>())
-                    {
-                        tasks.Add(Task<List<FuzzyQueryResponse>>.Factory.StartNew(() =>
+                        try
                         {
-                            var z = clientFactory.GetClient<IFuzzyMatcher>(bucket);
+                            var reg = new MyRegistry(args.Any() == false ? "appsettings.json" : args[0]);
+                            reg.For<MyRegistry>().Use(reg);
+                            c = new Container(reg);
+                            c.Inject(typeof(Container),c);
 
-                            return z.FuzzyQuery(data);
+                            var init = c.GetInstance<Initialize>();
+                            init.Run();
 
-                        }));
-                    }
-                    Task.WaitAll(tasks.ToArray());
+                            c.Inject<Initialize>(init);
 
-                    sw.Stop();
+                            initialized = true;
 
-                    Console.WriteLine($"Elapsed time - {sw.ElapsedMilliseconds}");
-
-                    /*
-                    foreach (var y in tasks)
-                    {
-                        foreach (var g in y.Result)
-                        {
-                            Console.WriteLine(g.Query);
-                            foreach (var n in g.Detail)
-                            {
-                                Console.WriteLine($"            {n.Candidate} - {n.Score} - {n.PhraseId}");
-
-                            }
                         }
-                    }*/
+                        catch (Exception e)
+                        {
+                            L.Trace(e.Message);
+                            L.Trace("Error on initialization ... quitting");
+                            userCommand = "q";
+                            continue;
+                        }
+                    }
+
+                    Console.WriteLine("Enter a command - (l) to list");
+
+                    userCommand = Console.ReadLine();
+                    if (userCommand == "q")
+                        continue;
+                    if (userCommand.ToLower() == "l")
+                    {
+                        Console.Write(AmlCommand.GetCommands().Aggregate("", (x, y) => x + y.Name + "\n"));
+                    }
+                    else
+                    {
+                        var commandType = AmlCommand.GetAmlCommand(userCommand);
+
+                        if (commandType == null)
+                            throw new Exception($"Command not found - {userCommand}");
+
+                        AmlCommand.RunCommand(c, commandType);
+
+                    }
 
                 }
-                Console.ReadLine();
-                L.CloseLog();
-
-
+                catch (Exception e)
+                {
+                    L.Exception(e);
+                }
             }
-            catch (Exception e)
-            {
-                L.Exception(e);
-            }
+            L.CloseLog();
+            Console.WriteLine("Any key to quit ...");
+            Console.ReadLine();
+
         }
-
-      
     }
 }
