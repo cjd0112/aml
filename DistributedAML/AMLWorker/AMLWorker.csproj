@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -7,6 +8,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG;NETCOREAPP2_0;USE_SQLITEPCL_RAW;</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +18,11 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
     <PackageReference Include="NetMQ" Version="4.0.0.1" />
     <PackageReference Include="StructureMap" Version="4.5.2" />
-  </ItemGroup>
+	<PackageReference Include="System.Net.Primitives" Version="4.3.0"/>
+    <PackageReference Include="System.Security.Principal.Windows" Version="4.3.0"/> 
+    <PackageReference Include="runtime.native.System" Version="4.3.0"/> 
+
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Comms\Comms.csproj" />

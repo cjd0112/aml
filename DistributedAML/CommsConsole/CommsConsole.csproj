@@ -13,12 +13,10 @@
     <PackageReference Include="NetMQ" Version="4.0.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="StructureMap" Version="4.5.2" />
-    <PackageReference Include="xunit" Version="2.3.0" />
-
-
  <PackageReference Include="System.Net.Primitives" Version="4.3.0" />
- <PackageReference Include="System.Security.Principal.Windows" Version="4.3.0" />
  <PackageReference Include="runtime.native.System" Version="4.3.0" />
+ <PackageReference Include="xunit" Version="2.3.1" />
+ <PackageReference Include="System.Security.Principal.Windows" Version="4.4.0" />
   </ItemGroup>
 
   <ItemGroup>
