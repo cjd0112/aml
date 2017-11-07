@@ -30,6 +30,8 @@ namespace AmlClient.Commands
             this.c = c;
             this.clientFactory = factory;
             dbConnection = reg.DataDirectory + "\\db\\client.mdb";
+
+            c.Inject(typeof(ClientFactory),factory);
         }
 
         public ClientFactory ClientFactory => clientFactory;
@@ -48,17 +50,25 @@ namespace AmlClient.Commands
 
                 while (service == "")
                 {
-                    Console.WriteLine("Enter name of type to validate it's local state ... ");
+                    Console.WriteLine("Enter name of type to validate it's local state or 'c' to continue... ");
 
                     service = Console.ReadLine();
-
-                    if (reg.ClientTypes.All(x => x.Name != service))
+                    if (service == "c")
+                    {
+                        continue;
+                    }
+                    else if (reg.ClientTypes.All(x => x.Name != service))
                     {
                         Console.WriteLine($"type - {service} not found ...");
                         service = "";
                     }
                     else
                     {
+                        if (clientFactory.Initialized == false)
+                        {
+                            L.Trace("Initializing Client Factory ... ");
+                            clientFactory.Initialize();
+                        }
                         var serviceType = reg.ClientTypes.First(x => x.Name == service);
                         Console.WriteLine(
                             $"Click 'y' to clear bucket-state (i.e., if bucket numbers have cleared down) for '{service}' or any other key to validate the service");
@@ -80,30 +90,47 @@ namespace AmlClient.Commands
 
         public void ValidateServiceBucketsAreConsistent(Type serviceType)
         {
+            L.Trace($"Validating service - {serviceType.Name}");
             if (reg.ClientTypes.All(x=>x.Name != serviceType.Name) )
                 throw new Exception($"Unexpected service name - {serviceType.Name}");
 
 
             using (var db = new SQLiteConnection(dbConnection))
             {
-                var bucketMax = clientFactory.GetClientBuckets(serviceType).Max();
-                var bucketMin = clientFactory.GetClientBuckets(serviceType).Min();
+                var buckets = clientFactory.GetClientBuckets(serviceType).ToArray();
+
+                var bucketMax = buckets.Max();
+                var bucketMin = buckets.Min();
+
+                L.Trace($"BucketCount = {buckets.Count()}, BucketMin = {bucketMin}, BucketMax = {bucketMax} for {serviceType.Name}");
 
                 if (bucketMin != 0)
                     throw new Exception(
                         $"Minimum bucket is not zero it is - {bucketMin} - should be zero, for {serviceType.Name}");
 
+                if (bucketMax < 0)
+                    throw new Exception(
+                        $"Maximum bucket is less than zero it is - {bucketMax}  for {serviceType.Name}");
+
+
                 if (db.Find<Initialize.ClientWithBucket>(serviceType.Name) == null)
                 {
-                    db.Insert(new Initialize.ClientWithBucket {BucketCount = bucketMax, ClientName = serviceType.Name});
+                    L.Trace($"Adding new initial bucket entry for {serviceType.Name}");
+
+                    db.Insert(new Initialize.ClientWithBucket {BucketCount = buckets.Count(), ClientName = serviceType.Name});
                 }
                 else
                 {
                     var ppp = db.Find<Initialize.ClientWithBucket>(serviceType.Name);
-                    if (ppp.BucketCount != bucketMax)
+                    if (ppp.BucketCount != buckets.Count())
                     {
                         throw new Exception(
-                            $"We have (dynamic) bucketMax for '{serviceType.Name}= {bucketMax} - but last recorded run bucketMax was - {ppp.BucketCount}... cannot continue - need to match bucketCount - or rebuild");
+                            $"We have (dynamic) Bucket Count for '{serviceType.Name}= {buckets.Count()} - but last recorded run bucketCount was - {ppp.BucketCount}... cannot continue - need to match bucketCount - or rebuild");
+                    }
+                    else
+                    {
+                        L.Trace($"Local bucket counts for {serviceType.Name} match");
+
                     }
                 }
             }

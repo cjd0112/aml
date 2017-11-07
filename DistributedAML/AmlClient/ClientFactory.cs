@@ -27,6 +27,14 @@ namespace AmlClient
         private AutoResetEvent initialEvent = new AutoResetEvent(false);
         public ClientFactory(Container c)
         {
+            this.container = c;   
+        }
+
+        public bool Initialized { get; set; }
+
+        public void Initialize()
+        {
+            Initialized = true;
             mainClient = new MDPClientAsync("tcp://localhost:5555", new byte[] { (byte)'C', (byte)'1' });
             mainClient.ReplyReady += Z_ReplyReady;
             mainClient.LogInfoReady += Z_LogInfoReady;
@@ -36,10 +44,8 @@ namespace AmlClient
 
             // get a list of the services that we support
             mainClient.Send("mmi.service", pp);
-            this.container = c;
 
             initialEvent.WaitOne();
-
 
         }
 

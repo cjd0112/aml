@@ -43,7 +43,7 @@ namespace AmlClient
 
                 ClientTypes = new List<Type>();
 
-                ClientTypes.AddRange(Assembly.GetAssembly(typeof(ICommsContract)).GetTypes().Where(x=>typeof(ICommsContract).IsAssignableFrom(x)));
+                ClientTypes.AddRange(Assembly.GetAssembly(typeof(ICommsContract)).GetTypes().Where(x=>typeof(ICommsContract).IsAssignableFrom(x) && x.IsInterface && x != typeof(ICommsContract)));
 
                 Scan(x =>
                 {

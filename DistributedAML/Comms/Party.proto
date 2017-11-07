@@ -1,5 +1,14 @@
 ﻿syntax="proto3";
 
+message Account
+{
+	string AccountNo = 1;
+	string SortCode = 2;
+	string IBAN =3;
+	string Currency = 4;
+
+	repeated Party Parties = 100;
+}
 
 message Party
 {
@@ -28,5 +37,7 @@ message Party
 	 string CEOEmail = 17;
 	 string Website = 18;
 	 string City = 19;
+
+	 repeated Account Accounts = 20;
 
 };

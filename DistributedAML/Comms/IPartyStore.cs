@@ -9,6 +9,5 @@ namespace Comms
     {
         int StoreParties(List<Party> parties);
 
-
     }
 }

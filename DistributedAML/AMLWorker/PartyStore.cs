@@ -26,9 +26,9 @@ namespace AMLWorker
             {
                 connection.Open();
 
-                if (!SqlHelper.TableExists(connection, "TransactionStore"))
+                if (!SqlHelper.TableExists(connection, "PartyStore"))
                 {
-                    SqlHelper.CreateBlobTable(connection, "TransactionStore");
+                    SqlHelper.CreateBlobTable(connection, "PartyStore");
 
                 }
             }
@@ -42,11 +42,11 @@ namespace AMLWorker
             {
                 connection.Open();
 
-                return SqlHelper.InsertOrUpdateRows(connection, "TransactionStore", parties.Cast<Object>().ToList(),
+                return SqlHelper.InsertOrUpdateRows(connection, "PartyStore", parties.Cast<Object>().ToList(),
                     (x) =>
                     {
-                        var t = (Transaction)x;
-                        return new Tuple<string, byte[]>(t.Id, t.ToByteArray());
+                        var t = (Party)x;
+                        return new Tuple<string, byte[]>(t.GetMatchKey(), t.ToByteArray());
 
                     });
             }

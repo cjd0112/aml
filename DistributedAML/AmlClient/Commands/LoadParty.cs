@@ -57,9 +57,17 @@ namespace AmlClient.Commands
 
             CsvReader rdr = new CsvReader(new StreamReader(DataFile));
 
+            rdr.Configuration.HeaderValidated = null;
+
+            rdr.Configuration.MissingFieldFound = null;
+
             var records = rdr.GetRecords<Party>();
-            records.Take(1000000)
-                .Do(x => multiplexer.Add(x.Id,x));
+            records.Take(100000)
+                .Do(x =>
+                {
+                    x.Type = partyType;
+                    multiplexer.Add(x.GetMatchKey(), x);
+                });
 
             List<Task> tasks = new List<Task>();
             multiplexer.GetBuckets().Do(x =>
