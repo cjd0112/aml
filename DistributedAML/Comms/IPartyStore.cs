@@ -7,7 +7,14 @@ namespace Comms
 {
     public interface IPartyStore : ICommsContract
     {
-        int StoreParties(List<Party> parties);
+        int StoreHomeParties(List<Party> parties);
+        int StoreHomeAccounts(List<Account> accounts);
+
+        int StoreHomeAccountToPartyMapping(List<AccountToPartyMapping> mappings);
+        int StoreHomePartyToAccountMapping(List<AccountToPartyMapping> mappings);
+
+        List<AccountToPartyMapping> GetPartiesForHomeAccounts();
+        List<(Party, Account)> GetAccountsForHomeParties();
 
     }
 }

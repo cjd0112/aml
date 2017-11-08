@@ -1,5 +1,12 @@
 ﻿syntax="proto3";
 
+message AccountToPartyMapping
+{
+	string PartyId=1;
+	string SortCode=2;
+	string AccountNo = 3;
+}
+
 message Account
 {
 	string AccountNo = 1;

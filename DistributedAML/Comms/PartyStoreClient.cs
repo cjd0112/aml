@@ -26,5 +26,23 @@ namespace Comms
 			var ret = client.Send(msg);
 			return ret.First.ConvertToInt32();
 		}
+
+		public Int32 StoreAccounts(List<Account> accounts)
+		{
+			var msg = new NetMQMessage();
+			msg.Append("StoreAccounts");
+			Helpers.PackMessageList<Account>(msg,accounts);
+			var ret = client.Send(msg);
+			return ret.First.ConvertToInt32();
+		}
+
+		public Int32 StoreAccountToPartyMapping(List<AccountToPartyMapping> mappings)
+		{
+			var msg = new NetMQMessage();
+			msg.Append("StoreAccountToPartyMapping");
+			Helpers.PackMessageList<AccountToPartyMapping>(msg,mappings);
+			var ret = client.Send(msg);
+			return ret.First.ConvertToInt32();
+		}
     }
 }
