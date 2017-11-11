@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using NetMQ;
+using Logger;
 using Shared;
 
 namespace Comms
@@ -20,18 +21,30 @@ namespace Comms
         {
             var ret = new NetMQMessage();
             var selector = request.Pop();
-            switch (selector.ConvertToString())
+
+            try
             {
+                switch (selector.ConvertToString())
+                {
                case "StoreTransactions":
                 {
                     
-                        var transactions = Helpers.UnpackMessageList<Transaction>(request,Transaction.Parser.ParseDelimitedFrom);					
+                        var transactions = Helpers.UnpackMessageList<Transaction>(request,Transaction.Parser.ParseDelimitedFrom);
+					
                     var methodResult=StoreTransactions(transactions);
                     ret.Append(methodResult);
                     break;
                 }
-                default:
-                    throw new Exception($"Unexpected selector - {selector}");
+                    default:
+                        throw new Exception($"Unexpected selector - {selector}");
+                }
+            }
+            catch (Exception e)
+            {
+                L.Trace($"{selector} caused an exception");
+                L.Exception(e);
+                ret.AppendEmptyFrame();
+                ret.Append($"{selector} caused an exception - '{e.Message}' check server logs for more details");
             }
             return ret;
         }

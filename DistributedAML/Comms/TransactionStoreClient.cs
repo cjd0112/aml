@@ -24,6 +24,7 @@ namespace Comms
 			msg.Append("StoreTransactions");
 			Helpers.PackMessageList<Transaction>(msg,transactions);
 			var ret = client.Send(msg);
+			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
 			return ret.First.ConvertToInt32();
 		}
     }

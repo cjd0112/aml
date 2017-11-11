@@ -26,10 +26,25 @@ namespace AMLWorker
             {
                 connection.Open();
 
-                if (!SqlHelper.TableExists(connection, "PartyStore"))
+                if (!SqlHelper.TableExists(connection, "Parties"))
                 {
-                    SqlHelper.CreateBlobTable(connection, "PartyStore");
+                    SqlHelper.CreateBlobTable(connection, "Parties");
+                }
 
+                if (!SqlHelper.TableExists(connection, "Accounts"))
+                {
+                    SqlHelper.CreateBlobTable(connection, "Accounts");
+                }
+
+
+                if (!SqlHelper.TableExists(connection, "AccountParty"))
+                {
+                    SqlHelper.CreateManyToManyLinkagesTable(connection, "AccountParty","AccountId", "PartyId");
+                }
+
+                if (!SqlHelper.TableExists(connection, "PartyAccount"))
+                {
+                    SqlHelper.CreateManyToManyLinkagesTable(connection, "PartyAccount", "PartyId", "AccountId");
                 }
             }
         }
@@ -42,13 +57,65 @@ namespace AMLWorker
             {
                 connection.Open();
 
-                return SqlHelper.InsertOrUpdateRows(connection, "PartyStore", parties.Cast<Object>().ToList(),
+                return SqlHelper.InsertOrUpdateBlobRows(connection, "Parties", parties.Cast<Object>().ToList(),
                     (x) =>
                     {
                         var t = (Party)x;
-                        return new Tuple<string, byte[]>(t.GetMatchKey(), t.ToByteArray());
+                        return (t.Id, t.ToByteArray());
 
                     });
+            }
+        }
+
+        public override int StoreAccounts(List<Account> accounts)
+        {
+            using (var connection = SqlHelper.NewConnection(connectionString))
+            {
+                connection.Open();
+
+                return SqlHelper.InsertOrUpdateBlobRows(connection, "Accounts", accounts.Cast<Object>().ToList(),
+                    (x) =>
+                    {
+                        var t = (Account)x;
+                        return (t.Id, t.ToByteArray());
+
+                    });
+            }
+        }
+
+        public override int StoreLinkages(List<AccountToParty> mappings,LinkageDirection dir)
+        {
+            using (var connection = SqlHelper.NewConnection(connectionString))
+            {
+                connection.Open();
+
+                if (dir == LinkageDirection.AccountToParty)
+                {
+                    return SqlHelper.InsertOrUpdateLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
+                        mappings.Cast<Object>().ToList(),
+                        (x) =>
+                        {
+                            var t = (AccountToParty) x;
+                            return (t.AccountId, t.PartyId);
+
+                        });
+                }
+                else if (dir == LinkageDirection.PartyToAccount)
+                {
+                    return SqlHelper.InsertOrUpdateLinkageRows(connection, "PartyAccount", "PartyId", "AccountId",
+                        mappings.Cast<Object>().ToList(),
+                        (x) =>
+                        {
+                            var t = (AccountToParty)x;
+                            return (t.PartyId, t.AccountId);
+
+                        });
+
+                }
+                else
+                {
+                    throw new Exception($"Unexpected LinkageDirection - {dir}");
+                }
             }
         }
     }

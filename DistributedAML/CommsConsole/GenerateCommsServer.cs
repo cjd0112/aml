@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using NetMQ;
+using Logger;
 using Shared;
 
 namespace Comms
@@ -34,10 +35,21 @@ namespace Comms
         {
             var ret = new NetMQMessage();
             var selector = request.Pop();
-            switch (selector.ConvertToString())
-            {_HANDLERS_
-                default:
-                    throw new Exception($""Unexpected selector - {selector}"");
+
+            try
+            {
+                switch (selector.ConvertToString())
+                {_HANDLERS_
+                    default:
+                        throw new Exception($""Unexpected selector - {selector}"");
+                }
+            }
+            catch (Exception e)
+            {
+                L.Trace($""{selector} caused an exception"");
+                L.Exception(e);
+                ret.AppendEmptyFrame();
+                ret.Append($""{selector} caused an exception - '{e.Message}' check server logs for more details"");
             }
             return ret;
         }
@@ -136,6 +148,11 @@ var s = $@"               case ""{method.Name}"":
                     s += $"var {c.Name} = request.Pop().ConvertToInt32();\n";
                 else if (c.ParameterType == typeof(Int64))
                     s += $"var {c.Name} = request.Pop().ConvertToInt64();\n";
+                else if (c.ParameterType.IsEnum)
+                {
+                    s +=
+                        $"var {c.Name} = ({c.ParameterType.Name})Enum.Parse(typeof({c.ParameterType.Name}),request.Pop().ConvertToString());\n";
+                }
                 else if (typeof(IList).IsAssignableFrom(c.ParameterType))
                 {
                     var paramType = c.ParameterType.GenericTypeArguments[0];
@@ -160,8 +177,13 @@ var s = $@"               case ""{method.Name}"":
                     else if (typeof(IMessage).IsAssignableFrom(paramType))
                     {
                         s += $@"
-                        var {c.Name} = Helpers.UnpackMessageList<{paramType}>(request,{paramType}.Parser.ParseDelimitedFrom);";
+                        var {c.Name} = Helpers.UnpackMessageList<{paramType}>(request,{paramType}.Parser.ParseDelimitedFrom);
+";
                     }
+                }
+                else
+                {
+                    throw new Exception($"Unexpected type - {c.ParameterType} - name {c.Name}");
                 }
 
                 s += "\t\t\t\t\t";

@@ -24,6 +24,7 @@ namespace Comms
 			msg.Append("StoreParties");
 			Helpers.PackMessageList<Party>(msg,parties);
 			var ret = client.Send(msg);
+			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
 			return ret.First.ConvertToInt32();
 		}
 
@@ -33,15 +34,18 @@ namespace Comms
 			msg.Append("StoreAccounts");
 			Helpers.PackMessageList<Account>(msg,accounts);
 			var ret = client.Send(msg);
+			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
 			return ret.First.ConvertToInt32();
 		}
 
-		public Int32 StoreAccountToPartyMapping(List<AccountToPartyMapping> mappings)
+		public Int32 StoreLinkages(List<AccountToParty> mappings,LinkageDirection direction)
 		{
 			var msg = new NetMQMessage();
-			msg.Append("StoreAccountToPartyMapping");
-			Helpers.PackMessageList<AccountToPartyMapping>(msg,mappings);
+			msg.Append("StoreLinkages");
+			Helpers.PackMessageList<AccountToParty>(msg,mappings);
+			msg.Append(direction.ToString());
 			var ret = client.Send(msg);
+			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
 			return ret.First.ConvertToInt32();
 		}
     }

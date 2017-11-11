@@ -43,11 +43,11 @@ namespace AMLWorker
             {
                 connection.Open();
 
-                return SqlHelper.InsertOrUpdateRows(connection, "TransactionStore", transactions.Cast<Object>().ToList(),
+                return SqlHelper.InsertOrUpdateBlobRows(connection, "TransactionStore", transactions.Cast<Object>().ToList(),
                     (x) =>
                     {
                         var t = (Transaction) x;
-                        return new Tuple<string, byte[]>(t.Id, t.ToByteArray());
+                        return (t.Id, t.ToByteArray());
 
                     });
             }

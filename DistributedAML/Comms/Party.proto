@@ -1,18 +1,18 @@
 ﻿syntax="proto3";
 
-message AccountToPartyMapping
+message AccountToParty
 {
-	string PartyId=1;
-	string SortCode=2;
-	string AccountNo = 3;
+	string AccountId=1;
+	string PartyId=2;
 }
 
 message Account
 {
-	string AccountNo = 1;
-	string SortCode = 2;
-	string IBAN =3;
-	string Currency = 4;
+	string Id = 1;
+	string AccountNo = 2;
+	string SortCode = 3;
+	string IBAN =4;
+	string Currency = 5;
 
 	repeated Party Parties = 100;
 }

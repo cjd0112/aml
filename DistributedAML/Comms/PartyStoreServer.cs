@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using NetMQ;
+using Logger;
 using Shared;
 
 namespace Comms
@@ -20,12 +21,16 @@ namespace Comms
         {
             var ret = new NetMQMessage();
             var selector = request.Pop();
-            switch (selector.ConvertToString())
+
+            try
             {
+                switch (selector.ConvertToString())
+                {
                case "StoreParties":
                 {
                     
-                        var parties = Helpers.UnpackMessageList<Party>(request,Party.Parser.ParseDelimitedFrom);					
+                        var parties = Helpers.UnpackMessageList<Party>(request,Party.Parser.ParseDelimitedFrom);
+					
                     var methodResult=StoreParties(parties);
                     ret.Append(methodResult);
                     break;
@@ -33,21 +38,32 @@ namespace Comms
                case "StoreAccounts":
                 {
                     
-                        var accounts = Helpers.UnpackMessageList<Account>(request,Account.Parser.ParseDelimitedFrom);					
+                        var accounts = Helpers.UnpackMessageList<Account>(request,Account.Parser.ParseDelimitedFrom);
+					
                     var methodResult=StoreAccounts(accounts);
                     ret.Append(methodResult);
                     break;
                 }
-               case "StoreAccountToPartyMapping":
+               case "StoreLinkages":
                 {
                     
-                        var mappings = Helpers.UnpackMessageList<AccountToPartyMapping>(request,AccountToPartyMapping.Parser.ParseDelimitedFrom);					
-                    var methodResult=StoreAccountToPartyMapping(mappings);
+                        var mappings = Helpers.UnpackMessageList<AccountToParty>(request,AccountToParty.Parser.ParseDelimitedFrom);
+					var direction = (LinkageDirection)Enum.Parse(typeof(LinkageDirection),request.Pop().ConvertToString());
+					
+                    var methodResult=StoreLinkages(mappings,direction);
                     ret.Append(methodResult);
                     break;
                 }
-                default:
-                    throw new Exception($"Unexpected selector - {selector}");
+                    default:
+                        throw new Exception($"Unexpected selector - {selector}");
+                }
+            }
+            catch (Exception e)
+            {
+                L.Trace($"{selector} caused an exception");
+                L.Exception(e);
+                ret.AppendEmptyFrame();
+                ret.Append($"{selector} caused an exception - '{e.Message}' check server logs for more details");
             }
             return ret;
         }
@@ -57,7 +73,7 @@ namespace Comms
 
 		public abstract Int32 StoreAccounts(List<Account> accounts);
 
-		public abstract Int32 StoreAccountToPartyMapping(List<AccountToPartyMapping> mappings);
+		public abstract Int32 StoreLinkages(List<AccountToParty> mappings,LinkageDirection direction);
 
     }
 }

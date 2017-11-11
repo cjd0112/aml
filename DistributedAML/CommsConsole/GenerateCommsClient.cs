@@ -104,6 +104,8 @@ namespace Comms
 
 
             m += $"\t\t\tvar ret = client.Send(msg);\n";
+            m += $"\t\t\tif (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());\n";
+
             m += $"\t\t\treturn {GenerateReturn(method.ReturnType)};\n";
             m += "\t\t}";
 
@@ -140,6 +142,10 @@ namespace Comms
             {
                 return $"msg.Append({pi.Name})";
             }
+            else if (pi.ParameterType.IsEnum)
+            {
+                return $"msg.Append({pi.Name}.ToString())";
+            }
             else if (typeof(IList).IsAssignableFrom(pi.ParameterType))
             {
                 if (pi.ParameterType.GenericTypeArguments[0] == typeof(string))
@@ -158,8 +164,10 @@ namespace Comms
                 {
                     return $"Helpers.PackMessageList<{pi.ParameterType.GenericTypeArguments[0].Name}>(msg,{pi.Name})";
                 }
-
-
+            }
+            else
+            {
+                throw new Exception($"Unexpected parameter type - {pi.ParameterType.Name} for {pi.Name}");
             }
 
             return "";
@@ -167,7 +175,6 @@ namespace Comms
 
         String GenerateReturn(Type returnType)
         {
-            var z = new NetMQMessage();
             if (returnType == typeof(String))
             {
                 return $"ret.First.ConvertToString()";

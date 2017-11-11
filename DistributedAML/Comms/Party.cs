@@ -20,26 +20,26 @@ public static partial class PartyReflection {
   static PartyReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "CgtQYXJ0eS5wcm90byJNChVBY2NvdW50VG9QYXJ0eU1hcHBpbmcSDwoHUGFy",
-          "dHlJZBgBIAEoCRIQCghTb3J0Q29kZRgCIAEoCRIRCglBY2NvdW50Tm8YAyAB",
-          "KAkiZwoHQWNjb3VudBIRCglBY2NvdW50Tm8YASABKAkSEAoIU29ydENvZGUY",
-          "AiABKAkSDAoESUJBThgDIAEoCRIQCghDdXJyZW5jeRgEIAEoCRIXCgdQYXJ0",
-          "aWVzGGQgAygLMgYuUGFydHkiugMKBVBhcnR5EgoKAklkGAEgASgJEh4KBFR5",
-          "cGUYAiABKA4yEC5QYXJ0eS5QYXJ0eVR5cGUSDAoETmFtZRgDIAEoCRITCgtD",
-          "b21wYW55TmFtZRgEIAEoCRIQCghBZGRyZXNzMRgFIAEoCRIQCghBZGRyZXNz",
-          "MhgGIAEoCRIMCgRUb3duGAcgASgJEg8KB0NvdW50cnkYCCABKAkSEAoIUG9z",
-          "dENvZGUYCSABKAkSEgoKVGVsZXBob25lMRgKIAEoCRISCgpUZWxlcGhvbmUy",
-          "GAsgASgJEg0KBUVtYWlsGAwgASgJEhIKCldlYkFkZHJlc3MYDSABKAkSEgoK",
-          "VHhuUHJvZmlsZRgOIAEoCRIOCgZTZWN0b3IYDyABKAkSDwoHQ0VPTmFtZRgQ",
-          "IAEoCRIQCghDRU9FbWFpbBgRIAEoCRIPCgdXZWJzaXRlGBIgASgJEgwKBENp",
-          "dHkYEyABKAkSGgoIQWNjb3VudHMYFCADKAsyCC5BY2NvdW50IkAKCVBhcnR5",
-          "VHlwZRIKCgZSZXRhaWwQABINCglDb3Jwb3JhdGUQARIYChRGaW5hbmNpYWxJ",
-          "bnN0aXR1dGlvbhACYgZwcm90bzM="));
+          "CgtQYXJ0eS5wcm90byI0Cg5BY2NvdW50VG9QYXJ0eRIRCglBY2NvdW50SWQY",
+          "ASABKAkSDwoHUGFydHlJZBgCIAEoCSJzCgdBY2NvdW50EgoKAklkGAEgASgJ",
+          "EhEKCUFjY291bnRObxgCIAEoCRIQCghTb3J0Q29kZRgDIAEoCRIMCgRJQkFO",
+          "GAQgASgJEhAKCEN1cnJlbmN5GAUgASgJEhcKB1BhcnRpZXMYZCADKAsyBi5Q",
+          "YXJ0eSK6AwoFUGFydHkSCgoCSWQYASABKAkSHgoEVHlwZRgCIAEoDjIQLlBh",
+          "cnR5LlBhcnR5VHlwZRIMCgROYW1lGAMgASgJEhMKC0NvbXBhbnlOYW1lGAQg",
+          "ASgJEhAKCEFkZHJlc3MxGAUgASgJEhAKCEFkZHJlc3MyGAYgASgJEgwKBFRv",
+          "d24YByABKAkSDwoHQ291bnRyeRgIIAEoCRIQCghQb3N0Q29kZRgJIAEoCRIS",
+          "CgpUZWxlcGhvbmUxGAogASgJEhIKClRlbGVwaG9uZTIYCyABKAkSDQoFRW1h",
+          "aWwYDCABKAkSEgoKV2ViQWRkcmVzcxgNIAEoCRISCgpUeG5Qcm9maWxlGA4g",
+          "ASgJEg4KBlNlY3RvchgPIAEoCRIPCgdDRU9OYW1lGBAgASgJEhAKCENFT0Vt",
+          "YWlsGBEgASgJEg8KB1dlYnNpdGUYEiABKAkSDAoEQ2l0eRgTIAEoCRIaCghB",
+          "Y2NvdW50cxgUIAMoCzIILkFjY291bnQiQAoJUGFydHlUeXBlEgoKBlJldGFp",
+          "bBAAEg0KCUNvcnBvcmF0ZRABEhgKFEZpbmFuY2lhbEluc3RpdHV0aW9uEAJi",
+          "BnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::AccountToPartyMapping), global::AccountToPartyMapping.Parser, new[]{ "PartyId", "SortCode", "AccountNo" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::Account), global::Account.Parser, new[]{ "AccountNo", "SortCode", "IBAN", "Currency", "Parties" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::AccountToParty), global::AccountToParty.Parser, new[]{ "AccountId", "PartyId" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::Account), global::Account.Parser, new[]{ "Id", "AccountNo", "SortCode", "IBAN", "Currency", "Parties" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Party), global::Party.Parser, new[]{ "Id", "Type", "Name", "CompanyName", "Address1", "Address2", "Town", "Country", "PostCode", "Telephone1", "Telephone2", "Email", "WebAddress", "TxnProfile", "Sector", "CEOName", "CEOEmail", "Website", "City", "Accounts" }, null, new[]{ typeof(global::Party.Types.PartyType) }, null)
         }));
   }
@@ -47,10 +47,10 @@ public static partial class PartyReflection {
 
 }
 #region Messages
-public sealed partial class AccountToPartyMapping : pb::IMessage<AccountToPartyMapping> {
-  private static readonly pb::MessageParser<AccountToPartyMapping> _parser = new pb::MessageParser<AccountToPartyMapping>(() => new AccountToPartyMapping());
+public sealed partial class AccountToParty : pb::IMessage<AccountToParty> {
+  private static readonly pb::MessageParser<AccountToParty> _parser = new pb::MessageParser<AccountToParty>(() => new AccountToParty());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public static pb::MessageParser<AccountToPartyMapping> Parser { get { return _parser; } }
+  public static pb::MessageParser<AccountToParty> Parser { get { return _parser; } }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
@@ -63,26 +63,36 @@ public sealed partial class AccountToPartyMapping : pb::IMessage<AccountToPartyM
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public AccountToPartyMapping() {
+  public AccountToParty() {
     OnConstruction();
   }
 
   partial void OnConstruction();
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public AccountToPartyMapping(AccountToPartyMapping other) : this() {
+  public AccountToParty(AccountToParty other) : this() {
+    accountId_ = other.accountId_;
     partyId_ = other.partyId_;
-    sortCode_ = other.sortCode_;
-    accountNo_ = other.accountNo_;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public AccountToPartyMapping Clone() {
-    return new AccountToPartyMapping(this);
+  public AccountToParty Clone() {
+    return new AccountToParty(this);
+  }
+
+  /// <summary>Field number for the "AccountId" field.</summary>
+  public const int AccountIdFieldNumber = 1;
+  private string accountId_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string AccountId {
+    get { return accountId_; }
+    set {
+      accountId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
   }
 
   /// <summary>Field number for the "PartyId" field.</summary>
-  public const int PartyIdFieldNumber = 1;
+  public const int PartyIdFieldNumber = 2;
   private string partyId_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string PartyId {
@@ -92,53 +102,29 @@ public sealed partial class AccountToPartyMapping : pb::IMessage<AccountToPartyM
     }
   }
 
-  /// <summary>Field number for the "SortCode" field.</summary>
-  public const int SortCodeFieldNumber = 2;
-  private string sortCode_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string SortCode {
-    get { return sortCode_; }
-    set {
-      sortCode_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
-  }
-
-  /// <summary>Field number for the "AccountNo" field.</summary>
-  public const int AccountNoFieldNumber = 3;
-  private string accountNo_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string AccountNo {
-    get { return accountNo_; }
-    set {
-      accountNo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
-  }
-
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
-    return Equals(other as AccountToPartyMapping);
+    return Equals(other as AccountToParty);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public bool Equals(AccountToPartyMapping other) {
+  public bool Equals(AccountToParty other) {
     if (ReferenceEquals(other, null)) {
       return false;
     }
     if (ReferenceEquals(other, this)) {
       return true;
     }
+    if (AccountId != other.AccountId) return false;
     if (PartyId != other.PartyId) return false;
-    if (SortCode != other.SortCode) return false;
-    if (AccountNo != other.AccountNo) return false;
     return true;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override int GetHashCode() {
     int hash = 1;
+    if (AccountId.Length != 0) hash ^= AccountId.GetHashCode();
     if (PartyId.Length != 0) hash ^= PartyId.GetHashCode();
-    if (SortCode.Length != 0) hash ^= SortCode.GetHashCode();
-    if (AccountNo.Length != 0) hash ^= AccountNo.GetHashCode();
     return hash;
   }
 
@@ -149,48 +135,38 @@ public sealed partial class AccountToPartyMapping : pb::IMessage<AccountToPartyM
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public void WriteTo(pb::CodedOutputStream output) {
-    if (PartyId.Length != 0) {
+    if (AccountId.Length != 0) {
       output.WriteRawTag(10);
-      output.WriteString(PartyId);
+      output.WriteString(AccountId);
     }
-    if (SortCode.Length != 0) {
+    if (PartyId.Length != 0) {
       output.WriteRawTag(18);
-      output.WriteString(SortCode);
-    }
-    if (AccountNo.Length != 0) {
-      output.WriteRawTag(26);
-      output.WriteString(AccountNo);
+      output.WriteString(PartyId);
     }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int CalculateSize() {
     int size = 0;
+    if (AccountId.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(AccountId);
+    }
     if (PartyId.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(PartyId);
-    }
-    if (SortCode.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(SortCode);
-    }
-    if (AccountNo.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(AccountNo);
     }
     return size;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public void MergeFrom(AccountToPartyMapping other) {
+  public void MergeFrom(AccountToParty other) {
     if (other == null) {
       return;
     }
+    if (other.AccountId.Length != 0) {
+      AccountId = other.AccountId;
+    }
     if (other.PartyId.Length != 0) {
       PartyId = other.PartyId;
-    }
-    if (other.SortCode.Length != 0) {
-      SortCode = other.SortCode;
-    }
-    if (other.AccountNo.Length != 0) {
-      AccountNo = other.AccountNo;
     }
   }
 
@@ -203,15 +179,11 @@ public sealed partial class AccountToPartyMapping : pb::IMessage<AccountToPartyM
           input.SkipLastField();
           break;
         case 10: {
-          PartyId = input.ReadString();
+          AccountId = input.ReadString();
           break;
         }
         case 18: {
-          SortCode = input.ReadString();
-          break;
-        }
-        case 26: {
-          AccountNo = input.ReadString();
+          PartyId = input.ReadString();
           break;
         }
       }
@@ -244,6 +216,7 @@ public sealed partial class Account : pb::IMessage<Account> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public Account(Account other) : this() {
+    id_ = other.id_;
     accountNo_ = other.accountNo_;
     sortCode_ = other.sortCode_;
     iBAN_ = other.iBAN_;
@@ -256,8 +229,19 @@ public sealed partial class Account : pb::IMessage<Account> {
     return new Account(this);
   }
 
+  /// <summary>Field number for the "Id" field.</summary>
+  public const int IdFieldNumber = 1;
+  private string id_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Id {
+    get { return id_; }
+    set {
+      id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
   /// <summary>Field number for the "AccountNo" field.</summary>
-  public const int AccountNoFieldNumber = 1;
+  public const int AccountNoFieldNumber = 2;
   private string accountNo_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string AccountNo {
@@ -268,7 +252,7 @@ public sealed partial class Account : pb::IMessage<Account> {
   }
 
   /// <summary>Field number for the "SortCode" field.</summary>
-  public const int SortCodeFieldNumber = 2;
+  public const int SortCodeFieldNumber = 3;
   private string sortCode_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string SortCode {
@@ -279,7 +263,7 @@ public sealed partial class Account : pb::IMessage<Account> {
   }
 
   /// <summary>Field number for the "IBAN" field.</summary>
-  public const int IBANFieldNumber = 3;
+  public const int IBANFieldNumber = 4;
   private string iBAN_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string IBAN {
@@ -290,7 +274,7 @@ public sealed partial class Account : pb::IMessage<Account> {
   }
 
   /// <summary>Field number for the "Currency" field.</summary>
-  public const int CurrencyFieldNumber = 4;
+  public const int CurrencyFieldNumber = 5;
   private string currency_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string Currency {
@@ -323,6 +307,7 @@ public sealed partial class Account : pb::IMessage<Account> {
     if (ReferenceEquals(other, this)) {
       return true;
     }
+    if (Id != other.Id) return false;
     if (AccountNo != other.AccountNo) return false;
     if (SortCode != other.SortCode) return false;
     if (IBAN != other.IBAN) return false;
@@ -334,6 +319,7 @@ public sealed partial class Account : pb::IMessage<Account> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override int GetHashCode() {
     int hash = 1;
+    if (Id.Length != 0) hash ^= Id.GetHashCode();
     if (AccountNo.Length != 0) hash ^= AccountNo.GetHashCode();
     if (SortCode.Length != 0) hash ^= SortCode.GetHashCode();
     if (IBAN.Length != 0) hash ^= IBAN.GetHashCode();
@@ -349,20 +335,24 @@ public sealed partial class Account : pb::IMessage<Account> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public void WriteTo(pb::CodedOutputStream output) {
-    if (AccountNo.Length != 0) {
+    if (Id.Length != 0) {
       output.WriteRawTag(10);
+      output.WriteString(Id);
+    }
+    if (AccountNo.Length != 0) {
+      output.WriteRawTag(18);
       output.WriteString(AccountNo);
     }
     if (SortCode.Length != 0) {
-      output.WriteRawTag(18);
+      output.WriteRawTag(26);
       output.WriteString(SortCode);
     }
     if (IBAN.Length != 0) {
-      output.WriteRawTag(26);
+      output.WriteRawTag(34);
       output.WriteString(IBAN);
     }
     if (Currency.Length != 0) {
-      output.WriteRawTag(34);
+      output.WriteRawTag(42);
       output.WriteString(Currency);
     }
     parties_.WriteTo(output, _repeated_parties_codec);
@@ -371,6 +361,9 @@ public sealed partial class Account : pb::IMessage<Account> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int CalculateSize() {
     int size = 0;
+    if (Id.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+    }
     if (AccountNo.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(AccountNo);
     }
@@ -391,6 +384,9 @@ public sealed partial class Account : pb::IMessage<Account> {
   public void MergeFrom(Account other) {
     if (other == null) {
       return;
+    }
+    if (other.Id.Length != 0) {
+      Id = other.Id;
     }
     if (other.AccountNo.Length != 0) {
       AccountNo = other.AccountNo;
@@ -416,18 +412,22 @@ public sealed partial class Account : pb::IMessage<Account> {
           input.SkipLastField();
           break;
         case 10: {
-          AccountNo = input.ReadString();
+          Id = input.ReadString();
           break;
         }
         case 18: {
-          SortCode = input.ReadString();
+          AccountNo = input.ReadString();
           break;
         }
         case 26: {
-          IBAN = input.ReadString();
+          SortCode = input.ReadString();
           break;
         }
         case 34: {
+          IBAN = input.ReadString();
+          break;
+        }
+        case 42: {
           Currency = input.ReadString();
           break;
         }

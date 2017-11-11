@@ -24,6 +24,7 @@ namespace Comms
 			msg.Append("AddEntry");
 			Helpers.PackMessageList<FuzzyWordEntry>(msg,entries);
 			var ret = client.Send(msg);
+			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
 			return ret.First.ConvertToInt32() >0 ? true:false;
 		}
 
@@ -33,6 +34,7 @@ namespace Comms
 			msg.Append("FuzzyQuery");
 			Helpers.PackMessageListString(msg,phrases);
 			var ret = client.Send(msg);
+			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
 			return Helpers.UnpackMessageList(ret, FuzzyQueryResponse.Parser.ParseDelimitedFrom);;
 		}
     }

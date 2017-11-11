@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Google.Protobuf;
+using LZ4;
 using NetMQ;
 
 namespace Comms
@@ -20,7 +21,7 @@ namespace Comms
             {
                 z.WriteDelimitedTo(writer);
             }
-            msg.Append(buff);
+            msg.Append(LZ4Codec.Wrap(buff));
             return msg;
         }
 
@@ -28,7 +29,7 @@ namespace Comms
         {
             var cnt = (int) msg.Pop().ConvertToInt32();
             var buff = msg.Pop().ToByteArray();
-            var rdr = new MemoryStream(buff);
+            var rdr = new MemoryStream(LZ4Codec.Unwrap(buff));
             List<T> ret = new List<T>();
             while (cnt--> 0)
             {

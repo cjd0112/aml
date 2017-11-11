@@ -16,15 +16,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="4.0.2" />
-    <PackageReference Include="MDPCommons_NetMQ" Version="1.0.0" />
+    <PackageReference Include="CsvHelper" Version="6.0.0" />
+    <PackageReference Include="MDPCommons_NetMQ" Version="1.0.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.1.0-preview1-27377" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
     <PackageReference Include="NetMQ" Version="4.0.0.1" />
     <PackageReference Include="StructureMap" Version="4.5.2" />
 		<PackageReference Include="System.Net.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Security.Principal.Windows" Version="4.3.0" /> 
+    <PackageReference Include="System.Security.Principal.Windows" Version="4.4.0" /> 
     <PackageReference Include="runtime.native.System" Version="4.3.0" /> 
   </ItemGroup>
 

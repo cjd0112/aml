@@ -33,19 +33,19 @@ namespace CommsConsole
             sw.Dispose();
         }
 
-        protected Tuple<string, string> GenerateSignatureParameter(ParameterInfo pi)
+        protected (string, string) GenerateSignatureParameter(ParameterInfo pi)
         {
-            if (pi.ParameterType == typeof(String) || pi.ParameterType == typeof(Int32) || pi.ParameterType == typeof(Int64))
+            if (pi.ParameterType == typeof(String) || pi.ParameterType == typeof(Int32) || pi.ParameterType == typeof(Int64) || pi.ParameterType.IsEnum)
             {
-                return new Tuple<string, string>(pi.ParameterType.Name, pi.Name);
+                return (pi.ParameterType.Name, pi.Name);
             }
             else if (typeof(IList).IsAssignableFrom(pi.ParameterType))
             {
-                return new Tuple<string, string>("List<" + pi.ParameterType.GenericTypeArguments[0].Name + ">", pi.Name);
+                return ("List<" + pi.ParameterType.GenericTypeArguments[0].Name + ">", pi.Name);
             }
             else if (typeof(IMessage).IsAssignableFrom(pi.ParameterType))
             {
-                return new Tuple<string, string>(pi.ParameterType.Name,pi.Name);
+                return (pi.ParameterType.Name,pi.Name);
             }
             throw new Exception($"Unsupported parameter type -{pi.ParameterType.Name} for {pi.Name}");
 

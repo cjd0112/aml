@@ -11,6 +11,7 @@ namespace MDPCommons
         /// </summary>
         TimeSpan Timeout { get; set; }
 
+
         /// <summary>
         ///     returns the address of the broker the client is connected to
         /// </summary>

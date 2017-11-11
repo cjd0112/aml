@@ -40,7 +40,7 @@ namespace AmlClient.Commands
 
             var maxBuckets = factory.GetClientBuckets<IFuzzyMatcher>().Max();
 
-            var multiplexer = new Multiplexer<FuzzyWordEntry>(maxBuckets + 1 /*number of buckets*/);
+            var multiplexer = new Multiplexer(maxBuckets + 1 /*number of buckets*/);
 
             CsvReader rdr = new CsvReader(new StreamReader(DataFile));
 
@@ -54,7 +54,7 @@ namespace AmlClient.Commands
                     }));
 
             List<Task> tasks = new List<Task>();
-            multiplexer.GetBuckets().Do(x =>
+            multiplexer.GetBuckets<FuzzyWordEntry>().Do(x =>
             {
                 tasks.Add(new Task(() => factory.GetClient<IFuzzyMatcher>(x.Item1).AddEntry(x.Item2)));
                 tasks.Last().Start();

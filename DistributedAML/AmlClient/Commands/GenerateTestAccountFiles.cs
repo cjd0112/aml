@@ -20,7 +20,7 @@ namespace AmlClient.Commands
         private MyRegistry reg;
         public GenerateTestAccountFiles(MyRegistry reg)
         {
-            Console.WriteLine("Enter type of accounts - (Retail,Corporate,FinancialInstitution)...");
+            Console.WriteLine("Enter type of accounts - (Retail,Co+rporate,FinancialInstitution)...");
             partyType = Enum.Parse<Party.Types.PartyType>(Console.ReadLine());
             Console.WriteLine("Enter number of accounts per customer: ");
             numAccountsPerCustomer = int.Parse(Console.ReadLine());
@@ -82,13 +82,6 @@ namespace AmlClient.Commands
             return s;
         }
 
-        public class LinkCustomerAccounts
-        {
-            public String CustomerId { get; set; }
-            public String AccountNo { get; set; }
-            public String SortCode { get; set; }
-        }
-
         public override void Run()
         {
             L.Trace("Generate Test accounts started");
@@ -112,7 +105,7 @@ namespace AmlClient.Commands
                     accWriter.NextRecord();
                     using (CsvWriter accLinkage = new CsvWriter(new StreamWriter(outAccountsLinkFile)))
                     {
-                        accLinkage.WriteHeader<LinkCustomerAccounts>();
+                        accLinkage.WriteHeader<AccountToParty>();
                         accLinkage.NextRecord();
                         var records = rdr.GetRecords<Party>();
                         records.Do(x =>
@@ -126,13 +119,14 @@ namespace AmlClient.Commands
                                     Currency = GetNextCurrency(cnt)
                                 };
 
+                                Acc.Id = Acc.AccountNo + "-" + Acc.SortCode;
+
                                 accWriter.WriteRecord<Account>(Acc);
                                 accWriter.NextRecord();
-                                var linkCustomerAccounts = new LinkCustomerAccounts
+                                var linkCustomerAccounts = new AccountToParty
                                 {
-                                    AccountNo = Acc.AccountNo,
-                                    SortCode = Acc.SortCode,
-                                    CustomerId = x.Id
+                                    PartyId = x.Id,
+                                    AccountId = Acc.Id
                                 };
 
                                 accLinkage.WriteRecord(linkCustomerAccounts);
