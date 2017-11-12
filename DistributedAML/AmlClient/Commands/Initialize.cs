@@ -7,6 +7,7 @@ using Comms;
 using Logger;
 using Shared;
 using StructureMap;
+using System.IO;
 
 namespace AmlClient.Commands
 {
@@ -29,7 +30,9 @@ namespace AmlClient.Commands
             this.reg = reg;
             this.c = c;
             this.clientFactory = factory;
-            dbConnection = reg.DataDirectory + "\\db\\client.mdb";
+            if (!Directory.Exists(reg.DataDirectory + "/db"))
+                Directory.CreateDirectory(reg.DataDirectory + "/db");
+            dbConnection = reg.DataDirectory + "/db/client.mdb";
 
             c.Inject(typeof(ClientFactory),factory);
         }
@@ -69,7 +72,19 @@ namespace AmlClient.Commands
                             L.Trace("Initializing Client Factory ... ");
                             clientFactory.Initialize();
                         }
+
+
+                        Console.WriteLine("hit here");
+
+                        Console.WriteLine("hit here2");
+
+                        Console.WriteLine(service);
+
+                        foreach (var n in reg.ClientTypes)
+                            Console.WriteLine(n.Name);
                         var serviceType = reg.ClientTypes.First(x => x.Name == service);
+
+
                         Console.WriteLine(
                             $"Click 'y' to clear bucket-state (i.e., if bucket numbers have cleared down) for '{service}' or any other key to validate the service");
 
@@ -112,6 +127,7 @@ namespace AmlClient.Commands
                     throw new Exception(
                         $"Maximum bucket is less than zero it is - {bucketMax}  for {serviceType.Name}");
 
+                db.CreateTable<Initialize.ClientWithBucket>();
 
                 if (db.Find<Initialize.ClientWithBucket>(serviceType.Name) == null)
                 {

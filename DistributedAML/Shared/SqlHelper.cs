@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Logger;
 using Microsoft.Data.Sqlite;
+using System.IO;
 
 namespace Shared
 {
@@ -11,8 +12,9 @@ namespace Shared
     {
         public static String GetConnectionString(String dataDirectory, int bucket, String dbFile)
         {
+            if (Directory.Exists(dataDirectory) == false)
+                Directory.CreateDirectory(dataDirectory);
             return $"{dataDirectory}/{dbFile}_{bucket}.mdb";
-
         }
 
         public static SqliteConnection NewConnection(string connectionString)

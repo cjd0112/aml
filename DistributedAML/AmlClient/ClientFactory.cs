@@ -45,7 +45,12 @@ namespace AmlClient
             // get a list of the services that we support
             mainClient.Send("mmi.service", pp);
 
+            L.Trace("Waiting on event ...");
+
             initialEvent.WaitOne();
+
+            L.Trace("Through event");
+
 
         }
 
@@ -204,6 +209,7 @@ namespace AmlClient
             });
             t.Start();
 
+            L.Trace("setting event ");
             initialEvent.Set();
 
         }

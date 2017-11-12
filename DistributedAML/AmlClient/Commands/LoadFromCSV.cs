@@ -15,7 +15,7 @@ namespace AmlClient.Commands
 {
     public class LoadFromCSV: AmlCommand
     {
-        enum DataType
+        public enum DataType
         {
             Transaction,
             Account,
@@ -36,6 +36,7 @@ namespace AmlClient.Commands
             this.factory = factory;
             this.init = init;
             this.reg = reg;
+
 
             dataType = EnumHelper.Parse<DataType>(Helper.Prompt($"Enter type of data - {EnumHelper.ListValues(typeof(DataType))}"));
 

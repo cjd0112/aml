@@ -20,7 +20,7 @@ namespace AmlClient.Commands
         private MyRegistry reg;
         public GenerateTestAccountFiles(MyRegistry reg)
         {
-            Console.WriteLine("Enter type of accounts - (Retail,Co+rporate,FinancialInstitution)...");
+            Console.WriteLine("Enter type of accounts - (Retail,Corporate,FinancialInstitution)...");
             partyType = Enum.Parse<Party.Types.PartyType>(Console.ReadLine());
             Console.WriteLine("Enter number of accounts per customer: ");
             numAccountsPerCustomer = int.Parse(Console.ReadLine());
@@ -31,19 +31,9 @@ namespace AmlClient.Commands
 
         (string, string, string ) GetPartyFiles(Party.Types.PartyType type)
         {
-            (string, string, string) ret = ("", "", "");
-            switch (partyType)
-            {
-                case Party.Types.PartyType.Retail:
-                    ret =($"{reg.DataDirectory}\\input\\Retail-Large.csv",
-                        $"{reg.DataDirectory}\\input\\RetailAccounts.csv",
-                        $"{reg.DataDirectory}\\input\\RetailAccountsLink.csv");
-                    break;
-
-                default:
-                    throw new Exception($"Unexpected party type - {partyType}");
-            }
-            return ret;
+            return (($"{reg.DataDirectory}/input/{type}{LoadFromCSV.DataType.Party}.csv",
+                     $"{reg.DataDirectory}/input/{type}{LoadFromCSV.DataType.Account}.csv",
+                     $"{reg.DataDirectory}/input/{type}{LoadFromCSV.DataType.AccountToParty}.csv"));
         }
 
 
