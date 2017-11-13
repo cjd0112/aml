@@ -39,7 +39,7 @@ namespace AMLWorker
 
                 if (!SqlHelper.TableExists(connection, "AccountParty"))
                 {
-                    SqlHelper.CreateManyToManyLinkagesTable(connection, "AccountParty","AccountId", "PartyId");
+                    SqlHelper.CreateManyToManyLinkagesTableWithForeignKeyConstraint(connection, "AccountParty","AccountId", "PartyId","Accounts","Id");
                 }
 
                 if (!SqlHelper.TableExists(connection, "PartyAccount"))

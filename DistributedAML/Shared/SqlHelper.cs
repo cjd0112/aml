@@ -57,6 +57,14 @@ namespace Shared
             return foo; //ExecuteCommandLog(conn,$"create index {link1}_idx on {tableName}({link1});");
         }
 
+        public static int CreateManyToManyLinkagesTableWithForeignKeyConstraint(SqliteConnection conn, String tableName,String link1,String link2,String parentTable,String parentColumn)
+        {
+            int foo = 0;
+            foo = ExecuteCommandLog(conn, $@"create table {tableName} ({link1} string references {parentTable}({parentColumn}), {link2} string);create index {link1}_idx on {tableName}({link1});");
+            return foo; //ExecuteCommandLog(conn,$"create index {link1}_idx on {tableName}({link1});");
+        }
+
+
         public static int InsertOrUpdateBlobRows(SqliteConnection connection, String tableName, List<Object> objs,
             Func<Object, (string, byte[])> GetIdAndBytes)
         {
@@ -146,6 +154,13 @@ namespace Shared
 
             var txn = connection.BeginTransaction();
 
+            using (var pragmaCmd = connection.CreateCommand())
+            {
+                pragmaCmd.CommandText = "PRAGMA foreign_keys = ON;";
+                pragmaCmd.ExecuteNonQuery();
+            }
+
+
             String queryCommand = $"select rowid from {tableName} where {column1}=($id) and {column2}=($id2)";
             String insertCommand = $"insert into {tableName} ({column1},{column2}) values ($id,$id2);";
 
@@ -173,6 +188,7 @@ namespace Shared
                             try
                             {
                                 insertCmd.ExecuteNonQuery();
+
                                 cnt++;
                             }
                             catch (Exception e)
@@ -184,9 +200,11 @@ namespace Shared
                 }
 
                 if (cnt % 100000 == 0)
-                {
+                {                    
                     txn.Commit();
                     txn = connection.BeginTransaction();
+                    L.Trace($"{cnt} objects committed on {tableName}");
+
                 }
 
             }
