@@ -79,13 +79,13 @@ namespace Comms
         }
 
         
-		public abstract Int32 StoreParties(List<Party> parties);
+		public abstract Int32 StoreParties(IEnumerable<Party> parties);
 
-		public abstract Int32 StoreAccounts(List<Account> accounts);
+		public abstract Int32 StoreAccounts(IEnumerable<Account> accounts);
 
-		public abstract Int32 StoreLinkages(List<AccountToParty> mappings,LinkageDirection direction);
+		public abstract Int32 StoreLinkages(IEnumerable<AccountToParty> mappings,LinkageDirection direction);
 
-		public abstract List<AccountToParty> GetLinkages(List<String> source,LinkageDirection direction);
+		public abstract IEnumerable<AccountToParty> GetLinkages(IEnumerable<String> source,LinkageDirection direction);
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Comms;
 using Logger;
 using Microsoft.Data.Sqlite;
@@ -46,13 +47,13 @@ namespace AMLWorker
         }
 
 
-        public override bool AddEntry(List<FuzzyWordEntry> entries)
+        public override bool AddEntry(IEnumerable<FuzzyWordEntry> entries)
         {
             try
             {
                 var s = new Stopwatch();
                 s.Start();
-                L.Trace($"FuzzyMatcher - {this.server.BucketId} - hit add entry with {entries.Count} at {DateTime.Now}");
+                L.Trace($"FuzzyMatcher - {this.server.BucketId} - hit add entry with {entries.Count()} at {DateTime.Now}");
                 using (var connection = newConnection())
                 {
                     connection.Open();
@@ -139,7 +140,7 @@ namespace AMLWorker
             }
         }
 
-        public override List<FuzzyQueryResponse> FuzzyQuery(List<string> phrases)
+        public override IEnumerable<FuzzyQueryResponse> FuzzyQuery(IEnumerable<string> phrases)
         {
             var fqr = new List<FuzzyQueryResponse>();
             using (var connection = newConnection())

@@ -18,7 +18,7 @@ namespace Comms
 
         
 
-		public Int32 StoreTransactions(List<Transaction> transactions)
+		public Int32 StoreTransactions(IEnumerable<Transaction> transactions)
 		{
 			var msg = new NetMQMessage();
 			msg.Append("StoreTransactions");

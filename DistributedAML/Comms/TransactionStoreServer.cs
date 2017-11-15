@@ -50,7 +50,7 @@ namespace Comms
         }
 
         
-		public abstract Int32 StoreTransactions(List<Transaction> transactions);
+		public abstract Int32 StoreTransactions(IEnumerable<Transaction> transactions);
 
     }
 }

@@ -24,7 +24,26 @@ namespace AmlClient
         }
 
         public static void FromCsv<T>(string file, int buckets, Func<T, string> onAddMultiplexer,
-            Action<(int, List<T>)> onFinished)
+            Action<(int, IEnumerable<T>)> onFinished)
+        {
+            CsvReader rdr = new CsvReader(new StreamReader(file));
+
+            rdr.Configuration.HeaderValidated = null;
+
+            rdr.Configuration.MissingFieldFound = null;
+
+            var mp = new Multiplexer(buckets);
+
+            rdr.GetRecords<T>().Do(x => mp.Add(onAddMultiplexer(x), x));
+
+            foreach (var g in mp.GetBuckets<T>())
+            {
+                onFinished(g);
+            }
+        }
+
+        public static void FromCsvMultipleBuckets<T>(string file, int buckets, Func<T, IEnumerable<string>> onAddMultiplexer,
+            Action<(int, IEnumerable<T>)> onFinished)
         {
             CsvReader rdr = new CsvReader(new StreamReader(file));
 
@@ -43,15 +62,45 @@ namespace AmlClient
         }
 
 
-        public void AddList(List<Object> o, Func<Object, IEnumerable<string>> mapToBucketIdentifier)
+        public static void FromList<T>(IEnumerable<T> o, int buckets, Func<T, string> onAddMultiplexer,
+            Action<(int, IEnumerable<T>)> onFinished)
         {
-            foreach (var c in o)
+            var mp = new Multiplexer(buckets);
+            foreach (var z in o)
             {
-                var keys = mapToBucketIdentifier(c);
-                foreach (var z in keys)
-                    Add(z, o);
+                mp.Add(onAddMultiplexer(z),z);
+            }
+
+            foreach (var g in mp.GetBuckets<T>())
+            {
+                onFinished(g);
             }
         }
+
+
+        public static void FromListMultipleBuckets<T>(IEnumerable<T> o, int buckets, Func<T, IEnumerable<string>> onAddMultiplexer,
+            Action<(int, IEnumerable<T>)> onFinished)
+        {
+            var mp = new Multiplexer(buckets);
+            foreach (var z in o)
+            {
+                mp.Add(onAddMultiplexer(z), z);
+            }
+
+            foreach (var g in mp.GetBuckets<T>())
+            {
+                onFinished(g);
+            }
+        }
+
+        public void AddList<T>(IEnumerable<T> lst, Func<T, IEnumerable<string>> onAddMultiplexer)
+        {
+            foreach (var z in lst)
+            {
+                Add(onAddMultiplexer(z),z);
+            }
+        }
+
 
         public void Add(String key, Object o)
         {
@@ -62,11 +111,29 @@ namespace AmlClient
             vals.Add(o);
         }
 
-        public IEnumerable<(int, List<T>)> GetBuckets<T>()
+        private void Add(IEnumerable<String> key, Object o)
+        {
+            var buckets = new List<int>();
+            foreach (var z in key)
+            {
+                var bucket = Math.Abs(MurMurHash3.Hash(new MemoryStream(Encoding.UTF8.GetBytes(z)))) % Buckets;
+                if (buckets.Contains(bucket) == false)
+                    buckets.Add(bucket);
+            }
+            foreach (var z in buckets)
+            {
+                List<Object> vals = null;
+                if (!objs.TryGetValue(z, out vals))
+                    objs[z] = vals = new List<Object>();
+                vals.Add(o);
+            }
+        }
+
+        public  IEnumerable<(int, IEnumerable<T>)> GetBuckets<T>()
         {
             foreach (var c in objs.Keys)
             {
-                yield return (c,objs[c].Cast<T>().ToList());
+                yield return (c,objs[c].Cast<T>());
             }            
         }
     }

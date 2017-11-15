@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AmlClient.AS.Application;
+using AmlClient.Tasks;
+using AmlClient.Utilities;
 using Comms;
 using CsvHelper;
 using Logger;
@@ -22,9 +24,7 @@ namespace AmlClient.Commands
             Account,
             AccountToParty,
             Party
-        
         }
-
 
         private ClientFactory factory;
         private Initialize init;
@@ -72,49 +72,7 @@ namespace AmlClient.Commands
             return ret;
         }
 
-        class TaskManageException: Task
-        {
-            public TaskManageException(String actionName,Action a) : base(() =>
-            {
-                try
-                {
-                    L.Trace($"Running {actionName}");
-                    a();
-                }
-                catch (Exception e)
-                {
-                    L.Trace($"An exception encountered running {actionName} ...");
-                    L.Trace(e.Message);
-                }
-            })
-            {
-                
-            }
-        }
-
-        class TaskManageException2<T> : Task<T>
-        {
-            public List<Party> parties;
-
-            public TaskManageException2(String actionName, List<Party> parties, Func<T> a) : base(() =>
-            {
-                try
-                {
-                    L.Trace($"Running {actionName}");
-                    return a();
-                }
-                catch (Exception e)
-                {
-                    L.Trace($"An exception encountered running {actionName} ...");
-                    L.Trace(e.Message);
-                    return default(T);
-                }
-            })
-            {
-                this.parties = parties;
-            }
-        }
-
+   
         public override void Run()
         {
             L.Trace($"LoadFromCSV started @ {DateTime.Now}");
@@ -127,7 +85,7 @@ namespace AmlClient.Commands
 
             if (dataType == DataType.Party)
             {
-                List<Task<List<AccountToParty>>> tasks = new List<Task<List<AccountToParty>>>();
+                List<MyTask<IEnumerable<AccountToParty>>> tasks = new List<MyTask<IEnumerable<AccountToParty>>>();
                 Multiplexer.FromCsv<Party>(GetDataFile(), buckets, (x) =>
                 {
                     x.Type = partyType;
@@ -136,42 +94,63 @@ namespace AmlClient.Commands
                 x =>
                 {
                     tasks.Add(
-                        new TaskManageException2<List<AccountToParty>>("GetLinkages",x.Item2, () => 
+                        new MyTask<IEnumerable<AccountToParty>>("GetLinkages", x.Item1, () => 
                             factory.GetClient<IPartyStore>(x.Item1)
-                              .GetLinkages(x.Item2.Select(j => j.Id).ToList(), LinkageDirection.PartyToAccount)));
+                              .GetLinkages(x.Item2.Select(j => j.Id).ToList(), LinkageDirection.PartyToAccount),x.Item2));
                 });
 
                 tasks.Do(x=>x.Start());
 
                 Task.WaitAll(tasks.ToArray());
 
+                List<Task<int>> partyTasks = new List<Task<int>>();
+
                 Multiplexer mp = new Multiplexer(buckets);
 
-                foreach (TaskManageException2<List<AccountToParty>> z in tasks)
+                var comparer = new AccountToPartyComparer(LinkageDirection.PartyToAccount);
+
+                foreach (var g in tasks)
                 {
-                    mp.AddList(z.parties, (x) => 
+                    var parties = g.State as IEnumerable<Party>;
+                    var linkages = g.Result.ToList();
+
+                    linkages.Sort(comparer);
+
+                    mp.AddList<Party>(parties.ToList(), (party) =>
                     {
-                        z.Result.BinarySearch(new AccountToParty{PartyId = x})
-                        
+                        var ret = linkages.BinarySearchMultiple(new AccountToParty {PartyId = party.Id}, comparer)
+                            .Select(n => n.AccountId).ToArray();
+
+                        if(ret.Length == 0)
+                            throw new Exception($"Party id - {party.Id} not found in list");
+
+                        return ret;
                     });
+
+
+                    foreach (var b in mp.GetBuckets<Party>())
+                    {
+                        partyTasks.Add(new MyTask<int>("StoreParties",b.Item1,()=>
+                            factory.GetClient<IPartyStore>(b.Item1)
+                            .StoreParties(b.Item2)));
+                    }
                 }
 
-
-
+                partyTasks.Do(x=>x.Start());
+                Task.WaitAll(partyTasks.ToArray());
 
 
             }
             else if (dataType == DataType.Account || dataType == DataType.AccountToParty)
             {
-                List<Task> tasks = new List<Task>();
+                List<Task<int>> tasks = new List<Task<int>>();
 
                 if (dataType == DataType.Account)
                 {
                     Multiplexer.FromCsv<Account>(GetDataFile(), buckets, (x) => x.Id,
                         x =>
                         {
-                            tasks.Add(new TaskManageException("StoreAccounts",
-                                () => factory.GetClient<IPartyStore>(x.Item1).StoreAccounts(x.Item2)));
+                            tasks.Add(new MyTask<int>("StoreAccounts",x.Item1,()=>factory.GetClient<IPartyStore>(x.Item1).StoreAccounts(x.Item2)));
                         });
                 }
                 else
@@ -185,7 +164,7 @@ namespace AmlClient.Commands
                         },
                         x =>
                         {
-                            tasks.Add(new TaskManageException("StoreLinkages", () => factory.GetClient<IPartyStore>(x.Item1).StoreLinkages(x.Item2, linkageDirection)));
+                            tasks.Add(new MyTask<int>("StoreLinkages",x.Item1, () => factory.GetClient<IPartyStore>(x.Item1).StoreLinkages(x.Item2, linkageDirection)));
                         });
                 }
 

@@ -20,7 +20,7 @@ namespace Shared
         public static SqliteConnection NewConnection(string connectionString)
         {
             return new SqliteConnection(
-                "" + new SqliteConnectionStringBuilder { DataSource = $"{connectionString}" });
+                "" + new SqliteConnectionStringBuilder { DataSource = $"{connectionString};PRAGMA journal_mode = WAL; PRAGMA cache_size = 400000; " });
         }
 
         public static bool TableExists(SqliteConnection conn, String tableName)
@@ -65,10 +65,10 @@ namespace Shared
         }
 
 
-        public static int InsertOrUpdateBlobRows(SqliteConnection connection, String tableName, List<Object> objs,
+        public static int InsertOrUpdateBlobRows(SqliteConnection connection, String tableName, IEnumerable<Object> objs,
             Func<Object, (string, byte[])> GetIdAndBytes)
         {
-            L.Trace($"Starting insert or update blob rows - {objs.Count} objects on {tableName}");
+            L.Trace($"Starting insert or update blob rows - {objs.Count()} objects on {tableName}");
             int cnt = 0;
 
             var txn = connection.BeginTransaction();
@@ -148,7 +148,7 @@ namespace Shared
             return cnt;
         }
 
-        public static int InsertOrUpdateLinkageRows(SqliteConnection connection, String tableName, String column1,String column2, List<Object> objs,Func<Object, (string, string)> GetMapping)
+        public static int InsertOrUpdateLinkageRows(SqliteConnection connection, String tableName, String column1,String column2, IEnumerable<Object> objs,Func<Object, (string, string)> GetMapping)
         {
             int cnt = 0;
 
@@ -212,7 +212,7 @@ namespace Shared
             return cnt;
         }
 
-        public static IEnumerable<(string,string)> QueryLinkageRows(SqliteConnection connection, String tableName, String queryColumn, String retrievalColumn, List<Object> objs, Func<Object, string> GetMapping)
+        public static IEnumerable<(string,string)> QueryLinkageRows(SqliteConnection connection, String tableName, String queryColumn, String retrievalColumn, IEnumerable<Object> objs, Func<Object, string> GetMapping)
         {
             var txn = connection.BeginTransaction();
 

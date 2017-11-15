@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using AS.Logger;
 using Comms;
+using Google.Protobuf;
 using Logger;
 using Microsoft.Extensions.Configuration;
 using StructureMap;
@@ -18,11 +20,16 @@ namespace AmlClient
 
             public List<Type> ClientTypes { get; set; }
 
-            public MyRegistry(string jsonFile)
+            public MyRegistry(string clientName)
             {
-                Console.WriteLine($"Opening configuration file - {jsonFile}");
+                if (String.IsNullOrEmpty(clientName))
+                {
+                    L.Trace("Setting client name to 'Default' as not passed on command line");
+                    clientName = "Default";
+                }
+                L.Trace($"Opening configuration file - {Directory.GetCurrentDirectory()}/appsettings.json with client -{clientName} ");
                 var builder = new ConfigurationBuilder()
-                   .AddJsonFile(jsonFile, optional: true, reloadOnChange: true);
+                   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
                 var config = builder.Build();
 
@@ -39,7 +46,14 @@ namespace AmlClient
 
                 For<IClientProxy>().Add<ClientFactory>();
 
-                DataDirectory = config["DataDirectory"];
+                var clients = config.Get<MyClients>();
+
+                var client = clients.Clients.FirstOrDefault(x => x.Name.ToLower() == clientName.ToLower());
+                if (client == null)
+                    throw new Exception($"Could not find client config with name - {clientName}");
+
+
+                DataDirectory = client.DataDirectory;
 
                 ClientTypes = new List<Type>();
 

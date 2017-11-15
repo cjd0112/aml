@@ -53,13 +53,13 @@ namespace AMLWorker
 
 
 
-        public override int StoreParties(List<Party> parties)
+        public override int StoreParties(IEnumerable<Party> parties)
         {
             using (var connection = SqlHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
-                return SqlHelper.InsertOrUpdateBlobRows(connection, "Parties", parties.Cast<Object>().ToList(),
+                return SqlHelper.InsertOrUpdateBlobRows(connection, "Parties", parties.Cast<Object>(),
                     (x) =>
                     {
                         var t = (Party) x;
@@ -69,13 +69,13 @@ namespace AMLWorker
             }
         }
 
-        public override int StoreAccounts(List<Account> accounts)
+        public override int StoreAccounts(IEnumerable<Account> accounts)
         {
             using (var connection = SqlHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
-                return SqlHelper.InsertOrUpdateBlobRows(connection, "Accounts", accounts.Cast<Object>().ToList(),
+                return SqlHelper.InsertOrUpdateBlobRows(connection, "Accounts", accounts.Cast<Object>(),
                     (x) =>
                     {
                         var t = (Account) x;
@@ -85,7 +85,7 @@ namespace AMLWorker
             }
         }
 
-        public override int StoreLinkages(List<AccountToParty> mappings, LinkageDirection dir)
+        public override int StoreLinkages(IEnumerable<AccountToParty> mappings, LinkageDirection dir)
         {
             using (var connection = SqlHelper.NewConnection(connectionString))
             {
@@ -94,7 +94,7 @@ namespace AMLWorker
                 if (dir == LinkageDirection.AccountToParty)
                 {
                     return SqlHelper.InsertOrUpdateLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
-                        mappings.Cast<Object>().ToList(),
+                        mappings.Cast<Object>(),
                         (x) =>
                         {
                             var t = (AccountToParty) x;
@@ -105,7 +105,7 @@ namespace AMLWorker
                 else if (dir == LinkageDirection.PartyToAccount)
                 {
                     return SqlHelper.InsertOrUpdateLinkageRows(connection, "PartyAccount", "PartyId", "AccountId",
-                        mappings.Cast<Object>().ToList(),
+                        mappings.Cast<Object>(),
                         (x) =>
                         {
                             var t = (AccountToParty) x;
@@ -121,7 +121,7 @@ namespace AMLWorker
             }
         }
 
-        public override List<AccountToParty> GetLinkages(List<string> source, LinkageDirection dir)
+        public override IEnumerable<AccountToParty> GetLinkages(IEnumerable<string> source, LinkageDirection dir)
         {
             var ret = new List<AccountToParty>();
             using (var connection = SqlHelper.NewConnection(connectionString))
@@ -131,7 +131,7 @@ namespace AMLWorker
                 if (dir == LinkageDirection.AccountToParty)
                 {
                     foreach (var c in SqlHelper.QueryLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
-                        source.Cast<Object>().ToList(), x => (string) x))
+                        source.Cast<Object>(), x => (string) x))
                     {
                         ret.Add(new AccountToParty {AccountId = c.Item1, PartyId = c.Item2});
                     }
@@ -139,7 +139,7 @@ namespace AMLWorker
                 else if (dir == LinkageDirection.PartyToAccount)
                 {
                     foreach (var c in SqlHelper.QueryLinkageRows(connection, "PartyAccount", "PartyId", "AccountId",
-                        source.Cast<Object>().ToList(), x => (string) x))
+                        source.Cast<Object>(), x => (string) x))
                     {
                         ret.Add(new AccountToParty {PartyId = c.Item1, AccountId = c.Item2});
                     }

@@ -59,9 +59,9 @@ namespace Comms
         }
 
         
-		public abstract Boolean AddEntry(List<FuzzyWordEntry> entries);
+		public abstract Boolean AddEntry(IEnumerable<FuzzyWordEntry> entries);
 
-		public abstract List<FuzzyQueryResponse> FuzzyQuery(List<String> phrases);
+		public abstract IEnumerable<FuzzyQueryResponse> FuzzyQuery(IEnumerable<String> phrases);
 
     }
 }

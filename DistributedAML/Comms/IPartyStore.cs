@@ -12,12 +12,12 @@ namespace Comms
     }
     public interface IPartyStore : ICommsContract
     {
-        int StoreParties(List<Party> parties);
-        int StoreAccounts(List<Account> accounts);
+        int StoreParties(IEnumerable<Party> parties);
+        int StoreAccounts(IEnumerable<Account> accounts);
 
-        int StoreLinkages(List<AccountToParty> mappings,LinkageDirection direction);
+        int StoreLinkages(IEnumerable<AccountToParty> mappings,LinkageDirection direction);
 
-        List<AccountToParty> GetLinkages(List<string> source, LinkageDirection direction);
+        IEnumerable<AccountToParty> GetLinkages(IEnumerable<string> source, LinkageDirection direction);
 
     }
 }

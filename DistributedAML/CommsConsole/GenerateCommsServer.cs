@@ -91,9 +91,9 @@ namespace Comms
         {
             var access = "public abstract";
             var ret = "";
-            if (typeof(IList).IsAssignableFrom(method.ReturnType))
+            if (typeof(IEnumerable).IsAssignableFrom(method.ReturnType))
             { 
-                ret = $"List<{method.ReturnType.GenericTypeArguments[0].Name}>";
+                ret = $"IEnumerable<{method.ReturnType.GenericTypeArguments[0].Name}>";
             }
             else
             {
@@ -153,7 +153,7 @@ var s = $@"               case ""{method.Name}"":
                     s +=
                         $"var {c.Name} = ({c.ParameterType.Name})Enum.Parse(typeof({c.ParameterType.Name}),request.Pop().ConvertToString());\n";
                 }
-                else if (typeof(IList).IsAssignableFrom(c.ParameterType))
+                else if (typeof(IEnumerable).IsAssignableFrom(c.ParameterType))
                 {
                     var paramType = c.ParameterType.GenericTypeArguments[0];
                     if (paramType == typeof(String))
@@ -207,7 +207,7 @@ var s = $@"               case ""{method.Name}"":
             {
                 s = "ret.Append(Convert.ToInt32(methodResult))";
             }
-            else if (typeof(IList).IsAssignableFrom(mi.ReturnType))
+            else if (typeof(IEnumerable).IsAssignableFrom(mi.ReturnType))
             {
                 if (typeof(IMessage).IsAssignableFrom(mi.ReturnType.GenericTypeArguments[0]))
                 {

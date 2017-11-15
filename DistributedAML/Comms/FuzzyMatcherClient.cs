@@ -18,7 +18,7 @@ namespace Comms
 
         
 
-		public Boolean AddEntry(List<FuzzyWordEntry> entries)
+		public Boolean AddEntry(IEnumerable<FuzzyWordEntry> entries)
 		{
 			var msg = new NetMQMessage();
 			msg.Append("AddEntry");
@@ -28,7 +28,7 @@ namespace Comms
 			return ret.First.ConvertToInt32() >0 ? true:false;
 		}
 
-		public List<FuzzyQueryResponse> FuzzyQuery(List<String> phrases)
+		public IEnumerable<FuzzyQueryResponse> FuzzyQuery(IEnumerable<String> phrases)
 		{
 			var msg = new NetMQMessage();
 			msg.Append("FuzzyQuery");

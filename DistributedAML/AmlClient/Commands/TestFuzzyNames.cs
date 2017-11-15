@@ -64,11 +64,11 @@ namespace AmlClient.Commands
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            List<Task<List<FuzzyQueryResponse>>> tasks = new List<Task<List<FuzzyQueryResponse>>>();
+            List<Task<IEnumerable<FuzzyQueryResponse>>> tasks = new List<Task<IEnumerable<FuzzyQueryResponse>>>();
             List<Object> results = new List<object>();
             foreach (var bucket in factory.GetClientBuckets<IFuzzyMatcher>())
             {
-                tasks.Add(Task<List<FuzzyQueryResponse>>.Factory.StartNew(() =>
+                tasks.Add(Task<IEnumerable<FuzzyQueryResponse>>.Factory.StartNew(() =>
                 {
                     var z = factory.GetClient<IFuzzyMatcher>(bucket);
 

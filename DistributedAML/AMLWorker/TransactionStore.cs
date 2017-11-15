@@ -37,13 +37,13 @@ namespace AMLWorker
             }
         }
 
-        public override int StoreTransactions(List<Transaction> transactions)
+        public override int StoreTransactions(IEnumerable<Transaction> transactions)
         {
             using (var connection = SqlHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
-                return SqlHelper.InsertOrUpdateBlobRows(connection, "TransactionStore", transactions.Cast<Object>().ToList(),
+                return SqlHelper.InsertOrUpdateBlobRows(connection, "TransactionStore", transactions.Cast<Object>(),
                     (x) =>
                     {
                         var t = (Transaction) x;

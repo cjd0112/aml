@@ -37,7 +37,9 @@ namespace AmlClient
                     {
                         try
                         {
-                            var reg = new MyRegistry(args.Any() == false ? "appsettings.json" : args[0]);
+
+                            var reg = new MyRegistry(args.Any() == false ? Helper.GetPlatform().ToString() : args[0]);
+
                             reg.For<MyRegistry>().Use(reg);
                             c = new Container(reg);
                             c.Inject(typeof(Container),c);
@@ -53,6 +55,12 @@ namespace AmlClient
                         catch (Exception e)
                         {
                             L.Trace(e.Message);
+                            if (e.InnerException != null)
+                            {
+                                L.Trace($"Inner exception is {e.InnerException.Message}");
+                                L.Trace($"{e.InnerException.StackTrace}");
+
+                            }
                             L.Trace("Error on initialization ... quitting");
                             userCommand = "q";
                             continue;

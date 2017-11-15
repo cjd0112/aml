@@ -7,6 +7,6 @@ namespace Comms
 {
     public interface ITransactionStore : ICommsContract
     {
-        int StoreTransactions(List<Transaction> transactions);
+        int StoreTransactions(IEnumerable<Transaction> transactions);
     }
 }

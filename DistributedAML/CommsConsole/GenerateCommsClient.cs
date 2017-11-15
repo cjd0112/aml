@@ -117,9 +117,9 @@ namespace Comms
         {
             var access = "public";
             var ret = "";
-            if (typeof(IList).IsAssignableFrom(method.ReturnType))
+            if (typeof(IEnumerable).IsAssignableFrom(method.ReturnType))
             {
-                ret = $"List<{method.ReturnType.GenericTypeArguments[0].Name}>";
+                ret = $"IEnumerable<{method.ReturnType.GenericTypeArguments[0].Name}>";
             }
             else
             {
@@ -146,7 +146,7 @@ namespace Comms
             {
                 return $"msg.Append({pi.Name}.ToString())";
             }
-            else if (typeof(IList).IsAssignableFrom(pi.ParameterType))
+            else if (typeof(IEnumerable).IsAssignableFrom(pi.ParameterType))
             {
                 if (pi.ParameterType.GenericTypeArguments[0] == typeof(string))
                 {
@@ -187,7 +187,7 @@ namespace Comms
             {
                 return $"ret.First.ConvertToInt32() >0 ? true:false";
             }
-            else if (typeof(IList).IsAssignableFrom(returnType))
+            else if (typeof(IEnumerable).IsAssignableFrom(returnType))
             {
                 if (typeof(IMessage).IsAssignableFrom(returnType.GenericTypeArguments[0]))
                 {

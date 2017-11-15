@@ -18,7 +18,7 @@ namespace Comms
 
         
 
-		public Int32 StoreParties(List<Party> parties)
+		public Int32 StoreParties(IEnumerable<Party> parties)
 		{
 			var msg = new NetMQMessage();
 			msg.Append("StoreParties");
@@ -28,7 +28,7 @@ namespace Comms
 			return ret.First.ConvertToInt32();
 		}
 
-		public Int32 StoreAccounts(List<Account> accounts)
+		public Int32 StoreAccounts(IEnumerable<Account> accounts)
 		{
 			var msg = new NetMQMessage();
 			msg.Append("StoreAccounts");
@@ -38,7 +38,7 @@ namespace Comms
 			return ret.First.ConvertToInt32();
 		}
 
-		public Int32 StoreLinkages(List<AccountToParty> mappings,LinkageDirection direction)
+		public Int32 StoreLinkages(IEnumerable<AccountToParty> mappings,LinkageDirection direction)
 		{
 			var msg = new NetMQMessage();
 			msg.Append("StoreLinkages");
@@ -49,7 +49,7 @@ namespace Comms
 			return ret.First.ConvertToInt32();
 		}
 
-		public List<AccountToParty> GetLinkages(List<String> source,LinkageDirection direction)
+		public IEnumerable<AccountToParty> GetLinkages(IEnumerable<String> source,LinkageDirection direction)
 		{
 			var msg = new NetMQMessage();
 			msg.Append("GetLinkages");
