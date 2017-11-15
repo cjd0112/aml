@@ -17,5 +17,7 @@ namespace Comms
 
         int StoreLinkages(List<AccountToParty> mappings,LinkageDirection direction);
 
+        List<AccountToParty> GetLinkages(List<string> source, LinkageDirection direction);
+
     }
 }

@@ -54,6 +54,16 @@ namespace Comms
                     ret.Append(methodResult);
                     break;
                 }
+               case "GetLinkages":
+                {
+                                    
+                    var source = Helpers.UnpackMessageListString(request);
+					var direction = (LinkageDirection)Enum.Parse(typeof(LinkageDirection),request.Pop().ConvertToString());
+					
+                    var methodResult=GetLinkages(source,direction);
+                    Helpers.PackMessageList<AccountToParty>(ret,methodResult);;
+                    break;
+                }
                     default:
                         throw new Exception($"Unexpected selector - {selector}");
                 }
@@ -74,6 +84,8 @@ namespace Comms
 		public abstract Int32 StoreAccounts(List<Account> accounts);
 
 		public abstract Int32 StoreLinkages(List<AccountToParty> mappings,LinkageDirection direction);
+
+		public abstract List<AccountToParty> GetLinkages(List<String> source,LinkageDirection direction);
 
     }
 }

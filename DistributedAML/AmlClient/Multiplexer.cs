@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Comms;
 using CsvHelper;
@@ -42,6 +43,16 @@ namespace AmlClient
         }
 
 
+        public void AddList(List<Object> o, Func<Object, IEnumerable<string>> mapToBucketIdentifier)
+        {
+            foreach (var c in o)
+            {
+                var keys = mapToBucketIdentifier(c);
+                foreach (var z in keys)
+                    Add(z, o);
+            }
+        }
+
         public void Add(String key, Object o)
         {
             var bucket = Math.Abs(MurMurHash3.Hash(new MemoryStream(Encoding.UTF8.GetBytes(key)))) % Buckets;
@@ -58,7 +69,5 @@ namespace AmlClient
                 yield return (c,objs[c].Cast<T>().ToList());
             }            
         }
-
-
     }
 }

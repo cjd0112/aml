@@ -17,7 +17,8 @@ namespace AMLWorker
 
         public PartyStore(IServiceServer server) : base(server)
         {
-            connectionString = SqlHelper.GetConnectionString((string)server.GetConfigProperty("DataDirectory", server.BucketId),
+            connectionString = SqlHelper.GetConnectionString(
+                (string) server.GetConfigProperty("DataDirectory", server.BucketId),
                 server.BucketId, "AmlWorker");
 
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
@@ -39,7 +40,8 @@ namespace AMLWorker
 
                 if (!SqlHelper.TableExists(connection, "AccountParty"))
                 {
-                    SqlHelper.CreateManyToManyLinkagesTableWithForeignKeyConstraint(connection, "AccountParty","AccountId", "PartyId","Accounts","Id");
+                    SqlHelper.CreateManyToManyLinkagesTableWithForeignKeyConstraint(connection, "AccountParty",
+                        "AccountId", "PartyId", "Accounts", "Id");
                 }
 
                 if (!SqlHelper.TableExists(connection, "PartyAccount"))
@@ -49,7 +51,7 @@ namespace AMLWorker
             }
         }
 
-      
+
 
         public override int StoreParties(List<Party> parties)
         {
@@ -60,7 +62,7 @@ namespace AMLWorker
                 return SqlHelper.InsertOrUpdateBlobRows(connection, "Parties", parties.Cast<Object>().ToList(),
                     (x) =>
                     {
-                        var t = (Party)x;
+                        var t = (Party) x;
                         return (t.Id, t.ToByteArray());
 
                     });
@@ -76,14 +78,14 @@ namespace AMLWorker
                 return SqlHelper.InsertOrUpdateBlobRows(connection, "Accounts", accounts.Cast<Object>().ToList(),
                     (x) =>
                     {
-                        var t = (Account)x;
+                        var t = (Account) x;
                         return (t.Id, t.ToByteArray());
 
                     });
             }
         }
 
-        public override int StoreLinkages(List<AccountToParty> mappings,LinkageDirection dir)
+        public override int StoreLinkages(List<AccountToParty> mappings, LinkageDirection dir)
         {
             using (var connection = SqlHelper.NewConnection(connectionString))
             {
@@ -106,7 +108,7 @@ namespace AMLWorker
                         mappings.Cast<Object>().ToList(),
                         (x) =>
                         {
-                            var t = (AccountToParty)x;
+                            var t = (AccountToParty) x;
                             return (t.PartyId, t.AccountId);
 
                         });
@@ -117,6 +119,37 @@ namespace AMLWorker
                     throw new Exception($"Unexpected LinkageDirection - {dir}");
                 }
             }
+        }
+
+        public override List<AccountToParty> GetLinkages(List<string> source, LinkageDirection dir)
+        {
+            var ret = new List<AccountToParty>();
+            using (var connection = SqlHelper.NewConnection(connectionString))
+            {
+                connection.Open();
+
+                if (dir == LinkageDirection.AccountToParty)
+                {
+                    foreach (var c in SqlHelper.QueryLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
+                        source.Cast<Object>().ToList(), x => (string) x))
+                    {
+                        ret.Add(new AccountToParty {AccountId = c.Item1, PartyId = c.Item2});
+                    }
+                }
+                else if (dir == LinkageDirection.PartyToAccount)
+                {
+                    foreach (var c in SqlHelper.QueryLinkageRows(connection, "PartyAccount", "PartyId", "AccountId",
+                        source.Cast<Object>().ToList(), x => (string) x))
+                    {
+                        ret.Add(new AccountToParty {PartyId = c.Item1, AccountId = c.Item2});
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Unexpected LinkageDirection - {dir}");
+                }
+            }
+            return ret;
         }
     }
 }

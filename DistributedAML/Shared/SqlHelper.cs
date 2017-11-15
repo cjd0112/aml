@@ -212,5 +212,40 @@ namespace Shared
             return cnt;
         }
 
+        public static IEnumerable<(string,string)> QueryLinkageRows(SqliteConnection connection, String tableName, String queryColumn, String retrievalColumn, List<Object> objs, Func<Object, string> GetMapping)
+        {
+            var txn = connection.BeginTransaction();
+
+            String queryCommand = $"select {retrievalColumn} from {tableName} where {queryColumn}=($id)";
+
+            foreach (var c in objs)
+            {
+                using (var queryCmd = connection.CreateCommand())
+                {
+                    queryCmd.CommandText = queryCommand;
+
+                    var q = GetMapping(c);
+
+                    queryCmd.Parameters.AddWithValue("$id", q);
+                    using (var query = queryCmd.ExecuteReader())
+                    {
+                        if (!query.HasRows)
+                        {
+                            yield return (q, "");
+                        }
+                        else
+                        {
+                            while (query.Read())
+                            {
+                                yield return (q, query.GetString(0));
+                            }
+                        }
+                    }
+                }
+            }
+            txn.Commit();
+        }
+
+
     }
 }

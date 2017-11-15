@@ -92,7 +92,7 @@ namespace Comms
             var access = "public abstract";
             var ret = "";
             if (typeof(IList).IsAssignableFrom(method.ReturnType))
-            {
+            { 
                 ret = $"List<{method.ReturnType.GenericTypeArguments[0].Name}>";
             }
             else
@@ -179,6 +179,10 @@ var s = $@"               case ""{method.Name}"":
                         s += $@"
                         var {c.Name} = Helpers.UnpackMessageList<{paramType}>(request,{paramType}.Parser.ParseDelimitedFrom);
 ";
+                    }
+                    else
+                    {
+                        throw new Exception($"Unexpected list type {paramType.Name} ");
                     }
                 }
                 else

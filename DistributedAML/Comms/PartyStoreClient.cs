@@ -48,5 +48,16 @@ namespace Comms
 			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
 			return ret.First.ConvertToInt32();
 		}
+
+		public List<AccountToParty> GetLinkages(List<String> source,LinkageDirection direction)
+		{
+			var msg = new NetMQMessage();
+			msg.Append("GetLinkages");
+			Helpers.PackMessageListString(msg,source);
+			msg.Append(direction.ToString());
+			var ret = client.Send(msg);
+			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
+			return Helpers.UnpackMessageList(ret, AccountToParty.Parser.ParseDelimitedFrom);;
+		}
     }
 }
