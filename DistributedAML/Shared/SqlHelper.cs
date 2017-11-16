@@ -20,7 +20,7 @@ namespace Shared
         public static SqliteConnection NewConnection(string connectionString)
         {
             return new SqliteConnection(
-                "" + new SqliteConnectionStringBuilder { DataSource = $"{connectionString};PRAGMA journal_mode = WAL; PRAGMA cache_size = 400000; " });
+                "" + new SqliteConnectionStringBuilder { DataSource = $"{connectionString}" });
         }
 
         public static bool TableExists(SqliteConnection conn, String tableName)
@@ -47,20 +47,20 @@ namespace Shared
 
         public static int CreateBlobTable(SqliteConnection conn, String tableName)
         {
-            return ExecuteCommandLog(conn,$"create table {tableName} (id string primary key, data blob);");
+            return ExecuteCommandLog(conn,$"create table {tableName} (id text primary key, data blob);");
         }
 
         public static int CreateManyToManyLinkagesTable(SqliteConnection conn, String tableName,String link1,String link2)
         {
             int foo = 0;
-            foo = ExecuteCommandLog(conn, $@"create table {tableName} ({link1} string, {link2} string);create index {link1}_idx on {tableName}({link1});");
+            foo = ExecuteCommandLog(conn, $@"create table {tableName} ({link1} text, {link2} text);create index {link1}_idx on {tableName}({link1});");
             return foo; //ExecuteCommandLog(conn,$"create index {link1}_idx on {tableName}({link1});");
         }
 
         public static int CreateManyToManyLinkagesTableWithForeignKeyConstraint(SqliteConnection conn, String tableName,String link1,String link2,String parentTable,String parentColumn)
         {
             int foo = 0;
-            foo = ExecuteCommandLog(conn, $@"create table {tableName} ({link1} string references {parentTable}({parentColumn}), {link2} string);create index {link1}_idx on {tableName}({link1});");
+            foo = ExecuteCommandLog(conn, $@"create table {tableName} ({link1} text references {parentTable}({parentColumn}), {link2} text);create index {link1}_idx on {tableName}({link1});");
             return foo; //ExecuteCommandLog(conn,$"create index {link1}_idx on {tableName}({link1});");
         }
 
