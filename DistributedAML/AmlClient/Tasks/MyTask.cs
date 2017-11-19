@@ -28,6 +28,7 @@ namespace AmlClient.Tasks
             Bucket = bucket;
             State = state;
         }
+
     }
 
 }

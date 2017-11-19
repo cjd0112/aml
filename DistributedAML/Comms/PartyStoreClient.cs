@@ -1,7 +1,9 @@
    
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using NetMQ;
 using Shared;
 
@@ -16,17 +18,20 @@ namespace Comms
             this.client.SetUnderlying(this);
         }
 
-        
-
 		public Int32 StoreParties(IEnumerable<Party> parties)
 		{
-			var msg = new NetMQMessage();
-			msg.Append("StoreParties");
-			Helpers.PackMessageList<Party>(msg,parties);
-			var ret = client.Send(msg);
-			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
-			return ret.First.ConvertToInt32();
+		    return Helpers.SendEnumerableIntResult(client, "StoreParties", parties);
 		}
+
+        Int32 StoreParties_(IEnumerable<Party> parties)
+        {
+            var msg = new NetMQMessage();
+            msg.Append("StoreParties");
+            Helpers.PackMessageList<Party>(msg, parties);
+            var ret = client.Send(msg);
+            if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
+            return ret.First.ConvertToInt32();
+        }
 
 		public Int32 StoreAccounts(IEnumerable<Account> accounts)
 		{
@@ -51,13 +56,19 @@ namespace Comms
 
 		public IEnumerable<AccountToParty> GetLinkages(IEnumerable<String> source,LinkageDirection direction)
 		{
-			var msg = new NetMQMessage();
-			msg.Append("GetLinkages");
-			Helpers.PackMessageListString(msg,source);
-			msg.Append(direction.ToString());
-			var ret = client.Send(msg);
-			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
-			return Helpers.UnpackMessageList(ret, AccountToParty.Parser.ParseDelimitedFrom);;
+		    return source.Chunk<String,AccountToParty>(100000, (lst)=> GetLinkages_(lst, direction));
 		}
+
+        IEnumerable<AccountToParty> GetLinkages_(IEnumerable<String> source, LinkageDirection direction)
+        {
+            var msg = new NetMQMessage();
+            msg.Append("GetLinkages");
+            Helpers.PackMessageListString(msg, source);
+            msg.Append(direction.ToString());
+            var ret = client.Send(msg);
+            if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
+            return Helpers.UnpackMessageList(ret, AccountToParty.Parser.ParseDelimitedFrom);
+        }
+
     }
 }

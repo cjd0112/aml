@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Shared
 {
@@ -13,6 +14,65 @@ namespace Shared
                 act(z);
             }
         }
+
+        public static IEnumerable<IEnumerable<TValue>> Chunk<TValue>(
+            this IEnumerable<TValue> values,
+            Int32 chunkSize)
+        {
+            using (var enumerator = values.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    yield return GetChunk(enumerator, chunkSize).ToList();
+                }
+            }
+        }
+        private static IEnumerable<T> GetChunk<T>(
+            IEnumerator<T> enumerator,
+            int chunkSize)
+        {
+            do
+            {
+                yield return enumerator.Current;
+            } while (--chunkSize > 0 && enumerator.MoveNext());
+        }
+
+
+        public static G Chunk<TValue,G>(
+            this IEnumerable<TValue> values,
+            Int32 chunkSize,Func<IEnumerable<TValue>,G> f,Func<G,G,G> agg)
+        {
+            G foo = default(G);
+            using (var enumerator = values.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    agg(f(GetChunk(enumerator, chunkSize)),foo);
+                }
+            }
+            return foo;
+        }
+
+        public static IEnumerable<G> Chunk<TValue, G>(
+            this IEnumerable<TValue> values,
+            Int32 chunkSize, Func<IEnumerable<TValue>, IEnumerable<G>> f) 
+        {
+            using (var enumerator = values.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    foreach (var c in f(GetChunk(enumerator, chunkSize)))
+                    {
+                        yield return c;
+                    }
+                }
+            }
+        }
+
+
+
+
+
 
 
         public static IEnumerable<T> BinarySearchMultiple<T>(this List<T> lst,T item,IComparer<T> foo)
@@ -42,6 +102,16 @@ namespace Shared
                 }
             }
 
+        }
+
+        public static int IntAggregator(int x, int y)
+        {
+            return x + y;
+        }
+
+        public static IEnumerable<T> EnumerableAggregator<T>(IEnumerable<T> n, IEnumerable<T> z)
+        {
+            return n;
         }
 
     }

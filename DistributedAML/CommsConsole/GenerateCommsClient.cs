@@ -93,6 +93,7 @@ namespace Comms
         {
             var m = GenerateSignature(method);
             m += "\t\t{\n";
+            m += "\t\t\t;fo"
             m += "\t\t\tvar msg = new NetMQMessage();\n";
             m += $"\t\t\tmsg.Append(\"{method.Name}\");\n";
 

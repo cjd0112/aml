@@ -6,6 +6,7 @@ using System.Text;
 using Google.Protobuf;
 using LZ4;
 using NetMQ;
+using Shared;
 
 namespace Comms
 {
@@ -67,6 +68,48 @@ namespace Comms
                 ret.Add(Encoding.UTF8.GetString(rdr.ReadBytes(bytes)));
             }
             return ret;
+
+        }
+
+       
+        public static Int32 SendEnumerableIntResult<T>(IServiceClient client, string function, IEnumerable<T> lst,params Object[] param1)
+            where T : IMessage
+        {
+            int t = 0;
+            foreach (var c in lst.Chunk(100000))
+            {
+                var msg = new NetMQMessage();
+                msg.Append(function);
+                Helpers.PackMessageList<T>(msg, lst);
+                foreach (var z in param1)
+                {
+                    AddParameter(msg,z);
+                }
+                var ret = client.Send(msg);
+                if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
+                t += ret.First.ConvertToInt32();
+            }
+            return t;
+        }
+
+        public static void AddParameter(NetMQMessage msg, Object o)
+        {
+            if (o is null)
+                throw new Exception($"Null value passed to addParameter");
+
+            if (o is String)
+                msg.Append((String) o);
+            else if (o is Int32)
+                msg.Append((int) o);
+            else if (o is Int64)
+                msg.Append((Int64) o);
+            else if (o.GetType().IsEnum)
+                msg.Append((Int32) o);
+            else
+            {
+                throw new Exception($"Unexpected parameters for message - {o.GetType()}");
+            }
+
 
         }
 
