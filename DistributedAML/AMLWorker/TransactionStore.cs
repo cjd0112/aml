@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Comms;
+using Comms.ClientServer;
 using Google.Protobuf;
 using Logger;
 using Microsoft.Data.Sqlite;

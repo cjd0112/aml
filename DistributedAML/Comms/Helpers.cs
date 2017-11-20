@@ -85,7 +85,7 @@ namespace Comms
             else if (o is Int64)
                 msg.Append((Int64) o);
             else if (o.GetType().IsEnum)
-                msg.Append((Int32) o);
+                msg.Append( o.ToString());
             else
             {
                 throw new Exception($"Unexpected parameters for message - {o.GetType()}");

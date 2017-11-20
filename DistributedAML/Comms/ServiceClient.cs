@@ -59,7 +59,7 @@ namespace Comms
                 var msg = new NetMQMessage();
                 msg.Append(function);
                
-                msg.PackMessageList<T>(lst);
+                msg.PackMessageList<T>(c);
                 foreach (var z in param)
                 {
                     msg.AddParameter(z);
@@ -79,7 +79,7 @@ namespace Comms
                 var msg = new NetMQMessage();
                 msg.Append(function);
 
-                msg.PackMessageList<T>(lst);
+                msg.PackMessageList<T>(c);
                 foreach (var z in param)
                 {
                     msg.AddParameter(z);

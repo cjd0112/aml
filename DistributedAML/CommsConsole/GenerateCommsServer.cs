@@ -159,25 +159,25 @@ var s = $@"               case ""{method.Name}"":
                     if (paramType == typeof(String))
                     {
  s += $@"                
-                    var {c.Name} = Helpers.UnpackMessageListString(request);
+                    var {c.Name} = request.UnpackMessageListString();
 ";
                     }
                     else if (paramType == typeof(Int32))
                     {
                         s += $@"                
-                    var {c.Name} = Helpers.UnpackMessageListInt32(request);
+                    var {c.Name} = request.UnpackMessageListInt32();
 ";
                     }
                     else if (paramType == typeof(Int64))
                     {
                         s += $@"                
-                    var {c.Name} = Helpers.UnpackMessageListInt64(request);
+                    var {c.Name} = request.UnpackMessageListInt64();
 ";
                     }
                     else if (typeof(IMessage).IsAssignableFrom(paramType))
                     {
                         s += $@"
-                        var {c.Name} = Helpers.UnpackMessageList<{paramType}>(request,{paramType}.Parser.ParseDelimitedFrom);
+                        var {c.Name} = request.UnpackMessageList<{paramType}>({paramType}.Parser.ParseDelimitedFrom);
 ";
                     }
                     else
@@ -212,7 +212,7 @@ var s = $@"               case ""{method.Name}"":
                 if (typeof(IMessage).IsAssignableFrom(mi.ReturnType.GenericTypeArguments[0]))
                 {
                     var t = mi.ReturnType.GenericTypeArguments[0];
-                    s = $"Helpers.PackMessageList<{t.Name}>(ret,methodResult);";
+                    s = $"ret.PackMessageList<{t.Name}>(methodResult);";
                 }
             }
             else

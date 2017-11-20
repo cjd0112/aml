@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Comms;
+using Comms.ClientServer;
 using Google.Protobuf;
 using Logger;
 using Microsoft.Data.Sqlite;
@@ -121,7 +122,7 @@ namespace AMLWorker
             }
         }
 
-        public override IEnumerable<AccountToParty> GetLinkages(IEnumerable<string> source, LinkageDirection dir)
+        public override IEnumerable<AccountToParty> GetLinkages(IEnumerable<Identifier> source, LinkageDirection dir)
         {
             var ret = new List<AccountToParty>();
             using (var connection = SqlHelper.NewConnection(connectionString))
@@ -131,7 +132,7 @@ namespace AMLWorker
                 if (dir == LinkageDirection.AccountToParty)
                 {
                     foreach (var c in SqlHelper.QueryLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
-                        source.Cast<Object>(), x => (string) x))
+                        source.Cast<Object>(), x => ((Identifier)x).Id ))
                     {
                         ret.Add(new AccountToParty {AccountId = c.Item1, PartyId = c.Item2});
                     }
@@ -139,7 +140,7 @@ namespace AMLWorker
                 else if (dir == LinkageDirection.PartyToAccount)
                 {
                     foreach (var c in SqlHelper.QueryLinkageRows(connection, "PartyAccount", "PartyId", "AccountId",
-                        source.Cast<Object>(), x => (string) x))
+                        source.Cast<Object>(), x => ((Identifier)x).Id))
                     {
                         ret.Add(new AccountToParty {PartyId = c.Item1, AccountId = c.Item2});
                     }
