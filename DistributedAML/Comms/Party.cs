@@ -21,24 +21,25 @@ public static partial class PartyReflection {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
           "CgtQYXJ0eS5wcm90byI0Cg5BY2NvdW50VG9QYXJ0eRIRCglBY2NvdW50SWQY",
-          "ASABKAkSDwoHUGFydHlJZBgCIAEoCSJzCgdBY2NvdW50EgoKAklkGAEgASgJ",
-          "EhEKCUFjY291bnRObxgCIAEoCRIQCghTb3J0Q29kZRgDIAEoCRIMCgRJQkFO",
-          "GAQgASgJEhAKCEN1cnJlbmN5GAUgASgJEhcKB1BhcnRpZXMYZCADKAsyBi5Q",
-          "YXJ0eSK6AwoFUGFydHkSCgoCSWQYASABKAkSHgoEVHlwZRgCIAEoDjIQLlBh",
-          "cnR5LlBhcnR5VHlwZRIMCgROYW1lGAMgASgJEhMKC0NvbXBhbnlOYW1lGAQg",
-          "ASgJEhAKCEFkZHJlc3MxGAUgASgJEhAKCEFkZHJlc3MyGAYgASgJEgwKBFRv",
-          "d24YByABKAkSDwoHQ291bnRyeRgIIAEoCRIQCghQb3N0Q29kZRgJIAEoCRIS",
-          "CgpUZWxlcGhvbmUxGAogASgJEhIKClRlbGVwaG9uZTIYCyABKAkSDQoFRW1h",
-          "aWwYDCABKAkSEgoKV2ViQWRkcmVzcxgNIAEoCRISCgpUeG5Qcm9maWxlGA4g",
-          "ASgJEg4KBlNlY3RvchgPIAEoCRIPCgdDRU9OYW1lGBAgASgJEhAKCENFT0Vt",
-          "YWlsGBEgASgJEg8KB1dlYnNpdGUYEiABKAkSDAoEQ2l0eRgTIAEoCRIaCghB",
-          "Y2NvdW50cxgUIAMoCzIILkFjY291bnQiQAoJUGFydHlUeXBlEgoKBlJldGFp",
-          "bBAAEg0KCUNvcnBvcmF0ZRABEhgKFEZpbmFuY2lhbEluc3RpdHV0aW9uEAJi",
-          "BnByb3RvMw=="));
+          "ASABKAkSDwoHUGFydHlJZBgCIAEoCSIYCgpJZGVudGlmaWVyEgoKAklkGAEg",
+          "ASgJInMKB0FjY291bnQSCgoCSWQYASABKAkSEQoJQWNjb3VudE5vGAIgASgJ",
+          "EhAKCFNvcnRDb2RlGAMgASgJEgwKBElCQU4YBCABKAkSEAoIQ3VycmVuY3kY",
+          "BSABKAkSFwoHUGFydGllcxhkIAMoCzIGLlBhcnR5IroDCgVQYXJ0eRIKCgJJ",
+          "ZBgBIAEoCRIeCgRUeXBlGAIgASgOMhAuUGFydHkuUGFydHlUeXBlEgwKBE5h",
+          "bWUYAyABKAkSEwoLQ29tcGFueU5hbWUYBCABKAkSEAoIQWRkcmVzczEYBSAB",
+          "KAkSEAoIQWRkcmVzczIYBiABKAkSDAoEVG93bhgHIAEoCRIPCgdDb3VudHJ5",
+          "GAggASgJEhAKCFBvc3RDb2RlGAkgASgJEhIKClRlbGVwaG9uZTEYCiABKAkS",
+          "EgoKVGVsZXBob25lMhgLIAEoCRINCgVFbWFpbBgMIAEoCRISCgpXZWJBZGRy",
+          "ZXNzGA0gASgJEhIKClR4blByb2ZpbGUYDiABKAkSDgoGU2VjdG9yGA8gASgJ",
+          "Eg8KB0NFT05hbWUYECABKAkSEAoIQ0VPRW1haWwYESABKAkSDwoHV2Vic2l0",
+          "ZRgSIAEoCRIMCgRDaXR5GBMgASgJEhoKCEFjY291bnRzGBQgAygLMgguQWNj",
+          "b3VudCJACglQYXJ0eVR5cGUSCgoGUmV0YWlsEAASDQoJQ29ycG9yYXRlEAES",
+          "GAoURmluYW5jaWFsSW5zdGl0dXRpb24QAmIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::AccountToParty), global::AccountToParty.Parser, new[]{ "AccountId", "PartyId" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::Identifier), global::Identifier.Parser, new[]{ "Id" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Account), global::Account.Parser, new[]{ "Id", "AccountNo", "SortCode", "IBAN", "Currency", "Parties" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Party), global::Party.Parser, new[]{ "Id", "Type", "Name", "CompanyName", "Address1", "Address2", "Town", "Country", "PostCode", "Telephone1", "Telephone2", "Email", "WebAddress", "TxnProfile", "Sector", "CEOName", "CEOEmail", "Website", "City", "Accounts" }, null, new[]{ typeof(global::Party.Types.PartyType) }, null)
         }));
@@ -192,6 +193,123 @@ public sealed partial class AccountToParty : pb::IMessage<AccountToParty> {
 
 }
 
+public sealed partial class Identifier : pb::IMessage<Identifier> {
+  private static readonly pb::MessageParser<Identifier> _parser = new pb::MessageParser<Identifier>(() => new Identifier());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<Identifier> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::PartyReflection.Descriptor.MessageTypes[1]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public Identifier() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public Identifier(Identifier other) : this() {
+    id_ = other.id_;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public Identifier Clone() {
+    return new Identifier(this);
+  }
+
+  /// <summary>Field number for the "Id" field.</summary>
+  public const int IdFieldNumber = 1;
+  private string id_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Id {
+    get { return id_; }
+    set {
+      id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as Identifier);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(Identifier other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (Id != other.Id) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (Id.Length != 0) hash ^= Id.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (Id.Length != 0) {
+      output.WriteRawTag(10);
+      output.WriteString(Id);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (Id.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(Identifier other) {
+    if (other == null) {
+      return;
+    }
+    if (other.Id.Length != 0) {
+      Id = other.Id;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 10: {
+          Id = input.ReadString();
+          break;
+        }
+      }
+    }
+  }
+
+}
+
 public sealed partial class Account : pb::IMessage<Account> {
   private static readonly pb::MessageParser<Account> _parser = new pb::MessageParser<Account>(() => new Account());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -199,7 +317,7 @@ public sealed partial class Account : pb::IMessage<Account> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::PartyReflection.Descriptor.MessageTypes[1]; }
+    get { return global::PartyReflection.Descriptor.MessageTypes[2]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -448,7 +566,7 @@ public sealed partial class Party : pb::IMessage<Party> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::PartyReflection.Descriptor.MessageTypes[2]; }
+    get { return global::PartyReflection.Descriptor.MessageTypes[3]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

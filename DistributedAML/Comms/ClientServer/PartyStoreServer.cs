@@ -6,7 +6,7 @@ using NetMQ;
 using Logger;
 using Shared;
 
-namespace Comms
+namespace Comms.ClientServer
 {
     public abstract class PartyStoreServer : IPartyStore
     {
@@ -56,8 +56,8 @@ namespace Comms
                 }
                case "GetLinkages":
                 {
-                                    
-                    var source = Helpers.UnpackMessageListString(request);
+                    
+                        var source = Helpers.UnpackMessageList<Identifier>(request,Identifier.Parser.ParseDelimitedFrom);
 					var direction = (LinkageDirection)Enum.Parse(typeof(LinkageDirection),request.Pop().ConvertToString());
 					
                     var methodResult=GetLinkages(source,direction);
@@ -85,7 +85,7 @@ namespace Comms
 
 		public abstract Int32 StoreLinkages(IEnumerable<AccountToParty> mappings,LinkageDirection direction);
 
-		public abstract IEnumerable<AccountToParty> GetLinkages(IEnumerable<String> source,LinkageDirection direction);
+		public abstract IEnumerable<AccountToParty> GetLinkages(IEnumerable<Identifier> source,LinkageDirection direction);
 
     }
 }

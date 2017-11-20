@@ -6,6 +6,11 @@ message AccountToParty
 	string PartyId=2;
 }
 
+message Identifier
+{
+	string Id = 1;
+}
+
 message Account
 {
 	string Id = 1;

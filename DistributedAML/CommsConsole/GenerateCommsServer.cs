@@ -20,7 +20,7 @@ using NetMQ;
 using Logger;
 using Shared;
 
-namespace Comms
+namespace Comms.ClientServer
 {
     public abstract class _NAME_Server : I_NAME_
     {
@@ -59,7 +59,7 @@ namespace Comms
 }";
 
         private Type type;
-        public GenerateCommsServer(Type type, List<Type> googleTypes,string sourceDirectoryName) : base(sourceDirectoryName + "/" + ModuleFuncs.GetClassName(type) + "Server.cs")
+        public GenerateCommsServer(Type type, List<Type> googleTypes,string sourceDirectoryName) : base(sourceDirectoryName + "/ClientServer/" + ModuleFuncs.GetClassName(type) + "Server.cs")
         {
             this.type = type;
 

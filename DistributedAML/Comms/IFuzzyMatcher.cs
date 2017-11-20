@@ -6,7 +6,7 @@ namespace Comms
 {
     public interface IFuzzyMatcher : ICommsContract
     {
-        Boolean AddEntry(IEnumerable<FuzzyWordEntry> entries);
-        IEnumerable<FuzzyQueryResponse> FuzzyQuery(IEnumerable<String> phrases);
+        int AddEntry(IEnumerable<FuzzyWordEntry> entries);
+        IEnumerable<FuzzyQueryResponse> FuzzyQuery(IEnumerable<FuzzyCheck> phrases);
     }
 }

@@ -6,7 +6,7 @@ using NetMQ;
 using Logger;
 using Shared;
 
-namespace Comms
+namespace Comms.ClientServer
 {
     public abstract class TransactionStoreServer : ITransactionStore
     {

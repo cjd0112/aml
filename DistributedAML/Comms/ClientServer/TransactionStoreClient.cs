@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using NetMQ;
 using Shared;
 
-namespace Comms
+namespace Comms.ClientServer
 {
     public class TransactionStoreClient : ITransactionStore
     {
@@ -20,12 +20,8 @@ namespace Comms
 
 		public Int32 StoreTransactions(IEnumerable<Transaction> transactions)
 		{
-			var msg = new NetMQMessage();
-			msg.Append("StoreTransactions");
-			Helpers.PackMessageList<Transaction>(msg,transactions);
-			var ret = client.Send(msg);
-			if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
-			return ret.First.ConvertToInt32();
+			return client.SendEnumerableIntResult<Transaction>("StoreTransactions",transactions);
 		}
+
     }
 }

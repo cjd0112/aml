@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Comms;
@@ -72,7 +73,7 @@ namespace AmlClient.Commands
                 {
                     var z = factory.GetClient<IFuzzyMatcher>(bucket);
 
-                    return z.FuzzyQuery(data);
+                    return z.FuzzyQuery(data.Select(x=>new FuzzyCheck{Phrase=x}));
 
                 }));
             }

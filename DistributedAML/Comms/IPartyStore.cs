@@ -17,7 +17,7 @@ namespace Comms
 
         int StoreLinkages(IEnumerable<AccountToParty> mappings,LinkageDirection direction);
 
-        IEnumerable<AccountToParty> GetLinkages(IEnumerable<string> source, LinkageDirection direction);
+        IEnumerable<AccountToParty> GetLinkages(IEnumerable<Identifier> source, LinkageDirection direction);
 
     }
 }

@@ -96,7 +96,7 @@ namespace AmlClient.Commands
                     tasks.Add(
                         new MyTask<IEnumerable<AccountToParty>>("GetLinkages", x.Item1, () => 
                             factory.GetClient<IPartyStore>(x.Item1)
-                              .GetLinkages(x.Item2.Select(j => j.Id).ToList(), LinkageDirection.PartyToAccount),x.Item2));
+                              .GetLinkages(x.Item2.Select(j => new Identifier{Id=j.Id}).ToList(), LinkageDirection.PartyToAccount),x.Item2));
                 });
 
                 tasks.Do(x=>x.Start());

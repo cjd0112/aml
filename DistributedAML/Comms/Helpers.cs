@@ -10,9 +10,9 @@ using Shared;
 
 namespace Comms
 {
-    public class Helpers
+    public static class Helpers
     {
-        public static NetMQMessage PackMessageList<T>(NetMQMessage msg, IEnumerable<T> foo) where T : IMessage
+        public static NetMQMessage PackMessageList<T>(this NetMQMessage msg, IEnumerable<T> foo) where T : IMessage
         {
             msg.Append(foo.Count());
             int size = foo.Aggregate(0, (x, y) => x+ y.CalculateSize()+sizeof(int));
@@ -26,7 +26,7 @@ namespace Comms
             return msg;
         }
 
-        public static IEnumerable<T> UnpackMessageList<T>(NetMQMessage msg,Func<Stream,T> parseObject) where T:IMessage
+        public static IEnumerable<T> UnpackMessageList<T>(this NetMQMessage msg,Func<Stream,T> parseObject) where T:IMessage
         {
             var cnt = (int) msg.Pop().ConvertToInt32();
             var buff = msg.Pop().ToByteArray();
@@ -39,7 +39,7 @@ namespace Comms
             return ret;
         }
 
-        public static NetMQMessage PackMessageListString( NetMQMessage msg, IEnumerable<String> s)
+        public static NetMQMessage PackMessageListString( this NetMQMessage msg, IEnumerable<String> s)
         {
             msg.Append(s.Count());
             int size = s.Aggregate(0, (x, y) => x + y.Length + sizeof(int));
@@ -56,7 +56,7 @@ namespace Comms
 
         }
 
-        public static IEnumerable<String> UnpackMessageListString(NetMQMessage msg)
+        public static IEnumerable<String> UnpackMessageListString(this NetMQMessage msg)
         {
             var cnt = (int) msg.Pop().ConvertToInt32();
             var buff = msg.Pop().ToByteArray();
@@ -72,27 +72,8 @@ namespace Comms
         }
 
        
-        public static Int32 SendEnumerableIntResult<T>(IServiceClient client, string function, IEnumerable<T> lst,params Object[] param1)
-            where T : IMessage
-        {
-            int t = 0;
-            foreach (var c in lst.Chunk(100000))
-            {
-                var msg = new NetMQMessage();
-                msg.Append(function);
-                Helpers.PackMessageList<T>(msg, lst);
-                foreach (var z in param1)
-                {
-                    AddParameter(msg,z);
-                }
-                var ret = client.Send(msg);
-                if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
-                t += ret.First.ConvertToInt32();
-            }
-            return t;
-        }
 
-        public static void AddParameter(NetMQMessage msg, Object o)
+        public static void AddParameter(this NetMQMessage msg, Object o)
         {
             if (o is null)
                 throw new Exception($"Null value passed to addParameter");
@@ -113,7 +94,7 @@ namespace Comms
 
         }
 
-        public static NetMQMessage PackMessageListInt32(NetMQMessage msg, IEnumerable<Int32> s)
+        public static NetMQMessage PackMessageListInt32(this NetMQMessage msg, IEnumerable<Int32> s)
         {
             msg.Append(s.Count());
             int size = s.Count() * sizeof(int);
@@ -128,7 +109,7 @@ namespace Comms
         }
 
 
-        public static IEnumerable<Int32> UnpackMessageListInt32(NetMQMessage msg)
+        public static IEnumerable<Int32> UnpackMessageListInt32(this NetMQMessage msg)
         {
             var cnt = (int)msg.Pop().ConvertToInt32();
             var buff = msg.Pop().ToByteArray();
@@ -142,7 +123,7 @@ namespace Comms
 
         }
 
-        public static NetMQMessage PackMessageListInt64( NetMQMessage msg, List<Int64> s)
+        public static NetMQMessage PackMessageListInt64(this NetMQMessage msg, List<Int64> s)
         {
             msg.Append(s.Count());
             int size = s.Count() * sizeof(Int64);
@@ -156,7 +137,7 @@ namespace Comms
             return msg;
         }
 
-        public static List<Int64> UnpackMessageListInt64(NetMQMessage msg)
+        public static List<Int64> UnpackMessageListInt64(this NetMQMessage msg)
         {
             var cnt = (int)msg.Pop().ConvertToInt32();
             var buff = msg.Pop().ToByteArray();

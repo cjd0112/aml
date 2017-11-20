@@ -41,6 +41,9 @@ namespace CommsConsole
             }
             else if (typeof(IEnumerable).IsAssignableFrom(pi.ParameterType))
             {
+                if (!typeof(IMessage).IsAssignableFrom(pi.ParameterType.GenericTypeArguments[0]))
+                    throw new Exception($"Only support list parameter types that support 'IMessage', received - {pi.ParameterType.GenericTypeArguments[0].Name}");
+
                 return ("IEnumerable<" + pi.ParameterType.GenericTypeArguments[0].Name + ">", pi.Name);
             }
             else if (typeof(IMessage).IsAssignableFrom(pi.ParameterType))

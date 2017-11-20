@@ -6,7 +6,7 @@ using NetMQ;
 using Logger;
 using Shared;
 
-namespace Comms
+namespace Comms.ClientServer
 {
     public abstract class FuzzyMatcherServer : IFuzzyMatcher
     {
@@ -32,13 +32,13 @@ namespace Comms
                         var entries = Helpers.UnpackMessageList<FuzzyWordEntry>(request,FuzzyWordEntry.Parser.ParseDelimitedFrom);
 					
                     var methodResult=AddEntry(entries);
-                    ret.Append(Convert.ToInt32(methodResult));
+                    ret.Append(methodResult);
                     break;
                 }
                case "FuzzyQuery":
                 {
-                                    
-                    var phrases = Helpers.UnpackMessageListString(request);
+                    
+                        var phrases = Helpers.UnpackMessageList<FuzzyCheck>(request,FuzzyCheck.Parser.ParseDelimitedFrom);
 					
                     var methodResult=FuzzyQuery(phrases);
                     Helpers.PackMessageList<FuzzyQueryResponse>(ret,methodResult);;
@@ -59,9 +59,9 @@ namespace Comms
         }
 
         
-		public abstract Boolean AddEntry(IEnumerable<FuzzyWordEntry> entries);
+		public abstract Int32 AddEntry(IEnumerable<FuzzyWordEntry> entries);
 
-		public abstract IEnumerable<FuzzyQueryResponse> FuzzyQuery(IEnumerable<String> phrases);
+		public abstract IEnumerable<FuzzyQueryResponse> FuzzyQuery(IEnumerable<FuzzyCheck> phrases);
 
     }
 }

@@ -1,5 +1,11 @@
 ﻿syntax="proto3";
 
+
+message FuzzyCheck
+{
+	string Phrase = 1;
+}
+
 message FuzzyWordEntry
 {
 	string Phrase=1;
