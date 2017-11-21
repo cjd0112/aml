@@ -29,7 +29,7 @@ namespace Comms.ClientServer
                case "AddEntry":
                 {
                     
-                        var entries = Helpers.UnpackMessageList<FuzzyWordEntry>(request,FuzzyWordEntry.Parser.ParseDelimitedFrom);
+                        var entries = request.UnpackMessageList<FuzzyWordEntry>(FuzzyWordEntry.Parser.ParseDelimitedFrom);
 					
                     var methodResult=AddEntry(entries);
                     ret.Append(methodResult);
@@ -38,10 +38,10 @@ namespace Comms.ClientServer
                case "FuzzyQuery":
                 {
                     
-                        var phrases = Helpers.UnpackMessageList<FuzzyCheck>(request,FuzzyCheck.Parser.ParseDelimitedFrom);
+                        var phrases = request.UnpackMessageList<FuzzyCheck>(FuzzyCheck.Parser.ParseDelimitedFrom);
 					
                     var methodResult=FuzzyQuery(phrases);
-                    Helpers.PackMessageList<FuzzyQueryResponse>(ret,methodResult);;
+                    ret.PackMessageList<FuzzyQueryResponse>(methodResult);;
                     break;
                 }
                     default:

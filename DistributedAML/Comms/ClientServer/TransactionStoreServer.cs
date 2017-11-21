@@ -29,7 +29,7 @@ namespace Comms.ClientServer
                case "StoreTransactions":
                 {
                     
-                        var transactions = Helpers.UnpackMessageList<Transaction>(request,Transaction.Parser.ParseDelimitedFrom);
+                        var transactions = request.UnpackMessageList<Transaction>(Transaction.Parser.ParseDelimitedFrom);
 					
                     var methodResult=StoreTransactions(transactions);
                     ret.Append(methodResult);

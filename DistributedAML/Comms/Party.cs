@@ -22,26 +22,30 @@ public static partial class PartyReflection {
         string.Concat(
           "CgtQYXJ0eS5wcm90byI0Cg5BY2NvdW50VG9QYXJ0eRIRCglBY2NvdW50SWQY",
           "ASABKAkSDwoHUGFydHlJZBgCIAEoCSIYCgpJZGVudGlmaWVyEgoKAklkGAEg",
-          "ASgJInMKB0FjY291bnQSCgoCSWQYASABKAkSEQoJQWNjb3VudE5vGAIgASgJ",
-          "EhAKCFNvcnRDb2RlGAMgASgJEgwKBElCQU4YBCABKAkSEAoIQ3VycmVuY3kY",
-          "BSABKAkSFwoHUGFydGllcxhkIAMoCzIGLlBhcnR5IroDCgVQYXJ0eRIKCgJJ",
-          "ZBgBIAEoCRIeCgRUeXBlGAIgASgOMhAuUGFydHkuUGFydHlUeXBlEgwKBE5h",
-          "bWUYAyABKAkSEwoLQ29tcGFueU5hbWUYBCABKAkSEAoIQWRkcmVzczEYBSAB",
-          "KAkSEAoIQWRkcmVzczIYBiABKAkSDAoEVG93bhgHIAEoCRIPCgdDb3VudHJ5",
-          "GAggASgJEhAKCFBvc3RDb2RlGAkgASgJEhIKClRlbGVwaG9uZTEYCiABKAkS",
-          "EgoKVGVsZXBob25lMhgLIAEoCRINCgVFbWFpbBgMIAEoCRISCgpXZWJBZGRy",
-          "ZXNzGA0gASgJEhIKClR4blByb2ZpbGUYDiABKAkSDgoGU2VjdG9yGA8gASgJ",
-          "Eg8KB0NFT05hbWUYECABKAkSEAoIQ0VPRW1haWwYESABKAkSDwoHV2Vic2l0",
-          "ZRgSIAEoCRIMCgRDaXR5GBMgASgJEhoKCEFjY291bnRzGBQgAygLMgguQWNj",
-          "b3VudCJACglQYXJ0eVR5cGUSCgoGUmV0YWlsEAASDQoJQ29ycG9yYXRlEAES",
-          "GAoURmluYW5jaWFsSW5zdGl0dXRpb24QAmIGcHJvdG8z"));
+          "ASgJItsBCgdBY2NvdW50EgoKAklkGAEgASgJEhEKCUFjY291bnRObxgCIAEo",
+          "CRIQCghTb3J0Q29kZRgDIAEoCRIMCgRJQkFOGAQgASgJEhAKCEN1cnJlbmN5",
+          "GAUgASgJEgwKBE5hbWUYBiABKAkSIgoEVHlwZRgKIAEoDjIULkFjY291bnQu",
+          "QWNjb3VudFR5cGUSFwoHUGFydGllcxhkIAMoCzIGLlBhcnR5IjQKC0FjY291",
+          "bnRUeXBlEgoKBlZvc3RybxAAEgoKBlJldGFpbBABEg0KCUNvcnBvcmF0ZRAC",
+          "IugDCgVQYXJ0eRIKCgJJZBgBIAEoCRIeCgRUeXBlGAIgASgOMhAuUGFydHku",
+          "UGFydHlUeXBlEgwKBE5hbWUYAyABKAkSEwoLQ29tcGFueU5hbWUYBCABKAkS",
+          "EAoIQWRkcmVzczEYBSABKAkSEAoIQWRkcmVzczIYBiABKAkSDAoEVG93bhgH",
+          "IAEoCRIPCgdDb3VudHJ5GAggASgJEhAKCFBvc3RDb2RlGAkgASgJEhIKClRl",
+          "bGVwaG9uZTEYCiABKAkSEgoKVGVsZXBob25lMhgLIAEoCRINCgVFbWFpbBgM",
+          "IAEoCRISCgpXZWJBZGRyZXNzGA0gASgJEhIKClR4blByb2ZpbGUYDiABKAkS",
+          "DgoGU2VjdG9yGA8gASgJEg8KB0NFT05hbWUYECABKAkSEAoIQ0VPRW1haWwY",
+          "ESABKAkSDwoHV2Vic2l0ZRgSIAEoCRIMCgRDaXR5GBMgASgJEhIKCkZpU29y",
+          "dENvZGUYFCABKAkSGgoIQWNjb3VudHMYZCADKAsyCC5BY2NvdW50IloKCVBh",
+          "cnR5VHlwZRIMCghIb21lQmFuaxAAEgoKBlJldGFpbBABEg0KCUNvcnBvcmF0",
+          "ZRACEhgKFEZpbmFuY2lhbEluc3RpdHV0aW9uEAMSCgoGUHNldWRvEARiBnBy",
+          "b3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::AccountToParty), global::AccountToParty.Parser, new[]{ "AccountId", "PartyId" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Identifier), global::Identifier.Parser, new[]{ "Id" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::Account), global::Account.Parser, new[]{ "Id", "AccountNo", "SortCode", "IBAN", "Currency", "Parties" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::Party), global::Party.Parser, new[]{ "Id", "Type", "Name", "CompanyName", "Address1", "Address2", "Town", "Country", "PostCode", "Telephone1", "Telephone2", "Email", "WebAddress", "TxnProfile", "Sector", "CEOName", "CEOEmail", "Website", "City", "Accounts" }, null, new[]{ typeof(global::Party.Types.PartyType) }, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::Account), global::Account.Parser, new[]{ "Id", "AccountNo", "SortCode", "IBAN", "Currency", "Name", "Type", "Parties" }, null, new[]{ typeof(global::Account.Types.AccountType) }, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::Party), global::Party.Parser, new[]{ "Id", "Type", "Name", "CompanyName", "Address1", "Address2", "Town", "Country", "PostCode", "Telephone1", "Telephone2", "Email", "WebAddress", "TxnProfile", "Sector", "CEOName", "CEOEmail", "Website", "City", "FiSortCode", "Accounts" }, null, new[]{ typeof(global::Party.Types.PartyType) }, null)
         }));
   }
   #endregion
@@ -339,6 +343,8 @@ public sealed partial class Account : pb::IMessage<Account> {
     sortCode_ = other.sortCode_;
     iBAN_ = other.iBAN_;
     currency_ = other.currency_;
+    name_ = other.name_;
+    type_ = other.type_;
     parties_ = other.parties_.Clone();
   }
 
@@ -402,6 +408,28 @@ public sealed partial class Account : pb::IMessage<Account> {
     }
   }
 
+  /// <summary>Field number for the "Name" field.</summary>
+  public const int NameFieldNumber = 6;
+  private string name_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Name {
+    get { return name_; }
+    set {
+      name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Type" field.</summary>
+  public const int TypeFieldNumber = 10;
+  private global::Account.Types.AccountType type_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::Account.Types.AccountType Type {
+    get { return type_; }
+    set {
+      type_ = value;
+    }
+  }
+
   /// <summary>Field number for the "Parties" field.</summary>
   public const int PartiesFieldNumber = 100;
   private static readonly pb::FieldCodec<global::Party> _repeated_parties_codec
@@ -430,6 +458,8 @@ public sealed partial class Account : pb::IMessage<Account> {
     if (SortCode != other.SortCode) return false;
     if (IBAN != other.IBAN) return false;
     if (Currency != other.Currency) return false;
+    if (Name != other.Name) return false;
+    if (Type != other.Type) return false;
     if(!parties_.Equals(other.parties_)) return false;
     return true;
   }
@@ -442,6 +472,8 @@ public sealed partial class Account : pb::IMessage<Account> {
     if (SortCode.Length != 0) hash ^= SortCode.GetHashCode();
     if (IBAN.Length != 0) hash ^= IBAN.GetHashCode();
     if (Currency.Length != 0) hash ^= Currency.GetHashCode();
+    if (Name.Length != 0) hash ^= Name.GetHashCode();
+    if (Type != 0) hash ^= Type.GetHashCode();
     hash ^= parties_.GetHashCode();
     return hash;
   }
@@ -473,6 +505,14 @@ public sealed partial class Account : pb::IMessage<Account> {
       output.WriteRawTag(42);
       output.WriteString(Currency);
     }
+    if (Name.Length != 0) {
+      output.WriteRawTag(50);
+      output.WriteString(Name);
+    }
+    if (Type != 0) {
+      output.WriteRawTag(80);
+      output.WriteEnum((int) Type);
+    }
     parties_.WriteTo(output, _repeated_parties_codec);
   }
 
@@ -493,6 +533,12 @@ public sealed partial class Account : pb::IMessage<Account> {
     }
     if (Currency.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Currency);
+    }
+    if (Name.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+    }
+    if (Type != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
     }
     size += parties_.CalculateSize(_repeated_parties_codec);
     return size;
@@ -517,6 +563,12 @@ public sealed partial class Account : pb::IMessage<Account> {
     }
     if (other.Currency.Length != 0) {
       Currency = other.Currency;
+    }
+    if (other.Name.Length != 0) {
+      Name = other.Name;
+    }
+    if (other.Type != 0) {
+      Type = other.Type;
     }
     parties_.Add(other.parties_);
   }
@@ -549,6 +601,14 @@ public sealed partial class Account : pb::IMessage<Account> {
           Currency = input.ReadString();
           break;
         }
+        case 50: {
+          Name = input.ReadString();
+          break;
+        }
+        case 80: {
+          type_ = (global::Account.Types.AccountType) input.ReadEnum();
+          break;
+        }
         case 802: {
           parties_.AddEntriesFrom(input, _repeated_parties_codec);
           break;
@@ -556,6 +616,19 @@ public sealed partial class Account : pb::IMessage<Account> {
       }
     }
   }
+
+  #region Nested types
+  /// <summary>Container for nested types declared in the Account message type.</summary>
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static partial class Types {
+    public enum AccountType {
+      [pbr::OriginalName("Vostro")] Vostro = 0,
+      [pbr::OriginalName("Retail")] Retail = 1,
+      [pbr::OriginalName("Corporate")] Corporate = 2,
+    }
+
+  }
+  #endregion
 
 }
 
@@ -602,6 +675,7 @@ public sealed partial class Party : pb::IMessage<Party> {
     cEOEmail_ = other.cEOEmail_;
     website_ = other.website_;
     city_ = other.city_;
+    fiSortCode_ = other.fiSortCode_;
     accounts_ = other.accounts_.Clone();
   }
 
@@ -819,10 +893,21 @@ public sealed partial class Party : pb::IMessage<Party> {
     }
   }
 
+  /// <summary>Field number for the "FiSortCode" field.</summary>
+  public const int FiSortCodeFieldNumber = 20;
+  private string fiSortCode_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string FiSortCode {
+    get { return fiSortCode_; }
+    set {
+      fiSortCode_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
   /// <summary>Field number for the "Accounts" field.</summary>
-  public const int AccountsFieldNumber = 20;
+  public const int AccountsFieldNumber = 100;
   private static readonly pb::FieldCodec<global::Account> _repeated_accounts_codec
-      = pb::FieldCodec.ForMessage(162, global::Account.Parser);
+      = pb::FieldCodec.ForMessage(802, global::Account.Parser);
   private readonly pbc::RepeatedField<global::Account> accounts_ = new pbc::RepeatedField<global::Account>();
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public pbc::RepeatedField<global::Account> Accounts {
@@ -861,6 +946,7 @@ public sealed partial class Party : pb::IMessage<Party> {
     if (CEOEmail != other.CEOEmail) return false;
     if (Website != other.Website) return false;
     if (City != other.City) return false;
+    if (FiSortCode != other.FiSortCode) return false;
     if(!accounts_.Equals(other.accounts_)) return false;
     return true;
   }
@@ -887,6 +973,7 @@ public sealed partial class Party : pb::IMessage<Party> {
     if (CEOEmail.Length != 0) hash ^= CEOEmail.GetHashCode();
     if (Website.Length != 0) hash ^= Website.GetHashCode();
     if (City.Length != 0) hash ^= City.GetHashCode();
+    if (FiSortCode.Length != 0) hash ^= FiSortCode.GetHashCode();
     hash ^= accounts_.GetHashCode();
     return hash;
   }
@@ -974,6 +1061,10 @@ public sealed partial class Party : pb::IMessage<Party> {
       output.WriteRawTag(154, 1);
       output.WriteString(City);
     }
+    if (FiSortCode.Length != 0) {
+      output.WriteRawTag(162, 1);
+      output.WriteString(FiSortCode);
+    }
     accounts_.WriteTo(output, _repeated_accounts_codec);
   }
 
@@ -1036,6 +1127,9 @@ public sealed partial class Party : pb::IMessage<Party> {
     }
     if (City.Length != 0) {
       size += 2 + pb::CodedOutputStream.ComputeStringSize(City);
+    }
+    if (FiSortCode.Length != 0) {
+      size += 2 + pb::CodedOutputStream.ComputeStringSize(FiSortCode);
     }
     size += accounts_.CalculateSize(_repeated_accounts_codec);
     return size;
@@ -1102,6 +1196,9 @@ public sealed partial class Party : pb::IMessage<Party> {
     }
     if (other.City.Length != 0) {
       City = other.City;
+    }
+    if (other.FiSortCode.Length != 0) {
+      FiSortCode = other.FiSortCode;
     }
     accounts_.Add(other.accounts_);
   }
@@ -1191,6 +1288,10 @@ public sealed partial class Party : pb::IMessage<Party> {
           break;
         }
         case 162: {
+          FiSortCode = input.ReadString();
+          break;
+        }
+        case 802: {
           accounts_.AddEntriesFrom(input, _repeated_accounts_codec);
           break;
         }
@@ -1203,9 +1304,11 @@ public sealed partial class Party : pb::IMessage<Party> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static partial class Types {
     public enum PartyType {
-      [pbr::OriginalName("Retail")] Retail = 0,
-      [pbr::OriginalName("Corporate")] Corporate = 1,
-      [pbr::OriginalName("FinancialInstitution")] FinancialInstitution = 2,
+      [pbr::OriginalName("HomeBank")] HomeBank = 0,
+      [pbr::OriginalName("Retail")] Retail = 1,
+      [pbr::OriginalName("Corporate")] Corporate = 2,
+      [pbr::OriginalName("FinancialInstitution")] FinancialInstitution = 3,
+      [pbr::OriginalName("Pseudo")] Pseudo = 4,
     }
 
   }

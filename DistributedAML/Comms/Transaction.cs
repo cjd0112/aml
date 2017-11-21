@@ -20,25 +20,298 @@ public static partial class TransactionReflection {
   static TransactionReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChFUcmFuc2FjdGlvbi5wcm90byLoAgoLVHJhbnNhY3Rpb24SCgoCSWQYASAB",
+          "ChFUcmFuc2FjdGlvbi5wcm90byLeAQoPVHJhbnNhY3Rpb25Sb2xlEg0KBVR4",
+          "bklkGAEgASgJEicKBFR5cGUYAiABKA4yGS5UcmFuc2FjdGlvblJvbGUuUm9s",
+          "ZVR5cGUSEAoIU29ydENvZGUYAyABKAkSDwoHQWNjb3VudBgEIAEoCRIMCgRO",
+          "YW1lGAUgASgJEg8KB0FkZHJlc3MYBiABKAkiUQoIUm9sZVR5cGUSDwoLQmVu",
+          "ZWZpY2lhcnkQABIOCgpPcmlnaW5hdG9yEAESEQoNSW50ZXJtZWRpYXJ5MRAC",
+          "EhEKDUludGVybWVkaWFyeTIQAyKfAQoLVHJhbnNhY3Rpb24SCgoCSWQYASAB",
           "KAkSDgoGQW1vdW50GAIgASgBEioKBHR5cGUYAyABKA4yHC5UcmFuc2FjdGlv",
-          "bi5UcmFuc2FjdGlvblR5cGUSIAoFUm9sZXMYBCADKAsyES5UcmFuc2FjdGlv",
-          "bi5Sb2xlGsUBCgRSb2xlEigKBFR5cGUYASABKA4yGi5UcmFuc2FjdGlvbi5S",
-          "b2xlLlJvbGVUeXBlEhAKCFNvcnRDb2RlGAIgASgJEg8KB0FjY291bnQYAyAB",
-          "KAkSDAoETmFtZRgEIAEoCRIPCgdBZGRyZXNzGAUgASgJIlEKCFJvbGVUeXBl",
-          "Eg8KC0JlbmVmaWNpYXJ5EAASDgoKT3JpZ2luYXRvchABEhEKDUludGVybWVk",
-          "aWFyeTEQAhIRCg1JbnRlcm1lZGlhcnkyEAMiJwoPVHJhbnNhY3Rpb25UeXBl",
-          "EgkKBXR5cGUxEAASCQoFdHlwZTIQAWIGcHJvdG8z"));
+          "bi5UcmFuc2FjdGlvblR5cGUSHwoFcm9sZXMYBCADKAsyEC5UcmFuc2FjdGlv",
+          "blJvbGUiJwoPVHJhbnNhY3Rpb25UeXBlEgkKBXR5cGUxEAASCQoFdHlwZTIQ",
+          "AWIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::Transaction), global::Transaction.Parser, new[]{ "Id", "Amount", "Type", "Roles" }, null, new[]{ typeof(global::Transaction.Types.TransactionType) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Transaction.Types.Role), global::Transaction.Types.Role.Parser, new[]{ "Type", "SortCode", "Account", "Name", "Address" }, null, new[]{ typeof(global::Transaction.Types.Role.Types.RoleType) }, null)})
+          new pbr::GeneratedClrTypeInfo(typeof(global::TransactionRole), global::TransactionRole.Parser, new[]{ "TxnId", "Type", "SortCode", "Account", "Name", "Address" }, null, new[]{ typeof(global::TransactionRole.Types.RoleType) }, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::Transaction), global::Transaction.Parser, new[]{ "Id", "Amount", "Type", "Roles" }, null, new[]{ typeof(global::Transaction.Types.TransactionType) }, null)
         }));
   }
   #endregion
 
 }
 #region Messages
+public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
+  private static readonly pb::MessageParser<TransactionRole> _parser = new pb::MessageParser<TransactionRole>(() => new TransactionRole());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<TransactionRole> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::TransactionReflection.Descriptor.MessageTypes[0]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public TransactionRole() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public TransactionRole(TransactionRole other) : this() {
+    txnId_ = other.txnId_;
+    type_ = other.type_;
+    sortCode_ = other.sortCode_;
+    account_ = other.account_;
+    name_ = other.name_;
+    address_ = other.address_;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public TransactionRole Clone() {
+    return new TransactionRole(this);
+  }
+
+  /// <summary>Field number for the "TxnId" field.</summary>
+  public const int TxnIdFieldNumber = 1;
+  private string txnId_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string TxnId {
+    get { return txnId_; }
+    set {
+      txnId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Type" field.</summary>
+  public const int TypeFieldNumber = 2;
+  private global::TransactionRole.Types.RoleType type_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::TransactionRole.Types.RoleType Type {
+    get { return type_; }
+    set {
+      type_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "SortCode" field.</summary>
+  public const int SortCodeFieldNumber = 3;
+  private string sortCode_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string SortCode {
+    get { return sortCode_; }
+    set {
+      sortCode_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Account" field.</summary>
+  public const int AccountFieldNumber = 4;
+  private string account_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Account {
+    get { return account_; }
+    set {
+      account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Name" field.</summary>
+  public const int NameFieldNumber = 5;
+  private string name_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Name {
+    get { return name_; }
+    set {
+      name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Address" field.</summary>
+  public const int AddressFieldNumber = 6;
+  private string address_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Address {
+    get { return address_; }
+    set {
+      address_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as TransactionRole);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(TransactionRole other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (TxnId != other.TxnId) return false;
+    if (Type != other.Type) return false;
+    if (SortCode != other.SortCode) return false;
+    if (Account != other.Account) return false;
+    if (Name != other.Name) return false;
+    if (Address != other.Address) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (TxnId.Length != 0) hash ^= TxnId.GetHashCode();
+    if (Type != 0) hash ^= Type.GetHashCode();
+    if (SortCode.Length != 0) hash ^= SortCode.GetHashCode();
+    if (Account.Length != 0) hash ^= Account.GetHashCode();
+    if (Name.Length != 0) hash ^= Name.GetHashCode();
+    if (Address.Length != 0) hash ^= Address.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (TxnId.Length != 0) {
+      output.WriteRawTag(10);
+      output.WriteString(TxnId);
+    }
+    if (Type != 0) {
+      output.WriteRawTag(16);
+      output.WriteEnum((int) Type);
+    }
+    if (SortCode.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(SortCode);
+    }
+    if (Account.Length != 0) {
+      output.WriteRawTag(34);
+      output.WriteString(Account);
+    }
+    if (Name.Length != 0) {
+      output.WriteRawTag(42);
+      output.WriteString(Name);
+    }
+    if (Address.Length != 0) {
+      output.WriteRawTag(50);
+      output.WriteString(Address);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (TxnId.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(TxnId);
+    }
+    if (Type != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
+    }
+    if (SortCode.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(SortCode);
+    }
+    if (Account.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
+    }
+    if (Name.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+    }
+    if (Address.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Address);
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(TransactionRole other) {
+    if (other == null) {
+      return;
+    }
+    if (other.TxnId.Length != 0) {
+      TxnId = other.TxnId;
+    }
+    if (other.Type != 0) {
+      Type = other.Type;
+    }
+    if (other.SortCode.Length != 0) {
+      SortCode = other.SortCode;
+    }
+    if (other.Account.Length != 0) {
+      Account = other.Account;
+    }
+    if (other.Name.Length != 0) {
+      Name = other.Name;
+    }
+    if (other.Address.Length != 0) {
+      Address = other.Address;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 10: {
+          TxnId = input.ReadString();
+          break;
+        }
+        case 16: {
+          type_ = (global::TransactionRole.Types.RoleType) input.ReadEnum();
+          break;
+        }
+        case 26: {
+          SortCode = input.ReadString();
+          break;
+        }
+        case 34: {
+          Account = input.ReadString();
+          break;
+        }
+        case 42: {
+          Name = input.ReadString();
+          break;
+        }
+        case 50: {
+          Address = input.ReadString();
+          break;
+        }
+      }
+    }
+  }
+
+  #region Nested types
+  /// <summary>Container for nested types declared in the TransactionRole message type.</summary>
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static partial class Types {
+    public enum RoleType {
+      [pbr::OriginalName("Beneficiary")] Beneficiary = 0,
+      [pbr::OriginalName("Originator")] Originator = 1,
+      [pbr::OriginalName("Intermediary1")] Intermediary1 = 2,
+      [pbr::OriginalName("Intermediary2")] Intermediary2 = 3,
+    }
+
+  }
+  #endregion
+
+}
+
 public sealed partial class Transaction : pb::IMessage<Transaction> {
   private static readonly pb::MessageParser<Transaction> _parser = new pb::MessageParser<Transaction>(() => new Transaction());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -46,7 +319,7 @@ public sealed partial class Transaction : pb::IMessage<Transaction> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::TransactionReflection.Descriptor.MessageTypes[0]; }
+    get { return global::TransactionReflection.Descriptor.MessageTypes[1]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -107,13 +380,13 @@ public sealed partial class Transaction : pb::IMessage<Transaction> {
     }
   }
 
-  /// <summary>Field number for the "Roles" field.</summary>
+  /// <summary>Field number for the "roles" field.</summary>
   public const int RolesFieldNumber = 4;
-  private static readonly pb::FieldCodec<global::Transaction.Types.Role> _repeated_roles_codec
-      = pb::FieldCodec.ForMessage(34, global::Transaction.Types.Role.Parser);
-  private readonly pbc::RepeatedField<global::Transaction.Types.Role> roles_ = new pbc::RepeatedField<global::Transaction.Types.Role>();
+  private static readonly pb::FieldCodec<global::TransactionRole> _repeated_roles_codec
+      = pb::FieldCodec.ForMessage(34, global::TransactionRole.Parser);
+  private readonly pbc::RepeatedField<global::TransactionRole> roles_ = new pbc::RepeatedField<global::TransactionRole>();
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public pbc::RepeatedField<global::Transaction.Types.Role> Roles {
+  public pbc::RepeatedField<global::TransactionRole> Roles {
     get { return roles_; }
   }
 
@@ -237,249 +510,6 @@ public sealed partial class Transaction : pb::IMessage<Transaction> {
     public enum TransactionType {
       [pbr::OriginalName("type1")] Type1 = 0,
       [pbr::OriginalName("type2")] Type2 = 1,
-    }
-
-    public sealed partial class Role : pb::IMessage<Role> {
-      private static readonly pb::MessageParser<Role> _parser = new pb::MessageParser<Role>(() => new Role());
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public static pb::MessageParser<Role> Parser { get { return _parser; } }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public static pbr::MessageDescriptor Descriptor {
-        get { return global::Transaction.Descriptor.NestedTypes[0]; }
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      pbr::MessageDescriptor pb::IMessage.Descriptor {
-        get { return Descriptor; }
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public Role() {
-        OnConstruction();
-      }
-
-      partial void OnConstruction();
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public Role(Role other) : this() {
-        type_ = other.type_;
-        sortCode_ = other.sortCode_;
-        account_ = other.account_;
-        name_ = other.name_;
-        address_ = other.address_;
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public Role Clone() {
-        return new Role(this);
-      }
-
-      /// <summary>Field number for the "Type" field.</summary>
-      public const int TypeFieldNumber = 1;
-      private global::Transaction.Types.Role.Types.RoleType type_ = 0;
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public global::Transaction.Types.Role.Types.RoleType Type {
-        get { return type_; }
-        set {
-          type_ = value;
-        }
-      }
-
-      /// <summary>Field number for the "SortCode" field.</summary>
-      public const int SortCodeFieldNumber = 2;
-      private string sortCode_ = "";
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public string SortCode {
-        get { return sortCode_; }
-        set {
-          sortCode_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-        }
-      }
-
-      /// <summary>Field number for the "Account" field.</summary>
-      public const int AccountFieldNumber = 3;
-      private string account_ = "";
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public string Account {
-        get { return account_; }
-        set {
-          account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-        }
-      }
-
-      /// <summary>Field number for the "Name" field.</summary>
-      public const int NameFieldNumber = 4;
-      private string name_ = "";
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public string Name {
-        get { return name_; }
-        set {
-          name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-        }
-      }
-
-      /// <summary>Field number for the "Address" field.</summary>
-      public const int AddressFieldNumber = 5;
-      private string address_ = "";
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public string Address {
-        get { return address_; }
-        set {
-          address_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-        }
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public override bool Equals(object other) {
-        return Equals(other as Role);
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public bool Equals(Role other) {
-        if (ReferenceEquals(other, null)) {
-          return false;
-        }
-        if (ReferenceEquals(other, this)) {
-          return true;
-        }
-        if (Type != other.Type) return false;
-        if (SortCode != other.SortCode) return false;
-        if (Account != other.Account) return false;
-        if (Name != other.Name) return false;
-        if (Address != other.Address) return false;
-        return true;
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public override int GetHashCode() {
-        int hash = 1;
-        if (Type != 0) hash ^= Type.GetHashCode();
-        if (SortCode.Length != 0) hash ^= SortCode.GetHashCode();
-        if (Account.Length != 0) hash ^= Account.GetHashCode();
-        if (Name.Length != 0) hash ^= Name.GetHashCode();
-        if (Address.Length != 0) hash ^= Address.GetHashCode();
-        return hash;
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public override string ToString() {
-        return pb::JsonFormatter.ToDiagnosticString(this);
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public void WriteTo(pb::CodedOutputStream output) {
-        if (Type != 0) {
-          output.WriteRawTag(8);
-          output.WriteEnum((int) Type);
-        }
-        if (SortCode.Length != 0) {
-          output.WriteRawTag(18);
-          output.WriteString(SortCode);
-        }
-        if (Account.Length != 0) {
-          output.WriteRawTag(26);
-          output.WriteString(Account);
-        }
-        if (Name.Length != 0) {
-          output.WriteRawTag(34);
-          output.WriteString(Name);
-        }
-        if (Address.Length != 0) {
-          output.WriteRawTag(42);
-          output.WriteString(Address);
-        }
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public int CalculateSize() {
-        int size = 0;
-        if (Type != 0) {
-          size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
-        }
-        if (SortCode.Length != 0) {
-          size += 1 + pb::CodedOutputStream.ComputeStringSize(SortCode);
-        }
-        if (Account.Length != 0) {
-          size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
-        }
-        if (Name.Length != 0) {
-          size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
-        }
-        if (Address.Length != 0) {
-          size += 1 + pb::CodedOutputStream.ComputeStringSize(Address);
-        }
-        return size;
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public void MergeFrom(Role other) {
-        if (other == null) {
-          return;
-        }
-        if (other.Type != 0) {
-          Type = other.Type;
-        }
-        if (other.SortCode.Length != 0) {
-          SortCode = other.SortCode;
-        }
-        if (other.Account.Length != 0) {
-          Account = other.Account;
-        }
-        if (other.Name.Length != 0) {
-          Name = other.Name;
-        }
-        if (other.Address.Length != 0) {
-          Address = other.Address;
-        }
-      }
-
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public void MergeFrom(pb::CodedInputStream input) {
-        uint tag;
-        while ((tag = input.ReadTag()) != 0) {
-          switch(tag) {
-            default:
-              input.SkipLastField();
-              break;
-            case 8: {
-              type_ = (global::Transaction.Types.Role.Types.RoleType) input.ReadEnum();
-              break;
-            }
-            case 18: {
-              SortCode = input.ReadString();
-              break;
-            }
-            case 26: {
-              Account = input.ReadString();
-              break;
-            }
-            case 34: {
-              Name = input.ReadString();
-              break;
-            }
-            case 42: {
-              Address = input.ReadString();
-              break;
-            }
-          }
-        }
-      }
-
-      #region Nested types
-      /// <summary>Container for nested types declared in the Role message type.</summary>
-      [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-      public static partial class Types {
-        public enum RoleType {
-          [pbr::OriginalName("Beneficiary")] Beneficiary = 0,
-          [pbr::OriginalName("Originator")] Originator = 1,
-          [pbr::OriginalName("Intermediary1")] Intermediary1 = 2,
-          [pbr::OriginalName("Intermediary2")] Intermediary2 = 3,
-        }
-
-      }
-      #endregion
-
     }
 
   }

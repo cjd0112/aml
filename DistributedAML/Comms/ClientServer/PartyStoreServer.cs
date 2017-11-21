@@ -29,7 +29,7 @@ namespace Comms.ClientServer
                case "StoreParties":
                 {
                     
-                        var parties = Helpers.UnpackMessageList<Party>(request,Party.Parser.ParseDelimitedFrom);
+                        var parties = request.UnpackMessageList<Party>(Party.Parser.ParseDelimitedFrom);
 					
                     var methodResult=StoreParties(parties);
                     ret.Append(methodResult);
@@ -38,7 +38,7 @@ namespace Comms.ClientServer
                case "StoreAccounts":
                 {
                     
-                        var accounts = Helpers.UnpackMessageList<Account>(request,Account.Parser.ParseDelimitedFrom);
+                        var accounts = request.UnpackMessageList<Account>(Account.Parser.ParseDelimitedFrom);
 					
                     var methodResult=StoreAccounts(accounts);
                     ret.Append(methodResult);
@@ -47,7 +47,7 @@ namespace Comms.ClientServer
                case "StoreLinkages":
                 {
                     
-                        var mappings = Helpers.UnpackMessageList<AccountToParty>(request,AccountToParty.Parser.ParseDelimitedFrom);
+                        var mappings = request.UnpackMessageList<AccountToParty>(AccountToParty.Parser.ParseDelimitedFrom);
 					var direction = (LinkageDirection)Enum.Parse(typeof(LinkageDirection),request.Pop().ConvertToString());
 					
                     var methodResult=StoreLinkages(mappings,direction);
@@ -57,11 +57,11 @@ namespace Comms.ClientServer
                case "GetLinkages":
                 {
                     
-                        var source = Helpers.UnpackMessageList<Identifier>(request,Identifier.Parser.ParseDelimitedFrom);
+                        var source = request.UnpackMessageList<Identifier>(Identifier.Parser.ParseDelimitedFrom);
 					var direction = (LinkageDirection)Enum.Parse(typeof(LinkageDirection),request.Pop().ConvertToString());
 					
                     var methodResult=GetLinkages(source,direction);
-                    Helpers.PackMessageList<AccountToParty>(ret,methodResult);;
+                    ret.PackMessageList<AccountToParty>(methodResult);;
                     break;
                 }
                     default:
