@@ -2,7 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Google.Protobuf;
+using Logger;
 using NetMQ;
 using Shared;
 
@@ -34,7 +36,6 @@ namespace Comms
             Underlying = contract;
         }
 
-
         public void OnResponse(NetMQMessage msg)
         {
             myQueue.Enqueue(msg);
@@ -42,6 +43,7 @@ namespace Comms
 
         private NetMQMessage Send(NetMQMessage request)
         {
+            L.Trace($"sending from bucket - {Bucket} thread - {Thread.CurrentThread.ManagedThreadId}");
             proxy.SendMessage(serviceName, request);
             NetMQMessage msg = null;
             while (msg == null)
@@ -74,6 +76,8 @@ namespace Comms
         public IEnumerable<Y> SendEnumerableListResult<T, Y>(string function, Func<Stream, Y> transform, IEnumerable<T> lst,
             params object[] param) where T : IMessage where Y : IMessage
         {
+            List<Y> ret = new List<Y>();  // be careful changing this to 'yield return' because causes threading issues ... 
+            L.Trace($"SendEnumerable - {Thread.CurrentThread.ManagedThreadId}");
             foreach (var c in lst.Chunk(100000))
             {
                 var msg = new NetMQMessage();
@@ -84,11 +88,13 @@ namespace Comms
                 {
                     msg.AddParameter(z);
                 }
-                var ret = Send(msg);
-                if (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());
-                foreach (var obj in ret.UnpackMessageList(transform))
-                    yield return obj;
+                L.Trace($"About to actually send- {Thread.CurrentThread.ManagedThreadId}");
+                var result = Send(msg);
+                if (result.First.IsEmpty) throw new Exception(result[1].ConvertToString());
+                foreach (var obj in result.UnpackMessageList(transform))
+                    ret.Add(obj);
             }
+            return ret;
         }
 
     }

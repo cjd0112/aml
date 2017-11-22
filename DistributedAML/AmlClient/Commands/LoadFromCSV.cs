@@ -20,8 +20,9 @@ namespace AmlClient.Commands
     {
         public enum DataType
         {
-            Transaction,
-            Account,
+            TransactionRoles,
+            Transactions,
+            Accounts,
             AccountToParty,
             Party
         }
@@ -41,7 +42,7 @@ namespace AmlClient.Commands
 
             dataType = EnumHelper.Parse<DataType>(Helper.Prompt($"Enter type of data - {EnumHelper.ListValues(typeof(DataType))}"));
 
-            if (dataType == DataType.Party || dataType == DataType.Account || dataType == DataType.AccountToParty)
+            if (dataType == DataType.Party)
             {
                 partyType = EnumHelper.EnumPrompt<Party.Types.PartyType>();
             }
@@ -58,12 +59,13 @@ namespace AmlClient.Commands
             switch (dataType)
             {
                 case DataType.Party:
-                case DataType.Account:
-                case DataType.AccountToParty:
                     ret = $"{reg.DataDirectory}/input/{partyType}{dataType}.csv";
                     break;
-                case DataType.Transaction:
-                    ret = $"{reg.DataDirectory}/input/Transactions.csv";
+                case DataType.Accounts:
+                case DataType.AccountToParty:
+                case DataType.Transactions:
+                case DataType.TransactionRoles:
+                    ret = $"{reg.DataDirectory}/input/{dataType}.csv";
                     break;
                 default:
                     throw new Exception($"Unexpected dataType - {dataType}");
@@ -79,9 +81,9 @@ namespace AmlClient.Commands
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            init.ValidateServiceBucketsAreConsistent(typeof(IPartyStore));
+            init.ValidateServiceBucketsAreConsistent(typeof(IAmlRepository));
 
-            var buckets = factory.GetClientBuckets<IPartyStore>().Count();
+            var buckets = factory.GetClientBuckets<IAmlRepository>().Count();
 
             if (dataType == DataType.Party)
             {
@@ -95,7 +97,7 @@ namespace AmlClient.Commands
                 {
                     tasks.Add(
                         new MyTask<IEnumerable<AccountToParty>>("GetLinkages", x.Item1, () => 
-                            factory.GetClient<IPartyStore>(x.Item1)
+                            factory.GetClient<IAmlRepository>(x.Item1)
                               .GetLinkages(x.Item2.Select(j => new Identifier{Id=j.Id}).ToList(), LinkageDirection.PartyToAccount),x.Item2));
                 });
 
@@ -131,7 +133,7 @@ namespace AmlClient.Commands
                     foreach (var b in mp.GetBuckets<Party>())
                     {
                         partyTasks.Add(new MyTask<int>("StoreParties",b.Item1,()=>
-                            factory.GetClient<IPartyStore>(b.Item1)
+                            factory.GetClient<IAmlRepository>(b.Item1)
                             .StoreParties(b.Item2)));
                     }
                 }
@@ -141,16 +143,16 @@ namespace AmlClient.Commands
 
 
             }
-            else if (dataType == DataType.Account || dataType == DataType.AccountToParty)
+            else if (dataType == DataType.Accounts || dataType == DataType.AccountToParty)
             {
                 List<Task<int>> tasks = new List<Task<int>>();
 
-                if (dataType == DataType.Account)
+                if (dataType == DataType.Accounts)
                 {
                     Multiplexer.FromCsv<Account>(GetDataFile(), buckets, (x) => x.Id,
                         x =>
                         {
-                            tasks.Add(new MyTask<int>("StoreAccounts",x.Item1,()=>factory.GetClient<IPartyStore>(x.Item1).StoreAccounts(x.Item2)));
+                            tasks.Add(new MyTask<int>("StoreAccounts",x.Item1,()=>factory.GetClient<IAmlRepository>(x.Item1).StoreAccounts(x.Item2)));
                         });
                 }
                 else
@@ -164,13 +166,28 @@ namespace AmlClient.Commands
                         },
                         x =>
                         {
-                            tasks.Add(new MyTask<int>("StoreLinkages",x.Item1, () => factory.GetClient<IPartyStore>(x.Item1).StoreLinkages(x.Item2, linkageDirection)));
+                            tasks.Add(new MyTask<int>("StoreLinkages",x.Item1, () => factory.GetClient<IAmlRepository>(x.Item1).StoreLinkages(x.Item2, linkageDirection)));
                         });
                 }
 
                 tasks.Do((x)=>x.Start());
                 Task.WaitAll(tasks.ToArray());
 
+            }
+            else if (dataType == DataType.Transactions)
+            {
+                List<Task<int>> tasks = new List<Task<int>>();
+                Multiplexer.FromCsv<Transaction>(GetDataFile(), buckets, (x) => x.Id,
+                    x =>
+                    {
+                        tasks.Add(new MyTask<int>("StoreTransactions", x.Item1, () => factory.GetClient<IAmlRepository>(x.Item1).StoreTransactions(x.Item2)));
+                    });
+
+                tasks.Do((x) => x.Start());
+                Task.WaitAll(tasks.ToArray());
+            }
+            else if (dataType == DataType.TransactionRoles)
+            {
             }
             else
             {

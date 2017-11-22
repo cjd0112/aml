@@ -246,6 +246,62 @@ namespace Shared
             txn.Commit();
         }
 
+        public static IEnumerable<(string, byte[])> QueryId2(SqliteConnection connection, String tableName, IEnumerable<Object> objs, Func<Object, string> getMapping)
+        {
+            using (var txn = connection.BeginTransaction())
+            {
+                String queryCommand = $"select data from {tableName} where id=($id)";
 
+                foreach (var c in objs)
+                {
+                    using (var queryCmd = connection.CreateCommand())
+                    {
+                        queryCmd.CommandText = queryCommand;
+
+                        var q = getMapping(c);
+
+                        queryCmd.Parameters.AddWithValue("$id", q);
+                        using (var data = queryCmd.ExecuteReader())
+                        {
+                            if (!data.HasRows)
+                            {
+                                yield return (q, null);
+                            }
+                            else
+                            {
+                                yield return (q, data[0] as byte[]);
+                            }
+                        }
+
+                    }
+                }
+                txn.Commit();
+            }
+        }
+
+
+        public static IEnumerable<(string, bool)> QueryId(SqliteConnection connection, String tableName, IEnumerable<Object> objs, Func<Object, string> getMapping)
+        {
+            using (var txn = connection.BeginTransaction())
+            {
+                String queryCommand = $"select count(*) from {tableName} where id=($id)";
+
+                foreach (var c in objs)
+                {
+                    using (var queryCmd = connection.CreateCommand())
+                    {
+                        queryCmd.CommandText = queryCommand;
+
+                        var q = getMapping(c);
+
+                        queryCmd.Parameters.AddWithValue("$id", q);
+                        int cnt = Convert.ToInt32(queryCmd.ExecuteScalar());
+                        yield return (q, cnt > 0);
+                    }
+                }
+                txn.Commit();
+            }
+        }
+        
     }
 }

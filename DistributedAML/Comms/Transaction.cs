@@ -20,20 +20,21 @@ public static partial class TransactionReflection {
   static TransactionReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChFUcmFuc2FjdGlvbi5wcm90byLeAQoPVHJhbnNhY3Rpb25Sb2xlEg0KBVR4",
+          "ChFUcmFuc2FjdGlvbi5wcm90byKkAgoPVHJhbnNhY3Rpb25Sb2xlEg0KBVR4",
           "bklkGAEgASgJEicKBFR5cGUYAiABKA4yGS5UcmFuc2FjdGlvblJvbGUuUm9s",
           "ZVR5cGUSEAoIU29ydENvZGUYAyABKAkSDwoHQWNjb3VudBgEIAEoCRIMCgRO",
-          "YW1lGAUgASgJEg8KB0FkZHJlc3MYBiABKAkiUQoIUm9sZVR5cGUSDwoLQmVu",
-          "ZWZpY2lhcnkQABIOCgpPcmlnaW5hdG9yEAESEQoNSW50ZXJtZWRpYXJ5MRAC",
-          "EhEKDUludGVybWVkaWFyeTIQAyKfAQoLVHJhbnNhY3Rpb24SCgoCSWQYASAB",
-          "KAkSDgoGQW1vdW50GAIgASgBEioKBHR5cGUYAyABKA4yHC5UcmFuc2FjdGlv",
-          "bi5UcmFuc2FjdGlvblR5cGUSHwoFcm9sZXMYBCADKAsyEC5UcmFuc2FjdGlv",
-          "blJvbGUiJwoPVHJhbnNhY3Rpb25UeXBlEgkKBXR5cGUxEAASCQoFdHlwZTIQ",
-          "AWIGcHJvdG8z"));
+          "YW1lGAUgASgJEg8KB0FkZHJlc3MYBiABKAkSEAoISXNQc2V1ZG8YByABKAgS",
+          "FQoNSXNGb3VuZERpcmVjdBgIIAEoCBIbChNEaXNjb3ZlcmVkQWNjb3VudElk",
+          "GAkgASgJIlEKCFJvbGVUeXBlEg8KC0JlbmVmaWNpYXJ5EAASDgoKT3JpZ2lu",
+          "YXRvchABEhEKDUludGVybWVkaWFyeTEQAhIRCg1JbnRlcm1lZGlhcnkyEAMi",
+          "nwEKC1RyYW5zYWN0aW9uEgoKAklkGAEgASgJEg4KBkFtb3VudBgCIAEoARIq",
+          "CgR0eXBlGAMgASgOMhwuVHJhbnNhY3Rpb24uVHJhbnNhY3Rpb25UeXBlEh8K",
+          "BXJvbGVzGAQgAygLMhAuVHJhbnNhY3Rpb25Sb2xlIicKD1RyYW5zYWN0aW9u",
+          "VHlwZRIJCgV0eXBlMRAAEgkKBXR5cGUyEAFiBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::TransactionRole), global::TransactionRole.Parser, new[]{ "TxnId", "Type", "SortCode", "Account", "Name", "Address" }, null, new[]{ typeof(global::TransactionRole.Types.RoleType) }, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::TransactionRole), global::TransactionRole.Parser, new[]{ "TxnId", "Type", "SortCode", "Account", "Name", "Address", "IsPseudo", "IsFoundDirect", "DiscoveredAccountId" }, null, new[]{ typeof(global::TransactionRole.Types.RoleType) }, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Transaction), global::Transaction.Parser, new[]{ "Id", "Amount", "Type", "Roles" }, null, new[]{ typeof(global::Transaction.Types.TransactionType) }, null)
         }));
   }
@@ -71,6 +72,9 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     account_ = other.account_;
     name_ = other.name_;
     address_ = other.address_;
+    isPseudo_ = other.isPseudo_;
+    isFoundDirect_ = other.isFoundDirect_;
+    discoveredAccountId_ = other.discoveredAccountId_;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -144,6 +148,39 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     }
   }
 
+  /// <summary>Field number for the "IsPseudo" field.</summary>
+  public const int IsPseudoFieldNumber = 7;
+  private bool isPseudo_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool IsPseudo {
+    get { return isPseudo_; }
+    set {
+      isPseudo_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "IsFoundDirect" field.</summary>
+  public const int IsFoundDirectFieldNumber = 8;
+  private bool isFoundDirect_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool IsFoundDirect {
+    get { return isFoundDirect_; }
+    set {
+      isFoundDirect_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "DiscoveredAccountId" field.</summary>
+  public const int DiscoveredAccountIdFieldNumber = 9;
+  private string discoveredAccountId_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string DiscoveredAccountId {
+    get { return discoveredAccountId_; }
+    set {
+      discoveredAccountId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as TransactionRole);
@@ -163,6 +200,9 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     if (Account != other.Account) return false;
     if (Name != other.Name) return false;
     if (Address != other.Address) return false;
+    if (IsPseudo != other.IsPseudo) return false;
+    if (IsFoundDirect != other.IsFoundDirect) return false;
+    if (DiscoveredAccountId != other.DiscoveredAccountId) return false;
     return true;
   }
 
@@ -175,6 +215,9 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     if (Account.Length != 0) hash ^= Account.GetHashCode();
     if (Name.Length != 0) hash ^= Name.GetHashCode();
     if (Address.Length != 0) hash ^= Address.GetHashCode();
+    if (IsPseudo != false) hash ^= IsPseudo.GetHashCode();
+    if (IsFoundDirect != false) hash ^= IsFoundDirect.GetHashCode();
+    if (DiscoveredAccountId.Length != 0) hash ^= DiscoveredAccountId.GetHashCode();
     return hash;
   }
 
@@ -209,6 +252,18 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
       output.WriteRawTag(50);
       output.WriteString(Address);
     }
+    if (IsPseudo != false) {
+      output.WriteRawTag(56);
+      output.WriteBool(IsPseudo);
+    }
+    if (IsFoundDirect != false) {
+      output.WriteRawTag(64);
+      output.WriteBool(IsFoundDirect);
+    }
+    if (DiscoveredAccountId.Length != 0) {
+      output.WriteRawTag(74);
+      output.WriteString(DiscoveredAccountId);
+    }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -231,6 +286,15 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     }
     if (Address.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Address);
+    }
+    if (IsPseudo != false) {
+      size += 1 + 1;
+    }
+    if (IsFoundDirect != false) {
+      size += 1 + 1;
+    }
+    if (DiscoveredAccountId.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(DiscoveredAccountId);
     }
     return size;
   }
@@ -257,6 +321,15 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     }
     if (other.Address.Length != 0) {
       Address = other.Address;
+    }
+    if (other.IsPseudo != false) {
+      IsPseudo = other.IsPseudo;
+    }
+    if (other.IsFoundDirect != false) {
+      IsFoundDirect = other.IsFoundDirect;
+    }
+    if (other.DiscoveredAccountId.Length != 0) {
+      DiscoveredAccountId = other.DiscoveredAccountId;
     }
   }
 
@@ -290,6 +363,18 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
         }
         case 50: {
           Address = input.ReadString();
+          break;
+        }
+        case 56: {
+          IsPseudo = input.ReadBool();
+          break;
+        }
+        case 64: {
+          IsFoundDirect = input.ReadBool();
+          break;
+        }
+        case 74: {
+          DiscoveredAccountId = input.ReadString();
           break;
         }
       }

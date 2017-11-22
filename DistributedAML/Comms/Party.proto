@@ -11,6 +11,11 @@ message Identifier
 	string Id = 1;
 }
 
+message YesNo
+{
+	bool Val =1;
+}
+
 message Account
 {	
 	string Id = 1;
@@ -25,6 +30,7 @@ message Account
 		Vostro=0;
 		Retail=1;
 		Corporate=2;
+		Pseudo=3;
 	}
 	AccountType Type=10;
 

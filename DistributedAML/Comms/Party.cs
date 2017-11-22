@@ -22,28 +22,29 @@ public static partial class PartyReflection {
         string.Concat(
           "CgtQYXJ0eS5wcm90byI0Cg5BY2NvdW50VG9QYXJ0eRIRCglBY2NvdW50SWQY",
           "ASABKAkSDwoHUGFydHlJZBgCIAEoCSIYCgpJZGVudGlmaWVyEgoKAklkGAEg",
-          "ASgJItsBCgdBY2NvdW50EgoKAklkGAEgASgJEhEKCUFjY291bnRObxgCIAEo",
-          "CRIQCghTb3J0Q29kZRgDIAEoCRIMCgRJQkFOGAQgASgJEhAKCEN1cnJlbmN5",
-          "GAUgASgJEgwKBE5hbWUYBiABKAkSIgoEVHlwZRgKIAEoDjIULkFjY291bnQu",
-          "QWNjb3VudFR5cGUSFwoHUGFydGllcxhkIAMoCzIGLlBhcnR5IjQKC0FjY291",
-          "bnRUeXBlEgoKBlZvc3RybxAAEgoKBlJldGFpbBABEg0KCUNvcnBvcmF0ZRAC",
-          "IugDCgVQYXJ0eRIKCgJJZBgBIAEoCRIeCgRUeXBlGAIgASgOMhAuUGFydHku",
-          "UGFydHlUeXBlEgwKBE5hbWUYAyABKAkSEwoLQ29tcGFueU5hbWUYBCABKAkS",
-          "EAoIQWRkcmVzczEYBSABKAkSEAoIQWRkcmVzczIYBiABKAkSDAoEVG93bhgH",
-          "IAEoCRIPCgdDb3VudHJ5GAggASgJEhAKCFBvc3RDb2RlGAkgASgJEhIKClRl",
-          "bGVwaG9uZTEYCiABKAkSEgoKVGVsZXBob25lMhgLIAEoCRINCgVFbWFpbBgM",
-          "IAEoCRISCgpXZWJBZGRyZXNzGA0gASgJEhIKClR4blByb2ZpbGUYDiABKAkS",
-          "DgoGU2VjdG9yGA8gASgJEg8KB0NFT05hbWUYECABKAkSEAoIQ0VPRW1haWwY",
-          "ESABKAkSDwoHV2Vic2l0ZRgSIAEoCRIMCgRDaXR5GBMgASgJEhIKCkZpU29y",
-          "dENvZGUYFCABKAkSGgoIQWNjb3VudHMYZCADKAsyCC5BY2NvdW50IloKCVBh",
-          "cnR5VHlwZRIMCghIb21lQmFuaxAAEgoKBlJldGFpbBABEg0KCUNvcnBvcmF0",
-          "ZRACEhgKFEZpbmFuY2lhbEluc3RpdHV0aW9uEAMSCgoGUHNldWRvEARiBnBy",
-          "b3RvMw=="));
+          "ASgJIhQKBVllc05vEgsKA1ZhbBgBIAEoCCLnAQoHQWNjb3VudBIKCgJJZBgB",
+          "IAEoCRIRCglBY2NvdW50Tm8YAiABKAkSEAoIU29ydENvZGUYAyABKAkSDAoE",
+          "SUJBThgEIAEoCRIQCghDdXJyZW5jeRgFIAEoCRIMCgROYW1lGAYgASgJEiIK",
+          "BFR5cGUYCiABKA4yFC5BY2NvdW50LkFjY291bnRUeXBlEhcKB1BhcnRpZXMY",
+          "ZCADKAsyBi5QYXJ0eSJACgtBY2NvdW50VHlwZRIKCgZWb3N0cm8QABIKCgZS",
+          "ZXRhaWwQARINCglDb3Jwb3JhdGUQAhIKCgZQc2V1ZG8QAyLoAwoFUGFydHkS",
+          "CgoCSWQYASABKAkSHgoEVHlwZRgCIAEoDjIQLlBhcnR5LlBhcnR5VHlwZRIM",
+          "CgROYW1lGAMgASgJEhMKC0NvbXBhbnlOYW1lGAQgASgJEhAKCEFkZHJlc3Mx",
+          "GAUgASgJEhAKCEFkZHJlc3MyGAYgASgJEgwKBFRvd24YByABKAkSDwoHQ291",
+          "bnRyeRgIIAEoCRIQCghQb3N0Q29kZRgJIAEoCRISCgpUZWxlcGhvbmUxGAog",
+          "ASgJEhIKClRlbGVwaG9uZTIYCyABKAkSDQoFRW1haWwYDCABKAkSEgoKV2Vi",
+          "QWRkcmVzcxgNIAEoCRISCgpUeG5Qcm9maWxlGA4gASgJEg4KBlNlY3RvchgP",
+          "IAEoCRIPCgdDRU9OYW1lGBAgASgJEhAKCENFT0VtYWlsGBEgASgJEg8KB1dl",
+          "YnNpdGUYEiABKAkSDAoEQ2l0eRgTIAEoCRISCgpGaVNvcnRDb2RlGBQgASgJ",
+          "EhoKCEFjY291bnRzGGQgAygLMgguQWNjb3VudCJaCglQYXJ0eVR5cGUSDAoI",
+          "SG9tZUJhbmsQABIKCgZSZXRhaWwQARINCglDb3Jwb3JhdGUQAhIYChRGaW5h",
+          "bmNpYWxJbnN0aXR1dGlvbhADEgoKBlBzZXVkbxAEYgZwcm90bzM="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::AccountToParty), global::AccountToParty.Parser, new[]{ "AccountId", "PartyId" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Identifier), global::Identifier.Parser, new[]{ "Id" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::YesNo), global::YesNo.Parser, new[]{ "Val" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Account), global::Account.Parser, new[]{ "Id", "AccountNo", "SortCode", "IBAN", "Currency", "Name", "Type", "Parties" }, null, new[]{ typeof(global::Account.Types.AccountType) }, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Party), global::Party.Parser, new[]{ "Id", "Type", "Name", "CompanyName", "Address1", "Address2", "Town", "Country", "PostCode", "Telephone1", "Telephone2", "Email", "WebAddress", "TxnProfile", "Sector", "CEOName", "CEOEmail", "Website", "City", "FiSortCode", "Accounts" }, null, new[]{ typeof(global::Party.Types.PartyType) }, null)
         }));
@@ -314,6 +315,123 @@ public sealed partial class Identifier : pb::IMessage<Identifier> {
 
 }
 
+public sealed partial class YesNo : pb::IMessage<YesNo> {
+  private static readonly pb::MessageParser<YesNo> _parser = new pb::MessageParser<YesNo>(() => new YesNo());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<YesNo> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::PartyReflection.Descriptor.MessageTypes[2]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public YesNo() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public YesNo(YesNo other) : this() {
+    val_ = other.val_;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public YesNo Clone() {
+    return new YesNo(this);
+  }
+
+  /// <summary>Field number for the "Val" field.</summary>
+  public const int ValFieldNumber = 1;
+  private bool val_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Val {
+    get { return val_; }
+    set {
+      val_ = value;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as YesNo);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(YesNo other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (Val != other.Val) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (Val != false) hash ^= Val.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (Val != false) {
+      output.WriteRawTag(8);
+      output.WriteBool(Val);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (Val != false) {
+      size += 1 + 1;
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(YesNo other) {
+    if (other == null) {
+      return;
+    }
+    if (other.Val != false) {
+      Val = other.Val;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 8: {
+          Val = input.ReadBool();
+          break;
+        }
+      }
+    }
+  }
+
+}
+
 public sealed partial class Account : pb::IMessage<Account> {
   private static readonly pb::MessageParser<Account> _parser = new pb::MessageParser<Account>(() => new Account());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -321,7 +439,7 @@ public sealed partial class Account : pb::IMessage<Account> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::PartyReflection.Descriptor.MessageTypes[2]; }
+    get { return global::PartyReflection.Descriptor.MessageTypes[3]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -625,6 +743,7 @@ public sealed partial class Account : pb::IMessage<Account> {
       [pbr::OriginalName("Vostro")] Vostro = 0,
       [pbr::OriginalName("Retail")] Retail = 1,
       [pbr::OriginalName("Corporate")] Corporate = 2,
+      [pbr::OriginalName("Pseudo")] Pseudo = 3,
     }
 
   }
@@ -639,7 +758,7 @@ public sealed partial class Party : pb::IMessage<Party> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::PartyReflection.Descriptor.MessageTypes[3]; }
+    get { return global::PartyReflection.Descriptor.MessageTypes[4]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

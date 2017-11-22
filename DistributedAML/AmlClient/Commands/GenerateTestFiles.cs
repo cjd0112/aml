@@ -148,7 +148,7 @@ namespace AmlClient.Commands
                                 Type = Account.Types.AccountType.Retail,
                                 Name=x.Name
                             };
-                            Acc.Id = Acc.AccountNo + Acc.SortCode;
+                            Acc.Id = Acc.SortCode + Acc.AccountNo;
 
                             retailAccounts.Add(Acc);
 
@@ -189,7 +189,7 @@ namespace AmlClient.Commands
                                 Type = Account.Types.AccountType.Corporate,
                                 Name=x.CompanyName
                             };
-                            Acc.Id = Acc.AccountNo + Acc.SortCode;
+                            Acc.Id = Acc.SortCode + Acc.AccountNo;
 
                             corporateAccounts.Add(Acc);
                             accWriter.WriteRecord<Account>(Acc);

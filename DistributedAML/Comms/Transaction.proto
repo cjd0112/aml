@@ -1,5 +1,6 @@
 ﻿syntax="proto3";
 
+
 message TransactionRole
 {
 	enum RoleType
@@ -16,6 +17,11 @@ message TransactionRole
 	string Account=4;
 	string Name=5;
 	string Address=6;
+
+	bool IsPseudo = 7;
+	bool IsFoundDirect=8;
+
+	string DiscoveredAccountId=9;
 }
 
 
@@ -31,6 +37,4 @@ message Transaction
 	TransactionType type = 3;
 
 	repeated TransactionRole roles = 4;
-
-
 };
