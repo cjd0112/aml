@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Reflection;
 using Logger;
 using Microsoft.Data.Sqlite;
-using System.IO;
 
-namespace Shared
+namespace AMLWorker
 {
     public static class SqlHelper
     {

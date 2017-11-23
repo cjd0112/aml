@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Shared
 {
-    public static class Extensions
+    public static class ListExtensions
     {
         public static void Do<T>(this IEnumerable<T> foo, Action<T> act)
         {

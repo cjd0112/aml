@@ -1,5 +1,5 @@
 ﻿syntax="proto3";
-
+import "Party.proto";
 
 message TransactionRole
 {
@@ -22,6 +22,8 @@ message TransactionRole
 	bool IsFoundDirect=8;
 
 	string DiscoveredAccountId=9;
+
+	repeated Account Accounts=10;
 }
 
 

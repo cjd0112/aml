@@ -20,21 +20,22 @@ public static partial class TransactionReflection {
   static TransactionReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChFUcmFuc2FjdGlvbi5wcm90byKkAgoPVHJhbnNhY3Rpb25Sb2xlEg0KBVR4",
-          "bklkGAEgASgJEicKBFR5cGUYAiABKA4yGS5UcmFuc2FjdGlvblJvbGUuUm9s",
-          "ZVR5cGUSEAoIU29ydENvZGUYAyABKAkSDwoHQWNjb3VudBgEIAEoCRIMCgRO",
-          "YW1lGAUgASgJEg8KB0FkZHJlc3MYBiABKAkSEAoISXNQc2V1ZG8YByABKAgS",
-          "FQoNSXNGb3VuZERpcmVjdBgIIAEoCBIbChNEaXNjb3ZlcmVkQWNjb3VudElk",
-          "GAkgASgJIlEKCFJvbGVUeXBlEg8KC0JlbmVmaWNpYXJ5EAASDgoKT3JpZ2lu",
-          "YXRvchABEhEKDUludGVybWVkaWFyeTEQAhIRCg1JbnRlcm1lZGlhcnkyEAMi",
-          "nwEKC1RyYW5zYWN0aW9uEgoKAklkGAEgASgJEg4KBkFtb3VudBgCIAEoARIq",
-          "CgR0eXBlGAMgASgOMhwuVHJhbnNhY3Rpb24uVHJhbnNhY3Rpb25UeXBlEh8K",
-          "BXJvbGVzGAQgAygLMhAuVHJhbnNhY3Rpb25Sb2xlIicKD1RyYW5zYWN0aW9u",
-          "VHlwZRIJCgV0eXBlMRAAEgkKBXR5cGUyEAFiBnByb3RvMw=="));
+          "ChFUcmFuc2FjdGlvbi5wcm90bxoLUGFydHkucHJvdG8iwAIKD1RyYW5zYWN0",
+          "aW9uUm9sZRINCgVUeG5JZBgBIAEoCRInCgRUeXBlGAIgASgOMhkuVHJhbnNh",
+          "Y3Rpb25Sb2xlLlJvbGVUeXBlEhAKCFNvcnRDb2RlGAMgASgJEg8KB0FjY291",
+          "bnQYBCABKAkSDAoETmFtZRgFIAEoCRIPCgdBZGRyZXNzGAYgASgJEhAKCElz",
+          "UHNldWRvGAcgASgIEhUKDUlzRm91bmREaXJlY3QYCCABKAgSGwoTRGlzY292",
+          "ZXJlZEFjY291bnRJZBgJIAEoCRIaCghBY2NvdW50cxgKIAMoCzIILkFjY291",
+          "bnQiUQoIUm9sZVR5cGUSDwoLQmVuZWZpY2lhcnkQABIOCgpPcmlnaW5hdG9y",
+          "EAESEQoNSW50ZXJtZWRpYXJ5MRACEhEKDUludGVybWVkaWFyeTIQAyKfAQoL",
+          "VHJhbnNhY3Rpb24SCgoCSWQYASABKAkSDgoGQW1vdW50GAIgASgBEioKBHR5",
+          "cGUYAyABKA4yHC5UcmFuc2FjdGlvbi5UcmFuc2FjdGlvblR5cGUSHwoFcm9s",
+          "ZXMYBCADKAsyEC5UcmFuc2FjdGlvblJvbGUiJwoPVHJhbnNhY3Rpb25UeXBl",
+          "EgkKBXR5cGUxEAASCQoFdHlwZTIQAWIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
+        new pbr::FileDescriptor[] { global::PartyReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::TransactionRole), global::TransactionRole.Parser, new[]{ "TxnId", "Type", "SortCode", "Account", "Name", "Address", "IsPseudo", "IsFoundDirect", "DiscoveredAccountId" }, null, new[]{ typeof(global::TransactionRole.Types.RoleType) }, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::TransactionRole), global::TransactionRole.Parser, new[]{ "TxnId", "Type", "SortCode", "Account", "Name", "Address", "IsPseudo", "IsFoundDirect", "DiscoveredAccountId", "Accounts" }, null, new[]{ typeof(global::TransactionRole.Types.RoleType) }, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Transaction), global::Transaction.Parser, new[]{ "Id", "Amount", "Type", "Roles" }, null, new[]{ typeof(global::Transaction.Types.TransactionType) }, null)
         }));
   }
@@ -75,6 +76,7 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     isPseudo_ = other.isPseudo_;
     isFoundDirect_ = other.isFoundDirect_;
     discoveredAccountId_ = other.discoveredAccountId_;
+    accounts_ = other.accounts_.Clone();
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -181,6 +183,16 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     }
   }
 
+  /// <summary>Field number for the "Accounts" field.</summary>
+  public const int AccountsFieldNumber = 10;
+  private static readonly pb::FieldCodec<global::Account> _repeated_accounts_codec
+      = pb::FieldCodec.ForMessage(82, global::Account.Parser);
+  private readonly pbc::RepeatedField<global::Account> accounts_ = new pbc::RepeatedField<global::Account>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::Account> Accounts {
+    get { return accounts_; }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as TransactionRole);
@@ -203,6 +215,7 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     if (IsPseudo != other.IsPseudo) return false;
     if (IsFoundDirect != other.IsFoundDirect) return false;
     if (DiscoveredAccountId != other.DiscoveredAccountId) return false;
+    if(!accounts_.Equals(other.accounts_)) return false;
     return true;
   }
 
@@ -218,6 +231,7 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     if (IsPseudo != false) hash ^= IsPseudo.GetHashCode();
     if (IsFoundDirect != false) hash ^= IsFoundDirect.GetHashCode();
     if (DiscoveredAccountId.Length != 0) hash ^= DiscoveredAccountId.GetHashCode();
+    hash ^= accounts_.GetHashCode();
     return hash;
   }
 
@@ -264,6 +278,7 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
       output.WriteRawTag(74);
       output.WriteString(DiscoveredAccountId);
     }
+    accounts_.WriteTo(output, _repeated_accounts_codec);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -296,6 +311,7 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     if (DiscoveredAccountId.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(DiscoveredAccountId);
     }
+    size += accounts_.CalculateSize(_repeated_accounts_codec);
     return size;
   }
 
@@ -331,6 +347,7 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
     if (other.DiscoveredAccountId.Length != 0) {
       DiscoveredAccountId = other.DiscoveredAccountId;
     }
+    accounts_.Add(other.accounts_);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -375,6 +392,10 @@ public sealed partial class TransactionRole : pb::IMessage<TransactionRole> {
         }
         case 74: {
           DiscoveredAccountId = input.ReadString();
+          break;
+        }
+        case 82: {
+          accounts_.AddEntriesFrom(input, _repeated_accounts_codec);
           break;
         }
       }
