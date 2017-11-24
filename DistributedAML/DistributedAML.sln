@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AMLWorker", "AMLWorker\AMLW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmlClient", "AmlClient\AmlClient.csproj", "{43761EB3-1F7B-418A-B639-109110E711EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQLInterface", "GraphQLInterface\GraphQLInterface.csproj", "{F578D6A7-033D-49CB-A8B3-73FFBE20429F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQLInterface", "GraphQLInterface\GraphQLInterface.csproj", "{F578D6A7-033D-49CB-A8B3-73FFBE20429F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL", "GraphQL\GraphQL.csproj", "{BD795DBC-76DC-4193-A107-DF5397A44171}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antlr4.Core", "Antlr4.Core\Antlr4.Core.csproj", "{55B2CB3F-EC39-486D-ACF1-B7724B1CAACA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{F578D6A7-033D-49CB-A8B3-73FFBE20429F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F578D6A7-033D-49CB-A8B3-73FFBE20429F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F578D6A7-033D-49CB-A8B3-73FFBE20429F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD795DBC-76DC-4193-A107-DF5397A44171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD795DBC-76DC-4193-A107-DF5397A44171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD795DBC-76DC-4193-A107-DF5397A44171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD795DBC-76DC-4193-A107-DF5397A44171}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55B2CB3F-EC39-486D-ACF1-B7724B1CAACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55B2CB3F-EC39-486D-ACF1-B7724B1CAACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55B2CB3F-EC39-486D-ACF1-B7724B1CAACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55B2CB3F-EC39-486D-ACF1-B7724B1CAACA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
