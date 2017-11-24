@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Comms\Comms.csproj" />
-    <ProjectReference Include="..\GraphQLInterface\GraphQLInterface.csproj" />
     <ProjectReference Include="..\Logger\Logger.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>

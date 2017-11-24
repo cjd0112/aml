@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Antlr4.Core\Antlr4.Core.csproj" />
-    <ProjectReference Include="..\GraphQLInterface\GraphQLInterface.csproj" />
   </ItemGroup>
 
 </Project>
