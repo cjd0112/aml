@@ -16,7 +16,6 @@ using CsvHelper;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
 using Google.Protobuf.Reflection;
-using GraphQLInterface.GraphQLType;
 using Logger;
 using NetMQ;
 using Newtonsoft.Json;
@@ -36,13 +35,6 @@ namespace AmlClient
 
         static void Main(string[] args)
         {
-            var c22 = new Transaction();
-            foreach (var q in c22.GetType().GetProperties())
-            {
-                
-            }
-
-
 
             bool IncludeProperty(PropertyInfo i)
             {
@@ -55,8 +47,6 @@ namespace AmlClient
 
                 return true;
             }
-
-            var schema = SchemaLoader.GetSchemaContainer(typeof(Query), Assembly.GetAssembly(typeof(ICommsContract)).ExportedTypes,IncludeProperty);
 
 
             String userCommand = "";
