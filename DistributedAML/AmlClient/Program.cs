@@ -62,8 +62,7 @@ namespace AmlClient
 
             var schema = SchemaLoader.GetSchema(typeof(Query));
 
-            var output = new GraphQlDocument()
-                .LoadQuery("test")
+            var output = new GraphQlDocument("test")
                 .Validate(schema)
                 .Run(new Query())
                 .GetOutput();            

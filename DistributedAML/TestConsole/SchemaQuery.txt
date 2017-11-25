@@ -1,68 +1,88 @@
-﻿query IntrospectionQuery {
-  "__schema" {
-    "queryType" { "name" }
-    "mutationType",
-    { "name" },
-    "subscriptionType" { "name" },
-    "types" {
-      "...FullType"
-    },
-    "directives" {
-      "name" "description",
-      "locations" "args",
-      {
-        "...InputValue"
+﻿
+  query IntrospectionQuery {
+    __schema {
+      queryType { name }
+      mutationType { name }
+      subscriptionType { name }
+      types {
+        ...FullType
+      }
+      directives {
+        name
+        description	
+        locations
+        args {
+          ...InputValue
+        }
       }
     }
   }
-} fragment FullType on __Type {
-  kind name
-  description
-  fields(includeDeprecated: true)
-  {
-    name description
-    args {
+
+  fragment FullType on __Type {
+    kind
+    name
+    description
+    fields(includeDeprecated: true) {
+      name
+      description
+      args {
+        ...InputValue
+      }
+      type {
+        ...TypeRef
+      }
+      isDeprecated
+      deprecationReason
+    }
+    inputFields {
       ...InputValue
     }
-    type {
+    interfaces {
       ...TypeRef
     }
-    isDeprecated deprecationReason
+    enumValues(includeDeprecated: true) {
+      name
+      description
+      isDeprecated
+      deprecationReason
+    }
+    possibleTypes {
+      ...TypeRef
+    }
   }
-  inputFields {
-    ...InputValue
+
+  fragment InputValue on __InputValue {
+    name
+    description
+    type { ...TypeRef }
+    defaultValue
   }
-  interfaces {
-    ...TypeRef
-  }
-  enumValues(includeDeprecated: true)
-  {
-    name description
-    isDeprecated deprecationReason
-  }
-  possibleTypes {
-    ...TypeRef
-  }
-} fragment InputValue on __InputValue {
-  name description
-  type { ...TypeRef }
-  defaultValue
-} fragment TypeRef on __Type {
-  kind name
-  ofType {
-    kind name
+
+  fragment TypeRef on __Type {
+    kind
+    name
     ofType {
-      kind name
+      kind
+      name
       ofType {
-        kind name
+        kind
+        name
         ofType {
-          kind name
+          kind
+          name
           ofType {
-            kind name
+            kind
+            name
             ofType {
-              kind name
+              kind
+              name
               ofType {
-                kind name
+                kind
+                name
+                ofType {
+                  kind
+                  name
+                }
               }
             }
           }
@@ -70,4 +90,3 @@
       }
     }
   }
-}
