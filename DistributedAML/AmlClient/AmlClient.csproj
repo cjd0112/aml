@@ -39,6 +39,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="GraphQL">
+      <HintPath>..\..\GraphQL\GraphQL\bin\Debug\netcoreapp2.0\GraphQL.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphQL.Interface">
+      <HintPath>..\..\GraphQL\GraphQL.Interface\bin\Debug\netcoreapp2.0\GraphQL.Interface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

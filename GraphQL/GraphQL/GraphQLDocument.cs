@@ -1,23 +1,53 @@
-﻿using GraphQLInterface.GraphQLType;
+﻿using System;
+using Antlr4.Runtime;
+using GraphQL.Interface;
+using GraphQL.Interface.GraphQLSerializer;
+using GraphQLInterface.GraphQLType;
 
 namespace GraphQL
 {
-    public class GraphQLDocument
+    public class GraphQlDocument : IGraphQlDocument
     {
         private GraphQLParser.DocumentContext documentContext;
-        public GraphQLDocument(GraphQLParser.DocumentContext documentContext)
+        private IGraphQlSchema schema;
+        private IGraphQlOutput output;
+        public GraphQlDocument(String query)
         {
-            this.documentContext = documentContext;
+            var lexer = new GraphQLLexer(new AntlrInputStream(query));
+
+            var cts = new CommonTokenStream(lexer);
+
+            GraphQLParser parser = new GraphQLParser(cts);
+
+            documentContext = parser.document();
 
         }
 
-        public void Validate(__SchemaContainer schema)
+        public GraphQLParser.DocumentContext GetDocumentContext()
         {
-            var vm = new ValidationManager(documentContext, schema);
+            return documentContext;
         }
-        public void Process(__SchemaContainer schema, DatabaseCollection db, IGraphQLOutput output)
+
+        public IGraphQlDocument Validate(IGraphQlSchema schema)
         {
-            ExecutionManager2 em = new ExecutionManager2(documentContext,schema,new Query(),new GraphQLToDatabaseAdapter(db,output));
+            var z = new GraphQlMainValidation(this,schema);
+            this.schema = schema;
+            return this;
+        }
+
+        public IGraphQlDocument Run(Object topLevelObject)
+        {
+            if (schema == null)
+                throw new Exception("Need to call 'validate' first");
+
+            output = new GraphlLOutput();
+            var p = new GraphQlMainExecution(this,schema,output,topLevelObject);
+            return this;
+        }
+
+        public String GetOutput()
+        {
+            return output.ToString();
         }
     }
 }

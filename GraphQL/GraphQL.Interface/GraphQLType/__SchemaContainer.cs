@@ -1,6 +1,8 @@
-﻿namespace GraphQLInterface.GraphQLType
+﻿using GraphQL.Interface;
+
+namespace GraphQLInterface.GraphQLType
 {
-    public class __SchemaContainer
+    public class __SchemaContainer : IGraphQlSchema
     {
         public __SchemaContainer(__Schema s)
         {

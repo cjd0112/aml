@@ -5,8 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Antlr4.Core\Antlr4.Core.csproj" />
     <ProjectReference Include="..\GraphQL.Antlr\GraphQL.Antlr.csproj" />
+    <ProjectReference Include="..\GraphQL.Interface\GraphQL.Interface.csproj" />
   </ItemGroup>
 
 </Project>
