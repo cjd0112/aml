@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Antlr4.Runtime;
+using GraphQL.GraphQLType;
 using GraphQL.Interface;
 using GraphQL.Utilities;
-using GraphQLInterface.GraphQLType;
 
 namespace GraphQL
 {
@@ -23,7 +22,7 @@ namespace GraphQL
 
         private IGraphQlDatabase db;
 
-        public GraphQlMainExecution(IGraphQlDocument document, IGraphQlSchema schema, IGraphQlOutput output, Object topLevelObject, IGraphQlDatabase db = null,  string operationName = "") 
+        public GraphQlMainExecution(IGraphQlDocument document, __SchemaContainer schema, IGraphQlOutput output, Object topLevelObject, IGraphQlDatabase db = null,  string operationName = "") 
             : base(document, schema)
         {
             this.TopLevelObject = topLevelObject;

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Text;
 
-namespace GraphQL.Interface.GraphQLSerializer
+namespace GraphQL.GraphQLSerializer
 {
     public abstract class UnderlyingJson
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GraphQLInterface.GraphQLType
+namespace GraphQL.GraphQLType
 {
     public class __Schema
     {

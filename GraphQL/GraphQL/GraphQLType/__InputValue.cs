@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphQLInterface.GraphQLType
+namespace GraphQL.GraphQLType
 {
     public class __InputValue
     {

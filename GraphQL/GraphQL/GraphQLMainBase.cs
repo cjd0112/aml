@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using Antlr4.Runtime;
+using GraphQL.GraphQLType;
 using GraphQL.Interface;
-using GraphQLInterface.GraphQLType;
 
 namespace GraphQL
 {
     public class GraphQlMainBase
     {
         protected GraphQLParser.DocumentContext documentContext;
-        protected IGraphQlSchema schema;
+        protected __SchemaContainer schema;
 
-        protected GraphQlMainBase(IGraphQlDocument document, IGraphQlSchema schema)
+        protected GraphQlMainBase(IGraphQlDocument document, __SchemaContainer schema)
         {
             this.schema = schema;
             this.documentContext = ((GraphQlDocument) document).GetDocumentContext();

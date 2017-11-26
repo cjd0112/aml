@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GraphQLInterface.GraphQLType
+namespace GraphQL.GraphQLType
 {
     public enum __DirectiveLocation
     {

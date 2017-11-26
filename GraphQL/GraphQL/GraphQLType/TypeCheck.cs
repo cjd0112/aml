@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GraphQLInterface.GraphQLType
+namespace GraphQL.GraphQLType
 {
     public static class TypeCheck
     {

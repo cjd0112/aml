@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace GraphQL.Interface.GraphQLSerializer
+namespace GraphQL.GraphQLSerializer
 {
     public class UnderlyingUnorderedMap : UnderlyingJson
     {

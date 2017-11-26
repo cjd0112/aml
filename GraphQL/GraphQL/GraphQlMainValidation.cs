@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GraphQL.GraphQLType;
 using GraphQL.Interface;
-using GraphQLInterface.GraphQLType;
 
 namespace GraphQL
 {
     public class GraphQlMainValidation : GraphQlMainBase
     {
-        public GraphQlMainValidation(IGraphQlDocument doc, IGraphQlSchema schema) : base(doc, schema)
+        public GraphQlMainValidation(IGraphQlDocument doc, __SchemaContainer schema) : base(doc, schema)
         {
             OperationNameUniqueness();
             LoneAnonymousOperation();

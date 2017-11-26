@@ -35,6 +35,27 @@ namespace TestConsole
 
         }
 
+        public class Range
+        {
+            public int Start { get; set; }
+            public int PageSize { get; set; }
+            public RangeType RangeType { get; set; }
+        }
+
+        public enum SortTypeEnum
+        {
+            None,
+            Ascending,
+            Descending
+        }
+
+        public class Sort
+        {
+            public String SortField { get; set; }
+            public SortTypeEnum SortType { get; set; }
+
+        }
+
         static void Main(string[] args)
         {
             try
