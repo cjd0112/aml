@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AmlClient.AS.Application;
+using AmlClient.Tasks;
+using AmlClient.Utilities;
 using Comms;
 using CsvHelper;
 using Logger;
@@ -17,13 +20,12 @@ namespace AmlClient.Commands
     {
         public enum DataType
         {
-            Transaction,
-            Account,
+            TransactionRoles,
+            Transactions,
+            Accounts,
             AccountToParty,
             Party
-        
         }
-
 
         private ClientFactory factory;
         private Initialize init;
@@ -40,7 +42,7 @@ namespace AmlClient.Commands
 
             dataType = EnumHelper.Parse<DataType>(Helper.Prompt($"Enter type of data - {EnumHelper.ListValues(typeof(DataType))}"));
 
-            if (dataType == DataType.Party || dataType == DataType.Account || dataType == DataType.AccountToParty)
+            if (dataType == DataType.Party)
             {
                 partyType = EnumHelper.EnumPrompt<Party.Types.PartyType>();
             }
@@ -57,12 +59,13 @@ namespace AmlClient.Commands
             switch (dataType)
             {
                 case DataType.Party:
-                case DataType.Account:
-                case DataType.AccountToParty:
                     ret = $"{reg.DataDirectory}/input/{partyType}{dataType}.csv";
                     break;
-                case DataType.Transaction:
-                    ret = $"{reg.DataDirectory}/input/Transactions.csv";
+                case DataType.Accounts:
+                case DataType.AccountToParty:
+                case DataType.Transactions:
+                case DataType.TransactionRoles:
+                    ret = $"{reg.DataDirectory}/input/{dataType}.csv";
                     break;
                 default:
                     throw new Exception($"Unexpected dataType - {dataType}");
@@ -71,40 +74,20 @@ namespace AmlClient.Commands
             return ret;
         }
 
-        class TaskManageException: Task
-        {
-            public TaskManageException(String actionName,Action a) : base(() =>
-            {
-                try
-                {
-                    L.Trace($"Running {actionName}");
-                    a();
-                }
-                catch (Exception e)
-                {
-                    L.Trace($"An exception encountered running {actionName} ...");
-                    L.Trace(e.Message);
-                }
-            })
-            {
-                
-            }
-        }
-
+   
         public override void Run()
         {
             L.Trace($"LoadFromCSV started @ {DateTime.Now}");
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            init.ValidateServiceBucketsAreConsistent(typeof(IPartyStore));
+            init.ValidateServiceBucketsAreConsistent(typeof(IAmlRepository));
 
-            var buckets = factory.GetClientBuckets<IPartyStore>().Count();
-
-            List<Task> tasks = new List<Task>();
+            var buckets = factory.GetClientBuckets<IAmlRepository>().Count();
 
             if (dataType == DataType.Party)
             {
+                List<MyTask<IEnumerable<AccountToParty>>> tasks = new List<MyTask<IEnumerable<AccountToParty>>>();
                 Multiplexer.FromCsv<Party>(GetDataFile(), buckets, (x) =>
                 {
                     x.Type = partyType;
@@ -112,38 +95,104 @@ namespace AmlClient.Commands
                 },
                 x =>
                 {
-                    tasks.Add(new TaskManageException("StoreParties",() => factory.GetClient<IPartyStore>(x.Item1).StoreParties(x.Item2)));
+                    tasks.Add(
+                        new MyTask<IEnumerable<AccountToParty>>("GetLinkages", x.Item1, () => 
+                            factory.GetClient<IAmlRepository>(x.Item1)
+                              .GetLinkages(x.Item2.Select(j => new Identifier{Id=j.Id}).ToList(), LinkageDirection.PartyToAccount),x.Item2));
                 });
-            }
-            else if (dataType == DataType.Account)
-            {
-                Multiplexer.FromCsv<Account>(GetDataFile(), buckets, (x) => x.Id,
-                    x =>
-                    {
-                        tasks.Add(new TaskManageException("StoreAccounts",() => factory.GetClient<IPartyStore>(x.Item1).StoreAccounts(x.Item2)));
-                    });
-            }
-            else if (dataType == DataType.AccountToParty)
-            {
-                 Multiplexer.FromCsv<AccountToParty>(GetDataFile(), buckets, (x) =>
-                    {
-                        if (linkageDirection == LinkageDirection.AccountToParty)
-                            return x.AccountId;
-                        else
-                            return x.PartyId;
-                    },
-                    x =>
-                    {
-                        tasks.Add(new TaskManageException("StoreLinkages",() => factory.GetClient<IPartyStore>(x.Item1).StoreLinkages(x.Item2,linkageDirection)));
-                    });
-            }
 
+                tasks.Do(x=>x.Start());
+
+                Task.WaitAll(tasks.ToArray());
+
+                List<Task<int>> partyTasks = new List<Task<int>>();
+
+                Multiplexer mp = new Multiplexer(buckets);
+
+                var comparer = new AccountToPartyComparer(LinkageDirection.PartyToAccount);
+
+                foreach (var g in tasks)
+                {
+                    var parties = g.State as IEnumerable<Party>;
+                    var linkages = g.Result.ToList();
+
+                    linkages.Sort(comparer);
+
+                    mp.AddList<Party>(parties.ToList(), (party) =>
+                    {
+                        var ret = linkages.BinarySearchMultiple(new AccountToParty {PartyId = party.Id}, comparer)
+                            .Select(n => n.AccountId).ToArray();
+
+                        if(ret.Length == 0)
+                            throw new Exception($"Party id - {party.Id} not found in list");
+
+                        return ret;
+                    });
+
+
+                    foreach (var b in mp.GetBuckets<Party>())
+                    {
+                        partyTasks.Add(new MyTask<int>("StoreParties",b.Item1,()=>
+                            factory.GetClient<IAmlRepository>(b.Item1)
+                            .StoreParties(b.Item2)));
+                    }
+                }
+
+                partyTasks.Do(x=>x.Start());
+                Task.WaitAll(partyTasks.ToArray());
+
+
+            }
+            else if (dataType == DataType.Accounts || dataType == DataType.AccountToParty)
+            {
+                List<Task<int>> tasks = new List<Task<int>>();
+
+                if (dataType == DataType.Accounts)
+                {
+                    Multiplexer.FromCsv<Account>(GetDataFile(), buckets, (x) => x.Id,
+                        x =>
+                        {
+                            tasks.Add(new MyTask<int>("StoreAccounts",x.Item1,()=>factory.GetClient<IAmlRepository>(x.Item1).StoreAccounts(x.Item2)));
+                        });
+                }
+                else
+                {
+                    Multiplexer.FromCsv<AccountToParty>(GetDataFile(), buckets, (x) =>
+                        {
+                            if (linkageDirection == LinkageDirection.AccountToParty)
+                                return x.AccountId;
+                            else
+                                return x.PartyId;
+                        },
+                        x =>
+                        {
+                            tasks.Add(new MyTask<int>("StoreLinkages",x.Item1, () => factory.GetClient<IAmlRepository>(x.Item1).StoreLinkages(x.Item2, linkageDirection)));
+                        });
+                }
+
+                tasks.Do((x)=>x.Start());
+                Task.WaitAll(tasks.ToArray());
+
+            }
+            else if (dataType == DataType.Transactions)
+            {
+                List<Task<int>> tasks = new List<Task<int>>();
+                Multiplexer.FromCsv<Transaction>(GetDataFile(), buckets, (x) => x.Id,
+                    x =>
+                    {
+                        tasks.Add(new MyTask<int>("StoreTransactions", x.Item1, () => factory.GetClient<IAmlRepository>(x.Item1).StoreTransactions(x.Item2)));
+                    });
+
+                tasks.Do((x) => x.Start());
+                Task.WaitAll(tasks.ToArray());
+            }
+            else if (dataType == DataType.TransactionRoles)
+            {
+            }
             else
             {
                 throw new Exception($"Unexpected data type - {dataType}");
             }
-            tasks.Do(x => x.Start());
-            Task.WaitAll(tasks.ToArray());
             sw.Stop();
             L.Trace($"Elapsed time for operation - {sw.ElapsedMilliseconds}");
         }

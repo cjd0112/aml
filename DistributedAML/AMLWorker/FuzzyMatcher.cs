@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Comms;
+using Comms.ClientServer;
 using Logger;
 using Microsoft.Data.Sqlite;
 using Shared;
@@ -46,13 +48,13 @@ namespace AMLWorker
         }
 
 
-        public override bool AddEntry(List<FuzzyWordEntry> entries)
+        public override int AddEntry(IEnumerable<FuzzyWordEntry> entries)
         {
             try
             {
                 var s = new Stopwatch();
                 s.Start();
-                L.Trace($"FuzzyMatcher - {this.server.BucketId} - hit add entry with {entries.Count} at {DateTime.Now}");
+                L.Trace($"FuzzyMatcher - {this.server.BucketId} - hit add entry with {entries.Count()} at {DateTime.Now}");
                 using (var connection = newConnection())
                 {
                     connection.Open();
@@ -129,17 +131,17 @@ namespace AMLWorker
                     txn.Commit();
                     s.Stop();
                     L.Trace($"Committed from FuzzyMatcher - {server.BucketId} @ {DateTime.Now} - op took - {s.ElapsedMilliseconds}ms");
-                    return true;
+                    return 1;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return false;
+                return 0;
             }
         }
 
-        public override List<FuzzyQueryResponse> FuzzyQuery(List<string> phrases)
+        public override IEnumerable<FuzzyQueryResponse> FuzzyQuery(IEnumerable<FuzzyCheck> phrases)
         {
             var fqr = new List<FuzzyQueryResponse>();
             using (var connection = newConnection())
@@ -151,9 +153,9 @@ namespace AMLWorker
                     using (var cmd = connection.CreateCommand())
                     {
                         FuzzyQueryResponse fqr2 = new FuzzyQueryResponse();
-                        fqr2.Query = phrase;
+                        fqr2.Query = phrase.Phrase;
                         cmd.CommandText =
-                            $@"select docid,phrase,matchinfo(FuzzyTriple,""s"") from FuzzyTriple where triple MATCH '{StringFunctions.TripleQuery(phrase)}'";
+                            $@"select docid,phrase,matchinfo(FuzzyTriple,""s"") from FuzzyTriple where triple MATCH '{StringFunctions.TripleQuery(phrase.Phrase)}'";
 
                         var p = cmd.ExecuteReader();
                         int cnt = 0;
@@ -163,7 +165,7 @@ namespace AMLWorker
                             var docid = (Int64) p.GetValue(0);
                             var index_phrase = (string) p.GetValue(1);
                             var matchinfo = p.GetValue(2) as byte[];
-                            var p2 = StringFunctions.LevensteinDistance(index_phrase, phrase);
+                            var p2 = StringFunctions.LevensteinDistance(index_phrase, phrase.Phrase);
                             fqr2.Detail.Add(new FuzzyQueryResponseDetail{Candidate=index_phrase,Score=p2,PhraseId=docid});
                             cnt++;
                         }

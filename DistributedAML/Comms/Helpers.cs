@@ -6,14 +6,15 @@ using System.Text;
 using Google.Protobuf;
 using LZ4;
 using NetMQ;
+using Shared;
 
 namespace Comms
 {
-    public class Helpers
+    public static class Helpers
     {
-        public static NetMQMessage PackMessageList<T>(NetMQMessage msg, List<T> foo) where T : IMessage
+        public static NetMQMessage PackMessageList<T>(this NetMQMessage msg, IEnumerable<T> foo) where T : IMessage
         {
-            msg.Append(foo.Count);
+            msg.Append(foo.Count());
             int size = foo.Aggregate(0, (x, y) => x+ y.CalculateSize()+sizeof(int));
             byte[] buff = new byte[size];
             var writer = new MemoryStream(buff);
@@ -25,7 +26,7 @@ namespace Comms
             return msg;
         }
 
-        public static List<T> UnpackMessageList<T>(NetMQMessage msg,Func<Stream,T> parseObject) where T:IMessage
+        public static IEnumerable<T> UnpackMessageList<T>(this NetMQMessage msg,Func<Stream,T> parseObject) where T:IMessage
         {
             var cnt = (int) msg.Pop().ConvertToInt32();
             var buff = msg.Pop().ToByteArray();
@@ -38,68 +39,113 @@ namespace Comms
             return ret;
         }
 
-        public static NetMQMessage PackMessageListString( NetMQMessage msg, List<String> s)
+        public static NetMQMessage PackMessageListString( this NetMQMessage msg, IEnumerable<String> s)
         {
+            msg.Append(s.Count());
+            int size = s.Aggregate(0, (x, y) => x + y.Length + sizeof(int));
+            byte[] buff = new byte[size];
+            var writer = new BinaryWriter(new MemoryStream(buff));
             foreach (var z in s)
             {
-                msg.Append(z);
+                var bytes = Encoding.UTF8.GetBytes(z);
+                writer.Write(bytes.Length);
+                writer.Write(bytes,0,bytes.Length);
             }
+            msg.Append(LZ4Codec.Wrap(buff));
             return msg;
 
         }
 
-        public static List<String> UnpackMessageListString(NetMQMessage msg)
+        public static IEnumerable<String> UnpackMessageListString(this NetMQMessage msg)
         {
-            var cnt = msg.FrameCount;
+            var cnt = (int) msg.Pop().ConvertToInt32();
+            var buff = msg.Pop().ToByteArray();
+            var rdr = new BinaryReader(new MemoryStream(LZ4Codec.Unwrap(buff)));        
             List<String> ret = new List<String>();
             while (cnt-- > 0)
             {
-                ret.Add(msg.Pop().ConvertToString());
+                var bytes = rdr.ReadInt32();
+                ret.Add(Encoding.UTF8.GetString(rdr.ReadBytes(bytes)));
             }
             return ret;
 
         }
 
-        public static NetMQMessage PackMessageListInt32(NetMQMessage msg, List<Int32> s)
+       
+
+        public static void AddParameter(this NetMQMessage msg, Object o)
         {
-            foreach (var z in s)
+            if (o is null)
+                throw new Exception($"Null value passed to addParameter");
+
+            if (o is String)
+                msg.Append((String) o);
+            else if (o is Int32)
+                msg.Append((int) o);
+            else if (o is Int64)
+                msg.Append((Int64) o);
+            else if (o.GetType().IsEnum)
+                msg.Append( o.ToString());
+            else
             {
-                msg.Append(z);
+                throw new Exception($"Unexpected parameters for message - {o.GetType()}");
             }
-            return msg;
+
 
         }
 
-
-        public static List<Int32> UnpackMessageListInt32(NetMQMessage msg)
+        public static NetMQMessage PackMessageListInt32(this NetMQMessage msg, IEnumerable<Int32> s)
         {
-            var cnt = msg.FrameCount;
-            List<Int32> ret = new List<Int32>();
+            msg.Append(s.Count());
+            int size = s.Count() * sizeof(int);
+            byte[] buff = new byte[size];
+            var writer = new BinaryWriter(new MemoryStream(buff));
+            foreach (var z in s)
+            {
+                writer.Write(z);
+            }
+            msg.Append(LZ4Codec.Wrap(buff));
+            return msg;
+        }
+
+
+        public static IEnumerable<Int32> UnpackMessageListInt32(this NetMQMessage msg)
+        {
+            var cnt = (int)msg.Pop().ConvertToInt32();
+            var buff = msg.Pop().ToByteArray();
+            var rdr = new BinaryReader(new MemoryStream(LZ4Codec.Unwrap(buff)));
+            List<int> ret = new List<int>();
             while (cnt-- > 0)
             {
-                ret.Add(msg.Pop().ConvertToInt32());
+                ret.Add(rdr.ReadInt32());
             }
             return ret;
 
         }
 
-        public static NetMQMessage PackMessageListInt64( NetMQMessage msg, List<Int64> s)
+        public static NetMQMessage PackMessageListInt64(this NetMQMessage msg, List<Int64> s)
         {
+            msg.Append(s.Count());
+            int size = s.Count() * sizeof(Int64);
+            byte[] buff = new byte[size];
+            var writer = new BinaryWriter(new MemoryStream(buff));
             foreach (var z in s)
             {
-                msg.Append(z);
+                writer.Write(z);
             }
+            msg.Append(LZ4Codec.Wrap(buff));
             return msg;
-
         }
 
-        public static List<Int64> UnpackMessageListInt64(NetMQMessage msg)
+        public static List<Int64> UnpackMessageListInt64(this NetMQMessage msg)
         {
-            var cnt = msg.FrameCount;
+            var cnt = (int)msg.Pop().ConvertToInt32();
+            var buff = msg.Pop().ToByteArray();
+            var rdr = new BinaryReader(new MemoryStream(LZ4Codec.Unwrap(buff)));
             List<Int64> ret = new List<Int64>();
             while (cnt-- > 0)
             {
-                ret.Add(msg.Pop().ConvertToInt64());
+                ret.Add(rdr.ReadInt64());
             }
             return ret;
 

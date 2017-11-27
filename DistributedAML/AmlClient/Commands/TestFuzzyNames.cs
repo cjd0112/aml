@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Comms;
@@ -64,15 +65,15 @@ namespace AmlClient.Commands
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            List<Task<List<FuzzyQueryResponse>>> tasks = new List<Task<List<FuzzyQueryResponse>>>();
+            List<Task<IEnumerable<FuzzyQueryResponse>>> tasks = new List<Task<IEnumerable<FuzzyQueryResponse>>>();
             List<Object> results = new List<object>();
             foreach (var bucket in factory.GetClientBuckets<IFuzzyMatcher>())
             {
-                tasks.Add(Task<List<FuzzyQueryResponse>>.Factory.StartNew(() =>
+                tasks.Add(Task<IEnumerable<FuzzyQueryResponse>>.Factory.StartNew(() =>
                 {
                     var z = factory.GetClient<IFuzzyMatcher>(bucket);
 
-                    return z.FuzzyQuery(data);
+                    return z.FuzzyQuery(data.Select(x=>new FuzzyCheck{Phrase=x}));
 
                 }));
             }

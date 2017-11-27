@@ -20,11 +20,13 @@ public static partial class FuzzyWordEntryReflection {
   static FuzzyWordEntryReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChRGdXp6eVdvcmRFbnRyeS5wcm90byIvCg5GdXp6eVdvcmRFbnRyeRIOCgZQ",
-          "aHJhc2UYASABKAkSDQoFRG9jSWQYAiABKANiBnByb3RvMw=="));
+          "ChRGdXp6eVdvcmRFbnRyeS5wcm90byIcCgpGdXp6eUNoZWNrEg4KBlBocmFz",
+          "ZRgBIAEoCSIvCg5GdXp6eVdvcmRFbnRyeRIOCgZQaHJhc2UYASABKAkSDQoF",
+          "RG9jSWQYAiABKANiBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(typeof(global::FuzzyCheck), global::FuzzyCheck.Parser, new[]{ "Phrase" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::FuzzyWordEntry), global::FuzzyWordEntry.Parser, new[]{ "Phrase", "DocId" }, null, null, null)
         }));
   }
@@ -32,6 +34,123 @@ public static partial class FuzzyWordEntryReflection {
 
 }
 #region Messages
+public sealed partial class FuzzyCheck : pb::IMessage<FuzzyCheck> {
+  private static readonly pb::MessageParser<FuzzyCheck> _parser = new pb::MessageParser<FuzzyCheck>(() => new FuzzyCheck());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<FuzzyCheck> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::FuzzyWordEntryReflection.Descriptor.MessageTypes[0]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public FuzzyCheck() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public FuzzyCheck(FuzzyCheck other) : this() {
+    phrase_ = other.phrase_;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public FuzzyCheck Clone() {
+    return new FuzzyCheck(this);
+  }
+
+  /// <summary>Field number for the "Phrase" field.</summary>
+  public const int PhraseFieldNumber = 1;
+  private string phrase_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Phrase {
+    get { return phrase_; }
+    set {
+      phrase_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as FuzzyCheck);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(FuzzyCheck other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (Phrase != other.Phrase) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (Phrase.Length != 0) hash ^= Phrase.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (Phrase.Length != 0) {
+      output.WriteRawTag(10);
+      output.WriteString(Phrase);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (Phrase.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Phrase);
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(FuzzyCheck other) {
+    if (other == null) {
+      return;
+    }
+    if (other.Phrase.Length != 0) {
+      Phrase = other.Phrase;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 10: {
+          Phrase = input.ReadString();
+          break;
+        }
+      }
+    }
+  }
+
+}
+
 public sealed partial class FuzzyWordEntry : pb::IMessage<FuzzyWordEntry> {
   private static readonly pb::MessageParser<FuzzyWordEntry> _parser = new pb::MessageParser<FuzzyWordEntry>(() => new FuzzyWordEntry());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -39,7 +158,7 @@ public sealed partial class FuzzyWordEntry : pb::IMessage<FuzzyWordEntry> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::FuzzyWordEntryReflection.Descriptor.MessageTypes[0]; }
+    get { return global::FuzzyWordEntryReflection.Descriptor.MessageTypes[1]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

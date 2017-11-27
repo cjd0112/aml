@@ -27,7 +27,6 @@ namespace AMLWorker
                 c.GetInstance<Node>().Run();
 
                 /*
-
                 var workers = c.GetInstance<WorkerActors>();
 
                 for (byte i = 0; i < workers.NumNodes; i++)

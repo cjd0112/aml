@@ -20,7 +20,7 @@ using NetMQ;
 using Logger;
 using Shared;
 
-namespace Comms
+namespace Comms.ClientServer
 {
     public abstract class _NAME_Server : I_NAME_
     {
@@ -59,7 +59,7 @@ namespace Comms
 }";
 
         private Type type;
-        public GenerateCommsServer(Type type, List<Type> googleTypes,string sourceDirectoryName) : base(sourceDirectoryName + "/" + ModuleFuncs.GetClassName(type) + "Server.cs")
+        public GenerateCommsServer(Type type, List<Type> googleTypes,string sourceDirectoryName) : base(sourceDirectoryName + "/ClientServer/" + ModuleFuncs.GetClassName(type) + "Server.cs")
         {
             this.type = type;
 
@@ -91,9 +91,9 @@ namespace Comms
         {
             var access = "public abstract";
             var ret = "";
-            if (typeof(IList).IsAssignableFrom(method.ReturnType))
-            {
-                ret = $"List<{method.ReturnType.GenericTypeArguments[0].Name}>";
+            if (typeof(IEnumerable).IsAssignableFrom(method.ReturnType))
+            { 
+                ret = $"IEnumerable<{method.ReturnType.GenericTypeArguments[0].Name}>";
             }
             else
             {
@@ -153,32 +153,36 @@ var s = $@"               case ""{method.Name}"":
                     s +=
                         $"var {c.Name} = ({c.ParameterType.Name})Enum.Parse(typeof({c.ParameterType.Name}),request.Pop().ConvertToString());\n";
                 }
-                else if (typeof(IList).IsAssignableFrom(c.ParameterType))
+                else if (typeof(IEnumerable).IsAssignableFrom(c.ParameterType))
                 {
                     var paramType = c.ParameterType.GenericTypeArguments[0];
                     if (paramType == typeof(String))
                     {
  s += $@"                
-                    var {c.Name} = Helpers.UnpackMessageListString(request);
+                    var {c.Name} = request.UnpackMessageListString();
 ";
                     }
                     else if (paramType == typeof(Int32))
                     {
                         s += $@"                
-                    var {c.Name} = Helpers.UnpackMessageListInt32(request);
+                    var {c.Name} = request.UnpackMessageListInt32();
 ";
                     }
                     else if (paramType == typeof(Int64))
                     {
                         s += $@"                
-                    var {c.Name} = Helpers.UnpackMessageListInt64(request);
+                    var {c.Name} = request.UnpackMessageListInt64();
 ";
                     }
                     else if (typeof(IMessage).IsAssignableFrom(paramType))
                     {
                         s += $@"
-                        var {c.Name} = Helpers.UnpackMessageList<{paramType}>(request,{paramType}.Parser.ParseDelimitedFrom);
+                        var {c.Name} = request.UnpackMessageList<{paramType}>({paramType}.Parser.ParseDelimitedFrom);
 ";
+                    }
+                    else
+                    {
+                        throw new Exception($"Unexpected list type {paramType.Name} ");
                     }
                 }
                 else
@@ -203,12 +207,12 @@ var s = $@"               case ""{method.Name}"":
             {
                 s = "ret.Append(Convert.ToInt32(methodResult))";
             }
-            else if (typeof(IList).IsAssignableFrom(mi.ReturnType))
+            else if (typeof(IEnumerable).IsAssignableFrom(mi.ReturnType))
             {
                 if (typeof(IMessage).IsAssignableFrom(mi.ReturnType.GenericTypeArguments[0]))
                 {
                     var t = mi.ReturnType.GenericTypeArguments[0];
-                    s = $"Helpers.PackMessageList<{t.Name}>(ret,methodResult);";
+                    s = $"ret.PackMessageList<{t.Name}>(methodResult);";
                 }
             }
             else

@@ -16,37 +16,47 @@ namespace CommsConsole
     {
         static void Main(string[] args2)
         {
-            // update the google objects
-            var z2 = Directory.GetCurrentDirectory();
-            foreach (var c in Directory.EnumerateFiles("../Comms/","*.proto"))
+            try
             {
-                var f = new FileInfo(c);
-                var parameters = $"--csharp_out=../Comms --proto_path=../Comms {f.Name}";
-                System.Diagnostics.Process.Start("protoc.exe",parameters);
-            }
+                // update the google objects
+                var z2 = Directory.GetCurrentDirectory();
+                Console.WriteLine("Generating c# objects from .proto files");
+                foreach (var c in Directory.EnumerateFiles("../Comms/", "*.proto"))
+                {
+                    var f = new FileInfo(c);
+                    var parameters = $"--csharp_out=../Comms --proto_path=../Comms {f.Name}";
+                    Console.WriteLine($"running 'protoc.exe {parameters}'");
+                    System.Diagnostics.Process.Start("protoc.exe", parameters);
+                }
 
-            // find the comms types
-            List<Type> commsTypes = new List<Type>();
-            var ass = Assembly.GetAssembly(typeof(ICommsContract));
-            foreach (var type in ass.GetExportedTypes().Where(x=>typeof(ICommsContract).IsAssignableFrom(x) && x != typeof(ICommsContract) && x.IsInterface))
+                // find the comms types
+                List<Type> commsTypes = new List<Type>();
+                var ass = Assembly.GetAssembly(typeof(ICommsContract));
+                foreach (var type in ass.GetExportedTypes().Where(x => typeof(ICommsContract).IsAssignableFrom(x) && x != typeof(ICommsContract) && x.IsInterface))
+                {
+                    commsTypes.Add(type);
+                }
+
+                // find the google objects
+                List<Type> googleList = new List<Type>();
+                foreach (var type in ass.GetExportedTypes().Where(x => typeof(Google.Protobuf.IMessage).IsAssignableFrom(x)))
+                {
+                    googleList.Add(type);
+                }
+
+                foreach (var c in commsTypes)
+                {
+                    var foo = new GenerateComms(c, googleList, "../Comms");
+                    foo.GenerateFiles();
+                }
+
+
+            }
+            catch (Exception e)
             {
-                commsTypes.Add(type);
+                Console.WriteLine(e);
             }
-
-            // find the google objects
-            List<Type> googleList = new List<Type>();
-            foreach (var type in ass.GetExportedTypes().Where(x=>typeof(Google.Protobuf.IMessage).IsAssignableFrom(x)))
-            {
-                googleList.Add(type);
-            }
-
-            foreach (var c in commsTypes)
-            {
-                var foo = new GenerateComms(c,googleList,"../Comms");
-                foo.GenerateFiles();
-            }
-
-
+            
 
             Console.ReadLine();
 

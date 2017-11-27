@@ -13,6 +13,10 @@ using AmlClient.AS.Application;
 using AmlClient.Commands;
 using Comms;
 using CsvHelper;
+using Google.Protobuf;
+using Google.Protobuf.Collections;
+using Google.Protobuf.Reflection;
+using GraphQL;
 using Logger;
 using NetMQ;
 using Newtonsoft.Json;
@@ -23,9 +27,42 @@ namespace AmlClient
 {
     class Program
     {
-      
+        public class Query
+        {
+            public IEnumerable<Transaction> Transactions { get; set; }
+            public IEnumerable<Transaction> Accounts{ get; set; }
+
+        }
+
         static void Main(string[] args)
         {
+            var c22 = new Transaction();
+            foreach (var q in c22.GetType().GetProperties())
+            {
+                
+            }
+
+
+
+            bool IncludeProperty(PropertyInfo i)
+            {
+                if (typeof(IMessage).IsAssignableFrom(i.DeclaringType))
+                {
+                    if (i.PropertyType.Name.StartsWith("MessageParser") ||
+                        i.PropertyType.Name == "MessageDescriptor")
+                        return false;
+                }
+
+                return true;
+            }
+
+
+            var output = new GraphQlDocument("test")
+                .Validate(typeof(Query))
+                .Run(new Query())
+                .GetOutput();            
+
+
             String userCommand = "";
             bool initialized  = false;
             Container c = null;
@@ -37,7 +74,9 @@ namespace AmlClient
                     {
                         try
                         {
-                            var reg = new MyRegistry(args.Any() == false ? "appsettings.json" : args[0]);
+
+                            var reg = new MyRegistry(args.Any() == false ? Helper.GetPlatform().ToString() : args[0]);
+
                             reg.For<MyRegistry>().Use(reg);
                             c = new Container(reg);
                             c.Inject(typeof(Container),c);
@@ -53,6 +92,12 @@ namespace AmlClient
                         catch (Exception e)
                         {
                             L.Trace(e.Message);
+                            if (e.InnerException != null)
+                            {
+                                L.Trace($"Inner exception is {e.InnerException.Message}");
+                                L.Trace($"{e.InnerException.StackTrace}");
+
+                            }
                             L.Trace("Error on initialization ... quitting");
                             userCommand = "q";
                             continue;

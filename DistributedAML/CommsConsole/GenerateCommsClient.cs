@@ -12,33 +12,7 @@ using Shared;
 namespace CommsConsole
 {
 
-    /*
-        using System;
-        using System.Runtime.InteropServices;
-        using NetMQ;
-
-namespace Comms
-{
-     *  
-     *  public class FuzzyMatcherClient: IFuzzyMatcher
-    {
-        private IServiceClient client;
-        public FuzzyMatcherClient(IServiceClient client)
-        {
-            this.client = client;
-            client.SetUnderlying(this);
-        }
-        public string Select(string foo)
-        {
-            var z = new NetMQMessage();
-            z.Append("Select");
-            z.Append(foo);
-            var ret = client.Send(z);
-            return ret.First.ConvertToString();
-        }
-   }
-    */
-
+    
 
     public class GenerateCommsClient : GeneratorBase
     {
@@ -49,7 +23,7 @@ using System.Runtime.InteropServices;
 using NetMQ;
 using Shared;
 
-namespace Comms
+namespace Comms.ClientServer
 {
     public class _NAME_Client : I_NAME_
     {
@@ -67,8 +41,9 @@ namespace Comms
         private Type type;
 
         public GenerateCommsClient(Type type, List<Type> googleTypes, string sourceDirectoryName) : base(
-            sourceDirectoryName + "/" + ModuleFuncs.GetClassName(type) + "Client.cs")
+            sourceDirectoryName + "/ClientServer/" + ModuleFuncs.GetClassName(type) + "Client.cs")
         {
+            Console.WriteLine($"Generating - {type.Name} CommsClient");
             this.type = type;
         }
 
@@ -77,6 +52,8 @@ namespace Comms
             List<string> methods = new List<string>();
             foreach (var method in type.GetMethods())
             {
+                Console.WriteLine($"Generating - {method.Name}");
+
                 methods.Add(GenerateMethod(method));
 
                 
@@ -88,27 +65,28 @@ namespace Comms
             Close();
         }
 
+        String GenerateCallingArguments(MethodInfo i)
+        {
+            return i.GetParameters().Aggregate(",", (x, y) => x + y.Name + ",").TrimEnd(',');
+        }
 
         String GenerateMethod(MethodInfo method)
         {
             var m = GenerateSignature(method);
             m += "\t\t{\n";
-            m += "\t\t\tvar msg = new NetMQMessage();\n";
-            m += $"\t\t\tmsg.Append(\"{method.Name}\");\n";
 
-            foreach (var c in method.GetParameters())
+            if (method.ReturnType == typeof(Int32))
             {
-                m += $"\t\t\t{GenerateParameter(c)};\n";
+                m +=
+                    $"\t\t\treturn client.SendEnumerableIntResult<{method.GetParameters()[0].ParameterType.GenericTypeArguments[0].Name}>(\"{method.Name}\"{GenerateCallingArguments(method)});\n";
+            }
+            else
+            {
+                m +=
+                    $"\t\t\treturn client.SendEnumerableListResult<{method.GetParameters()[0].ParameterType.GenericTypeArguments[0].Name},{method.ReturnType.GenericTypeArguments[0].Name}>(\"{method.Name}\",{method.ReturnType.GenericTypeArguments[0].Name}.Parser.ParseDelimitedFrom{GenerateCallingArguments(method)});\n";
             }
 
-
-
-            m += $"\t\t\tvar ret = client.Send(msg);\n";
-            m += $"\t\t\tif (ret.First.IsEmpty) throw new Exception(ret[1].ConvertToString());\n";
-
-            m += $"\t\t\treturn {GenerateReturn(method.ReturnType)};\n";
-            m += "\t\t}";
-
+            m += "\t\t}\n";
 
             return m;
         }
@@ -117,12 +95,18 @@ namespace Comms
         {
             var access = "public";
             var ret = "";
-            if (typeof(IList).IsAssignableFrom(method.ReturnType))
+            if (typeof(IEnumerable).IsAssignableFrom(method.ReturnType))
             {
-                ret = $"List<{method.ReturnType.GenericTypeArguments[0].Name}>";
+                if (!typeof(IMessage).IsAssignableFrom(method.ReturnType.GenericTypeArguments[0]))
+                    throw new Exception($"Only support list of return values that are inherited from IMessage - received {method.ReturnType.GenericTypeArguments[0].Name} for {method.Name}");
+
+                ret = $"IEnumerable<{method.ReturnType.GenericTypeArguments[0].Name}>";
             }
             else
             {
+                if (method.ReturnType != typeof(Int32))
+                    throw new Exception("Only support Int32 as scalar return values");
+
                 ret = method.ReturnType.Name;
 
             }
@@ -134,81 +118,6 @@ namespace Comms
                 parameters = parameters.Substring(0, parameters.Length - 1);
 
             return $"\t\t{access} {ret} {name}({parameters})\n";
-        }
-
-        String GenerateParameter(ParameterInfo pi)
-        {
-            if (pi.ParameterType == typeof(String) || pi.ParameterType == typeof(Int32))
-            {
-                return $"msg.Append({pi.Name})";
-            }
-            else if (pi.ParameterType.IsEnum)
-            {
-                return $"msg.Append({pi.Name}.ToString())";
-            }
-            else if (typeof(IList).IsAssignableFrom(pi.ParameterType))
-            {
-                if (pi.ParameterType.GenericTypeArguments[0] == typeof(string))
-                {
-                    return $"Helpers.PackMessageListString(msg,{pi.Name})";
-                }
-                else if (pi.ParameterType.GenericTypeArguments[0] == typeof(Int32))
-                {
-                    return $"Helpers.PackMessageListInt32(msg,{pi.Name})";
-                }
-                else if (pi.ParameterType.GenericTypeArguments[0] == typeof(Int64))
-                {
-                    return $"Helpers.PackMessageListInt64(msg,{pi.Name})";
-                }
-                else if (typeof(IMessage).IsAssignableFrom(pi.ParameterType.GenericTypeArguments[0]))
-                {
-                    return $"Helpers.PackMessageList<{pi.ParameterType.GenericTypeArguments[0].Name}>(msg,{pi.Name})";
-                }
-            }
-            else
-            {
-                throw new Exception($"Unexpected parameter type - {pi.ParameterType.Name} for {pi.Name}");
-            }
-
-            return "";
-        }
-
-        String GenerateReturn(Type returnType)
-        {
-            if (returnType == typeof(String))
-            {
-                return $"ret.First.ConvertToString()";
-            }
-            else if (returnType == typeof(Int32))
-            {
-                return $"ret.First.ConvertToInt32()";
-            }
-            else if (returnType == typeof(Boolean))
-            {
-                return $"ret.First.ConvertToInt32() >0 ? true:false";
-            }
-            else if (typeof(IList).IsAssignableFrom(returnType))
-            {
-                if (typeof(IMessage).IsAssignableFrom(returnType.GenericTypeArguments[0]))
-                {
-                    return
-                        $"Helpers.UnpackMessageList(ret, {returnType.GenericTypeArguments[0].Name}.Parser.ParseDelimitedFrom);";
-                }
-                else if (returnType.GenericTypeArguments[0] == typeof(String))
-                {
-                    return $"Helpers.UnpackMessageListString(ret);";
-                }
-                else if (returnType.GenericTypeArguments[0] == typeof(Int32))
-                {
-                    return $"Helpers.UnpackMessageListInt32(ret);";
-
-                }
-                else if (returnType.GenericTypeArguments[0] == typeof(Int64))
-                {
-                    return $"Helpers.UnpackMessageListInt64(ret);";
-                }
-            }
-            return "";
         }
 
     }
