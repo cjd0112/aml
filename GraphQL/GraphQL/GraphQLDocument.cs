@@ -1,5 +1,6 @@
 ﻿using System;
 using Antlr4.Runtime;
+using GraphQL.GraphQLType;
 using GraphQL.Interface;
 using GraphlLOutput = GraphQL.GraphQLSerializer.GraphlLOutput;
 
@@ -10,6 +11,7 @@ namespace GraphQL
         private GraphQLParser.DocumentContext documentContext;
         private IGraphQlOutput output;
         private GraphQlCustomiseSchema custom;
+        private __SchemaContainer schema;
         public GraphQlDocument(String query)
         {
             var lexer = new GraphQLLexer(new AntlrInputStream(query));
@@ -36,9 +38,15 @@ namespace GraphQL
 
         public IGraphQlDocument Validate(Type topLevelType)
         {
-            if (GraphQlSchemaLoader.GetSchema(topLevelType)
-            var z = new GraphQlMainValidation(this,schema,custom);
-            this.schema = schema;
+            if (custom == null)
+                custom = new GraphQlCustomiseSchema();
+
+            schema = GraphQlSchemaLoader.GetSchema(topLevelType);
+
+            if (schema == null)
+                schema = GraphQlSchemaLoader.InitializeSchema(topLevelType,custom);
+
+            var z = new GraphQlMainValidation(this,schema);
             return this;
         }
 

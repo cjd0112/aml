@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using GraphQL.Interface;
 
 namespace GraphQL.GraphQLType
 {
@@ -26,13 +27,11 @@ namespace GraphQL.GraphQLType
         }
 
         private Dictionary<Type, __Type> resolver;
-        private IEnumerable<Type> typeUniverse;
-        private Func<PropertyInfo, bool> includeProperty;
-        public __Type(Type t,Dictionary<Type,__Type> resolver, IEnumerable<Type> typeUniverse,Func<PropertyInfo,bool> includeProperty)
+        private GraphQlCustomiseSchema customiseSchema;
+        public __Type(Type t,Dictionary<Type,__Type> resolver, GraphQlCustomiseSchema customise)
         {
             this.resolver = resolver;
-            this.typeUniverse = typeUniverse;
-            this.includeProperty = includeProperty;
+            this.customiseSchema = customise;
             dotNetType = t;
 
             if (resolver.ContainsKey(t) == false)
@@ -52,26 +51,11 @@ namespace GraphQL.GraphQLType
             }
             else if (TypeCheck.IsClass(t))
             {
-                var graphQlAttribute = t.GetCustomAttribute<GraphQLAttribute>();
-                if ((graphQlAttribute != null && graphQlAttribute.AttributeType == GraphQLAttributeTypeEnum.TreatAsInputObject))
-                {
-                    InputObjectType();
-                }
-                else
-                {
-                    ObjectOrInterfaceType(__TypeKind.OBJECT);
-                }
+                ObjectOrInterfaceType(__TypeKind.OBJECT);
             }
             else if (t.IsInterface)
             {
-                if (typeof(IGraphQLInterface).IsAssignableFrom(t))
-                {
-                    ObjectOrInterfaceType(__TypeKind.INTERFACE);
-                }
-                else
-                {
-                    throw new Exception($"Currently only interface types supported are derived from 'IGraphQLInterface'");
-                }
+                ObjectOrInterfaceType(__TypeKind.INTERFACE);
             }
             else if (TypeCheck.IsValueType(t))
             {
@@ -83,12 +67,19 @@ namespace GraphQL.GraphQLType
             }
         }
 
+        __Type CreateOrGetType(Type t)
+        {
+            if (resolver.ContainsKey(t) == false)
+                resolver[t] = new __Type(t, resolver, customiseSchema);
+            return resolver[t];
+        }
+
         string descriptionFromField(PropertyInfo pi)
         {
             var desc = pi.GetCustomAttribute<DescriptionAttribute>();
             if (desc != null)
                 return desc.Description;
-            return "";
+            return customiseSchema.GetDescription(pi);
         }
 
         string descriptionFromType(Type t)
@@ -112,7 +103,7 @@ namespace GraphQL.GraphQLType
 
                 foreach (var c in dotNetType.GetTypeInfo().ImplementedInterfaces)
                 {
-                    if (typeof(IGraphQLInterface).IsAssignableFrom(c))
+                    if (customiseSchema.IncludeInterface(dotNetType,c))
                     {
                         interfaces.Add(CreateOrGetType(c));
                     }
@@ -122,14 +113,14 @@ namespace GraphQL.GraphQLType
             {
                 possibleTypes = new List<__Type>();
 
-                foreach (var c in typeUniverse.Where((x) => dotNetType.IsAssignableFrom(x) && x != dotNetType))
+                foreach (var c in customiseSchema.GetPossibleTypes(dotNetType))
                 {
                     possibleTypes.Add(CreateOrGetType(c));
                 }
             }
 
             foreach (
-            PropertyInfo pi in dotNetType.GetProperties().Where(x=>includeProperty(x)))
+            PropertyInfo pi in dotNetType.GetProperties().Where(x=>customiseSchema.IncludeProperty(x)))
             {
                 fields.Add(FieldFromProperty(pi.Name, pi.PropertyType,descriptionFromField(pi)));
                 if (pi.Name == "fields" && dotNetType == typeof(__Type))
@@ -145,25 +136,22 @@ namespace GraphQL.GraphQLType
                             CreateOrGetType(typeof(Boolean))));
                 }
 
-                if (typeof(IEnumerable).IsAssignableFrom(pi.PropertyType) && pi.PropertyType != typeof(string))
+                if (!TypeCheck.IsScalar(pi.PropertyType))
                 {
-                    var underlyingType = pi.PropertyType.GenericTypeArguments[0];
-
-                    foreach (var c in underlyingType.GetProperties())
+                    foreach (var c in customiseSchema.GetInputValues(pi.Name, pi))
                     {
-                        if (TypeCheck.IsScalar(c.PropertyType))
-                            fields.Last().AddInputValue(new __InputValue(c.Name, CreateOrGetType(c.PropertyType)));
+                        fields.Last().AddInputValue(new __InputValue(c.inputName,CreateOrGetType(c.inputType)));
                     }
-                    fields.Last().AddInputValue(new __InputValue("Sort", CreateOrGetType(typeof(Sort))));
-                    fields.Last().AddInputValue(new __InputValue("Range", CreateOrGetType(typeof(Range))));
-
                 }
             }
 
             // add built-in types
             fields.Add(FieldFromProperty("__typename", typeof(String),"describes type"));
-            fields.Add(FieldFromProperty("relevance", typeof(float),"Indicates the relevance ranking of this object within a query (e.g., fuzzy match)"));
-            fields.Add(FieldFromProperty("__all",typeof(String),"shortcut to add all properties"));
+
+            foreach (var c in customiseSchema.AddAdditionalFields(dotNetType))
+            {
+                fields.Add(FieldFromProperty(c.fieldName,c.fieldType,c.description));
+            }
 
             description = descriptionFromType(dotNetType);
         }
@@ -181,13 +169,13 @@ namespace GraphQL.GraphQLType
                 inputFields.Add(new __InputValue(pi.Name, CreateOrGetType(pi.PropertyType)));
             }
         }
-        
+
+        /*
         void UnionType()
         {
             kind = __TypeKind.UNION;
             name = dotNetType.Name;
             possibleTypes = new List<__Type>();
-
             var types = typeUniverse.Where((x) => dotNetType.IsAssignableFrom(x) && x != dotNetType && !x.IsInterface ).ToArray();
 
             foreach (var c in types)
@@ -197,6 +185,7 @@ namespace GraphQL.GraphQLType
 
             description = descriptionFromType(dotNetType);
         }
+        */
 
         __Field FieldFromProperty(string name, Type t,string desc="")
         {
@@ -206,15 +195,7 @@ namespace GraphQL.GraphQLType
             f.description = desc;
             return f;
         }
-
-        __Type CreateOrGetType(Type t)
-        {
-            if (resolver.ContainsKey(t) == false)
-                resolver[t] = new __Type(t, resolver,typeUniverse,includeProperty);
-            return resolver[t];
-        }
-
-
+        
         void ScalarType()
         {
             kind = __TypeKind.SCALAR;

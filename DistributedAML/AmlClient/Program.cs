@@ -17,7 +17,6 @@ using Google.Protobuf;
 using Google.Protobuf.Collections;
 using Google.Protobuf.Reflection;
 using GraphQL;
-using GraphQLInterface;
 using Logger;
 using NetMQ;
 using Newtonsoft.Json;
@@ -58,12 +57,8 @@ namespace AmlClient
             }
 
 
-            SchemaLoader.InitializeSchema(typeof(Query),Assembly.GetAssembly(typeof(ICommsContract)).ExportedTypes,IncludeProperty);
-
-            var schema = SchemaLoader.GetSchema(typeof(Query));
-
             var output = new GraphQlDocument("test")
-                .Validate(schema)
+                .Validate(typeof(Query))
                 .Run(new Query())
                 .GetOutput();            
 

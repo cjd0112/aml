@@ -6,7 +6,7 @@ namespace GraphQL.Interface
 {
     public interface IGraphQlDocument
     {
-        IGraphQlDocument CustomiseSchema(IGraphQlCustomiseSchema custom);
+        IGraphQlDocument CustomiseSchema(GraphQlCustomiseSchema custom);
 
         IGraphQlDocument Validate(Type topLevelType);
 

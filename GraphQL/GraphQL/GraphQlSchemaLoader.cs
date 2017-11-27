@@ -15,7 +15,7 @@ namespace GraphQL
         {
             if (cached.ContainsKey(root) == false)
             {
-                throw new Exception($"Schema not found - {root.Name}.  Need to call InitializeSchema first ... ");
+                return null;
             }
             else
             {
@@ -23,28 +23,23 @@ namespace GraphQL
             }
         }
 
-        public static void InitializeSchema(Type root, GraphQlCustomiseSchema custom)
+        public static __SchemaContainer InitializeSchema(Type root, GraphQlCustomiseSchema custom)
         {
             if (cached.ContainsKey(root) == false)
             {
-                if (typeUniverse == null)
-                    typeUniverse = root.Assembly.ExportedTypes;
-
-                if (includeProperty == null)
-                    includeProperty = (x) => true;
-
                 var types = new Dictionary<Type, __Type>();
-                var schemaContainer = new __SchemaContainer(new __Schema(new __Type(root, types, typeUniverse, includeProperty)));
+                var schemaContainer = new __SchemaContainer(new __Schema(new __Type(root, types,custom)));
                 var foo =
                     new[]
                         {
                             root,
                             typeof(__SchemaContainer)
-                        }.Select(x => new __Type(x, types, typeUniverse, includeProperty))
+                        }.Select(x => new __Type(x, types, custom))
                         .ToArray();
                 schemaContainer.__schema.types = types.Values.Where(SchemaTypeFilter).ToList();
                 cached[root] = schemaContainer;
             }
+            return cached[root];
         }
 
         static bool SchemaTypeFilter(__Type t)
