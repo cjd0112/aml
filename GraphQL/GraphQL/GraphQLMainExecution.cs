@@ -291,6 +291,8 @@ namespace GraphQL
             Dictionary<string, Object> argumentValues)
         {
             var pi = objectType.dotNetType.GetTypeInfo().GetProperty(fieldName);
+            if (objectValue == null)
+                return null;
             return pi.GetValue(objectValue);
         }
 
@@ -309,27 +311,27 @@ namespace GraphQL
                 var innerType = fieldType.ofType;
                 CompleteValue(innerType, field, fields, result, variableValues, true);
             }
-            else if (result == null)
+            else if (result == null && assertNotNull)
             {
-                if (assertNotNull)
-                {
-                    Error($"Null or empty value was found on non null fiell", field);
-                }
+                Error($"Null or empty value was found on non null field", field);
             }
             else if (fieldType.kind == __TypeKind.LIST)
             {
-                if (TypeCheck.IsEnumerableType(result.GetType()) == false)
+                if (result != null && TypeCheck.IsEnumerableType(result.GetType()) == false)
                     Error($"Did not find list type for {field.fieldName().GetText()} - found {result.GetType().Name}",
                         field);
                 var innerType = fieldType.ofType;
 
                 output.PushArray(field.fieldName().GetText());
-                foreach (var c in (IEnumerable) result)
+                if (result != null)
                 {
-                    if (field.fieldName().GetText() == "types" && IsSchemaQuery && c is __Type &&
-                        ((__Type) c).name.StartsWith("__"))
-                        continue;
-                    CompleteValue(innerType, field, fields, c, variableValues, false, Context.List);
+                    foreach (var c in (IEnumerable) result)
+                    {
+                        if (field.fieldName().GetText() == "types" && IsSchemaQuery && c is __Type &&
+                            ((__Type) c).name.StartsWith("__"))
+                            continue;
+                        CompleteValue(innerType, field, fields, c, variableValues, false, Context.List);
+                    }
                 }
                 output.Pop();
             }
@@ -347,16 +349,25 @@ namespace GraphQL
 
                     if (context == Context.Object)
                     {
-                        output.PushObject(field.fieldName().GetText());
+                        if (result == null)
+                            output.AddScalarProperty(field.fieldName().GetText(), null);
+                        else
+                        {
+                            output.PushObject(field.fieldName().GetText());
+                            ExecuteSelectionSet(subSelectionSet, objectType, result, variableValues);
+                        }
                     }
                     else if (context == Context.List)
                     {
-                        output.PushObject();
+                        if (result != null)
+                        {
+                            output.PushObject();
+                            ExecuteSelectionSet(subSelectionSet, objectType, result, variableValues);
+                        }
                     }
 
-                    ExecuteSelectionSet(subSelectionSet, objectType, result, variableValues);
-
-                    output.Pop();
+                    if (result != null)
+                        output.Pop();
                 }
                 else
                 {
@@ -466,7 +477,19 @@ namespace GraphQL
         {
             try
             {
-                if (fieldType.dotNetType == value.GetType())
+                if (value == null)
+                {
+                    if (context == Context.List)
+                    {
+                        output.AddScalarValue(null);
+                    }
+                    else
+                    {
+                        output.AddScalarProperty(field.fieldName().GetText(), null);
+                    }
+
+                }
+                else if (fieldType.dotNetType == value.GetType())
                 {
                     if (context == Context.List)
                     {

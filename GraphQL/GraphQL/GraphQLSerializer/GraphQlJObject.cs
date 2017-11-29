@@ -11,8 +11,6 @@ namespace GraphQL.GraphQLSerializer
         private JObject root;
         private JContainer current;
 
-      
-
         public void AddScalarProperty(string field,object value)
         {
             if (root == null || current == null)
@@ -104,10 +102,37 @@ namespace GraphQL.GraphQLSerializer
             }
         }
 
+        public void AddException(IGraphQlException exception)
+        {
+            var e2 = exception as Exception;
+            var obj = new List<Object>();
+            obj.Add(new
+            {
+                message = e2.Message,
+                line = exception.Line,
+                column = exception.Column,
+                stacktrace = e2.StackTrace
+            });
+
+            if (e2.InnerException != null)
+            {
+                obj.Add(new
+                {
+                    message = e2.InnerException.Message,
+                    stacktrace = e2.InnerException.StackTrace
+                });
+            }
+
+            root = JObject.FromObject(new
+            {
+                errors = obj
+            });
+        }
+
 
         object ConvertValue(Object value)
         {
-            if (value.GetType().IsEnum)
+            if (value != null && value.GetType().IsEnum)
                 return value.ToString();
             return value;
         }

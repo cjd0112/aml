@@ -14,6 +14,8 @@ namespace GraphQL.Interface
         void Pop();
         void AddScalarValue(object value);
 
+        void AddException(IGraphQlException exception);
+
         Object GetRoot();
 
     }

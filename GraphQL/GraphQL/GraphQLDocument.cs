@@ -56,8 +56,21 @@ namespace GraphQL
             if (schema == null)
                 throw new Exception("Need to call 'validate' first");
 
-            output = new GraphQlJObject();
-            var p = new GraphQlMainExecution(this,schema,output,topLevelObject);
+            try
+            {
+                output = new GraphQlJObject();
+                var p = new GraphQlMainExecution(this, schema, output, topLevelObject);
+            }
+            catch (GraphQlException e)
+            {
+                output = new GraphQlJObject();
+                output.AddException(e);
+            }
+            catch (Exception e)
+            {
+                output = new GraphQlJObject();
+                output.AddException(new GraphQlException(e,0,0));
+            }
             return this;
         }
 

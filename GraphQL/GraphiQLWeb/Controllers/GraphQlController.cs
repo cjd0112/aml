@@ -38,12 +38,15 @@ namespace GraphiQLWeb.Controllers
                 foo.Add(new SubObject { Foo = SubObject.Blah.Blah1, TEst2 = "hallo flldldl" });
                 foo.Add(new SubObject { Foo = SubObject.Blah.Blah1, TEst2 = "hallo flldldl" });
 
+                MySubObject = new SubObject();
+
             }
             public List<SubObject> foo { get; set; }
 
 
             public SubObject MySubObject { get; set; }
 
+            public SubObject NullSubObject { get; set; }
 
 
         }
