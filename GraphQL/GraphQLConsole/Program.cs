@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using GraphQL;
+using GraphQL.Interface;
 
 namespace GraphQLConsole
 {
@@ -62,6 +64,14 @@ namespace GraphQLConsole
         public SortTypeEnum SortType { get; set; }
 
     }
+
+    public class Customise : GraphQlCustomiseSchema
+    {
+        public override string GetDescription(PropertyInfo pi)
+        {
+            return base.GetDescription(pi);
+        }
+    }
     class Program
     {
         static void Main(string[] args)
@@ -73,6 +83,7 @@ namespace GraphQLConsole
                 var query = new StreamReader("SchemaQuery.txt").ReadToEnd();
 
                 var output = new GraphQlDocument(query)
+                    .CustomiseSchema(new GraphQlCustomiseSchema())
                     .Validate(typeof(Query))
                     .Run(new Query())
                     .GetOutput();
