@@ -12,6 +12,6 @@ namespace GraphQL.Interface
 
         IGraphQlDocument Run(Object topLevelObject);
 
-        String GetOutput();
+        Object GetOutput();
     }
 }

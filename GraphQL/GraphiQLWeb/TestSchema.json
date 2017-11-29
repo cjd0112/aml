@@ -1,4 +1,11 @@
 ﻿{
+  "foo": [ 1, 2, 3, 4, 5 ],
+
+  "blah": [
+    [ 1, 2, 3 ],
+    [ 4, 5, 6 ]
+  ],
+  
   "data": {
     "__schema": {
       "queryType": { "name": "StarWarsQuery" },

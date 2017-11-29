@@ -6,14 +6,15 @@ namespace GraphQL.Interface
 {
     public interface IGraphQlOutput
     {
-        void Push(Object data, string field, int pos = -1);
-        void Push(String field, int pos = -1);
+        void AddScalarProperty(String field,Object value);
+        void PushObject();
+        void PushObject(string name);
+        void PushArray(string name);
+        void PushArray();
         void Pop();
-        void PushList(List<Object> list, String field, int pos = -1);
-        void PushList(string field, int pos = -1);
+        void AddScalarValue(object value);
 
-        void ProcessValue(String field, Object value, int pos = -1);
-        void ProcessValue(Object value);
+        Object GetRoot();
 
     }
 }

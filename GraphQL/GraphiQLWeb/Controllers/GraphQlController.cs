@@ -58,14 +58,8 @@ namespace GraphiQLWeb.Controllers
                 .Run(new Query())
                 .GetOutput();
 
-            var g = Directory.GetCurrentDirectory();
-
-            var s = new StreamReader("TestSchema.json").ReadToEnd();
-
-            var obj = JObject.Parse(output);
-
-
-            return Ok(obj);
+           
+            return Ok(output);
 
         }
     }

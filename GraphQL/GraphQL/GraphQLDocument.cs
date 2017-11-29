@@ -1,8 +1,9 @@
 ﻿using System;
 using Antlr4.Runtime;
+using GraphQL.GraphQLSerializer;
 using GraphQL.GraphQLType;
 using GraphQL.Interface;
-using GraphlLOutput = GraphQL.GraphQLSerializer.GraphlLOutput;
+using Newtonsoft.Json.Linq;
 
 namespace GraphQL
 {
@@ -55,14 +56,14 @@ namespace GraphQL
             if (schema == null)
                 throw new Exception("Need to call 'validate' first");
 
-            output = new GraphlLOutput();
+            output = new GraphQlJObject();
             var p = new GraphQlMainExecution(this,schema,output,topLevelObject);
             return this;
         }
 
-        public String GetOutput()
+        public Object GetOutput()
         {
-            return output.ToString();
+            return output.GetRoot();
         }
     }
 }

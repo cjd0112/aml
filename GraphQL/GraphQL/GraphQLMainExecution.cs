@@ -39,7 +39,7 @@ namespace GraphQL
 
             var variables = new Dictionary<string, Object>();
 
-            output.Push("data");
+            output.PushObject("data");
 
             ExecuteSelectionSet(new ModifiableSelectionSet(operation.selectionSet()), queryType, topLevelObject,
                 variables);
@@ -323,7 +323,7 @@ namespace GraphQL
                         field);
                 var innerType = fieldType.ofType;
 
-                output.PushList(field.fieldName().GetText());
+                output.PushArray(field.fieldName().GetText());
                 foreach (var c in (IEnumerable) result)
                 {
                     if (field.fieldName().GetText() == "types" && IsSchemaQuery && c is __Type &&
@@ -345,7 +345,14 @@ namespace GraphQL
                     var objectType = fieldType;
                     var subSelectionSet = MergeSelectionSets(fields);
 
-                    output.Push(field.fieldName().GetText());
+                    if (context == Context.Object)
+                    {
+                        output.PushObject(field.fieldName().GetText());
+                    }
+                    else if (context == Context.List)
+                    {
+                        output.PushObject();
+                    }
 
                     ExecuteSelectionSet(subSelectionSet, objectType, result, variableValues);
 
@@ -463,11 +470,11 @@ namespace GraphQL
                 {
                     if (context == Context.List)
                     {
-                        output.ProcessValue(value);
+                        output.AddScalarValue(value);
                     }
                     else
                     {
-                        output.ProcessValue(field.fieldName().GetText(), value);
+                        output.AddScalarProperty(field.fieldName().GetText(), value);
                     }
                 }
                 else
