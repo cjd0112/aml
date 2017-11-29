@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace GraphiQLWeb.Controllers
     [Route("GraphQl")]
     public class GraphQlController : Controller
     {
+        [Description("this is description of sub-object class")]
         public class SubObject
         {
             public enum Blah
@@ -26,9 +28,14 @@ namespace GraphiQLWeb.Controllers
                 Blah2,
             }
 
+            [Description("this is test2 field")]
             public String TEst2 { get; set; }
+            
+            [Description("this is blah field")]
             public Blah Foo { get; set; }
         }
+        
+        [Description("my top level query")]
         public class Query
         {
             public Query()
@@ -41,6 +48,8 @@ namespace GraphiQLWeb.Controllers
                 MySubObject = new SubObject();
 
             }
+            
+            [Description("my foo list object")]
             public List<SubObject> foo { get; set; }
 
 

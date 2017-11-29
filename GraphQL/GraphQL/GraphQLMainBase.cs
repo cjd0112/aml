@@ -22,8 +22,8 @@ namespace GraphQL
         public void Error(string error, ParserRuleContext context)
         {
             if (context == null)
-                throw new Exception($"Error processing query - {error}");
-            throw new Exception($"Error processing query - {error}, Line - {context.Start.Line}, Column - {context.Start.Column}");
+                throw new GraphQlException($"Error processing query - {error}",0,0);
+            throw new GraphQlException($"Error processing query - {error}, Line - {context.Start.Line}, Column - {context.Start.Column}",context.Start.Line,context.Start.Column);
         }
 
         protected GraphQLParser.OperationDefinitionContext GetTopLevelOperation(String operationName = "")

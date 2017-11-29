@@ -15,5 +15,12 @@ namespace GraphQL
             this.Line = line;
             this.Column = column;
         }
+
+        public GraphQlException(String e, int line, int column) : base(e)
+        {
+            this.Line = line;
+            this.Column = column;
+        }
+
     }
 }
