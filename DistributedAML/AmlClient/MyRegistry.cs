@@ -32,7 +32,7 @@ namespace AmlClient
                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
                 var config = builder.Build();
-
+                
                 LogSource ls;
                 Enum.TryParse<LogSource>(config["ApplicationName"], out ls);
 
