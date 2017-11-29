@@ -51,7 +51,7 @@ namespace GraphQL.Interface
         {
             if (typeof(IEnumerable).IsAssignableFrom(pi.PropertyType) && pi.PropertyType != typeof(String))
             {
-                return GetAllSearchableValues(pi.PropertyType);
+                return GetAllSearchableValues(pi.PropertyType.GenericTypeArguments[0]);
             }
             return Enumerable.Empty<(string, Type)>();
         }
