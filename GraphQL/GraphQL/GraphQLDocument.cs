@@ -13,6 +13,7 @@ namespace GraphQL
         private IGraphQlOutput output;
         private GraphQlCustomiseSchema custom;
         private __SchemaContainer schema;
+        private bool validation_errors = false;
         public GraphQlDocument(String query)
         {
             var lexer = new GraphQLLexer(new AntlrInputStream(query));
@@ -42,17 +43,36 @@ namespace GraphQL
             if (custom == null)
                 custom = new GraphQlCustomiseSchema();
 
-            schema = GraphQlSchemaLoader.GetSchema(topLevelType);
+            try
+            {
+                schema = GraphQlSchemaLoader.GetSchema(topLevelType);
 
-            if (schema == null)
-                schema = GraphQlSchemaLoader.InitializeSchema(topLevelType,custom);
+                if (schema == null)
+                    schema = GraphQlSchemaLoader.InitializeSchema(topLevelType,custom);
 
-            var z = new GraphQlMainValidation(this,schema);
+                var z = new GraphQlMainValidation(this,schema);
+
+            }
+            catch (GraphQlException e)
+            {
+                validation_errors = true;
+                output = new GraphQlJObject();
+                output.AddException(e);
+            }
+            catch (Exception e)
+            {
+                validation_errors = true;
+                output = new GraphQlJObject();
+                output.AddException(new GraphQlException(e,0,0));
+            }
             return this;
         }
 
         public IGraphQlDocument Run(Object topLevelObject,IGraphQlDatabase db=null)
         {
+            if (validation_errors)
+                return this;
+            
             if (schema == null)
                 throw new Exception("Need to call 'validate' first");
 
