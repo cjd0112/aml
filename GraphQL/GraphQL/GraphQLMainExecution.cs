@@ -10,6 +10,19 @@ using GraphQL.Utilities;
 
 namespace GraphQL
 {
+    public class EmptyGraphQlDatabase : IGraphQlDatabase
+    {
+        public bool SupportField(object parentObject, string fieldName)
+        {
+            return false;
+        }
+
+        public IEnumerable<object> ResolveFieldValue(object parentObject, string fieldName, Dictionary<string, object> argumentValues)
+        {
+            return Enumerable.Empty<object>();
+        }
+    }
+
     public class GraphQlMainExecution : GraphQlMainBase 
     {
         public bool IsSchemaQuery { get; set; }
@@ -27,7 +40,7 @@ namespace GraphQL
         {
             this.TopLevelObject = topLevelObject;
             this.output = output;
-            this.db = db;
+            this.db = db ?? new EmptyGraphQlDatabase();
             var queryType = schema.__schema.queryType;
 
             GetTypeFunc = schema.GetType;
@@ -271,25 +284,20 @@ namespace GraphQL
 
             var argumentValues = CoerceArgumentValues(objectType, field, variableValues);
 
+            var resolvedValue =
+                ResolveFieldValue(objectType, objectValue, field.fieldName().GetText(), argumentValues);
 
-            if (objectValue == TopLevelObject && db != null &&  db.IsTopLevelQueryFieldSupported(field.fieldName().GetText(), objectValue))
-            {
-                throw new Exception("Entry into db system not yet supported");
-            }
-            else
-            {
-
-                var resolvedValue =
-                    ResolveFieldValue(objectType, objectValue, field.fieldName().GetText(), argumentValues);
-
-                CompleteValue(fieldType, field, fields, resolvedValue, variableValues);
-            }
+            CompleteValue(fieldType, field, fields, resolvedValue, variableValues);
         }
 
 
         Object ResolveFieldValue(__Type objectType, Object objectValue, String fieldName,
             Dictionary<string, Object> argumentValues)
         {
+            if (db.SupportField(objectValue, fieldName))
+            {
+                return db.ResolveFieldValue(objectValue, fieldName, argumentValues);
+            }
             var pi = objectType.dotNetType.GetTypeInfo().GetProperty(fieldName);
             if (objectValue == null)
                 return null;

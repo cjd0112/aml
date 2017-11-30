@@ -51,7 +51,7 @@ namespace GraphQL
             return this;
         }
 
-        public IGraphQlDocument Run(Object topLevelObject)
+        public IGraphQlDocument Run(Object topLevelObject,IGraphQlDatabase db=null)
         {
             if (schema == null)
                 throw new Exception("Need to call 'validate' first");
@@ -59,7 +59,7 @@ namespace GraphQL
             try
             {
                 output = new GraphQlJObject();
-                var p = new GraphQlMainExecution(this, schema, output, topLevelObject);
+                var p = new GraphQlMainExecution(this, schema, output, topLevelObject,db);
             }
             catch (GraphQlException e)
             {

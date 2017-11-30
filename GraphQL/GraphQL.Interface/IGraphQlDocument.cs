@@ -10,7 +10,7 @@ namespace GraphQL.Interface
 
         IGraphQlDocument Validate(Type topLevelType);
 
-        IGraphQlDocument Run(Object topLevelObject);
+        IGraphQlDocument Run(Object topLevelObject,IGraphQlDatabase db=null);
 
         Object GetOutput();
     }
