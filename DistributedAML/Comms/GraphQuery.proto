@@ -1,0 +1,13 @@
+﻿syntax="proto3";
+
+message GraphQuery
+{
+	string Query = 1;
+	bool IsSchemaQuery = 2;
+}
+
+message GraphResponse
+{
+	string Response = 1;
+}
+

@@ -82,6 +82,13 @@ namespace Comms.ClientServer
                     ret.PackMessageList<YesNo>(methodResult);;
                     break;
                 }
+               case "RunQuery":
+                {
+                    var query = request.UnpackMessage<GraphQuery>(GraphQuery.Parser.ParseDelimitedFrom);					
+                    var methodResult=RunQuery(query);
+                    ret.PackMessage<GraphResponse>(methodResult);;
+                    break;
+                }
                     default:
                         throw new Exception($"Unexpected selector - {selector}");
                 }
@@ -108,6 +115,8 @@ namespace Comms.ClientServer
 		public abstract IEnumerable<AccountToParty> GetLinkages(IEnumerable<Identifier> source,LinkageDirection direction);
 
 		public abstract IEnumerable<YesNo> AccountsExist(IEnumerable<Identifier> account);
+
+		public abstract GraphResponse RunQuery(GraphQuery query);
 
     }
 }

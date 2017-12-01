@@ -33,6 +33,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Antlr4.Core">
+      <HintPath>..\..\GraphQL\GraphQL\bin\Debug\netcoreapp2.0\Antlr4.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphQL">
+      <HintPath>..\..\GraphQL\GraphQL\bin\Debug\netcoreapp2.0\GraphQL.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphQL.Antlr">
+      <HintPath>..\..\GraphQL\GraphQL\bin\Debug\netcoreapp2.0\GraphQL.Antlr.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphQL.Interface">
+      <HintPath>..\..\GraphQL\GraphQL.Interface\bin\Debug\netcoreapp2.0\GraphQL.Interface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

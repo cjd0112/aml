@@ -16,5 +16,8 @@ namespace Comms
 
         IEnumerable<Y> SendEnumerableListResult<T, Y>(string function, Func<Stream, Y> transform, IEnumerable<T> lst,
             params Object[] param) where T : IMessage where Y : IMessage;
+
+        Y Send<T, Y>(string function, Func<Stream,Y> transform, T msg, params Object[] param) where T : IMessage where Y : IMessage;
+        Y Send<Y>(string function, Func<Stream, Y> transform, params Object[] param) where Y : IMessage;
     }
 }

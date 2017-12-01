@@ -245,6 +245,29 @@ namespace AMLWorker
             txn.Commit();
         }
 
+        public static IEnumerable<byte[]> GetBlobs(SqliteConnection connection, String tableName, int start, int end)
+        {
+            using (var txn = connection.BeginTransaction())
+            {
+                String queryCommand = $"select data from {tableName} where rowid>=start && rowid < end";
+
+                using (var queryCmd = connection.CreateCommand())
+                {
+                    queryCmd.CommandText = queryCommand;
+
+                    using (var data = queryCmd.ExecuteReader())
+                    {
+                        while (data.Read())
+                        {
+                            yield return data[0] as byte[];
+                        }
+                    }
+
+                }
+                txn.Commit();
+            }
+        }
+
         public static IEnumerable<(string, byte[])> QueryId2(SqliteConnection connection, String tableName, IEnumerable<Object> objs, Func<Object, string> getMapping)
         {
             using (var txn = connection.BeginTransaction())

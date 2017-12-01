@@ -17,12 +17,12 @@ namespace TestConsole
                 Console.WriteLine("Hello World!");
 
                 var query = new StreamReader("SchemaQuery.txt").ReadToEnd();
-
+                /*
                 var output = new GraphQlDocument(query)
                     .Validate(typeof(Query))
                     .Run(new Query())
                     .GetOutput();
-
+                    */
             }
             catch (Exception e)
             {

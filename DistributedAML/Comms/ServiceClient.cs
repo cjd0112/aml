@@ -97,5 +97,23 @@ namespace Comms
             return ret;
         }
 
+        public Y Send<T, Y>(string function, Func<Stream,Y> transform, T data, params object[] param) where T : IMessage where Y : IMessage
+        {
+            var msg = new NetMQMessage();
+            msg.Append(function);
+            msg.PackMessage(data);
+            var result = Send(msg);
+            if (result.First.IsEmpty) throw new Exception(result[1].ConvertToString());
+            return result.UnpackMessage<Y>(transform);
+        }
+        public Y Send<Y>(string function, Func<Stream, Y> transform, params object[] param) where Y : IMessage
+        {
+            var msg = new NetMQMessage();
+            msg.Append(function);
+            var result = Send(msg);
+            if (result.First.IsEmpty) throw new Exception(result[1].ConvertToString());
+            return result.UnpackMessage<Y>(transform);
+        }
+
     }
 }

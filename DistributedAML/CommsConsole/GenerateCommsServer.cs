@@ -91,7 +91,7 @@ namespace Comms.ClientServer
         {
             var access = "public abstract";
             var ret = "";
-            if (typeof(IEnumerable).IsAssignableFrom(method.ReturnType))
+            if (IsObjectEnumerable(method.ReturnType))
             { 
                 ret = $"IEnumerable<{method.ReturnType.GenericTypeArguments[0].Name}>";
             }
@@ -185,6 +185,11 @@ var s = $@"               case ""{method.Name}"":
                         throw new Exception($"Unexpected list type {paramType.Name} ");
                     }
                 }
+                else if (IsSupportedObject(c.ParameterType))
+                {
+                    s +=
+                        $"var {c.Name} = request.UnpackMessage<{c.ParameterType.Name}>({c.ParameterType.Name}.Parser.ParseDelimitedFrom);";
+                }
                 else
                 {
                     throw new Exception($"Unexpected type - {c.ParameterType} - name {c.Name}");
@@ -214,6 +219,10 @@ var s = $@"               case ""{method.Name}"":
                     var t = mi.ReturnType.GenericTypeArguments[0];
                     s = $"ret.PackMessageList<{t.Name}>(methodResult);";
                 }
+            }
+            else if (IsSupportedObject(mi.ReturnType))
+            {
+                s = $"ret.PackMessage<{mi.ReturnType.Name}>(methodResult);";
             }
             else
             {

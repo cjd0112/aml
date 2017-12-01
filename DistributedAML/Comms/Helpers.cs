@@ -12,6 +12,22 @@ namespace Comms
 {
     public static class Helpers
     {
+        public static NetMQMessage PackMessage<T>(this NetMQMessage msg, T foo) where T : IMessage
+        {
+            byte[] buff = new byte[foo.CalculateSize()];
+            var writer = new MemoryStream(buff);
+            foo.WriteDelimitedTo(writer);
+            msg.Append(LZ4Codec.Wrap(buff));
+            return msg;
+        }
+
+        public static T UnpackMessage<T>(this NetMQMessage msg, Func<Stream, T> parseObject) where T : IMessage
+        {
+            var buff = msg.Pop().ToByteArray();
+            var rdr = new MemoryStream(LZ4Codec.Unwrap(buff));
+            return parseObject(rdr);
+        }
+
         public static NetMQMessage PackMessageList<T>(this NetMQMessage msg, IEnumerable<T> foo) where T : IMessage
         {
             msg.Append(foo.Count());

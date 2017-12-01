@@ -70,20 +70,55 @@ namespace Comms.ClientServer
             return i.GetParameters().Aggregate(",", (x, y) => x + y.Name + ",").TrimEnd(',');
         }
 
+        enum MethodType
+        {
+            SupportMultiplePackets,
+            SupportSingleTransaction
+            
+        }
+
+        MethodType GetMethodType(MethodInfo method)
+        {
+            if (method.GetParameters().Any() && IsObjectEnumerable(method.GetParameters().First().ParameterType))
+                return MethodType.SupportMultiplePackets;
+            else
+                return MethodType.SupportSingleTransaction;
+        }
+
+
+
         String GenerateMethod(MethodInfo method)
         {
             var m = GenerateSignature(method);
             m += "\t\t{\n";
 
-            if (method.ReturnType == typeof(Int32))
+            if (GetMethodType(method) == MethodType.SupportMultiplePackets)
             {
-                m +=
-                    $"\t\t\treturn client.SendEnumerableIntResult<{method.GetParameters()[0].ParameterType.GenericTypeArguments[0].Name}>(\"{method.Name}\"{GenerateCallingArguments(method)});\n";
+                if (method.ReturnType == typeof(Int32))
+                {
+                    m +=
+                        $"\t\t\treturn client.SendEnumerableIntResult<{method.GetParameters()[0].ParameterType.GenericTypeArguments[0].Name}>(\"{method.Name}\"{GenerateCallingArguments(method)});\n";
+                }
+                else
+                {
+                    m +=
+                        $"\t\t\treturn client.SendEnumerableListResult<{method.GetParameters()[0].ParameterType.GenericTypeArguments[0].Name},{method.ReturnType.GenericTypeArguments[0].Name}>(\"{method.Name}\",{method.ReturnType.GenericTypeArguments[0].Name}.Parser.ParseDelimitedFrom{GenerateCallingArguments(method)});\n";
+                }
             }
             else
             {
-                m +=
-                    $"\t\t\treturn client.SendEnumerableListResult<{method.GetParameters()[0].ParameterType.GenericTypeArguments[0].Name},{method.ReturnType.GenericTypeArguments[0].Name}>(\"{method.Name}\",{method.ReturnType.GenericTypeArguments[0].Name}.Parser.ParseDelimitedFrom{GenerateCallingArguments(method)});\n";
+                if (method.GetParameters().Any())
+                {
+                    m +=
+                        $"\t\t\treturn client.Send<{method.GetParameters()[0].ParameterType.Name},{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseDelimitedFrom{GenerateCallingArguments(method)});\n";
+                }
+                else
+                {
+                    m +=
+                        $"\t\t\treturn client.Send<{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseDelimitedFrom{GenerateCallingArguments(method)});\n";
+
+                }
+
             }
 
             m += "\t\t}\n";
@@ -95,20 +130,32 @@ namespace Comms.ClientServer
         {
             var access = "public";
             var ret = "";
-            if (typeof(IEnumerable).IsAssignableFrom(method.ReturnType))
+            if (GetMethodType(method) == MethodType.SupportMultiplePackets)
             {
-                if (!typeof(IMessage).IsAssignableFrom(method.ReturnType.GenericTypeArguments[0]))
-                    throw new Exception($"Only support list of return values that are inherited from IMessage - received {method.ReturnType.GenericTypeArguments[0].Name} for {method.Name}");
+                if (IsObjectEnumerable(method.ReturnType))
+                {
+                    if (!typeof(IMessage).IsAssignableFrom(method.ReturnType.GenericTypeArguments[0]))
+                        throw new Exception(
+                            $"Only support list of return values that are inherited from IMessage - received {method.ReturnType.GenericTypeArguments[0].Name} for {method.Name}");
 
-                ret = $"IEnumerable<{method.ReturnType.GenericTypeArguments[0].Name}>";
+                    ret = $"IEnumerable<{method.ReturnType.GenericTypeArguments[0].Name}>";
+                }
+                else
+                {
+                    if (method.ReturnType != typeof(Int32))
+                        throw new Exception(
+                            $"Only support Int32 as scalar return values on methods that are sent with multiple packets - (have IEnumerable<IMessage> as first parameter) - processing {method.Name}");
+
+                    ret = method.ReturnType.Name;
+
+                }
             }
             else
             {
-                if (method.ReturnType != typeof(Int32))
-                    throw new Exception("Only support Int32 as scalar return values");
-
+                if (!IsSupportedObject(method.ReturnType))
+                    throw new Exception(
+                        $"Only support IMessage types as return type on methods that are sent in one packet - processing {method.Name}.");
                 ret = method.ReturnType.Name;
-
             }
             var name = method.Name;
             var parameters = method.GetParameters().Select(GenerateSignatureParameter)

@@ -9,6 +9,8 @@ using Comms;
 using Comms.ClientServer;
 using Fasterflect;
 using Google.Protobuf;
+using GraphQL;
+using GraphQL.Interface;
 using Logger;
 using Microsoft.Data.Sqlite;
 using Shared;
@@ -198,6 +200,22 @@ namespace AMLWorker
             return ret;
         }
 
+
+      
+
+        public override GraphResponse RunQuery(GraphQuery query)
+        {
+            using (var connection = SqlHelper.NewConnection(connectionString))
+            {
+                connection.Open();
+              
+                return new GraphResponse
+                {
+                    Response = new AmlRepositoryGraphDb(connection).Run(query.Query).ToString()
+                };
+            }
+        }
+
         public override int StoreTransactions(IEnumerable<Transaction> txns)
         {
             using (var connection = SqlHelper.NewConnection(connectionString))
@@ -213,5 +231,7 @@ namespace AMLWorker
                     });
             }
         }
+
+      
     }
 }

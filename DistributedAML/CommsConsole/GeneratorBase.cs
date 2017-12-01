@@ -53,5 +53,17 @@ namespace CommsConsole
             throw new Exception($"Unsupported parameter type -{pi.ParameterType.Name} for {pi.Name}");
 
         }
+
+        protected bool IsObjectEnumerable(Type o)
+        {
+            return (!(o == typeof(string)) && typeof(IEnumerable).IsAssignableFrom(o));
+        }
+
+        protected bool IsSupportedObject(Type o)
+        {
+            return (typeof(IMessage).IsAssignableFrom(o));
+
+        }
+
     }
 }

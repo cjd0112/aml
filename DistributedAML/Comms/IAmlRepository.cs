@@ -24,7 +24,6 @@ namespace Comms
 
         IEnumerable<YesNo> AccountsExist(IEnumerable<Identifier> account);
 
-        //GraphResponse GraphQuery(GraphQuery query);
-
+        GraphResponse RunQuery(GraphQuery query);
     }
 }

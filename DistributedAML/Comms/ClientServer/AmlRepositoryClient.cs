@@ -53,5 +53,11 @@ namespace Comms.ClientServer
 			return client.SendEnumerableListResult<Identifier,YesNo>("AccountsExist",YesNo.Parser.ParseDelimitedFrom,account);
 		}
 
+
+		public GraphResponse RunQuery(GraphQuery query)
+		{
+			return client.Send<GraphQuery,GraphResponse>("RunQuery",GraphResponse.Parser.ParseDelimitedFrom,query);
+		}
+
     }
 }
