@@ -6,11 +6,11 @@ using Logger;
 
 namespace AmlClient.Tasks
 {
-    public class MyTask<T> : Task<T>
+    public class AmlClientTask<T> : Task<T>
     {
         public int Bucket;
         public Object State;
-        public MyTask(String actionName, int bucket, Func<T> a, Object state = null) : base(() =>
+        public AmlClientTask(String actionName, int bucket, Func<T> a, Object state = null) : base(() =>
         {
             try
             {

@@ -45,6 +45,7 @@ namespace AMLWorker
         public Object Run(String query)
         {
             return new GraphQlDocument(query)
+                .CustomiseSchema(new CustomizeSchema())
                 .Validate(typeof(AmlRepositoryQuery))
                 .Run(new AmlRepositoryQuery(), this)
                 .GetOutput();

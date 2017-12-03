@@ -76,12 +76,12 @@ namespace AmlClient.Commands
 
             var buckets = factory.GetClientBuckets<IAmlRepository>().Count();
 
-            List<MyTask<IEnumerable<YesNo>>> tasks = new List<MyTask<IEnumerable<YesNo>>>();
+            List<AmlClientTask<IEnumerable<YesNo>>> tasks = new List<AmlClientTask<IEnumerable<YesNo>>>();
             Multiplexer.FromCsv<TransactionRole>(GetDataFile(), buckets, (x) => x.SortCode + x.Account,
                 x =>
                 {
                     tasks.Add(
-                        new MyTask<IEnumerable<YesNo>>("AccountsExist", x.Item1, () =>
+                        new AmlClientTask<IEnumerable<YesNo>>("AccountsExist", x.Item1, () =>
                         {
                             L.Trace(
                                 $"Hit this bucket start - {x.Item1} - Thread - {Thread.CurrentThread.ManagedThreadId}");

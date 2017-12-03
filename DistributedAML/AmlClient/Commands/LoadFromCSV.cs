@@ -87,7 +87,7 @@ namespace AmlClient.Commands
 
             if (dataType == DataType.Party)
             {
-                List<MyTask<IEnumerable<AccountToParty>>> tasks = new List<MyTask<IEnumerable<AccountToParty>>>();
+                List<AmlClientTask<IEnumerable<AccountToParty>>> tasks = new List<AmlClientTask<IEnumerable<AccountToParty>>>();
                 Multiplexer.FromCsv<Party>(GetDataFile(), buckets, (x) =>
                 {
                     x.Type = partyType;
@@ -96,7 +96,7 @@ namespace AmlClient.Commands
                 x =>
                 {
                     tasks.Add(
-                        new MyTask<IEnumerable<AccountToParty>>("GetLinkages", x.Item1, () => 
+                        new AmlClientTask<IEnumerable<AccountToParty>>("GetLinkages", x.Item1, () => 
                             factory.GetClient<IAmlRepository>(x.Item1)
                               .GetLinkages(x.Item2.Select(j => new Identifier{Id=j.Id}).ToList(), LinkageDirection.PartyToAccount),x.Item2));
                 });
@@ -132,7 +132,7 @@ namespace AmlClient.Commands
 
                     foreach (var b in mp.GetBuckets<Party>())
                     {
-                        partyTasks.Add(new MyTask<int>("StoreParties",b.Item1,()=>
+                        partyTasks.Add(new AmlClientTask<int>("StoreParties",b.Item1,()=>
                             factory.GetClient<IAmlRepository>(b.Item1)
                             .StoreParties(b.Item2)));
                     }
@@ -152,7 +152,7 @@ namespace AmlClient.Commands
                     Multiplexer.FromCsv<Account>(GetDataFile(), buckets, (x) => x.Id,
                         x =>
                         {
-                            tasks.Add(new MyTask<int>("StoreAccounts",x.Item1,()=>factory.GetClient<IAmlRepository>(x.Item1).StoreAccounts(x.Item2)));
+                            tasks.Add(new AmlClientTask<int>("StoreAccounts",x.Item1,()=>factory.GetClient<IAmlRepository>(x.Item1).StoreAccounts(x.Item2)));
                         });
                 }
                 else
@@ -166,7 +166,7 @@ namespace AmlClient.Commands
                         },
                         x =>
                         {
-                            tasks.Add(new MyTask<int>("StoreLinkages",x.Item1, () => factory.GetClient<IAmlRepository>(x.Item1).StoreLinkages(x.Item2, linkageDirection)));
+                            tasks.Add(new AmlClientTask<int>("StoreLinkages",x.Item1, () => factory.GetClient<IAmlRepository>(x.Item1).StoreLinkages(x.Item2, linkageDirection)));
                         });
                 }
 
@@ -180,7 +180,7 @@ namespace AmlClient.Commands
                 Multiplexer.FromCsv<Transaction>(GetDataFile(), buckets, (x) => x.Id,
                     x =>
                     {
-                        tasks.Add(new MyTask<int>("StoreTransactions", x.Item1, () => factory.GetClient<IAmlRepository>(x.Item1).StoreTransactions(x.Item2)));
+                        tasks.Add(new AmlClientTask<int>("StoreTransactions", x.Item1, () => factory.GetClient<IAmlRepository>(x.Item1).StoreTransactions(x.Item2)));
                     });
 
                 tasks.Do((x) => x.Start());
