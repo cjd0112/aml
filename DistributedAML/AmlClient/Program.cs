@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using AmlClient.AS.Application;
 using AmlClient.Commands;
 using As.Comms;
+using As.GraphQL;
 using CsvHelper;
 using Google.Protobuf;
 using Google.Protobuf.Collections;

@@ -10,7 +10,7 @@ using As.Comms.ClientServer;
 using Fasterflect;
 using Google.Protobuf;
 using GraphQL;
-using GraphQL.Interface;
+using As.GraphQL.Interface;
 using As.Logger;
 using Microsoft.Data.Sqlite;
 using As.Shared;
