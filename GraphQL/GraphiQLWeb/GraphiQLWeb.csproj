@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GraphQL.Interface\GraphQL.Interface.csproj" />
-    <ProjectReference Include="..\GraphQL\GraphQL.csproj" />
+    <ProjectReference Include="..\As.GraphQL.Interface\As.GraphQL.Interface.csproj" />
+    <ProjectReference Include="..\As.GraphQL\As.GraphQL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

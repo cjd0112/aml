@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using As.GraphQL;
+using As.GraphQL.Interface;
 using GraphQL;
-using GraphQL.Interface;
 
 namespace GraphQLConsole
 {
