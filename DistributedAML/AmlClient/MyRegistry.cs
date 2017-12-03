@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using AS.Logger;
-using Comms;
+using As.Logger;
+using As.Comms;
 using Google.Protobuf;
-using Logger;
 using Microsoft.Extensions.Configuration;
 using StructureMap;
 

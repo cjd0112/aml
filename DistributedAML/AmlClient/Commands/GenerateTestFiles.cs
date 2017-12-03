@@ -5,9 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using AmlClient.AS.Application;
-using Comms;
+using As.Comms;
 using CsvHelper;
-using Logger;
+using As.Logger;
+using As.Shared;
 using Shared;
 
 namespace AmlClient.Commands
@@ -21,7 +22,7 @@ namespace AmlClient.Commands
         public GenerateTestFiles(MyRegistry reg)
         {
             this.reg = reg;
-            TransactionsPerRetailCustomer = Int32.Parse(Shared.Helper.Prompt("Number of transactions per customer"));
+            TransactionsPerRetailCustomer = Int32.Parse(As.Shared.Helper.Prompt("Number of transactions per customer"));
         }
 
         string GetInputPathForParty(Party.Types.PartyType type)

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Linq;
-using AS.Logger;
-using Comms;
-using Logger;
+using As.Logger;
+using As.Comms;
 using Microsoft.Extensions.Configuration;
 using StructureMap;
 

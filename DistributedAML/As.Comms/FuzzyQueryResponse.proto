@@ -1,0 +1,14 @@
+﻿syntax="proto3";
+
+message FuzzyQueryResponseDetail
+{
+	string Candidate =1;
+	int64 PhraseId = 2;
+	double Score =3;
+}
+
+message FuzzyQueryResponse
+{
+	string Query=1;
+	repeated FuzzyQueryResponseDetail Detail= 2;
+};

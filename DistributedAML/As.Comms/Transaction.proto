@@ -1,0 +1,42 @@
+﻿syntax="proto3";
+import "Party.proto";
+
+message TransactionRole
+{
+	enum RoleType
+	{
+		Beneficiary=0;
+		Originator=1;
+		Intermediary1=2;
+		Intermediary2=3;
+	}
+	string TxnId = 1;
+	RoleType Type=2;
+
+	string SortCode=3;
+	string Account=4;
+	string Name=5;
+	string Address=6;
+
+	bool IsPseudo = 7;
+	bool IsFoundDirect=8;
+
+	string DiscoveredAccountId=9;
+
+	repeated Account Accounts=10;
+}
+
+
+message Transaction
+{
+	string Id = 1;
+	double Amount=2;
+	enum TransactionType
+	{
+		type1=0;
+		type2=1;
+	}
+	TransactionType type = 3;
+
+	repeated TransactionRole roles = 4;
+};

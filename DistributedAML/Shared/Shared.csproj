@@ -10,8 +10,4 @@
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Logger\Logger.csproj" />
-  </ItemGroup>
-
 </Project>

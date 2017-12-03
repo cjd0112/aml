@@ -27,9 +27,9 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Comms\Comms.csproj" />
-    <ProjectReference Include="..\Logger\Logger.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\As.Comms\As.Comms.csproj" />
+    <ProjectReference Include="..\As.Logger\As.Logger.csproj" />
+    <ProjectReference Include="..\As.Shared\As.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

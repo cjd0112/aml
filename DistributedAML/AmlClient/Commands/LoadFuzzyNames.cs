@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AmlClient.AS.Application;
-using Comms;
+using As.Comms;
 using CsvHelper;
-using Shared;
+using As.Shared;
 
 namespace AmlClient.Commands
 {

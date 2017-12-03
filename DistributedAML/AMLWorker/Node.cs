@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Shared;
+using As.Shared;
 using StructureMap;
 
 namespace AMLWorker

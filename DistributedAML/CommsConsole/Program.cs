@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Input;
-using Comms;
+using As.Comms;
 using NetMQ;
 using NetMQ.Sockets;
 using Xunit;
@@ -21,10 +21,10 @@ namespace CommsConsole
                 // update the google objects
                 var z2 = Directory.GetCurrentDirectory();
                 Console.WriteLine("Generating c# objects from .proto files");
-                foreach (var c in Directory.EnumerateFiles("../Comms/", "*.proto"))
+                foreach (var c in Directory.EnumerateFiles("../As.Comms/", "*.proto"))
                 {
                     var f = new FileInfo(c);
-                    var parameters = $"--csharp_out=../Comms --proto_path=../Comms {f.Name}";
+                    var parameters = $"--csharp_out=../As.Comms --proto_path=../As.Comms {f.Name}";
                     Console.WriteLine($"running 'protoc.exe {parameters}'");
                     System.Diagnostics.Process.Start("protoc.exe", parameters);
                 }
@@ -46,7 +46,7 @@ namespace CommsConsole
 
                 foreach (var c in commsTypes)
                 {
-                    var foo = new GenerateComms(c, googleList, "../Comms");
+                    var foo = new GenerateComms(c, googleList, "../As.Comms");
                     foo.GenerateFiles();
                 }
 

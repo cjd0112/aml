@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Logger;
+using As.Logger;
 using Microsoft.Data.Sqlite;
 
 namespace AMLWorker

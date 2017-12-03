@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 using AmlClient.AS.Application;
 using AmlClient.Tasks;
 using AmlClient.Utilities;
-using Comms;
+using As.Comms;
+using As.Logger;
+using As.Shared;
 using CsvHelper;
-using Logger;
 using Shared;
 
 namespace AmlClient.Commands

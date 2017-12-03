@@ -1,0 +1,73 @@
+﻿syntax="proto3";
+
+message AccountToParty
+{
+	string AccountId=1;
+	string PartyId=2;
+}
+
+message Identifier
+{
+	string Id = 1;
+}
+
+message YesNo
+{
+	bool Val =1;
+}
+
+message Account
+{	
+	string Id = 1;
+	string AccountNo = 2;
+	string SortCode = 3;
+	string IBAN =4;
+	string Currency = 5;
+	string Name = 6;
+
+	enum AccountType
+	{
+		Vostro=0;
+		Retail=1;
+		Corporate=2;
+		Pseudo=3;
+	}
+	AccountType Type=10;
+
+	repeated Party Parties = 100;
+}
+
+message Party
+{
+	enum PartyType
+	{
+		HomeBank=0;
+		Retail=1;
+		Corporate=2;
+		FinancialInstitution=3;
+		Pseudo=4;
+	}
+	 string Id = 1;
+	 PartyType Type = 2;
+	 string Name = 3;
+	 string CompanyName = 4;
+	 string Address1 = 5;
+	 string Address2 = 6;
+	 string Town = 7;
+	 string Country = 8;
+	 string PostCode = 9;
+	 string Telephone1 = 10;
+	 string Telephone2 = 11;
+	 string Email = 12;
+	 string WebAddress = 13;
+	 string TxnProfile = 14;
+	 string Sector = 15;
+	 string CEOName = 16;
+	 string CEOEmail = 17;
+	 string Website = 18;
+	 string City = 19;
+	 string FiSortCode=20;
+
+	 repeated Account Accounts = 100;
+
+};

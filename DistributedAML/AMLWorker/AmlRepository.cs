@@ -5,15 +5,15 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Text;
-using Comms;
-using Comms.ClientServer;
+using As.Comms;
+using As.Comms.ClientServer;
 using Fasterflect;
 using Google.Protobuf;
 using GraphQL;
 using GraphQL.Interface;
-using Logger;
+using As.Logger;
 using Microsoft.Data.Sqlite;
-using Shared;
+using As.Shared;
 
 namespace AMLWorker
 {

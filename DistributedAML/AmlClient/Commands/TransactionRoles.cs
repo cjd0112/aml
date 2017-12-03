@@ -11,9 +11,10 @@ using System.Xml.Serialization;
 using AmlClient.AS.Application;
 using AmlClient.Tasks;
 using AmlClient.Utilities;
-using Comms;
+using As.Comms;
 using CsvHelper;
-using Logger;
+using As.Logger;
+using As.Shared;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 using Shared;
 

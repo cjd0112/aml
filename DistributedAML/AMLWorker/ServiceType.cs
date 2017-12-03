@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Transactions;
-using Comms;
+using As.Comms;
 using StructureMap;
 
 namespace AMLWorker
