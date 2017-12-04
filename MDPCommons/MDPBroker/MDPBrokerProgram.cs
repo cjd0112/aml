@@ -75,7 +75,7 @@ namespace MDPBroker
 
         private static async Task RunBroker (CancellationTokenSource cts)
         {
-            using (var broker = new MDPCommons.MDPBroker ("tcp://localhost:5555"))
+            using (var broker = new As.MDPCommons.MDPBroker ("tcp://localhost:5555"))
             {
                 broker.LogInfoReady += (s, e) => Console.WriteLine (e.Info);
 
