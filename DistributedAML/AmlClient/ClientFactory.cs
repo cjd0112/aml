@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using As.Comms;
 using As.Logger;
-using MDPCommons;
+using As.MDPCommons;
 using NetMQ;
 using StructureMap;
 
@@ -93,12 +93,12 @@ namespace AmlClient
             }
         }
 
-        private void Z_LogInfoReady(object sender, MDPCommons.MDPLogEventArgs e)
+        private void Z_LogInfoReady(object sender, As.MDPCommons.MDPLogEventArgs e)
         {
             Console.WriteLine(e.Info);
         }
 
-        private void Z_ReplyReady(object sender, MDPCommons.MDPReplyEventArgs e)
+        private void Z_ReplyReady(object sender, As.MDPCommons.MDPReplyEventArgs e)
         {
             var msg = e.Reply.Pop();
             var serviceName = msg.ConvertToString();

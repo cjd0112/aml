@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using As.Comms;
-using MDPCommons;
+using As.MDPCommons;
 using NetMQ;
 
 namespace AMLWorker
