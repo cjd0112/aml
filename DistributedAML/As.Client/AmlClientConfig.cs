@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace AmlClient
+namespace As.Client
 {
     public class Client
     {

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using AmlClient.AS.Application;
-using As.Comms;
+using As.Client.AS.Application;
 using As.Logger;
 using StructureMap;
-using System.IO;
-using As.Client;
 
-namespace AmlClient.Commands
+namespace As.Client
 {
-    public class Initialize
+    public class InitializeBuckets
     {
         public class ClientWithBucket
         {
@@ -25,7 +21,7 @@ namespace AmlClient.Commands
         private Container c;
         private ClientFactory clientFactory;
         private string dbConnection;
-        public Initialize(Container c,MyRegistry reg,ClientFactory factory)
+        public InitializeBuckets(Container c,MyRegistry reg,ClientFactory factory)
         {
             this.reg = reg;
             this.c = c;
@@ -91,8 +87,8 @@ namespace AmlClient.Commands
                         var action = Console.ReadLine();
                         if (action.ToLower() == "y")
                         {
-                            db.CreateTable<Initialize.ClientWithBucket>();
-                            db.Delete<Initialize.ClientWithBucket>(service);
+                            db.CreateTable<InitializeBuckets.ClientWithBucket>();
+                            db.Delete<InitializeBuckets.ClientWithBucket>(service);
                         }
                         else
                         {
@@ -127,17 +123,17 @@ namespace AmlClient.Commands
                     throw new Exception(
                         $"Maximum bucket is less than zero it is - {bucketMax}  for {serviceType.Name}");
 
-                db.CreateTable<Initialize.ClientWithBucket>();
+                db.CreateTable<InitializeBuckets.ClientWithBucket>();
 
-                if (db.Find<Initialize.ClientWithBucket>(serviceType.Name) == null)
+                if (db.Find<InitializeBuckets.ClientWithBucket>(serviceType.Name) == null)
                 {
                     L.Trace($"Adding new initial bucket entry for {serviceType.Name}");
 
-                    db.Insert(new Initialize.ClientWithBucket {BucketCount = buckets.Count(), ClientName = serviceType.Name});
+                    db.Insert(new InitializeBuckets.ClientWithBucket {BucketCount = buckets.Count(), ClientName = serviceType.Name});
                 }
                 else
                 {
-                    var ppp = db.Find<Initialize.ClientWithBucket>(serviceType.Name);
+                    var ppp = db.Find<InitializeBuckets.ClientWithBucket>(serviceType.Name);
                     if (ppp.BucketCount != buckets.Count())
                     {
                         throw new Exception(

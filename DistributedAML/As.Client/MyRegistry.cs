@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using As.Client;
-using As.Logger;
 using As.Comms;
-using Google.Protobuf;
+using As.Logger;
 using Microsoft.Extensions.Configuration;
 using StructureMap;
 
-namespace AmlClient
+namespace As.Client
 {
     namespace AS.Application
     {
@@ -19,6 +17,17 @@ namespace AmlClient
             public String DataDirectory { get; set; }
 
             public List<Type> ClientTypes { get; set; }
+
+            public MyRegistry(IConfigurationRoot root,string clientName="")
+            {
+                if (String.IsNullOrEmpty(clientName))
+                {
+                    L.Trace("Setting client name to 'Default' as not passed on command line");
+                    clientName = "Default";
+                }
+
+                LoadDependencies(root,clientName);
+            }
 
             public MyRegistry(string clientName)
             {
@@ -29,10 +38,19 @@ namespace AmlClient
                 }
                 L.Trace($"Opening configuration file - {Directory.GetCurrentDirectory()}/appsettings.json with client -{clientName} ");
                 var builder = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
                 var config = builder.Build();
+
+                LoadDependencies(config,clientName);
                 
+              
+
+            }
+
+            void LoadDependencies(IConfigurationRoot config,string clientName)
+            {
                 LogSource ls;
                 Enum.TryParse<LogSource>(config["ApplicationName"], out ls);
 
@@ -57,18 +75,17 @@ namespace AmlClient
 
                 ClientTypes = new List<Type>();
 
-                ClientTypes.AddRange(Assembly.GetAssembly(typeof(ICommsContract)).GetTypes().Where(x=>typeof(ICommsContract).IsAssignableFrom(x) && x.IsInterface && x != typeof(ICommsContract)));
+                ClientTypes.AddRange(Assembly.GetAssembly(typeof(ICommsContract)).GetTypes().Where(x => typeof(ICommsContract).IsAssignableFrom(x) && x.IsInterface && x != typeof(ICommsContract)));
 
                 Scan(x =>
                 {
                     x.TheCallingAssembly();
                     x.AddAllTypesOf<IServiceClient>();
-                    x.Assembly("Comms");
+                    x.Assembly("As.Comms");
                     x.SingleImplementationsOfInterface();
                     x.AddAllTypesOf<ICommsContract>();
                     x.AddAllTypesOf<IServiceClient>();
                 });
-
 
             }
         }

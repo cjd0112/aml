@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using As.Comms;
 using As.Shared;
 using CsvHelper;
-using Google.Protobuf;
-using Shared;
 
-namespace AmlClient
+namespace As.Client
 {
     public class Multiplexer
     {

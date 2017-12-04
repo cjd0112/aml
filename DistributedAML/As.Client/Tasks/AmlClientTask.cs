@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using As.Logger;
 
-namespace AmlClient.Tasks
+namespace As.Client.Tasks
 {
     public class AmlClientTask<T> : Task<T>
     {

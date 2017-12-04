@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AmlClient.AS.Application;
-using AmlClient.Tasks;
 using AmlClient.Utilities;
+using As.Client;
+using As.Client.Tasks;
 using As.Comms;
 using As.Logger;
 using As.Shared;
 using CsvHelper;
-using Shared;
 
 namespace AmlClient.Commands
 {

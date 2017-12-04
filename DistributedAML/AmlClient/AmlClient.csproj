@@ -31,12 +31,13 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
     <PackageReference Include="NetMQ" Version="4.0.0.1" />
-    <PackageReference Include="StructureMap" Version="4.5.2" />
+    <PackageReference Include="StructureMap" Version="4.5.3" />
 		<PackageReference Include="System.Net.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Security.Principal.Windows" Version="4.4.0" /> 
     <PackageReference Include="runtime.native.System" Version="4.3.0" /> 
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\As.Client\As.Client.csproj" />
     <ProjectReference Include="..\As.Comms\As.Comms.csproj" />
     <ProjectReference Include="..\As.Logger\As.Logger.csproj" />
     <ProjectReference Include="..\As.Shared\As.Shared.csproj" />

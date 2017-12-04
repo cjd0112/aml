@@ -9,7 +9,6 @@ using As.Comms;
 using CsvHelper;
 using As.Logger;
 using As.Shared;
-using Shared;
 
 namespace AmlClient.Commands
 {

@@ -9,14 +9,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using AmlClient.AS.Application;
-using AmlClient.Tasks;
 using AmlClient.Utilities;
+using As.Client;
+using As.Client.Tasks;
 using As.Comms;
 using CsvHelper;
 using As.Logger;
 using As.Shared;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
-using Shared;
+
 
 namespace AmlClient.Commands
 {

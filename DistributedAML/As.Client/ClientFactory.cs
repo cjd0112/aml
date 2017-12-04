@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
-using System.Security.Authentication.ExtendedProtection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using As.Comms;
@@ -13,9 +10,9 @@ using As.MDPCommons;
 using NetMQ;
 using StructureMap;
 
-namespace AmlClient
+namespace As.Client
 {
-    public class ClientFactory : IClientProxy
+    public class ClientFactory : IClientProxy,IClientFactory
     {
         private MDPClientAsync mainClient;
 

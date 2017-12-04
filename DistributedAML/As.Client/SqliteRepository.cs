@@ -54,7 +54,7 @@ using Sqlite3Statement = System.IntPtr;
 
 #pragma warning disable 1591 // XML Doc Comments
 
-namespace Shared
+namespace As.Client
 {
     public class SQLiteException : Exception
     {
