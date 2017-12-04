@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MDPCommons\MDPCommons.csproj" />
+    <ProjectReference Include="..\As.MDPCommons\As.MDPCommons.csproj" />
   </ItemGroup>
 
 </Project>
