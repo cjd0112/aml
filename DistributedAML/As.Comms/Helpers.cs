@@ -15,7 +15,7 @@ namespace As.Comms
         {
             byte[] buff = new byte[foo.CalculateSize()];
             var writer = new MemoryStream(buff);
-            foo.WriteDelimitedTo(writer);
+            foo.WriteTo(writer);
             msg.Append(LZ4Codec.Wrap(buff));
             return msg;
         }

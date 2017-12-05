@@ -188,7 +188,7 @@ var s = $@"               case ""{method.Name}"":
                 else if (IsSupportedObject(c.ParameterType))
                 {
                     s +=
-                        $"var {c.Name} = request.UnpackMessage<{c.ParameterType.Name}>({c.ParameterType.Name}.Parser.ParseDelimitedFrom);";
+                        $"var {c.Name} = request.UnpackMessage<{c.ParameterType.Name}>({c.ParameterType.Name}.Parser.ParseFrom);";
                 }
                 else
                 {

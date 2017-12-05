@@ -73,7 +73,7 @@ namespace AMLWorker
             var txn = connection.BeginTransaction();
 
             String queryCommand = $"select rowid from {tableName} where id=($id)";
-            String updateCommand = $"update {tableName} set data='$data' where id=($id);";
+            String updateCommand = $"update {tableName} set data=$data where id=($id);";
             String insertCommand = $"insert into {tableName} (id,data) values ($id,$data);";
             
             foreach (var c in objs)
@@ -245,21 +245,33 @@ namespace AMLWorker
             txn.Commit();
         }
 
-        public static IEnumerable<byte[]> GetBlobs(SqliteConnection connection, String tableName, int start, int end)
+        public static IEnumerable<(string id,byte[] blob)> GetBlobs(SqliteConnection connection, String tableName, int start, int end)
         {
             using (var txn = connection.BeginTransaction())
             {
-                String queryCommand = $"select data from {tableName} where rowid>=start && rowid < end";
+                String queryCommand = $"select id,data from {tableName} where rowid>=$start and rowid < $end";
 
                 using (var queryCmd = connection.CreateCommand())
                 {
                     queryCmd.CommandText = queryCommand;
 
+                    queryCmd.Parameters.AddWithValue("$start",start);
+                    queryCmd.Parameters.AddWithValue("$end", end);
+
+                    int cnt = 0;
+
                     using (var data = queryCmd.ExecuteReader())
                     {
                         while (data.Read())
                         {
-                            yield return data[0] as byte[];
+                            cnt++;
+                            var id = data[0] as string;
+                            var x = data[1] as byte[];
+                            if (x == null)
+                            {
+                                L.Trace($"Invalid id - {id}");
+                            }
+                            yield return (id, x);
                         }
                     }
 

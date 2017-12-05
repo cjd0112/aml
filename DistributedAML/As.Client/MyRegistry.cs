@@ -18,7 +18,7 @@ namespace As.Client
 
             public List<Type> ClientTypes { get; set; }
 
-            public MyRegistry(IConfigurationRoot root,string clientName="")
+            public MyRegistry(IConfiguration root,string clientName="")
             {
                 if (String.IsNullOrEmpty(clientName))
                 {
@@ -29,27 +29,7 @@ namespace As.Client
                 LoadDependencies(root,clientName);
             }
 
-            public MyRegistry(string clientName)
-            {
-                if (String.IsNullOrEmpty(clientName))
-                {
-                    L.Trace("Setting client name to 'Default' as not passed on command line");
-                    clientName = "Default";
-                }
-                L.Trace($"Opening configuration file - {Directory.GetCurrentDirectory()}/appsettings.json with client -{clientName} ");
-                var builder = new ConfigurationBuilder()
-                   .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
-                var config = builder.Build();
-
-                LoadDependencies(config,clientName);
-                
-              
-
-            }
-
-            void LoadDependencies(IConfigurationRoot config,string clientName)
+            void LoadDependencies(IConfiguration config,string clientName)
             {
                 LogSource ls;
                 Enum.TryParse<LogSource>(config["ApplicationName"], out ls);

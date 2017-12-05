@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using AmlClient.AS.Application;
 using AmlClient.Utilities;
 using As.Client;
+using As.Client.AS.Application;
 using As.Client.Tasks;
 using As.Comms;
 using CsvHelper;
@@ -28,14 +28,14 @@ namespace AmlClient.Commands
             Internal,
         }
 
-        private ClientFactory factory;
-        private Initialize init;
+        private IClientFactory factory;
         private MyRegistry reg;
         private RoleCheck roleCheck;
-        public TransactionRoles(Initialize init, ClientFactory factory, MyRegistry reg)
+        private ClientServicePartitionValidator validator;
+        public TransactionRoles(ClientServicePartitionValidator validator, IClientFactory factory, MyRegistry reg)
         {
             this.factory = factory;
-            this.init = init;
+            this.validator = validator;
             this.reg = reg;
 
             roleCheck = EnumHelper.EnumPrompt<RoleCheck>();
@@ -74,7 +74,8 @@ namespace AmlClient.Commands
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            init.ValidateServiceBucketsAreConsistent(typeof(IAmlRepository));
+            
+            validator.ValidateServiceBucketIsConsistent(typeof(IAmlRepository));
 
             var buckets = factory.GetClientBuckets<IAmlRepository>().Count();
 

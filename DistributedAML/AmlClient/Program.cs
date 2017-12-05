@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using AmlClient.AS.Application;
 using AmlClient.Commands;
 using As.Comms;
 using As.GraphQL;
@@ -20,9 +19,14 @@ using Google.Protobuf.Reflection;
 using GraphQL;
 using As.Logger;
 using As.Shared;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using NetMQ;
 using Newtonsoft.Json;
 using StructureMap;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AmlClient
 {
@@ -33,10 +37,26 @@ namespace AmlClient
             String userCommand = "";
             Container c = null;
 
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            var config = builder.Build();
+
             try
             {
                 Console.WriteLine("Initializing Client ...");
-                As.Client.Initialize.Startup();
+                c = new Container();
+                ILoggerFactory loggerFactory = new LoggerFactory();
+                loggerFactory.AddProvider(new ConsoleLoggerProvider((s, level) => true, false));
+
+                c.Configure(x =>
+                {
+                    x.For<ILoggerFactory>().Use(loggerFactory);
+                    x.For(typeof(ILogger<>)).Use(typeof(Logger<>));
+                });
+
+                As.Client.InitializeClient.StartupAndRegisterClientServices(config, c);
             }
             catch (Exception e)
             {

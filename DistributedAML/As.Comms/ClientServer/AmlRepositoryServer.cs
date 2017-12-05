@@ -84,7 +84,7 @@ namespace As.Comms.ClientServer
                 }
                case "RunQuery":
                 {
-                    var query = request.UnpackMessage<GraphQuery>(GraphQuery.Parser.ParseDelimitedFrom);					
+                    var query = request.UnpackMessage<GraphQuery>(GraphQuery.Parser.ParseFrom);					
                     var methodResult=RunQuery(query);
                     ret.PackMessage<GraphResponse>(methodResult);;
                     break;

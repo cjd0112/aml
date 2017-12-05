@@ -11,8 +11,8 @@ namespace AmlClient.Commands
 {
     public class TestFuzzyNames : AmlCommand
     {
-        private ClientFactory factory;
-        public TestFuzzyNames(ClientFactory factory)
+        private IClientFactory factory;
+        public TestFuzzyNames(IClientFactory factory)
         {
             this.factory = factory;
 

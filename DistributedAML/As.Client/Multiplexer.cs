@@ -12,12 +12,12 @@ namespace As.Client
     public class Multiplexer
     {
         Dictionary<int,List<Object>> objs = new Dictionary<int, List<Object>>();
-        private int Buckets;
-        public Multiplexer(int buckets)
+        private int partitions;
+        public Multiplexer(int partitions)
         {
-            if (buckets <= 0)
-                throw new Exception($"Number of buckets must be greater than zero");
-            Buckets = buckets;
+            if (partitions <= 0)
+                throw new Exception($"Number of partitions must be greater than zero");
+            this.partitions = partitions;
 
         }
 
@@ -34,13 +34,13 @@ namespace As.Client
 
             rdr.GetRecords<T>().Do(x => mp.Add(onAddMultiplexer(x), x));
 
-            foreach (var g in mp.GetBuckets<T>())
+            foreach (var g in mp.GetPartitions<T>())
             {
                 onFinished(g);
             }
         }
 
-        public static void FromCsvMultipleBuckets<T>(string file, int buckets, Func<T, IEnumerable<string>> onAddMultiplexer,
+        public static void FromCsvMultiplePartitions<T>(string file, int buckets, Func<T, IEnumerable<string>> onAddMultiplexer,
             Action<(int, IEnumerable<T>)> onFinished)
         {
             CsvReader rdr = new CsvReader(new StreamReader(file));
@@ -53,23 +53,23 @@ namespace As.Client
 
             rdr.GetRecords<T>().Do(x => mp.Add(onAddMultiplexer(x), x));
 
-            foreach (var g in mp.GetBuckets<T>())
+            foreach (var g in mp.GetPartitions<T>())
             {
                 onFinished(g);
             }
         }
 
 
-        public static void FromList<T>(IEnumerable<T> o, int buckets, Func<T, string> onAddMultiplexer,
+        public static void FromList<T>(IEnumerable<T> o, int paritions, Func<T, string> onAddMultiplexer,
             Action<(int, IEnumerable<T>)> onFinished)
         {
-            var mp = new Multiplexer(buckets);
+            var mp = new Multiplexer(paritions);
             foreach (var z in o)
             {
                 mp.Add(onAddMultiplexer(z),z);
             }
 
-            foreach (var g in mp.GetBuckets<T>())
+            foreach (var g in mp.GetPartitions<T>())
             {
                 onFinished(g);
             }
@@ -85,7 +85,7 @@ namespace As.Client
                 mp.Add(onAddMultiplexer(z), z);
             }
 
-            foreach (var g in mp.GetBuckets<T>())
+            foreach (var g in mp.GetPartitions<T>())
             {
                 onFinished(g);
             }
@@ -102,7 +102,7 @@ namespace As.Client
 
         public void Add(String key, Object o)
         {
-            var bucket = Math.Abs(MurMurHash3.Hash(new MemoryStream(Encoding.UTF8.GetBytes(key)))) % Buckets;
+            var bucket = Math.Abs(MurMurHash3.Hash(new MemoryStream(Encoding.UTF8.GetBytes(key)))) % partitions;
             List<Object> vals = null;
             if (!objs.TryGetValue(bucket,out vals))
                 objs[bucket] = vals = new List<Object>();
@@ -114,7 +114,7 @@ namespace As.Client
             var buckets = new List<int>();
             foreach (var z in key)
             {
-                var bucket = Math.Abs(MurMurHash3.Hash(new MemoryStream(Encoding.UTF8.GetBytes(z)))) % Buckets;
+                var bucket = Math.Abs(MurMurHash3.Hash(new MemoryStream(Encoding.UTF8.GetBytes(z)))) % partitions;
                 if (buckets.Contains(bucket) == false)
                     buckets.Add(bucket);
             }
@@ -127,7 +127,7 @@ namespace As.Client
             }
         }
 
-        public  IEnumerable<(int, IEnumerable<T>)> GetBuckets<T>()
+        public  IEnumerable<(int, IEnumerable<T>)> GetPartitions<T>()
         {
             foreach (var c in objs.Keys)
             {

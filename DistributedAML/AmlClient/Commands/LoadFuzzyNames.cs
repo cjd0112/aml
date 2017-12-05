@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AmlClient.AS.Application;
 using As.Client;
+using As.Client.AS.Application;
 using As.Comms;
 using CsvHelper;
 using As.Shared;
@@ -14,14 +14,14 @@ namespace AmlClient.Commands
 {
     public class LoadFuzzyNames : AmlCommand
     {
-        private ClientFactory factory;
-        private Initialize init;
+        private IClientFactory factory;
         private MyRegistry reg;
         private String DataFile;
-        public LoadFuzzyNames(Initialize init,ClientFactory factory,MyRegistry reg)
+        private ClientServicePartitionValidator validator;
+        public LoadFuzzyNames(ClientServicePartitionValidator validator,IClientFactory factory,MyRegistry reg)
         {
             this.factory = factory;
-            this.init = init;
+            this.validator = validator;
             this.reg = reg;
             Console.WriteLine($"Enter file name from '{reg.DataDirectory}\\input' or 'y' to use default ('Retail-Large.csv')");
             var s = Console.ReadLine().ToLower();
@@ -37,7 +37,7 @@ namespace AmlClient.Commands
         }
         public override void Run()
         {
-            init.ValidateServiceBucketsAreConsistent(typeof(IFuzzyMatcher));
+            validator.ValidateServiceBucketIsConsistent(typeof(IFuzzyMatcher));
 
             var maxBuckets = factory.GetClientBuckets<IFuzzyMatcher>().Max();
 
@@ -55,7 +55,7 @@ namespace AmlClient.Commands
                     }));
 
             List<Task> tasks = new List<Task>();
-            multiplexer.GetBuckets<FuzzyWordEntry>().Do(x =>
+            multiplexer.GetPartitions<FuzzyWordEntry>().Do(x =>
             {
                 tasks.Add(new Task(() => factory.GetClient<IFuzzyMatcher>(x.Item1).AddEntry(x.Item2)));
                 tasks.Last().Start();

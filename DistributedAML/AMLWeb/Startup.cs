@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using StructureMap;
 
 namespace AMLWeb
 {
@@ -27,25 +29,21 @@ namespace AMLWeb
         public IConfiguration Configuration { get; }
 
 
-        public class Test
-        {
-            public Test(IOptions<MyClients> foo)
-            {
-
-            }
-        }
-
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddControllersAsServices();
 
-            var container = As.Client.Initialize.Startup();
+            var container = new StructureMap.Container();
+            container.Configure(config =>
+            {
+                config.Populate(services);
 
+                
+            });
 
-            var g = Configuration.Get<MyClients>();
-
-            services.AddSingleton<MyClients>(g);
+            As.Client.InitializeClient.StartupAndRegisterClientServices(Configuration,container);
+            return container.GetInstance<IServiceProvider>();
 
         }
 

@@ -56,7 +56,7 @@ namespace As.Comms.ClientServer
 
 		public GraphResponse RunQuery(GraphQuery query)
 		{
-			return client.Send<GraphQuery,GraphResponse>("RunQuery",GraphResponse.Parser.ParseDelimitedFrom,query);
+			return client.Send<GraphQuery,GraphResponse>("RunQuery",GraphResponse.Parser.ParseFrom,query);
 		}
 
     }

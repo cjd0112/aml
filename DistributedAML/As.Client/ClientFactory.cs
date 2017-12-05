@@ -147,7 +147,7 @@ namespace As.Client
 
                     var commsAssembly = Assembly.GetAssembly(typeof(ICommsContract));
 
-                    var str = $"Comms.ClientServer.{interfaceName.Substring(1)}Client,{commsAssembly.FullName}";
+                    var str = $"As.Comms.ClientServer.{interfaceName.Substring(1)}Client,{commsAssembly.FullName}";
 
                     L.Trace($"Trying to create client type - {str}");
 

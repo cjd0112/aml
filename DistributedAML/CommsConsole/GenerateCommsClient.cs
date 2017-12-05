@@ -110,12 +110,12 @@ namespace As.Comms.ClientServer
                 if (method.GetParameters().Any())
                 {
                     m +=
-                        $"\t\t\treturn client.Send<{method.GetParameters()[0].ParameterType.Name},{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseDelimitedFrom{GenerateCallingArguments(method)});\n";
+                        $"\t\t\treturn client.Send<{method.GetParameters()[0].ParameterType.Name},{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseFrom{GenerateCallingArguments(method)});\n";
                 }
                 else
                 {
                     m +=
-                        $"\t\t\treturn client.Send<{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseDelimitedFrom{GenerateCallingArguments(method)});\n";
+                        $"\t\t\treturn client.Send<{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseFrom{GenerateCallingArguments(method)});\n";
 
                 }
 

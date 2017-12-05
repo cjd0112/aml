@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using AmlClient.AS.Application;
+using As.Client.AS.Application;
 using As.Comms;
 using CsvHelper;
 using As.Logger;

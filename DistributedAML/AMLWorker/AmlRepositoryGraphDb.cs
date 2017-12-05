@@ -67,7 +67,7 @@ namespace AMLWorker
             {
                 foreach (var c in SqlHelper.GetBlobs(conn, "Accounts", 10, 200))
                 {
-                    yield return Account.Parser.ParseFrom(c);
+                    yield return Account.Parser.ParseFrom(c.blob);
                 }
             }
         }

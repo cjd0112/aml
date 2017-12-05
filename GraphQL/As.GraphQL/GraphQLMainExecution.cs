@@ -296,7 +296,7 @@ namespace As.GraphQL
         {
             if (db.SupportField(objectValue, fieldName))
             {
-                return db.ResolveFieldValue(objectValue, fieldName, argumentValues);
+                return db.ResolveFieldValue(objectValue, fieldName, argumentValues).ToArray();
             }
             var pi = objectType.dotNetType.GetTypeInfo().GetProperty(fieldName);
             if (objectValue == null)
