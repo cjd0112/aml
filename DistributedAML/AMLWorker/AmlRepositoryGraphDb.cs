@@ -21,26 +21,7 @@ namespace AMLWorker
 
     }
 
-    public class Range
-    {
-        public int Start { get; set; }
-        public int End { get; set; }
-    }
-
-    public enum SortTypeEnum
-    {
-        None,
-        Asc,
-        Desc,
-    }
-
-    public class Sort
-    {
-
-        public String SortField { get; set; }
-        public SortTypeEnum SortType { get; set; }
-
-    }
+  
 
     public class CustomizeSchema : GraphQlCustomiseSchema
     {
@@ -78,11 +59,20 @@ namespace AMLWorker
     public class AmlRepositoryGraphDb : IGraphQlDatabase
     {
         private SqliteConnection conn;
+        private SqlitePropertiesAndCommands<Party> partySql = new SqlitePropertiesAndCommands<Party>();
+        private SqlitePropertiesAndCommands<Account> accountSql = new SqlitePropertiesAndCommands<Account>();
+        private SqlitePropertiesAndCommands<Transaction> transactionSql = new SqlitePropertiesAndCommands<Transaction>();
 
-        public AmlRepositoryGraphDb(SqliteConnection conn)
+
+        public AmlRepositoryGraphDb(SqliteConnection conn,
+            SqlitePropertiesAndCommands<Party> partySql,
+            SqlitePropertiesAndCommands<Account> accountSql,
+            SqlitePropertiesAndCommands<Transaction> transactionSql)
         {
             this.conn = conn;
-
+            this.partySql = partySql;
+            this.accountSql = accountSql;
+            this.transactionSql = transactionSql;
         }
 
         public Object Run(String query)
@@ -92,6 +82,25 @@ namespace AMLWorker
                 .Validate(typeof(AmlRepositoryQuery))
                 .Run(new AmlRepositoryQuery(), this)
                 .GetOutput();
+        }
+
+        Range GetRange(Dictionary<string, object> arguments)
+        {
+            if (arguments.TryGetValue("Range", out Object o))
+            {
+                return (Range) o;
+            }
+            return new Range();
+
+        }
+
+        Sort GetSort(Dictionary<string, object> arguments)
+        {
+            if (arguments.TryGetValue("Sort", out Object o))
+            {
+                return (Sort) o;
+            }
+            return new Sort();
         }
 
         public bool SupportField(object parentObject, string fieldName)
@@ -107,72 +116,10 @@ namespace AMLWorker
         {
             if (parentObject is AmlRepositoryQuery && fieldName == "Accounts")
             {
-                int start = 0;
-                int end = 200;
-                if (argumentValues.ContainsKey("Range"))
+                foreach (var c in SqlTableHelper.SelectData(conn, accountSql, GetRange(argumentValues),
+                    GetSort(argumentValues)))
                 {
-                    var z = argumentValues["Range"] as Range;
-                    start = z.Start;
-                    end = z.End;
-                }
-
-                string sortKey = "";
-                SortTypeEnum sortType = SortTypeEnum.None;
-                if (argumentValues.ContainsKey("Sort"))
-                {
-                    var s = argumentValues["Sort"] as Sort;
-                    sortKey = s.SortField;
-                    sortType = s.SortType;
-                }
-                if (sortType == SortTypeEnum.None)
-                {
-                    foreach (var c in SqlTableHelper.GetBlobs(conn, "Accounts", start, end))
-                    {
-                        yield return Account.Parser.ParseFrom(c.blob);
-                    }
-                }
-                else
-                {
-                    if (String.IsNullOrEmpty(sortKey))
-                        throw new Exception($"Invalid sort-key - received null");
-
-                    if (SqlTableHelper.IndexExists(conn, "Accounts", sortKey))
-                    {
-                        foreach (var c in SqlTableHelper.GetBlobs(conn, "Accounts", start, end,sortKey))
-                        {
-                            var z = new Account
-                            {
-                                AccountNo = 
-                            }
-                            yield return Account.Parser.ParseFrom(c.blob);
-                        }
-                    }
-                    else
-                    {
-                        var sortValueDelegate = typeof(Account).DelegateForGetPropertyValue(sortKey);
-                        List<(string id,string sorter) > lst = new List<(string id, string sorter)>();
-                        foreach (var c in SqlTableHelper.GetBlobs(conn, "Accounts", 0, -1))
-                        {
-                            var obj = Account.Parser.ParseFrom(c.blob);
-                            var sortVal = sortValueDelegate(obj);
-                            var val = sortVal;
-                            lst.Add((c.id,(string)val));
-
-                        }
-
-                        lst.Sort((x,y)=>String.Compare(x.sorter, y.sorter, StringComparison.Ordinal));
-
-                        foreach (var c in SqlTableHelper.QueryId2(conn, "Accounts",
-                            lst.GetRange(start, end - start).Cast<Object>(), (x) =>
-                            {
-                                (string, string) obj = (ValueTuple<string, string>) x;
-                                return obj.Item1;
-                            }))
-                        {
-                            yield return Account.Parser.ParseFrom(c.Item2);
-                        }
-                    }
-                    
+                    yield return c;
                 }
             }
         }

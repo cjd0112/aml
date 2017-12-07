@@ -22,8 +22,11 @@ namespace AMLWorker.Sql
 
         public static SqliteConnection NewConnection(string connectionString)
         {
-            return new SqliteConnection(
+            var c = new SqliteConnection(
                 "" + new SqliteConnectionStringBuilder { DataSource = $"{connectionString}" });
+
+            c.Open();
+            return c;
         }
 
         public static bool TableExists(SqliteConnection conn, String tableName)
@@ -37,8 +40,14 @@ namespace AMLWorker.Sql
                 }
             }
         }       
+        
+        public static int CreateTable<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands)
+        {
+            return ExecuteCommandLog(conn, propertiesAndCommands.CreateTableCommand());
+        }       
 
-        static int ExecuteCommandLog(SqliteConnection conn, String cmdText)
+
+        public static int ExecuteCommandLog(SqliteConnection conn, String cmdText)
         {
             L.Trace($"Executing - {cmdText}");
             using (var cmd = conn.CreateCommand())
@@ -115,7 +124,7 @@ namespace AMLWorker.Sql
             return foo; 
         }
         
-        public static int InsertOrReplace<T>(SqliteConnection connection,   SqlitePropertiesAndCommands<T> propertiesAndCommands,IEnumerable<Object> objs)
+        public static int InsertOrReplace<T>(SqliteConnection connection,   SqlitePropertiesAndCommands<T> propertiesAndCommands,IEnumerable<T> objs)
         {
             L.Trace($"Starting insert rows - {objs.Count()} objects on {propertiesAndCommands.tableName}");
             int cnt = 0;
@@ -270,21 +279,12 @@ namespace AMLWorker.Sql
             txn.Commit();
         }
 
-        public static IEnumerable<DataRecordHelper> SelectData<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,int start, int end,string sortKey="",SortTypeEnum sortType=SortTypeEnum.None)
+        public static IEnumerable<DataRecordHelper> SelectData<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,Range range,Sort sort)
         {
             using (var txn = connection.BeginTransaction())
             {
-                var selectCommand = propertiesAndCommands.SelectCommand();
-
-                if (start < 0)
-                    start = 0;
-
-                selectCommand += "where " + propertiesAndCommands.RangeClause(start, end);
-
-                if (sortType != SortTypeEnum.None)
-                {
-                    selectCommand += propertiesAndCommands.SortClause(sortKey, sortType);
-                }
+                var selectCommand =
+                    $"{propertiesAndCommands.SelectCommand()} where {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)}";
 
                 using (var queryCmd = connection.CreateCommand())
                 {
@@ -307,23 +307,21 @@ namespace AMLWorker.Sql
             }
         }
 
-        public static IEnumerable<(string, bool)> QueryId(SqliteConnection connection, String tableName, IEnumerable<Object> objs, Func<Object, string> getMapping)
+        public static IEnumerable<(string, bool)> QueryId<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands, IEnumerable<string> ids)
         {
             using (var txn = connection.BeginTransaction())
             {
-                String queryCommand = $"select count(*) from {tableName} where id=($id)";
+                String queryCommand = propertiesAndCommands.QueryIdCommand();
 
-                foreach (var c in objs)
+                foreach (var c in ids)
                 {
                     using (var queryCmd = connection.CreateCommand())
                     {
                         queryCmd.CommandText = queryCommand;
 
-                        var q = getMapping(c);
-
-                        queryCmd.Parameters.AddWithValue("$id", q);
+                        queryCmd.Parameters.AddWithValue("$id", c);
                         int cnt = Convert.ToInt32(queryCmd.ExecuteScalar());
-                        yield return (q, cnt > 0);
+                        yield return (c, cnt > 0);
                     }
                 }
                 txn.Commit();

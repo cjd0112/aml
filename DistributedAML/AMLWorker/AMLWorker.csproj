@@ -1,17 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG;NETCOREAPP2_0;USE_SQLITEPCL_RAW;</DefineConstants>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="As.MDPCommons" Version="1.0.0" />
     <PackageReference Include="Fasterflect.Netstandard" Version="1.0.8" />
@@ -20,12 +16,10 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
     <PackageReference Include="NetMQ" Version="4.0.0.1" />
     <PackageReference Include="StructureMap" Version="4.5.2" />
-	<PackageReference Include="System.Net.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Security.Principal.Windows" Version="4.4.0" /> 
-    <PackageReference Include="runtime.native.System" Version="4.3.0" /> 
-
-	</ItemGroup>
-
+    <PackageReference Include="System.Net.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Security.Principal.Windows" Version="4.4.0" />
+    <PackageReference Include="runtime.native.System" Version="4.3.0" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\GraphQL\As.Antlr4.Core\As.Antlr4.Core.csproj" />
     <ProjectReference Include="..\..\GraphQL\As.GraphQL.Antlr\As.GraphQL.Antlr.csproj" />
@@ -35,11 +29,9 @@
     <ProjectReference Include="..\As.Logger\As.Logger.csproj" />
     <ProjectReference Include="..\As.Shared\As.Shared.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>

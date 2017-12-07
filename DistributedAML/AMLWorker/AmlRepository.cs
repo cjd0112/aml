@@ -21,9 +21,15 @@ namespace AMLWorker
     public class AmlRepository : AmlRepositoryServer
     {
         private string connectionString;
+        
+        private SqlitePropertiesAndCommands<Party> partySql = new SqlitePropertiesAndCommands<Party>();
+        private SqlitePropertiesAndCommands<Account> accountSql = new SqlitePropertiesAndCommands<Account>();
+        private SqlitePropertiesAndCommands<Transaction> transactionSql = new SqlitePropertiesAndCommands<Transaction>();
 
+        
         public AmlRepository(IServiceServer server) : base(server)
         {
+
             connectionString = SqlTableHelper.GetConnectionString(
                 (string) server.GetConfigProperty("DataDirectory", server.BucketId),
                 server.BucketId, "AmlWorker");
@@ -32,20 +38,15 @@ namespace AMLWorker
 
             using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
-                connection.Open();
-
                 if (!SqlTableHelper.TableExists(connection, "Parties"))
                 {
-                    SqlTableHelper.CreateBlobTable(connection, "Parties");
+                    SqlTableHelper.CreateTable(connection,partySql);
                 }
 
                 if (!SqlTableHelper.TableExists(connection, "Accounts"))
                 {
-                    SqlTableHelper.CreateStandardTableWithIdPrimaryKey(connection, "Accounts", typeof(Account),
-                        x => TypeCheck.IsScalar(x.PropertyType));
-                   // SqlTableHelper.CreateBlobTable(connection, "Accounts");
+                    SqlTableHelper.CreateTable(connection,accountSql);
                 }
-
 
                 if (!SqlTableHelper.TableExists(connection, "AccountParty"))
                 {
@@ -60,7 +61,7 @@ namespace AMLWorker
 
                 if (!SqlTableHelper.TableExists(connection, "Transactions"))
                 {
-                    SqlTableHelper.CreateBlobTable(connection, "Transactions");
+                    SqlTableHelper.CreateTable(connection,transactionSql);
                 }
             }
         }
@@ -71,15 +72,7 @@ namespace AMLWorker
         {
             using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
-                connection.Open();
-
-                return SqlTableHelper.InsertOrUpdateBlobRows(connection, "Parties", parties.Cast<Object>(),
-                    (x) =>
-                    {
-                        var t = (Party) x;
-                        return (t.Id, t.ToByteArray());
-
-                    });
+                return SqlTableHelper.InsertOrReplace(connection, partySql, parties);
             }
         }
 
@@ -87,20 +80,7 @@ namespace AMLWorker
         {
             using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
-                connection.Open();
-
-                return SqlTableHelper.InsertRows(connection, "Accounts", typeof(Account),
-                    n => TypeCheck.IsScalar(n.PropertyType), accounts);
-
-                /*
-                return SqlTableHelper.InsertOrUpdateBlobRows(connection, "Accounts", accounts.Cast<Object>(),
-                    (x) =>
-                    {
-                        var t = (Account) x;
-                        return (t.Id, t.ToByteArray());
-
-                    });
-                */
+                return SqlTableHelper.InsertOrReplace(connection, accountSql,accounts);
             }
         }
 
@@ -108,8 +88,6 @@ namespace AMLWorker
         {
             using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
-                connection.Open();
-
                 if (dir == LinkageDirection.AccountToParty)
                 {
                     return SqlTableHelper.InsertOrUpdateLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
@@ -145,8 +123,6 @@ namespace AMLWorker
             var ret = new List<AccountToParty>();
             using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
-                connection.Open();
-
                 if (dir == LinkageDirection.AccountToParty)
                 {
                     foreach (var c in SqlTableHelper.QueryLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
@@ -176,8 +152,7 @@ namespace AMLWorker
             var ret = new List<YesNo>();
             using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
-                connection.Open();
-                foreach (var c in SqlTableHelper.QueryId(connection, "Accounts", account.Cast<Object>(), x => ((Identifier)x).Id))
+                foreach (var c in SqlTableHelper.QueryId(connection, accountSql,account.Select(x=>x.Id)))
                 {
                     ret.Add(new YesNo{Val=c.Item2});
                 }
@@ -185,18 +160,13 @@ namespace AMLWorker
             return ret;
         }
 
-
-      
-
         public override GraphResponse RunQuery(GraphQuery query)
         {
             using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
-                connection.Open();
-
                 return new GraphResponse
                 {
-                    Response = new AmlRepositoryGraphDb(connection).Run(query.Query).ToString()
+                    Response = new AmlRepositoryGraphDb(connection,partySql,accountSql,transactionSql).Run(query.Query).ToString()
                 };
             }
         }
@@ -205,18 +175,8 @@ namespace AMLWorker
         {
             using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
-                connection.Open();
-
-                return SqlTableHelper.InsertOrUpdateBlobRows(connection, "Transactions", txns.Cast<Object>(),
-                    (x) =>
-                    {
-                        var t = (Transaction)x;
-                        return (t.Id, t.ToByteArray());
-
-                    });
+                return SqlTableHelper.InsertOrReplace(connection, transactionSql, txns);
             }
         }
-
-      
     }
 }

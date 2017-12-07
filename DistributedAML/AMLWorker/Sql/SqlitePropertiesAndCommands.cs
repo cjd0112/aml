@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -24,12 +25,19 @@ namespace AMLWorker.Sql
         public Type t;
         public String tableName;
         List<PropertyContainer> pis = new List<PropertyContainer>();
-        public SqlitePropertiesAndCommands(String tableName,IEnumerable<string> ignoreFields)
+
+
+        private MemberGetter id;
+        
+        public SqlitePropertiesAndCommands(String tableName,bool ignoreEnumerableFields)
         {
             this.t = typeof(T);
             this.tableName = tableName;
-            foreach (var c in t.GetProperties().Where(x => ignoreFields.Contains(x.Name) == false))
+            foreach (var c in t.GetProperties().Where(x => x.PropertyType == typeof(String) || !typeof(IEnumerable).IsAssignableFrom(x.PropertyType)))
             {
+                if (c.Name.ToLower() == "id")
+                    id = c.DelegateForGetPropertyValue();
+
                 pis.Add(new PropertyContainer
                 {
                     pi = c,
@@ -37,6 +45,16 @@ namespace AMLWorker.Sql
                 });
             }
         }
+
+        public String GetId(T obj)
+        {
+            return (string)id(obj);
+        }
+        
+        public SqlitePropertiesAndCommands() :this(typeof(T).Name,true)
+        {
+        }
+
 
         public IEnumerable<PropertyContainer> SqlFields()
         {
@@ -117,17 +135,21 @@ namespace AMLWorker.Sql
             return b.ToString();
         }
 
-        public String RangeClause(int start,int end)
+        public String RangeClause(Range range)
         {
-            if (end > start)
-                return $" (rowid >= {start} and rowid <= {end}) ";
+            if (range.End > range.Start)
+                return $" (rowid >= {range.Start} and rowid <= {range.End}) ";
             else
-                return $" (rowid >= {start} ";
+                return $" (rowid >= {range.Start} ";
         }
 
-        public String SortClause(string sortKey,SortTypeEnum sortType)
+        public String SortClause(Sort sort)
         {
-            return $" sort by {sortKey} {sortType} ";
+            if (sort.SortType == SortTypeEnum.None)
+                return "";
+            if (String.IsNullOrEmpty(sort.SortField))
+                return "";
+            return $" sort by {sort.SortField} {sort.SortType} ";
         }
 
         public string CreateTableCommand()
