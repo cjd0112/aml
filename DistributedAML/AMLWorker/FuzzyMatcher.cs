@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using AMLWorker.Sql;
 using As.Comms;
 using As.Comms.ClientServer;
 using As.Logger;
@@ -23,7 +24,7 @@ namespace AMLWorker
             L.Trace(
                 $"Opened server with bucket {server.BucketId} and data dir - {server.GetConfigProperty("DataDirectory",server.BucketId)}");
 
-            connectionString = SqlHelper.GetConnectionString((string)server.GetConfigProperty("DataDirectory", server.BucketId),
+            connectionString = SqlConnectionHelper.GetConnectionString((string)server.GetConfigProperty("DataDirectory", server.BucketId),
                 server.BucketId, "AmlWorker");
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
 
@@ -31,11 +32,11 @@ namespace AMLWorker
             {
                 connection.Open();
 
-                if (!SqlHelper.TableExists(connection,"FuzzyPhrase"))
+                if (!SqlConnectionHelper.TableExists(connection,"FuzzyPhrase"))
                 {
-                    SqlHelper.ExecuteCommandLog(connection, FuzzyPhraseCreate);
-                    SqlHelper.ExecuteCommandLog(connection, FuzzyTripleCreate);
-                    SqlHelper.ExecuteCommandLog(connection, FuzzyPhraseToDocument);
+                    SqlConnectionHelper.ExecuteCommandLog(connection, FuzzyPhraseCreate);
+                    SqlConnectionHelper.ExecuteCommandLog(connection, FuzzyTripleCreate);
+                    SqlConnectionHelper.ExecuteCommandLog(connection, FuzzyPhraseToDocument);
 
                 }
             }

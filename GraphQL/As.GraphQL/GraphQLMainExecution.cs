@@ -285,23 +285,39 @@ namespace As.GraphQL
             var argumentValues = CoerceArgumentValues(objectType, field, variableValues);
 
             var resolvedValue =
-                ResolveFieldValue(objectType, objectValue, field.fieldName().GetText(), argumentValues);
+                ResolveFieldValue(objectType, objectValue, field.fieldName().GetText(), argumentValues,field);
 
             CompleteValue(fieldType, field, fields, resolvedValue, variableValues);
         }
 
 
         Object ResolveFieldValue(__Type objectType, Object objectValue, String fieldName,
-            Dictionary<string, Object> argumentValues)
+            Dictionary<string, Object> argumentValues,GraphQLParser.FieldContext field)
         {
+            if (objectValue == null)
+                return null;
+
             if (db.SupportField(objectValue, fieldName))
             {
                 return db.ResolveFieldValue(objectValue, fieldName, argumentValues).ToArray();
             }
+
+            var value = objectValue as ISupportGetValue;
+            if (value != null)
+            {
+                return value.GetValue(fieldName);
+            }
+
             var pi = objectType.dotNetType.GetTypeInfo().GetProperty(fieldName);
-            if (objectValue == null)
-                return null;
-            return pi.GetValue(objectValue);
+            if (pi != null)
+                return pi.GetValue(objectValue);
+
+            if (fieldName == "__typename")
+                return objectType.name;
+
+            Error($"Unexpected field when resolving field value = {fieldName} for {objectType.name}",field);
+
+            return null;
         }
 
         enum Context

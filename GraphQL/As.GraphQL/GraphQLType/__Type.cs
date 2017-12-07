@@ -27,7 +27,7 @@ namespace As.GraphQL.GraphQLType
 
         private Dictionary<Type, __Type> resolver;
         private GraphQlCustomiseSchema customiseSchema;
-        public __Type(Type t,Dictionary<Type,__Type> resolver, GraphQlCustomiseSchema customise)
+        public __Type(Type t,Dictionary<Type,__Type> resolver, GraphQlCustomiseSchema customise,bool isInputType=false)
         {
             this.resolver = resolver;
             this.customiseSchema = customise;
@@ -47,6 +47,10 @@ namespace As.GraphQL.GraphQLType
             else if (TypeCheck.IsEnumerableType(t))
             {
                 ListType();
+            }
+            else if (TypeCheck.IsClass(t) && isInputType)
+            {
+                 InputObjectType();                
             }
             else if (TypeCheck.IsClass(t))
             {
@@ -72,6 +76,14 @@ namespace As.GraphQL.GraphQLType
                 resolver[t] = new __Type(t, resolver, customiseSchema);
             return resolver[t];
         }
+
+        __Type CreateOrGetInputObjectType(Type t)
+        {
+            if (resolver.ContainsKey(t) == false)
+                resolver[t] = new __Type(t, resolver, customiseSchema,true);
+            return resolver[t];
+        }
+
 
         string descriptionFromField(PropertyInfo pi)
         {
@@ -139,7 +151,7 @@ namespace As.GraphQL.GraphQLType
                 {
                     foreach (var c in customiseSchema.GetInputValues(pi.Name, pi))
                     {
-                        fields.Last().AddInputValue(new __InputValue(c.inputName,CreateOrGetType(c.inputType)));
+                        fields.Last().AddInputValue(new __InputValue(c.inputName,CreateOrGetInputObjectType(c.inputType)));
                     }
                 }
             }
