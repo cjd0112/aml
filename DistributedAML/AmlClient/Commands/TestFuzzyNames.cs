@@ -4,14 +4,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Comms;
+using As.Client;
+using As.Comms;
 
 namespace AmlClient.Commands
 {
     public class TestFuzzyNames : AmlCommand
     {
-        private ClientFactory factory;
-        public TestFuzzyNames(ClientFactory factory)
+        private IClientFactory factory;
+        public TestFuzzyNames(IClientFactory factory)
         {
             this.factory = factory;
 

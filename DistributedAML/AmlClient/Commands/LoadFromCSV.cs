@@ -6,13 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AmlClient.AS.Application;
-using AmlClient.Tasks;
 using AmlClient.Utilities;
-using Comms;
+using As.Client;
+using As.Client.AS.Application;
+using As.Client.Tasks;
+using As.Comms;
+using As.Logger;
+using As.Shared;
 using CsvHelper;
-using Logger;
-using Shared;
 
 namespace AmlClient.Commands
 {
@@ -27,17 +28,17 @@ namespace AmlClient.Commands
             Party
         }
 
-        private ClientFactory factory;
-        private Initialize init;
+        private IClientFactory factory;
         private MyRegistry reg;
         private DataType dataType;
         private Party.Types.PartyType partyType;
         private LinkageDirection linkageDirection;
-        public LoadFromCSV(Initialize init, ClientFactory factory, MyRegistry reg)
+        private ClientServicePartitionValidator validator;
+        public LoadFromCSV(ClientServicePartitionValidator validator, IClientFactory factory, MyRegistry reg)
         {
             this.factory = factory;
-            this.init = init;
             this.reg = reg;
+            this.validator = validator;
 
 
             dataType = EnumHelper.Parse<DataType>(Helper.Prompt($"Enter type of data - {EnumHelper.ListValues(typeof(DataType))}"));
@@ -81,7 +82,7 @@ namespace AmlClient.Commands
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            init.ValidateServiceBucketsAreConsistent(typeof(IAmlRepository));
+            validator.ValidateServiceBucketIsConsistent(typeof(IAmlRepository));
 
             var buckets = factory.GetClientBuckets<IAmlRepository>().Count();
 
@@ -130,7 +131,7 @@ namespace AmlClient.Commands
                     });
 
 
-                    foreach (var b in mp.GetBuckets<Party>())
+                    foreach (var b in mp.GetPartitions<Party>())
                     {
                         partyTasks.Add(new AmlClientTask<int>("StoreParties",b.Item1,()=>
                             factory.GetClient<IAmlRepository>(b.Item1)

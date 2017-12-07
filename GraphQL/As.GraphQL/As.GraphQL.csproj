@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\As.Antlr4.Core\As.Antlr4.Core.csproj" />
+    <ProjectReference Include="..\As.GraphQL.Antlr\As.GraphQL.Antlr.csproj" />
+    <ProjectReference Include="..\As.GraphQL.Interface\As.GraphQL.Interface.csproj" />
+  </ItemGroup>
+
+</Project>

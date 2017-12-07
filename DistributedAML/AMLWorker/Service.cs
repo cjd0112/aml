@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Comms;
-using MDPCommons;
+using As.Comms;
+using As.MDPCommons;
 using NetMQ;
 
 namespace AMLWorker

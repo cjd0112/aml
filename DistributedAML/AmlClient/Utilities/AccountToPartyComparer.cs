@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Comms;
+using As.Comms;
 
 namespace AmlClient.Utilities
 {

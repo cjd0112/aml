@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Comms;
+using As.Comms;
 using Google.Protobuf;
 using NetMQ;
-using Shared;
+using As.Shared;
 
 namespace CommsConsole
 {
@@ -21,9 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using NetMQ;
-using Shared;
+using As.Shared;
 
-namespace Comms.ClientServer
+namespace As.Comms.ClientServer
 {
     public class _NAME_Client : I_NAME_
     {
@@ -110,12 +110,12 @@ namespace Comms.ClientServer
                 if (method.GetParameters().Any())
                 {
                     m +=
-                        $"\t\t\treturn client.Send<{method.GetParameters()[0].ParameterType.Name},{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseDelimitedFrom{GenerateCallingArguments(method)});\n";
+                        $"\t\t\treturn client.Send<{method.GetParameters()[0].ParameterType.Name},{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseFrom{GenerateCallingArguments(method)});\n";
                 }
                 else
                 {
                     m +=
-                        $"\t\t\treturn client.Send<{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseDelimitedFrom{GenerateCallingArguments(method)});\n";
+                        $"\t\t\treturn client.Send<{method.ReturnType.Name}>(\"{method.Name}\",{method.ReturnType.Name}.Parser.ParseFrom{GenerateCallingArguments(method)});\n";
 
                 }
 

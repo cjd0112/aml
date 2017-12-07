@@ -17,10 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using NetMQ;
-using Logger;
-using Shared;
+using As.Logger;
+using As.Shared;
 
-namespace Comms.ClientServer
+namespace As.Comms.ClientServer
 {
     public abstract class _NAME_Server : I_NAME_
     {
@@ -188,7 +188,7 @@ var s = $@"               case ""{method.Name}"":
                 else if (IsSupportedObject(c.ParameterType))
                 {
                     s +=
-                        $"var {c.Name} = request.UnpackMessage<{c.ParameterType.Name}>({c.ParameterType.Name}.Parser.ParseDelimitedFrom);";
+                        $"var {c.Name} = request.UnpackMessage<{c.ParameterType.Name}>({c.ParameterType.Name}.Parser.ParseFrom);";
                 }
                 else
                 {

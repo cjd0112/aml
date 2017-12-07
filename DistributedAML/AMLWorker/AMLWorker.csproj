@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="As.MDPCommons" Version="1.0.0" />
     <PackageReference Include="Fasterflect.Netstandard" Version="1.0.8" />
-    <PackageReference Include="MDPCommons_NetMQ" Version="1.0.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.1.0-preview1-27377" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
@@ -27,24 +27,13 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Comms\Comms.csproj" />
-    <ProjectReference Include="..\Logger\Logger.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Antlr4.Core">
-      <HintPath>..\..\GraphQL\GraphQL\bin\Debug\netcoreapp2.0\Antlr4.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="GraphQL">
-      <HintPath>..\..\GraphQL\GraphQL\bin\Debug\netcoreapp2.0\GraphQL.dll</HintPath>
-    </Reference>
-    <Reference Include="GraphQL.Antlr">
-      <HintPath>..\..\GraphQL\GraphQL\bin\Debug\netcoreapp2.0\GraphQL.Antlr.dll</HintPath>
-    </Reference>
-    <Reference Include="GraphQL.Interface">
-      <HintPath>..\..\GraphQL\GraphQL.Interface\bin\Debug\netcoreapp2.0\GraphQL.Interface.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\GraphQL\As.Antlr4.Core\As.Antlr4.Core.csproj" />
+    <ProjectReference Include="..\..\GraphQL\As.GraphQL.Antlr\As.GraphQL.Antlr.csproj" />
+    <ProjectReference Include="..\..\GraphQL\As.GraphQL.Interface\As.GraphQL.Interface.csproj" />
+    <ProjectReference Include="..\..\GraphQL\As.GraphQL\As.GraphQL.csproj" />
+    <ProjectReference Include="..\As.Comms\As.Comms.csproj" />
+    <ProjectReference Include="..\As.Logger\As.Logger.csproj" />
+    <ProjectReference Include="..\As.Shared\As.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
