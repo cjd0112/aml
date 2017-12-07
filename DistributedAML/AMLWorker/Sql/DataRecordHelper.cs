@@ -6,13 +6,15 @@ namespace AMLWorker.Sql
 {
     public class DataRecordHelper : ISupportGetValue
     {
-        Type UnderlyingType { get; set; }   
-        IDataRecord Record { get; set; }
+        public Type UnderlyingType { get; set; }   
+        public IDataRecord Record { get; set; }
+        public int OrdinalInQuery { get; set; }
 
-        public DataRecordHelper(Type t, IDataRecord record)
+        public DataRecordHelper(int ordinalInQuery,Type t, IDataRecord record)
         {
             UnderlyingType = t;
             Record = record;
+            OrdinalInQuery = ordinalInQuery;
         }
 
 
@@ -20,5 +22,6 @@ namespace AMLWorker.Sql
         {
             return Record[field];
         }
+
     }
 }

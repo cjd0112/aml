@@ -19,12 +19,12 @@ namespace AMLWorker.Sql
         public MemberGetter getter;
     }
 
-    public class SqlliteIdTablePropertiesAndCommands<T>
+    public class SqlitePropertiesAndCommands<T>
     {
         public Type t;
         public String tableName;
         List<PropertyContainer> pis = new List<PropertyContainer>();
-        public SqlliteIdTablePropertiesAndCommands(String tableName,IEnumerable<string> ignoreFields)
+        public SqlitePropertiesAndCommands(String tableName,IEnumerable<string> ignoreFields)
         {
             this.t = typeof(T);
             this.tableName = tableName;
@@ -38,25 +38,12 @@ namespace AMLWorker.Sql
             }
         }
 
-        public IEnumerable<PropertyInfo> SqlFields()
+        public IEnumerable<PropertyContainer> SqlFields()
         {
-            return pis.Select(x => x.pi);
+            return pis;
         }
 
-        public string TableExistsCommand()
-        {
-            return $"SELECT name FROM sqlite_master WHERE type = 'table' AND name = '{tableName}';";
-        }
-
-        public string IndexExistsCommand(string columnName)
-        {
-            return $"pragma index_info({tableName + "_" + columnName});";
-        }
-
-        public string CreateIndexCommand(string columnName)
-        {
-            return $"create index {tableName + "_" + columnName} on {tableName}({columnName})";
-        }
+     
 
         public string QueryIdCommand()
         {
@@ -112,6 +99,36 @@ namespace AMLWorker.Sql
             return b.ToString() + " " + names.ToString() + " " + values.ToString();
         }
 
+        public String SelectCommand()
+        {
+            StringBuilder b = new StringBuilder();
+
+            b.Append($"select  ");
+
+            foreach (var c in pis)
+            {
+                b.Append($"{c.pi.Name},");
+            }
+
+            TrimComma(b);
+
+            b.Append($"from {tableName}; ");
+
+            return b.ToString();
+        }
+
+        public String RangeClause(int start,int end)
+        {
+            if (end > start)
+                return $" (rowid >= {start} and rowid <= {end}) ";
+            else
+                return $" (rowid >= {start} ";
+        }
+
+        public String SortClause(string sortKey,SortTypeEnum sortType)
+        {
+            return $" sort by {sortKey} {sortType} ";
+        }
 
         public string CreateTableCommand()
         {

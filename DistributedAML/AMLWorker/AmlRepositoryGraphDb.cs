@@ -126,7 +126,7 @@ namespace AMLWorker
                 }
                 if (sortType == SortTypeEnum.None)
                 {
-                    foreach (var c in SqlConnectionHelper.GetBlobs(conn, "Accounts", start, end))
+                    foreach (var c in SqlTableHelper.GetBlobs(conn, "Accounts", start, end))
                     {
                         yield return Account.Parser.ParseFrom(c.blob);
                     }
@@ -136,9 +136,9 @@ namespace AMLWorker
                     if (String.IsNullOrEmpty(sortKey))
                         throw new Exception($"Invalid sort-key - received null");
 
-                    if (SqlConnectionHelper.IndexExists(conn, "Accounts", sortKey))
+                    if (SqlTableHelper.IndexExists(conn, "Accounts", sortKey))
                     {
-                        foreach (var c in SqlConnectionHelper.GetBlobs(conn, "Accounts", start, end,sortKey))
+                        foreach (var c in SqlTableHelper.GetBlobs(conn, "Accounts", start, end,sortKey))
                         {
                             var z = new Account
                             {
@@ -151,7 +151,7 @@ namespace AMLWorker
                     {
                         var sortValueDelegate = typeof(Account).DelegateForGetPropertyValue(sortKey);
                         List<(string id,string sorter) > lst = new List<(string id, string sorter)>();
-                        foreach (var c in SqlConnectionHelper.GetBlobs(conn, "Accounts", 0, -1))
+                        foreach (var c in SqlTableHelper.GetBlobs(conn, "Accounts", 0, -1))
                         {
                             var obj = Account.Parser.ParseFrom(c.blob);
                             var sortVal = sortValueDelegate(obj);
@@ -162,7 +162,7 @@ namespace AMLWorker
 
                         lst.Sort((x,y)=>String.Compare(x.sorter, y.sorter, StringComparison.Ordinal));
 
-                        foreach (var c in SqlConnectionHelper.QueryId2(conn, "Accounts",
+                        foreach (var c in SqlTableHelper.QueryId2(conn, "Accounts",
                             lst.GetRange(start, end - start).Cast<Object>(), (x) =>
                             {
                                 (string, string) obj = (ValueTuple<string, string>) x;

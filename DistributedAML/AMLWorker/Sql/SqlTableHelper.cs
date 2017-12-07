@@ -11,8 +11,8 @@ using Microsoft.Data.Sqlite;
 
 namespace AMLWorker.Sql
 {
-    public static class SqlConnectionHelper
-    {      
+    public static class SqlTableHelper
+    {
         public static String GetConnectionString(String dataDirectory, int bucket, String dbFile)
         {
             if (Directory.Exists(dataDirectory) == false)
@@ -38,7 +38,7 @@ namespace AMLWorker.Sql
             }
         }       
 
-        public static int ExecuteCommandLog(SqliteConnection conn, String cmdText)
+        static int ExecuteCommandLog(SqliteConnection conn, String cmdText)
         {
             L.Trace($"Executing - {cmdText}");
             using (var cmd = conn.CreateCommand())
@@ -47,35 +47,7 @@ namespace AMLWorker.Sql
                 return cmd.ExecuteNonQuery();
             }
         }
-
-        public static int CreateStandardTableWithIdPrimaryKey(SqliteConnection conn, String tableName,Type t,Predicate<PropertyInfo> pis)
-        {
-            var b = new StringBuilder();
-
-            b.Append($"create table {tableName} (");
-            foreach (var c in t.GetProperties())
-            {
-                if (pis(c))
-                {
-                    if (c.Name.ToLower() == "id")
-                        b.Append($"{c.Name} {ConvertPropertyType(c.PropertyType)} primary key,");
-                    else
-                        b.Append($"{c.Name} {ConvertPropertyType(c.PropertyType)},");
-                }
-                
-            }
-
-            if (b[b.Length - 1] == ',')
-                b.Remove(b.Length - 1,1);
-
-            b.Append(");");
-
-            return ExecuteCommandLog(conn, b.ToString());
-        }
-
-     
-
-
+        
         public static bool IndexExists(SqliteConnection conn, String tableName, string columnName)
         {
             using (var cmd = conn.CreateCommand())
@@ -95,21 +67,16 @@ namespace AMLWorker.Sql
             }
         }
 
-        public static int AddColumn(SqliteConnection conn, String tableName, String columnName, ColumnType type)
+        public static int AddColumn<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands, String columnName, ColumnType type)
         {
             using (var cmd = conn.CreateCommand())
             {
-                string columnType = "";
-                if (type == ColumnType.String)
-                    columnType = "text";
-                else
-                    columnType = "numeric";
-                cmd.CommandText = $"alter table {tableName} add column {columnName} {columnType};";
+                cmd.CommandText = propertiesAndCommands.AddColumnCommand(columnName, type);
                 return cmd.ExecuteNonQuery();
             }
         }
 
-        public static int AddColumnValues(SqliteConnection conn, string tableName, String columnName,
+        public static int AddColumnValues<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands, String columnName, ColumnType type,
             IEnumerable<(string id, Object value)> values)
         {
             int cnt = 0;
@@ -117,7 +84,7 @@ namespace AMLWorker.Sql
             {
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = $"update {tableName} set {columnName}=$value where id=$id";
+                    cmd.CommandText = propertiesAndCommands.AddColumnCommand(columnName, type);
 
                     foreach (var c in values)
                     {
@@ -134,8 +101,6 @@ namespace AMLWorker.Sql
             }
             return cnt;
         }
-
-
         public static int CreateManyToManyLinkagesTable(SqliteConnection conn, String tableName,String link1,String link2)
         {
             int foo = 0;
@@ -149,49 +114,13 @@ namespace AMLWorker.Sql
             foo = ExecuteCommandLog(conn, $@"create table {tableName} ({link1} text references {parentTable}({parentColumn}), {link2} text);create index {link1}_idx on {tableName}({link1});");
             return foo; 
         }
-
-
-     
-
-      
-
-        public static int InsertOrReplace(SqliteConnection connection, String tableName, Type t,Predicate<PropertyInfo> pis,IEnumerable<Object> objs)
+        
+        public static int InsertOrReplace<T>(SqliteConnection connection,   SqlitePropertiesAndCommands<T> propertiesAndCommands,IEnumerable<Object> objs)
         {
-            L.Trace($"Starting insert rows - {objs.Count()} objects on {tableName}");
+            L.Trace($"Starting insert rows - {objs.Count()} objects on {propertiesAndCommands.tableName}");
             int cnt = 0;
 
-            StringBuilder b = new StringBuilder();
-
-            b.Append($"insert or replace into {tableName} ");
-
-            StringBuilder values = new StringBuilder();
-
-            values.Append(" values (");
-
-            StringBuilder names = new StringBuilder();
-
-            names.Append("(");
-
-            List<(string propertyName,MemberGetter setter,PropertyInfo pi)> propGetters = new List<(string,MemberGetter,PropertyInfo pi)>();
-
-            foreach (var c in t.GetProperties())
-            {
-                if (pis(c))
-                {
-                    names.Append($"{c.Name},");
-                    values.Append($"${c.Name},");
-                    propGetters.Add((c.Name,t.DelegateForGetPropertyValue(c.Name),c));
-                }
-
-            }
-
-            TrimComma(names);
-            TrimComma(values);
-
-            names.Append(")");
-            values.Append(")");
-
-            String insertCommand = b.ToString() + " " + names.ToString() + " " + values.ToString();
+            String insertCommand = propertiesAndCommands.InsertOrReplaceCommand();
 
             L.Trace(insertCommand);
 
@@ -203,18 +132,18 @@ namespace AMLWorker.Sql
                     {
                         string id = "";
                         cmd.CommandText = insertCommand;
-                        foreach (var g in propGetters)
+                        foreach (var g in propertiesAndCommands.SqlFields())
                         {
-                            if (g.propertyName.ToLower() == "id")
-                                id = (string)g.setter(c);
+                            if (g.pi.Name.ToLower() == "id")
+                                id = (string)g.getter(c);
 
                             if (g.pi.PropertyType.IsEnum)
                             {
-                                cmd.Parameters.AddWithValue(g.propertyName, g.setter(c).ToString());
+                                cmd.Parameters.AddWithValue(g.pi.Name, g.getter(c).ToString());
                             }
                             else
                             {
-                                cmd.Parameters.AddWithValue(g.propertyName, g.setter(c));
+                                cmd.Parameters.AddWithValue(g.pi.Name, g.getter(c));
                             }
                         }
 
@@ -230,7 +159,7 @@ namespace AMLWorker.Sql
 
                         if (cnt % 100000 == 0)
                         {
-                            L.Trace($"{cnt} objects committed on {tableName}");
+                            L.Trace($"{cnt} objects committed on {propertiesAndCommands.tableName}");
 
                             txn.Commit();
                             txn = connection.BeginTransaction();
@@ -239,7 +168,7 @@ namespace AMLWorker.Sql
                 }
             }
             txn.Commit();
-            L.Trace($"{cnt} objects finished on {tableName}");
+            L.Trace($"{cnt} objects finished on {propertiesAndCommands.tableName}");
             return cnt;
         }
 
@@ -341,49 +270,25 @@ namespace AMLWorker.Sql
             txn.Commit();
         }
 
-        public static IEnumerable<DataRecordHelper> GetData(SqliteConnection connection, String tableName, Type t,  int start, int end,string sortKey="",SortTypeEnum sortType=SortTypeEnum.None)
+        public static IEnumerable<DataRecordHelper> SelectData<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,int start, int end,string sortKey="",SortTypeEnum sortType=SortTypeEnum.None)
         {
             using (var txn = connection.BeginTransaction())
             {
+                var selectCommand = propertiesAndCommands.SelectCommand();
 
-                foreach (var c in t.GetProperties())
-                {
-                    if (pis(c))
-                    {
-                        names.Append($"{c.Name},");
-                        values.Append($"${c.Name},");
-                        propGetters.Add((c.Name, t.DelegateForGetPropertyValue(c.Name), c));
-                    }
-
-                }
-
-
-                String queryCommand = "";
                 if (start < 0)
                     start = 0;
-                if (sortKey == "" || sortType == SortTypeEnum.None)
-                {
-                    if (end > start)
-                        queryCommand = $"select id,data from {tableName} where rowid>={start} and rowid< {end}";
-                    else if (end < 0)
-                        queryCommand = $"select id,data from {tableName} where rowid>={start}";
-                    else
-                        queryCommand = $"select id,data from {tableName} where rowid={start}";
-                }
-                else
-                {
-                    if (end > start)
-                        queryCommand = $"select id,data from {tableName} where rowid>={start} and rowid< {end} sort by {sortKey} {sortType}";
-                    else if (end < 0)
-                        queryCommand = $"select id,data from {tableName} where rowid>={start} sort by {sortKey} {sortType}";
-                    else
-                        queryCommand = $"select id,data from {tableName} where rowid={start} sort by {sortKey} {sortType}";
 
+                selectCommand += "where " + propertiesAndCommands.RangeClause(start, end);
+
+                if (sortType != SortTypeEnum.None)
+                {
+                    selectCommand += propertiesAndCommands.SortClause(sortKey, sortType);
                 }
 
                 using (var queryCmd = connection.CreateCommand())
                 {
-                    queryCmd.CommandText = queryCommand;
+                    queryCmd.CommandText = selectCommand;
 
                     int cnt = 0;
 
@@ -393,14 +298,7 @@ namespace AMLWorker.Sql
 
                         while (data.Read())
                         {
-                            cnt++;
-                            var id = data[0] as string;
-                            var x = data[1] as byte[];
-                            if (x == null)
-                            {
-                                L.Trace($"Invalid id - {id}");
-                            }
-                            yield return (id, x);
+                            yield return new DataRecordHelper(cnt++,propertiesAndCommands.t,data);
                         }
                     }
 
@@ -408,8 +306,6 @@ namespace AMLWorker.Sql
                 txn.Commit();
             }
         }
-
-
 
         public static IEnumerable<(string, bool)> QueryId(SqliteConnection connection, String tableName, IEnumerable<Object> objs, Func<Object, string> getMapping)
         {

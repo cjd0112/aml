@@ -24,43 +24,43 @@ namespace AMLWorker
 
         public AmlRepository(IServiceServer server) : base(server)
         {
-            connectionString = SqlConnectionHelper.GetConnectionString(
+            connectionString = SqlTableHelper.GetConnectionString(
                 (string) server.GetConfigProperty("DataDirectory", server.BucketId),
                 server.BucketId, "AmlWorker");
 
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
 
-            using (var connection = SqlConnectionHelper.NewConnection(connectionString))
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
-                if (!SqlConnectionHelper.TableExists(connection, "Parties"))
+                if (!SqlTableHelper.TableExists(connection, "Parties"))
                 {
-                    SqlConnectionHelper.CreateBlobTable(connection, "Parties");
+                    SqlTableHelper.CreateBlobTable(connection, "Parties");
                 }
 
-                if (!SqlConnectionHelper.TableExists(connection, "Accounts"))
+                if (!SqlTableHelper.TableExists(connection, "Accounts"))
                 {
-                    SqlConnectionHelper.CreateStandardTableWithIdPrimaryKey(connection, "Accounts", typeof(Account),
+                    SqlTableHelper.CreateStandardTableWithIdPrimaryKey(connection, "Accounts", typeof(Account),
                         x => TypeCheck.IsScalar(x.PropertyType));
-                   // SqlConnectionHelper.CreateBlobTable(connection, "Accounts");
+                   // SqlTableHelper.CreateBlobTable(connection, "Accounts");
                 }
 
 
-                if (!SqlConnectionHelper.TableExists(connection, "AccountParty"))
+                if (!SqlTableHelper.TableExists(connection, "AccountParty"))
                 {
-                    SqlConnectionHelper.CreateManyToManyLinkagesTableWithForeignKeyConstraint(connection, "AccountParty",
+                    SqlTableHelper.CreateManyToManyLinkagesTableWithForeignKeyConstraint(connection, "AccountParty",
                         "AccountId", "PartyId", "Accounts", "Id");
                 }
 
-                if (!SqlConnectionHelper.TableExists(connection, "PartyAccount"))
+                if (!SqlTableHelper.TableExists(connection, "PartyAccount"))
                 {
-                    SqlConnectionHelper.CreateManyToManyLinkagesTable(connection, "PartyAccount", "PartyId", "AccountId");
+                    SqlTableHelper.CreateManyToManyLinkagesTable(connection, "PartyAccount", "PartyId", "AccountId");
                 }
 
-                if (!SqlConnectionHelper.TableExists(connection, "Transactions"))
+                if (!SqlTableHelper.TableExists(connection, "Transactions"))
                 {
-                    SqlConnectionHelper.CreateBlobTable(connection, "Transactions");
+                    SqlTableHelper.CreateBlobTable(connection, "Transactions");
                 }
             }
         }
@@ -69,11 +69,11 @@ namespace AMLWorker
 
         public override int StoreParties(IEnumerable<Party> parties)
         {
-            using (var connection = SqlConnectionHelper.NewConnection(connectionString))
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
-                return SqlConnectionHelper.InsertOrUpdateBlobRows(connection, "Parties", parties.Cast<Object>(),
+                return SqlTableHelper.InsertOrUpdateBlobRows(connection, "Parties", parties.Cast<Object>(),
                     (x) =>
                     {
                         var t = (Party) x;
@@ -85,15 +85,15 @@ namespace AMLWorker
 
         public override int StoreAccounts(IEnumerable<Account> accounts)
         {
-            using (var connection = SqlConnectionHelper.NewConnection(connectionString))
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
-                return SqlConnectionHelper.InsertRows(connection, "Accounts", typeof(Account),
+                return SqlTableHelper.InsertRows(connection, "Accounts", typeof(Account),
                     n => TypeCheck.IsScalar(n.PropertyType), accounts);
 
                 /*
-                return SqlConnectionHelper.InsertOrUpdateBlobRows(connection, "Accounts", accounts.Cast<Object>(),
+                return SqlTableHelper.InsertOrUpdateBlobRows(connection, "Accounts", accounts.Cast<Object>(),
                     (x) =>
                     {
                         var t = (Account) x;
@@ -106,13 +106,13 @@ namespace AMLWorker
 
         public override int StoreLinkages(IEnumerable<AccountToParty> mappings, LinkageDirection dir)
         {
-            using (var connection = SqlConnectionHelper.NewConnection(connectionString))
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
                 if (dir == LinkageDirection.AccountToParty)
                 {
-                    return SqlConnectionHelper.InsertOrUpdateLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
+                    return SqlTableHelper.InsertOrUpdateLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
                         mappings.Cast<Object>(),
                         (x) =>
                         {
@@ -123,7 +123,7 @@ namespace AMLWorker
                 }
                 else if (dir == LinkageDirection.PartyToAccount)
                 {
-                    return SqlConnectionHelper.InsertOrUpdateLinkageRows(connection, "PartyAccount", "PartyId", "AccountId",
+                    return SqlTableHelper.InsertOrUpdateLinkageRows(connection, "PartyAccount", "PartyId", "AccountId",
                         mappings.Cast<Object>(),
                         (x) =>
                         {
@@ -143,13 +143,13 @@ namespace AMLWorker
         public override IEnumerable<AccountToParty> GetLinkages(IEnumerable<Identifier> source, LinkageDirection dir)
         {
             var ret = new List<AccountToParty>();
-            using (var connection = SqlConnectionHelper.NewConnection(connectionString))
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
                 if (dir == LinkageDirection.AccountToParty)
                 {
-                    foreach (var c in SqlConnectionHelper.QueryLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
+                    foreach (var c in SqlTableHelper.QueryLinkageRows(connection, "AccountParty", "AccountId", "PartyId",
                         source.Cast<Object>(), x => ((Identifier)x).Id ))
                     {
                         ret.Add(new AccountToParty {AccountId = c.Item1, PartyId = c.Item2});
@@ -157,7 +157,7 @@ namespace AMLWorker
                 }
                 else if (dir == LinkageDirection.PartyToAccount)
                 {
-                    foreach (var c in SqlConnectionHelper.QueryLinkageRows(connection, "PartyAccount", "PartyId", "AccountId",
+                    foreach (var c in SqlTableHelper.QueryLinkageRows(connection, "PartyAccount", "PartyId", "AccountId",
                         source.Cast<Object>(), x => ((Identifier)x).Id))
                     {
                         ret.Add(new AccountToParty {PartyId = c.Item1, AccountId = c.Item2});
@@ -174,10 +174,10 @@ namespace AMLWorker
         public override IEnumerable<YesNo> AccountsExist(IEnumerable<Identifier> account)
         {
             var ret = new List<YesNo>();
-            using (var connection = SqlConnectionHelper.NewConnection(connectionString))
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
                 connection.Open();
-                foreach (var c in SqlConnectionHelper.QueryId(connection, "Accounts", account.Cast<Object>(), x => ((Identifier)x).Id))
+                foreach (var c in SqlTableHelper.QueryId(connection, "Accounts", account.Cast<Object>(), x => ((Identifier)x).Id))
                 {
                     ret.Add(new YesNo{Val=c.Item2});
                 }
@@ -190,7 +190,7 @@ namespace AMLWorker
 
         public override GraphResponse RunQuery(GraphQuery query)
         {
-            using (var connection = SqlConnectionHelper.NewConnection(connectionString))
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
@@ -203,11 +203,11 @@ namespace AMLWorker
 
         public override int StoreTransactions(IEnumerable<Transaction> txns)
         {
-            using (var connection = SqlConnectionHelper.NewConnection(connectionString))
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
                 connection.Open();
 
-                return SqlConnectionHelper.InsertOrUpdateBlobRows(connection, "Transactions", txns.Cast<Object>(),
+                return SqlTableHelper.InsertOrUpdateBlobRows(connection, "Transactions", txns.Cast<Object>(),
                     (x) =>
                     {
                         var t = (Transaction)x;

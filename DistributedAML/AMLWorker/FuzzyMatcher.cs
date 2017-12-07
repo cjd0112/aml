@@ -24,7 +24,7 @@ namespace AMLWorker
             L.Trace(
                 $"Opened server with bucket {server.BucketId} and data dir - {server.GetConfigProperty("DataDirectory",server.BucketId)}");
 
-            connectionString = SqlConnectionHelper.GetConnectionString((string)server.GetConfigProperty("DataDirectory", server.BucketId),
+            connectionString = SqlTableHelper.GetConnectionString((string)server.GetConfigProperty("DataDirectory", server.BucketId),
                 server.BucketId, "AmlWorker");
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
 
@@ -32,11 +32,11 @@ namespace AMLWorker
             {
                 connection.Open();
 
-                if (!SqlConnectionHelper.TableExists(connection,"FuzzyPhrase"))
+                if (!SqlTableHelper.TableExists(connection,"FuzzyPhrase"))
                 {
-                    SqlConnectionHelper.ExecuteCommandLog(connection, FuzzyPhraseCreate);
-                    SqlConnectionHelper.ExecuteCommandLog(connection, FuzzyTripleCreate);
-                    SqlConnectionHelper.ExecuteCommandLog(connection, FuzzyPhraseToDocument);
+                    SqlTableHelper.ExecuteCommandLog(connection, FuzzyPhraseCreate);
+                    SqlTableHelper.ExecuteCommandLog(connection, FuzzyTripleCreate);
+                    SqlTableHelper.ExecuteCommandLog(connection, FuzzyPhraseToDocument);
 
                 }
             }
