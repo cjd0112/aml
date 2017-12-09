@@ -28,7 +28,9 @@ namespace AMLWeb.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]GraphQlQuery query)
         {
-            var first = factory.GetClient<IAmlRepository>(0);
+            //            var first = factory.GetClient<IAmlRepository>(0);
+
+            var first = factory.GetClient<IA4ARepository>(0);
 
             var graphResponse = first.RunQuery(new GraphQuery {Query = query.Query});
 

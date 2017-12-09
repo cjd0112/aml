@@ -39,8 +39,21 @@ namespace AMLWorker.Sql
                     return rdr.HasRows;
                 }
             }
-        }       
-        
+        }
+
+        public static bool TableExists<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands)
+        {
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = $"SELECT name FROM sqlite_master WHERE type = 'table' AND name = '{propertiesAndCommands.tableName}';";
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    return rdr.HasRows;
+                }
+            }
+        }
+
+
         public static int CreateTable<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands)
         {
             return ExecuteCommandLog(conn, propertiesAndCommands.CreateTableCommand());
@@ -284,7 +297,7 @@ namespace AMLWorker.Sql
             using (var txn = connection.BeginTransaction())
             {
                 var selectCommand =
-                    $"{propertiesAndCommands.SelectCommand()} where {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)}";
+                    $"{propertiesAndCommands.SelectCommand()} where {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
 
                 using (var queryCmd = connection.CreateCommand())
                 {

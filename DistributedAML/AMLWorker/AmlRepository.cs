@@ -22,9 +22,9 @@ namespace AMLWorker
     {
         private string connectionString;
         
-        private SqlitePropertiesAndCommands<Party> partySql = new SqlitePropertiesAndCommands<Party>();
-        private SqlitePropertiesAndCommands<Account> accountSql = new SqlitePropertiesAndCommands<Account>();
-        private SqlitePropertiesAndCommands<Transaction> transactionSql = new SqlitePropertiesAndCommands<Transaction>();
+        private SqlitePropertiesAndCommands<Party> partySql = new SqlitePropertiesAndCommands<Party>("Parties");
+        private SqlitePropertiesAndCommands<Account> accountSql = new SqlitePropertiesAndCommands<Account>("Accounts");
+        private SqlitePropertiesAndCommands<Transaction> transactionSql = new SqlitePropertiesAndCommands<Transaction>("Transactions");
 
         
         public AmlRepository(IServiceServer server) : base(server)
@@ -38,12 +38,12 @@ namespace AMLWorker
 
             using (var connection = SqlTableHelper.NewConnection(connectionString))
             {
-                if (!SqlTableHelper.TableExists(connection, "Parties"))
+                if (!SqlTableHelper.TableExists(connection, partySql))
                 {
                     SqlTableHelper.CreateTable(connection,partySql);
                 }
 
-                if (!SqlTableHelper.TableExists(connection, "Accounts"))
+                if (!SqlTableHelper.TableExists(connection, accountSql))
                 {
                     SqlTableHelper.CreateTable(connection,accountSql);
                 }
@@ -59,7 +59,7 @@ namespace AMLWorker
                     SqlTableHelper.CreateManyToManyLinkagesTable(connection, "PartyAccount", "PartyId", "AccountId");
                 }
 
-                if (!SqlTableHelper.TableExists(connection, "Transactions"))
+                if (!SqlTableHelper.TableExists(connection, transactionSql))
                 {
                     SqlTableHelper.CreateTable(connection,transactionSql);
                 }
