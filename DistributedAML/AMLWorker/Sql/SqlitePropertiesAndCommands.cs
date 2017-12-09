@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Fasterflect;
+using Google.Protobuf;
 
 namespace AMLWorker.Sql
 {
@@ -29,12 +30,18 @@ namespace AMLWorker.Sql
 
         private MemberGetter id;
         
-        public SqlitePropertiesAndCommands(String tableName,bool ignoreEnumerableFields)
+        public SqlitePropertiesAndCommands(String tableName,bool ignoreEnumerableFields=true)
         {
             this.t = typeof(T);
             this.tableName = tableName;
             foreach (var c in t.GetProperties().Where(x => x.PropertyType == typeof(String) || !typeof(IEnumerable).IsAssignableFrom(x.PropertyType)))
             {
+                if (typeof(IMessage).IsAssignableFrom(t))
+                {
+                    if (c.Name == "Descriptor" || c.Name == "Parser")
+                        continue;
+                }
+
                 if (c.Name.ToLower() == "id")
                     id = c.DelegateForGetPropertyValue();
 
@@ -46,14 +53,16 @@ namespace AMLWorker.Sql
             }
         }
 
+        public SqlitePropertiesAndCommands() : this(typeof(T).Name)
+        {
+        }
+
         public String GetId(T obj)
         {
             return (string)id(obj);
         }
         
-        public SqlitePropertiesAndCommands() :this(typeof(T).Name,true)
-        {
-        }
+      
 
 
         public IEnumerable<PropertyContainer> SqlFields()
@@ -130,7 +139,7 @@ namespace AMLWorker.Sql
 
             TrimComma(b);
 
-            b.Append($"from {tableName}; ");
+            b.Append($" from {tableName} ");
 
             return b.ToString();
         }
@@ -149,7 +158,7 @@ namespace AMLWorker.Sql
                 return "";
             if (String.IsNullOrEmpty(sort.SortField))
                 return "";
-            return $" sort by {sort.SortField} {sort.SortType} ";
+            return $" order by {sort.SortField} {sort.SortType} ";
         }
 
         public string CreateTableCommand()

@@ -299,8 +299,11 @@ namespace As.GraphQL
 
             if (db.SupportField(objectValue, fieldName))
             {
-                return db.ResolveFieldValue(objectValue, fieldName, argumentValues).ToArray();
+                return db.ResolveFieldValue(objectValue, fieldName, argumentValues);
             }
+
+            if (fieldName == "__typename")
+                return objectType.name;
 
             var value = objectValue as ISupportGetValue;
             if (value != null)
@@ -312,8 +315,6 @@ namespace As.GraphQL
             if (pi != null)
                 return pi.GetValue(objectValue);
 
-            if (fieldName == "__typename")
-                return objectType.name;
 
             Error($"Unexpected field when resolving field value = {fieldName} for {objectType.name}",field);
 
@@ -513,7 +514,7 @@ namespace As.GraphQL
                     }
 
                 }
-                else if (fieldType.dotNetType == value.GetType())
+                else if (fieldType.dotNetType == value.GetType() || (fieldType.dotNetType.IsEnum && value is String))
                 {
                     if (context == Context.List)
                     {
