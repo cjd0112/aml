@@ -18,6 +18,7 @@ namespace AMLWorker
         public IEnumerable<Transaction> Transactions { get; set; }
         public IEnumerable<Account> Accounts { get; set; }
         public IEnumerable<Party> Parties { get; set; }
+        
 
     }
 
