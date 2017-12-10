@@ -38,14 +38,14 @@ namespace As.GraphQL
         }
 
 
-        public IGraphQlDocument Validate(Type queryType,Type mutationType)
+        public IGraphQlDocument Validate(Type queryType)
         {
             if (custom == null)
                 custom = new GraphQlCustomiseSchema();
 
             try
             {
-                schema = GraphQlSchemaLoader.GetSchema(queryType,mutationType);
+                schema = GraphQlSchemaLoader.GetSchema(queryType);
 
                 if (schema == null)
                     schema = GraphQlSchemaLoader.InitializeSchema(queryType,custom);

@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Pipes;
 using System.Linq;
-using System.Text;
 using AMLWorker.Sql;
 using As.Comms;
 using As.Comms.ClientServer;
-using Fasterflect;
-using Google.Protobuf;
-using GraphQL;
-using As.GraphQL.Interface;
 using As.Logger;
-using Microsoft.Data.Sqlite;
-using As.Shared;
 
-namespace AMLWorker
+namespace AMLWorker.Aml
 {
     public class AmlRepository : AmlRepositoryServer
     {

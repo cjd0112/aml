@@ -13,6 +13,12 @@ using Microsoft.Data.Sqlite;
 
 namespace AMLWorker
 {
+    public class AmlQuery
+    {
+        [GraphQlTopLevelQuery]
+        public AmlRepositoryQuery Query { get; set; }
+    }
+
     public class AmlRepositoryQuery
     {
         public IEnumerable<Transaction> Transactions { get; set; }
@@ -32,7 +38,7 @@ namespace AMLWorker
         public AmlRepositoryGraphDb(SqliteConnection conn,
             SqlitePropertiesAndCommands<Party> partySql,
             SqlitePropertiesAndCommands<Account> accountSql,
-            SqlitePropertiesAndCommands<Transaction> transactionSql) : base(conn,typeof(AmlRepositoryQuery))
+            SqlitePropertiesAndCommands<Transaction> transactionSql) : base(conn,typeof(AmlRepositoryQuery),(x)=>new AmlRepositoryQuery())
         {
             this.partySql = partySql;
             this.accountSql = accountSql;

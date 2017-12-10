@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DistributedAML\As.Logger\As.Logger.csproj" />
     <ProjectReference Include="..\As.Antlr4.Core\As.Antlr4.Core.csproj" />
     <ProjectReference Include="..\As.GraphQL.Antlr\As.GraphQL.Antlr.csproj" />
     <ProjectReference Include="..\As.GraphQL.Interface\As.GraphQL.Interface.csproj" />

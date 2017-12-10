@@ -38,6 +38,7 @@ enum A4APartyType
 
 message A4AParty
 {
+	// this is the party identifier
 	string Id = 1;
 	string FirstName=2;
 	string LastName=3;

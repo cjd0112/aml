@@ -28,22 +28,17 @@ namespace AMLWorker
             return true;
         }
 
+        public override bool IncludeMethod(MethodInfo mi)
+        {
+            // don't include any IMessage functions 
+            if (typeof(IMessage).IsAssignableFrom(mi.DeclaringType))
+                return false;
+            return true;
+        }
+
         public override IEnumerable<(string fieldName, string description, Type fieldType)> AddAdditionalFields(Type type)
         {
             return base.AddAdditionalFields(type);
-        }
-
-        public override IEnumerable<(string inputName, Type inputType)> GetInputValues(string fieldName, PropertyInfo pi)
-        {
-            foreach (var c in base.GetInputValues(fieldName, pi))
-                yield return c;
-
-            if (pi.DeclaringType == typeof(AmlRepositoryQuery) &&   pi.PropertyType == typeof(IEnumerable<Account>))
-            {
-                yield return ("Range", typeof(Range));
-                yield return ("Sort", typeof(Sort));
-
-            }
         }
     }
 
@@ -51,21 +46,21 @@ namespace AMLWorker
     {
         protected SqliteConnection conn;
 
-        private Type queryType;
-        private Type mutationType;
-        protected RepositoryGraphDbBase(SqliteConnection conn,Type queryType,Type mutationType=null)
+        private Type topLevelType;
+        private Func<Type, Object> resolver;
+        protected RepositoryGraphDbBase(SqliteConnection conn,Type topLevelType,Func<Type,Object> resolver)
         {
             this.conn = conn;
-            this.queryType = queryType;
-            this.mutationType = mutationType;
+            this.topLevelType = topLevelType;
+            this.resolver = resolver;
         }
 
         public Object Run(String query)
         {
             return new GraphQlDocument(query)
                 .CustomiseSchema(new CustomizeSchema())
-                .Validate(queryType,mutationType)
-                .Run(Activator.CreateInstance(queryType), this)
+                .Validate(topLevelType)
+                .Run(resolver(topLevelType), this)
                 .GetOutput();
         }
 

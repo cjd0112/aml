@@ -12,9 +12,16 @@ namespace As.GraphQL.GraphQLType
         }
         public __Schema(__Type queryType)
         {
-            types = new List<__Type>();
             this.queryType = queryType;
         }
+
+        public __Schema(__Type queryType,__Type mutationType)
+        {
+            this.queryType = queryType;
+            this.mutationType = mutationType;
+        }
+
+
         public List<__Type> types { get; set; }
         public __Type queryType { get; set; }
         public __Type mutationType { get; set; }

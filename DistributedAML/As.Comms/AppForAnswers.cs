@@ -361,6 +361,9 @@ public sealed partial class A4AParty : pb::IMessage<A4AParty> {
   /// <summary>Field number for the "Id" field.</summary>
   public const int IdFieldNumber = 1;
   private string id_ = "";
+  /// <summary>
+  /// this is the party identifier
+  /// </summary>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string Id {
     get { return id_; }

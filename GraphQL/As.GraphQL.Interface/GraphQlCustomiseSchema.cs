@@ -8,11 +8,11 @@ namespace As.GraphQL.Interface
 {
     public class GraphQlCustomiseSchema 
     {
-        public virtual IEnumerable<Type> GetInputTypes(Type source)
+        GraphQlCommentExtractor ce = new GraphQlCommentExtractor();
+        public GraphQlCustomiseSchema()
         {
-            yield break;
+            
         }
-
         public virtual bool IncludeInterface(Type source, Type interfaceType)
         {
             return false;
@@ -20,8 +20,15 @@ namespace As.GraphQL.Interface
 
         public virtual String GetDescription(PropertyInfo pi)
         {
-            return "";
+            return ce.GetCommentFromXml(pi);
         }
+
+        public virtual String GetDescription(MethodInfo mi)
+        {
+
+            return ce.GetCommentFromXml(mi);
+        }
+
 
         public virtual IEnumerable<Type> GetPossibleTypes(Type interface1)
         {
@@ -33,26 +40,11 @@ namespace As.GraphQL.Interface
             return true;
         }
 
-        protected virtual bool UseAllSearchPropertiesForEnumerables { get; set; }
-
-
-        protected IEnumerable<(string propertyName, Type propertyType)> GetAllSearchableValues(Type type)
+        public virtual bool IncludeMethod(MethodInfo mi)
         {
-            foreach (var c in type.GetProperties())
-            {
-                if (TypeCheck.IsScalar(c.PropertyType))
-                    yield return (c.Name, c.PropertyType);
-            }
+            return true;
         }
 
-        public virtual IEnumerable<(string inputName, Type inputType)> GetInputValues(string fieldName, PropertyInfo pi)
-        {
-            if (typeof(IEnumerable).IsAssignableFrom(pi.PropertyType) && pi.PropertyType != typeof(String))
-            {
-                return GetAllSearchableValues(pi.PropertyType.GenericTypeArguments[0]);
-            }
-            return Enumerable.Empty<(string, Type)>();
-        }
 
         public virtual IEnumerable<(string fieldName, string description, Type fieldType)> AddAdditionalFields(Type type)
         {

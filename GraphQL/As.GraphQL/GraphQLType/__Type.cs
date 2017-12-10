@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using As.GraphQL.Interface;
@@ -74,13 +75,23 @@ namespace As.GraphQL.GraphQLType
         {
             if (resolver.ContainsKey(t) == false)
                 resolver[t] = new __Type(t, resolver, customiseSchema);
-            return resolver[t];
+            var ret = resolver[t];
+            if (ret.kind == __TypeKind.INPUT_OBJECT)
+                throw new Exception(
+                    $"You cannot mix input and output object types in a schema - {t.Name} already appears as INPUT_OBJECT type");
+            return ret;
         }
 
         __Type CreateOrGetInputObjectType(Type t)
         {
             if (resolver.ContainsKey(t) == false)
                 resolver[t] = new __Type(t, resolver, customiseSchema,true);
+
+            var ret = resolver[t];
+            if (ret.kind == __TypeKind.OBJECT)
+                throw new Exception(
+                    $"You cannot mix input and output object types in a schema - {t.Name} already appears as OBJECT type");
+
             return resolver[t];
         }
 
@@ -91,6 +102,14 @@ namespace As.GraphQL.GraphQLType
             if (desc != null)
                 return desc.Description;
             return customiseSchema.GetDescription(pi);
+        }
+
+        string descriptionFromMethod(MethodInfo mi)
+        {
+            var desc = mi.GetCustomAttribute<DescriptionAttribute>();
+            if (desc != null)
+                return desc.Description;
+            return customiseSchema.GetDescription(mi);
         }
 
         string descriptionFromType(Type t)
@@ -133,7 +152,7 @@ namespace As.GraphQL.GraphQLType
             foreach (
             PropertyInfo pi in dotNetType.GetProperties().Where(x=>customiseSchema.IncludeProperty(x)))
             {
-                fields.Add(FieldFromProperty(pi.Name, pi.PropertyType,descriptionFromField(pi)));
+                fields.Add(FieldFromPropertyOrMethod(pi.Name, pi.PropertyType,descriptionFromField(pi)));
                 if (pi.Name == "fields" && dotNetType == typeof(__Type))
                 {
                     fields.Last()
@@ -147,21 +166,30 @@ namespace As.GraphQL.GraphQLType
                             CreateOrGetType(typeof(Boolean))));
                 }
 
-                if (!TypeCheck.IsScalar(pi.PropertyType))
+            }
+
+
+            foreach (MethodInfo mi in dotNetType
+                .GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
+                .Where(x => customiseSchema.IncludeMethod(x)))
+            {
+                if (!mi.IsSpecialName && mi.DeclaringType.Name.StartsWith("__")== false)
                 {
-                    foreach (var c in customiseSchema.GetInputValues(pi.Name, pi))
+                    fields.Add(FieldFromPropertyOrMethod(mi.Name, mi.ReturnType, descriptionFromMethod(mi)));
+                    foreach (ParameterInfo c in mi.GetParameters())
                     {
-                        fields.Last().AddInputValue(new __InputValue(c.inputName,CreateOrGetInputObjectType(c.inputType)));
+                        fields.Last()
+                            .AddInputValue(new __InputValue(c.Name, CreateOrGetInputObjectType(c.ParameterType)));
                     }
                 }
             }
 
             // add built-in types
-            fields.Add(FieldFromProperty("__typename", typeof(String),"describes type"));
+            fields.Add(FieldFromPropertyOrMethod("__typename", typeof(String),"describes type"));
 
             foreach (var c in customiseSchema.AddAdditionalFields(dotNetType))
             {
-                fields.Add(FieldFromProperty(c.fieldName,c.fieldType,c.description));
+                fields.Add(FieldFromPropertyOrMethod(c.fieldName,c.fieldType,c.description));
             }
 
             description = descriptionFromType(dotNetType);
@@ -198,7 +226,7 @@ namespace As.GraphQL.GraphQLType
         }
         */
 
-        __Field FieldFromProperty(string name, Type t,string desc="")
+        __Field FieldFromPropertyOrMethod(string name, Type t,string desc="")
         {
             var f = new __Field(this);
             f.name = name;
