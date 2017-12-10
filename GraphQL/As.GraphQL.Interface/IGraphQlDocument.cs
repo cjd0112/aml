@@ -6,7 +6,7 @@ namespace As.GraphQL.Interface
     {
         IGraphQlDocument CustomiseSchema(GraphQlCustomiseSchema custom);
 
-        IGraphQlDocument Validate(Type topLevelType);
+        IGraphQlDocument Validate(Type queryType,Type mutationType);
 
         IGraphQlDocument Run(Object topLevelObject,IGraphQlDatabase db=null);
 

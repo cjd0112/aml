@@ -13,12 +13,18 @@ using Microsoft.Data.Sqlite;
 
 namespace AMLWorker
 {
-    public class A4ARepositoryQuery
+    public interface IA4ARepositoryQuery
     {
-        public IEnumerable<A4AMessage> Messages { get; set; }
-        public IEnumerable<A4ACategory> Categories { get; set; }
-        public IEnumerable<A4AParty> Parties { get; set; }
+        A4AMessage GetMessageById(String id);
+        IEnumerable<A4AMessage> SearchMessages(String search,Range range, Sort sort );
+        IEnumerable<A4ACategory> Categories { get; set; }
+        IEnumerable<A4AParty> Parties { get; set; }
 
+    }
+
+    public interface IA4AMutations
+    {
+        A4AMessage AddMessage(A4AMessage msg);
     }
 
     public class A4ARepositoryGraphDb : RepositoryGraphDbBase
@@ -31,7 +37,7 @@ namespace AMLWorker
         public A4ARepositoryGraphDb(SqliteConnection conn,
             SqlitePropertiesAndCommands<A4AParty> partySql,
             SqlitePropertiesAndCommands<A4ACategory> categorySql,
-            SqlitePropertiesAndCommands<A4AMessage> messageSql) : base(conn,typeof(A4ARepositoryQuery))
+            SqlitePropertiesAndCommands<A4AMessage> messageSql) : base(conn,typeof(IA4ARepositoryQuery),typeof(IA4AMutations))
         {
             this.partySql = partySql;
             this.categorySql = categorySql;

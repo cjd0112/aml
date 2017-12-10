@@ -52,17 +52,19 @@ namespace AMLWorker
         protected SqliteConnection conn;
 
         private Type queryType;
-        protected RepositoryGraphDbBase(SqliteConnection conn,Type queryType)
+        private Type mutationType;
+        protected RepositoryGraphDbBase(SqliteConnection conn,Type queryType,Type mutationType=null)
         {
             this.conn = conn;
             this.queryType = queryType;
+            this.mutationType = mutationType;
         }
 
         public Object Run(String query)
         {
             return new GraphQlDocument(query)
                 .CustomiseSchema(new CustomizeSchema())
-                .Validate(queryType)
+                .Validate(queryType,mutationType)
                 .Run(Activator.CreateInstance(queryType), this)
                 .GetOutput();
         }
