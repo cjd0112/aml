@@ -16,34 +16,26 @@ namespace AMLWorker.A4A
         public A4ARepositoryGraphDb(SqliteConnection conn,
             SqlitePropertiesAndCommands<A4AParty> partySql,
             SqlitePropertiesAndCommands<A4ACategory> categorySql,
-            SqlitePropertiesAndCommands<A4AMessage> messageSql) : base(conn,typeof(A4AQuery),(t)=>new A4AQuery(new A4ARepositoryQuery(), new A4AMutations()))
+            SqlitePropertiesAndCommands<A4AMessage> messageSql) : base(conn,typeof(A4AQuery))
         {
             this.partySql = partySql;
             this.categorySql = categorySql;
             this.messageSql = messageSql;
         }
 
-   
-
-        public override bool SupportField(object parentObject, string fieldName)
+    
+        public IEnumerable<A4AMessage> SearchMessages(string search, Range range, Sort sort)
         {
-            if (parentObject is A4ARepositoryQuery && fieldName == "Messages" || fieldName == "Categories" ||
-                fieldName == "Parties")
-                return true;
-            return false;
+            foreach (var c in SqlTableHelper.SelectData(conn, messageSql, range,sort))
+            {
+                yield return c.GetObject();
+            }
+
         }
 
-        public override IEnumerable<object> ResolveFieldValue(object parentObject, string fieldName,
-            Dictionary<string, object> argumentValues)
+        protected override object ResolveTopLevelType(Type t)
         {
-            if (parentObject is AmlRepositoryQuery && fieldName == "Parties")
-            {
-                foreach (var c in SqlTableHelper.SelectData(conn, partySql, GetRange(argumentValues),
-                    GetSort(argumentValues)))
-                {
-                    yield return c;
-                }
-            }
+            return new A4AQuery(new A4ARepositoryQuery(this), new A4AMutations());
         }
     }
 }

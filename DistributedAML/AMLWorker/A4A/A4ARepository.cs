@@ -48,7 +48,7 @@ namespace AMLWorker.A4A
             {
                 return new GraphResponse
                 {
-                    Response = new A4ARepositoryGraphDb(connection,partySql,categorySql, messageSql).Run(query.Query).ToString()
+                    Response = new A4ARepositoryGraphDb(connection,partySql,categorySql, messageSql).Run(query).ToString()
                 };
             }
         }

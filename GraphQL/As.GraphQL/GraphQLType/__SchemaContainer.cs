@@ -8,7 +8,7 @@
         }
         public __Schema __schema { get; set; }
 
-        public __Type GetType(string name)
+        internal __Type GetType(string name)
         {
             return __schema.GetType(name);
         }

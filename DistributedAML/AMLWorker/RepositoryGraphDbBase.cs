@@ -14,7 +14,7 @@ using Microsoft.Data.Sqlite;
 namespace AMLWorker
 {
    
-    public class CustomizeSchema : GraphQlCustomiseSchema
+    public class ProtobufCustomizeSchema : GraphQlCustomiseSchema
     {
         public override bool IncludeProperty(PropertyInfo pi)
         {
@@ -36,61 +36,41 @@ namespace AMLWorker
             return true;
         }
 
-        public override IEnumerable<(string fieldName, string description, Type fieldType)> AddAdditionalFields(Type type)
+        public override IEnumerable<(string fieldName, string description, Type fieldType,Func<Object,Object> resolver)> AddAdditionalFields(Type type)
         {
             return base.AddAdditionalFields(type);
         }
+
+        public override IEnumerable<(string fieldName, string description, Type fieldType, List<(String,Type)> parameters, Func<Object, Dictionary<string,Object>, Object> resolver)> AddAdditionalMethods(Type type)
+        {
+            return base.AddAdditionalMethods(type);
+        }
+
     }
 
-    public class RepositoryGraphDbBase : IGraphQlDatabase
+    public abstract class RepositoryGraphDbBase 
     {
         protected SqliteConnection conn;
 
         private Type topLevelType;
-        private Func<Type, Object> resolver;
-        protected RepositoryGraphDbBase(SqliteConnection conn,Type topLevelType,Func<Type,Object> resolver)
+        protected abstract Object ResolveTopLevelType(Type t);
+
+        protected RepositoryGraphDbBase(SqliteConnection conn,Type topLevelType)
         {
             this.conn = conn;
             this.topLevelType = topLevelType;
-            this.resolver = resolver;
         }
 
-        public Object Run(String query)
+        public Object Run(GraphQuery query)
         {
-            return new GraphQlDocument(query)
-                .CustomiseSchema(new CustomizeSchema())
+            return new GraphQlDocument(query.Query)
+                .CustomiseSchema(new ProtobufCustomizeSchema())
                 .Validate(topLevelType)
-                .Run(resolver(topLevelType), this)
+                .Run(ResolveTopLevelType(topLevelType),query.OperationName,query.Variables)
                 .GetOutput();
         }
 
-        protected Range GetRange(Dictionary<string, object> arguments)
-        {
-            if (arguments.TryGetValue("Range", out Object o))
-            {
-                return (Range) o;
-            }
-            return new Range();
-
-        }
-
-        protected Sort GetSort(Dictionary<string, object> arguments)
-        {
-            if (arguments.TryGetValue("Sort", out Object o))
-            {
-                return (Sort) o;
-            }
-            return new Sort();
-        }
-
-        public virtual bool SupportField(object parentObject, string fieldName)
-        {
-            return false;
-        }
-
-        public virtual IEnumerable<object> ResolveFieldValue(object parentObject, string fieldName,Dictionary<string, object> argumentValues)
-        {
-            yield break;
-        }
+    
+   
     }
 }

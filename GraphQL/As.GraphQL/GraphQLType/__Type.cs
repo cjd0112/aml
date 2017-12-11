@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using As.GraphQL.Interface;
+using Fasterflect;
 
 namespace As.GraphQL.GraphQLType
 {
@@ -21,6 +22,32 @@ namespace As.GraphQL.GraphQLType
     }
     public class __Type
     {
+        public __TypeKind kind { get; set; }
+        public String name { get; set; }
+        public String description { get; set; }
+
+        List<__Field> fields_underlying { get; set; }
+
+        public List<__Field> fields(bool includeDeprecated = true)
+        {
+            return fields_underlying;
+        }
+
+        public List<__Type> interfaces { get; set; }
+        public List<__Type> possibleTypes { get; set; }
+        List<__EnumValue> enumValues_underlying { get; set; }
+
+        public List<__EnumValue> enumValues(bool includeDeprecated = true)
+        {
+            return enumValues_underlying;
+        }
+
+
+        public List<__InputValue> inputFields { get; set; }
+        public __Type ofType { get; set; }
+
+        internal Type dotNetType;
+
         public __Type()
         {
             
@@ -33,7 +60,7 @@ namespace As.GraphQL.GraphQLType
             this.resolver = resolver;
             this.customiseSchema = customise;
             dotNetType = t;
-
+            
             if (resolver.ContainsKey(t) == false)
                 resolver[t] = this;
 
@@ -126,7 +153,7 @@ namespace As.GraphQL.GraphQLType
                 throw new Exception("Expected only 'interface' or 'object' kinds");
             kind = typeKind;
             name = dotNetType.Name;
-            fields = new List<__Field>();
+            fields_underlying = new List<__Field>();
             if (kind == __TypeKind.OBJECT)
             {
                 interfaces = new List<__Type>();
@@ -152,20 +179,7 @@ namespace As.GraphQL.GraphQLType
             foreach (
             PropertyInfo pi in dotNetType.GetProperties().Where(x=>customiseSchema.IncludeProperty(x)))
             {
-                fields.Add(FieldFromPropertyOrMethod(pi.Name, pi.PropertyType,descriptionFromField(pi)));
-                if (pi.Name == "fields" && dotNetType == typeof(__Type))
-                {
-                    fields.Last()
-                        .args.Add(new __InputValue("includeDeprecated",
-                            CreateOrGetType(typeof(Boolean))));
-                }
-                if (pi.Name == "enumValues" && dotNetType == typeof(__Type))
-                {
-                    fields.Last()
-                        .args.Add(new __InputValue("includeDeprecated",
-                            CreateOrGetType(typeof(Boolean))));
-                }
-
+                fields_underlying.Add(FieldFromProperty(pi.Name, pi.PropertyType,pi.DeclaringType,descriptionFromField(pi)));
             }
 
 
@@ -173,24 +187,25 @@ namespace As.GraphQL.GraphQLType
                 .GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
                 .Where(x => customiseSchema.IncludeMethod(x)))
             {
-                if (!mi.IsSpecialName && mi.DeclaringType.Name.StartsWith("__")== false)
+                if (!mi.IsSpecialName)
                 {
-                    fields.Add(FieldFromPropertyOrMethod(mi.Name, mi.ReturnType, descriptionFromMethod(mi)));
-                    foreach (ParameterInfo c in mi.GetParameters())
-                    {
-                        fields.Last()
-                            .AddInputValue(new __InputValue(c.Name, CreateOrGetInputObjectType(c.ParameterType)));
-                    }
+                    fields_underlying.Add(FieldFromMethod(mi.Name, mi.ReturnType, mi.DeclaringType, mi.GetParameters().Select(x=>(x.Name,x.ParameterType)).ToList(), descriptionFromMethod(mi)));
                 }
             }
 
             // add built-in types
-            fields.Add(FieldFromPropertyOrMethod("__typename", typeof(String),"describes type"));
+            fields_underlying.Add(FieldFromProperty("__typename", typeof(String), dotNetType,  "describes type",(x)=>dotNetType.Name));
 
             foreach (var c in customiseSchema.AddAdditionalFields(dotNetType))
             {
-                fields.Add(FieldFromPropertyOrMethod(c.fieldName,c.fieldType,c.description));
+                fields_underlying.Add(FieldFromProperty(c.fieldName,c.fieldType,dotNetType,c.description,c.resolver));
             }
+
+            foreach (var c in customiseSchema.AddAdditionalMethods(dotNetType))
+            {
+                fields_underlying.Add(FieldFromMethod(c.fieldName, c.fieldType, dotNetType, c.parameters, c.description,c.resolver));
+            }
+
 
             description = descriptionFromType(dotNetType);
         }
@@ -199,7 +214,7 @@ namespace As.GraphQL.GraphQLType
         {
             kind = __TypeKind.INPUT_OBJECT;
             name = dotNetType.Name;
-            fields = null;
+            fields_underlying = null;
             interfaces = null;
             inputFields = new List<__InputValue>();
             foreach (
@@ -226,15 +241,74 @@ namespace As.GraphQL.GraphQLType
         }
         */
 
-        __Field FieldFromPropertyOrMethod(string name, Type t,string desc="")
+        __Field FieldFromProperty(string name, Type t, Type declaringType,string desc="",Func<Object,Object> propertyResolver=null)
         {
             var f = new __Field(this);
             f.name = name;
             f.type = CreateOrGetType(t);
             f.description = desc;
+            f.ResolveProperty = propertyResolver;
+            f.FieldType = __Field.FieldTypeEnum.Property;
+
+            if (f.ResolveProperty == null)
+            {
+                if (typeof(ISupportGetValue).IsAssignableFrom(declaringType))
+                {
+                    f.ResolveProperty = (Object foo) => ((ISupportGetValue) foo).GetValue(f.name);
+                }
+                else
+                {
+                    var propertyDelegate = declaringType.DelegateForGetPropertyValue(name);
+                    f.ResolveProperty = (Object foo) => propertyDelegate(foo);
+                }
+            }
+
             return f;
         }
-        
+
+        __Field FieldFromMethod(string name, Type t, Type declaringType, List<(string paramName,Type paramType)> params1, string desc = "",Func<Object,Dictionary<string,Object>,Object> methodResolver=null)
+        {
+            var f = new __Field(this);
+            f.name = name;
+            f.type = CreateOrGetType(t);
+            f.description = desc;
+            f.args = new List<__InputValue>();
+            f.FieldType = __Field.FieldTypeEnum.Method;
+            foreach (var c in params1)
+            {                
+                f.AddInputValue(new __InputValue(c.paramName, CreateOrGetInputObjectType(c.paramType)));
+            }
+
+            f.ResolveMethod = methodResolver;
+
+            if (f.ResolveMethod == null)
+            {
+                var methodDelegate = declaringType.DelegateForCallMethod(name, params1.Select(x => x.paramType).ToArray());
+                String[] names = params1.Select(x => x.paramName).ToArray();
+                f.ResolveMethod = (object o, Dictionary<string, Object> args) =>
+                {
+                    int cnt = 0;
+                    Object[] paramArray = new object[params1.Count()];
+                    foreach (var c in names)
+                    {
+                        if (args.TryGetValue(c, out var res))
+                        {
+                            paramArray[cnt++] = res;
+                        }
+                        else
+                        {
+                            paramArray[cnt++] = null;
+                        }
+
+                    }
+                    return methodDelegate(o, paramArray);
+                };
+            }
+
+            return f;
+        }
+
+
         void ScalarType()
         {
             kind = __TypeKind.SCALAR;
@@ -279,10 +353,10 @@ namespace As.GraphQL.GraphQLType
         {
             kind = __TypeKind.ENUM;
             name = dotNetType.Name;
-            enumValues = new List<__EnumValue>();
+            enumValues_underlying = new List<__EnumValue>();
             foreach (var c in Enum.GetNames(dotNetType))
             {
-                enumValues.Add(new __EnumValue(c));
+                enumValues_underlying.Add(new __EnumValue(c));
             }
         }
 
@@ -293,26 +367,16 @@ namespace As.GraphQL.GraphQLType
             ofType = CreateOrGetType(dotNetType.GenericTypeArguments[0]);
         }
         
-        public __TypeKind kind { get; set; }
-        public String name { get; set; }
-        public String description { get; set; }
-        public List<__Field> fields { get; set; }
-        public List<__Type> interfaces { get; set; }
-        public List<__Type> possibleTypes { get; set; }
-        public List<__EnumValue> enumValues { get; set; }
-        public List<__InputValue> inputFields { get; set; }
-        public __Type ofType { get; set; }
-
-        public Type dotNetType;
+     
 
         // Gets field based on field and ParentType ... 
-        public __Field GetField(Predicate<__Field> criteria )
+        internal __Field GetField(Predicate<__Field> criteria )
         {
             if (kind == __TypeKind.UNION || kind == __TypeKind.INTERFACE)
             {
                 foreach (var c in possibleTypes)
                 {
-                    var f = c.fields.FirstOrDefault((x) => criteria(x));
+                    var f = c.fields_underlying.FirstOrDefault((x) => criteria(x));
                     if (f != null)
                         return f;
                 }
@@ -321,11 +385,11 @@ namespace As.GraphQL.GraphQLType
             }
             else
             {
-                if (fields == null)
+                if (fields_underlying == null)
                     return null;
             }
 
-            return fields.FirstOrDefault(x=>criteria(x));
+            return fields_underlying.FirstOrDefault(x=>criteria(x));
         }
 
         public override string ToString()

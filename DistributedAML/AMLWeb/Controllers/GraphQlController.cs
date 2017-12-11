@@ -32,7 +32,7 @@ namespace AMLWeb.Controllers
 
             var first = factory.GetClient<IA4ARepository>(0);
 
-            var graphResponse = first.RunQuery(new GraphQuery {Query = query.Query});
+            var graphResponse = first.RunQuery(new GraphQuery {Query = query.Query,OperationName = query.OperationName??"",Variables = query.Variables??""});
 
             logger.LogDebug(graphResponse.Response);
 

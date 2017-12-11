@@ -20,13 +20,14 @@ public static partial class GraphQueryReflection {
   static GraphQueryReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChBHcmFwaFF1ZXJ5LnByb3RvIjIKCkdyYXBoUXVlcnkSDQoFUXVlcnkYASAB",
-          "KAkSFQoNSXNTY2hlbWFRdWVyeRgCIAEoCCIhCg1HcmFwaFJlc3BvbnNlEhAK",
-          "CFJlc3BvbnNlGAEgASgJYgZwcm90bzM="));
+          "ChBHcmFwaFF1ZXJ5LnByb3RvIlwKCkdyYXBoUXVlcnkSDQoFUXVlcnkYASAB",
+          "KAkSFQoNSXNTY2hlbWFRdWVyeRgCIAEoCBIVCg1PcGVyYXRpb25OYW1lGAMg",
+          "ASgJEhEKCVZhcmlhYmxlcxgEIAEoCSIhCg1HcmFwaFJlc3BvbnNlEhAKCFJl",
+          "c3BvbnNlGAEgASgJYgZwcm90bzM="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::GraphQuery), global::GraphQuery.Parser, new[]{ "Query", "IsSchemaQuery" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::GraphQuery), global::GraphQuery.Parser, new[]{ "Query", "IsSchemaQuery", "OperationName", "Variables" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::GraphResponse), global::GraphResponse.Parser, new[]{ "Response" }, null, null, null)
         }));
   }
@@ -60,6 +61,8 @@ public sealed partial class GraphQuery : pb::IMessage<GraphQuery> {
   public GraphQuery(GraphQuery other) : this() {
     query_ = other.query_;
     isSchemaQuery_ = other.isSchemaQuery_;
+    operationName_ = other.operationName_;
+    variables_ = other.variables_;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -89,6 +92,28 @@ public sealed partial class GraphQuery : pb::IMessage<GraphQuery> {
     }
   }
 
+  /// <summary>Field number for the "OperationName" field.</summary>
+  public const int OperationNameFieldNumber = 3;
+  private string operationName_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string OperationName {
+    get { return operationName_; }
+    set {
+      operationName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Variables" field.</summary>
+  public const int VariablesFieldNumber = 4;
+  private string variables_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Variables {
+    get { return variables_; }
+    set {
+      variables_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as GraphQuery);
@@ -104,6 +129,8 @@ public sealed partial class GraphQuery : pb::IMessage<GraphQuery> {
     }
     if (Query != other.Query) return false;
     if (IsSchemaQuery != other.IsSchemaQuery) return false;
+    if (OperationName != other.OperationName) return false;
+    if (Variables != other.Variables) return false;
     return true;
   }
 
@@ -112,6 +139,8 @@ public sealed partial class GraphQuery : pb::IMessage<GraphQuery> {
     int hash = 1;
     if (Query.Length != 0) hash ^= Query.GetHashCode();
     if (IsSchemaQuery != false) hash ^= IsSchemaQuery.GetHashCode();
+    if (OperationName.Length != 0) hash ^= OperationName.GetHashCode();
+    if (Variables.Length != 0) hash ^= Variables.GetHashCode();
     return hash;
   }
 
@@ -130,6 +159,14 @@ public sealed partial class GraphQuery : pb::IMessage<GraphQuery> {
       output.WriteRawTag(16);
       output.WriteBool(IsSchemaQuery);
     }
+    if (OperationName.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(OperationName);
+    }
+    if (Variables.Length != 0) {
+      output.WriteRawTag(34);
+      output.WriteString(Variables);
+    }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -140,6 +177,12 @@ public sealed partial class GraphQuery : pb::IMessage<GraphQuery> {
     }
     if (IsSchemaQuery != false) {
       size += 1 + 1;
+    }
+    if (OperationName.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(OperationName);
+    }
+    if (Variables.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Variables);
     }
     return size;
   }
@@ -154,6 +197,12 @@ public sealed partial class GraphQuery : pb::IMessage<GraphQuery> {
     }
     if (other.IsSchemaQuery != false) {
       IsSchemaQuery = other.IsSchemaQuery;
+    }
+    if (other.OperationName.Length != 0) {
+      OperationName = other.OperationName;
+    }
+    if (other.Variables.Length != 0) {
+      Variables = other.Variables;
     }
   }
 
@@ -171,6 +220,14 @@ public sealed partial class GraphQuery : pb::IMessage<GraphQuery> {
         }
         case 16: {
           IsSchemaQuery = input.ReadBool();
+          break;
+        }
+        case 26: {
+          OperationName = input.ReadString();
+          break;
+        }
+        case 34: {
+          Variables = input.ReadString();
           break;
         }
       }

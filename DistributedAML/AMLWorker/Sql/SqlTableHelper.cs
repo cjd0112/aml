@@ -292,7 +292,7 @@ namespace AMLWorker.Sql
             txn.Commit();
         }
 
-        public static IEnumerable<DataRecordHelper> SelectData<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,Range range,Sort sort)
+        public static IEnumerable<DataRecordHelper<T>> SelectData<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,Range range,Sort sort)
         {
             using (var txn = connection.BeginTransaction())
             {
@@ -303,15 +303,13 @@ namespace AMLWorker.Sql
                 {
                     queryCmd.CommandText = selectCommand;
 
-                    int cnt = 0;
-
                     using (var data = queryCmd.ExecuteReader())
                     {
-                        var z = data as IDataReader;
+                        var p = new DataRecordHelper<T>(propertiesAndCommands,data);
 
                         while (data.Read())
                         {
-                            yield return new DataRecordHelper(cnt++,propertiesAndCommands.t,data);
+                            yield return p.IncrementCount(); 
                         }
                     }
 

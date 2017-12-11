@@ -28,7 +28,7 @@ namespace As.GraphQL.GraphQLType
         public List<__Directive> directives { get; set; }
         public __Type subscriptionType { get; set; }
 
-        public __Type GetType(String name)
+        internal __Type GetType(String name)
         {
             return types.FirstOrDefault(x => x.name == name);
         }

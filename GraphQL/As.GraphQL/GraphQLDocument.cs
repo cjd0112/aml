@@ -68,7 +68,7 @@ namespace As.GraphQL
             return this;
         }
 
-        public IGraphQlDocument Run(Object topLevelObject,IGraphQlDatabase db=null)
+        public IGraphQlDocument Run(Object topLevelObject,String operationName,String variables)
         {
             if (validation_errors)
                 return this;
@@ -79,7 +79,7 @@ namespace As.GraphQL
             try
             {
                 output = new GraphQlJObject();
-                var p = new GraphQlMainExecution(this, schema, output, topLevelObject,db);
+                var p = new GraphQlMainExecution(this, schema, output, topLevelObject,operationName,variables);
             }
             catch (GraphQlException e)
             {

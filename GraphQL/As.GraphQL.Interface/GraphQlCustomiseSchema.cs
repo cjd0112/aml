@@ -46,10 +46,16 @@ namespace As.GraphQL.Interface
         }
 
 
-        public virtual IEnumerable<(string fieldName, string description, Type fieldType)> AddAdditionalFields(Type type)
+        public virtual IEnumerable<(string fieldName, string description, Type fieldType,Func<Object,Object> resolver)> AddAdditionalFields(Type type)
         {
-            return Enumerable.Empty<(string, string, Type)>();
+            return Enumerable.Empty<(string, string, Type,Func<Object,Object>)>();
         }
+
+        public virtual IEnumerable<(string fieldName, string description, Type fieldType, List<(String,Type)> parameters, Func<Object, Dictionary<string,Object>,Object>  resolver)> AddAdditionalMethods(Type type)
+        {
+            return Enumerable.Empty<(string, string, Type, List<(String,Type)>, Func<Object, Dictionary<string,object>,Object>)>();
+        }
+
 
 
     }

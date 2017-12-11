@@ -156,7 +156,7 @@ namespace AMLWorker.Aml
             {
                 return new GraphResponse
                 {
-                    Response = new AmlRepositoryGraphDb(connection,partySql,accountSql,transactionSql).Run(query.Query).ToString()
+                    Response = new AmlRepositoryGraphDb(connection,partySql,accountSql,transactionSql).Run(query).ToString()
                 };
             }
         }

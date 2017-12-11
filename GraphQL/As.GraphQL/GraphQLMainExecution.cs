@@ -10,18 +10,7 @@ using As.GraphQL.Utilities;
 
 namespace As.GraphQL
 {
-    public class EmptyGraphQlDatabase : IGraphQlDatabase
-    {
-        public bool SupportField(object parentObject, string fieldName)
-        {
-            return false;
-        }
-
-        public IEnumerable<object> ResolveFieldValue(object parentObject, string fieldName, Dictionary<string, object> argumentValues)
-        {
-            return Enumerable.Empty<object>();
-        }
-    }
+   
 
     public class GraphQlMainExecution : GraphQlMainBase 
     {
@@ -33,28 +22,23 @@ namespace As.GraphQL
 
         private IGraphQlOutput output;
 
-        private IGraphQlDatabase db;
-
-        public GraphQlMainExecution(IGraphQlDocument document, __SchemaContainer schema, IGraphQlOutput output, Object topLevelObject, IGraphQlDatabase db = null,  string operationName = "") 
+        public GraphQlMainExecution(IGraphQlDocument document, __SchemaContainer schema, IGraphQlOutput output, Object topLevelObject,string operationName,String vars) 
             : base(document, schema)
         {
             this.TopLevelObject = topLevelObject;
             this.output = output;
-            this.db = db ?? new EmptyGraphQlDatabase();
-            var queryType = schema.__schema.queryType;
 
             GetTypeFunc = schema.GetType;
 
-            if (queryType.kind != __TypeKind.OBJECT)
-                Error($"Top level query type must be an object not - {queryType.kind}", documentContext);
-
             var operation = GetTopLevelOperation(operationName);
 
+
             var variables = new Dictionary<string, Object>();
+            // not parsed variables yet
 
             output.PushObject("data");
 
-            ExecuteSelectionSet(new ModifiableSelectionSet(operation.selectionSet()), queryType, topLevelObject,
+            ExecuteSelectionSet(new ModifiableSelectionSet(operation.selectionSet()), ExtractAppropriate__TypeForOperation(schema.__schema,operation), this.ExtractAppropriateObjectForOperation(topLevelObject,operation),
                 variables);
 
             output.Pop();
@@ -297,28 +281,28 @@ namespace As.GraphQL
             if (objectValue == null)
                 return null;
 
-            if (db.SupportField(objectValue, fieldName))
-            {
-                return db.ResolveFieldValue(objectValue, fieldName, argumentValues);
-            }
-
             if (fieldName == "__typename")
                 return objectType.name;
 
-            var value = objectValue as ISupportGetValue;
-            if (value != null)
+            var fieldObj = objectType.GetField(x => x.name == fieldName);
+
+            if (fieldObj == null)
+                Error($"Could not resolve property type - {fieldName} in context of {objectType.name}",field);
+
+            if (fieldObj.FieldType == __Field.FieldTypeEnum.Property && argumentValues.Any())
+                Error($"Found a property type - {fieldName} - but are presented with set of argumentValues, indicating it should be a method type ",field);
+
+            if (fieldObj.ResolveProperty == null && fieldObj.ResolveMethod == null)
+                Error($"Found a property type - {fieldName} from {objectType.name} which has no method or property resolver",field);
+
+            if (fieldObj.ResolveProperty != null)
             {
-                return value.GetValue(fieldName);
+                return fieldObj.ResolveProperty(objectValue);
             }
-
-            var pi = objectType.dotNetType.GetTypeInfo().GetProperty(fieldName);
-            if (pi != null)
-                return pi.GetValue(objectValue);
-
-
-            Error($"Unexpected field when resolving field value = {fieldName} for {objectType.name}",field);
-
-            return null;
+            else
+            {
+                return fieldObj.ResolveMethod(objectValue, argumentValues);
+            }            
         }
 
         enum Context
@@ -424,11 +408,13 @@ namespace As.GraphQL
             return ms;
         }
 
+        Dictionary<string,Object> emptyArgs = new Dictionary<string, object>();
+
         public Dictionary<string, Object> CoerceArgumentValues(__Type objectType, GraphQLParser.FieldContext field,
             Dictionary<string, Object> variableValues)
         {
             if (field.arguments() == null)
-                return null;
+                return emptyArgs;
 
             var coercedValues = new Dictionary<string, Object>();
 

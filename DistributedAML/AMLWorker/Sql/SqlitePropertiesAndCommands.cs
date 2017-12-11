@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using As.GraphQL.Interface;
 using Fasterflect;
 using Google.Protobuf;
 
@@ -19,6 +21,7 @@ namespace AMLWorker.Sql
     {
         public PropertyInfo pi;
         public MemberGetter getter;
+        public MemberSetter setter;
     }
 
     public class SqlitePropertiesAndCommands<T>
@@ -29,6 +32,9 @@ namespace AMLWorker.Sql
 
 
         private MemberGetter id;
+
+
+        private ConstructorInvoker ci;
         
         public SqlitePropertiesAndCommands(String tableName,bool ignoreEnumerableFields=true)
         {
@@ -48,10 +54,31 @@ namespace AMLWorker.Sql
                 pis.Add(new PropertyContainer
                 {
                     pi = c,
-                    getter = c.DelegateForGetPropertyValue()
+                    getter = c.DelegateForGetPropertyValue(),
+                    setter = c.DelegateForSetPropertyValue()
                 });
             }
+
+            ci = this.t.DelegateForCreateInstance();
         }
+
+        public T CreateInstance()
+        {
+            return (T) ci();
+
+        }
+
+        public T CreateInstance(ISupportGetValue sv)
+        {
+            var t = CreateInstance();
+            foreach (var q in pis)
+            {
+                q.setter(t, ConvertValue(sv.GetValue(q.pi.Name),q.pi));
+            }
+            return (T) t;
+
+        }
+
 
         public SqlitePropertiesAndCommands() : this(typeof(T).Name)
         {
@@ -146,6 +173,8 @@ namespace AMLWorker.Sql
 
         public String RangeClause(Range range)
         {
+            if (range == null)
+                return $" (rowid >= 0 and rowid <= 200) ";
             if (range.End > range.Start)
                 return $" (rowid >= {range.Start} and rowid <= {range.End}) ";
             else
@@ -154,6 +183,9 @@ namespace AMLWorker.Sql
 
         public String SortClause(Sort sort)
         {
+            if (sort == null)
+                return $"";
+
             if (sort.SortType == SortTypeEnum.None)
                 return "";
             if (String.IsNullOrEmpty(sort.SortField))
@@ -190,6 +222,13 @@ namespace AMLWorker.Sql
                 return "text";
             else
                 return "numeric";
+        }
+
+        Object ConvertValue(Object o, PropertyInfo pi)
+        {
+            if (pi.PropertyType.IsEnum)
+                return Enum.Parse(pi.PropertyType, (string) o);
+            return o;
         }
 
     }

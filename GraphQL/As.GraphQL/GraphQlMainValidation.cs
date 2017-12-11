@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using As.GraphQL.GraphQLType;
 using As.GraphQL.Interface;
@@ -41,9 +42,17 @@ namespace As.GraphQL
 
         void OperationSelectionMatch()
         {
-            foreach (var c in GetOperations(x => true))
+            foreach (GraphQLParser.OperationDefinitionContext c in GetOperations(x => true))
             {
-                var type = schema.__schema.queryType;
+                __Type type = null;
+                if (c.operationType().GetText() == "mutation")
+                    type = schema.__schema.mutationType;
+                else if (c.operationType().GetText() == "query")
+                    type = schema.__schema.queryType;
+                else
+                {
+                    Error($"Unexpected operation type - expected query/mutation received {c.operationType().GetText()}",c);
+                }
                 if (c.selectionSet() != null)
                 {
                     ValidateTypeAgainstSelectionSet(type.name,c.selectionSet());

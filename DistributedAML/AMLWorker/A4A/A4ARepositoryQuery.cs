@@ -7,8 +7,14 @@ namespace AMLWorker.A4A
     /// <summary>
     /// Top Level App For Answers Query Object
     /// </summary>
-    public class A4ARepositoryQuery 
+    public class A4ARepositoryQuery
     {
+        private A4ARepositoryGraphDb db;
+        public A4ARepositoryQuery(A4ARepositoryGraphDb db)
+        {
+            this.db = db;
+        }
+
         /// <summary>
         /// returns a message given an id
         /// </summary>
@@ -28,7 +34,7 @@ namespace AMLWorker.A4A
         /// <returns></returns>
         public IEnumerable<A4AMessage> SearchMessages(string search, Range range, Sort sort)
         {
-            throw new NotImplementedException();
+            return db.SearchMessages(search, range, sort);
         }
 
 

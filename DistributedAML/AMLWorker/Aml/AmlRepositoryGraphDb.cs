@@ -38,7 +38,7 @@ namespace AMLWorker
         public AmlRepositoryGraphDb(SqliteConnection conn,
             SqlitePropertiesAndCommands<Party> partySql,
             SqlitePropertiesAndCommands<Account> accountSql,
-            SqlitePropertiesAndCommands<Transaction> transactionSql) : base(conn,typeof(AmlRepositoryQuery),(x)=>new AmlRepositoryQuery())
+            SqlitePropertiesAndCommands<Transaction> transactionSql) : base(conn,typeof(AmlRepositoryQuery))
         {
             this.partySql = partySql;
             this.accountSql = accountSql;
@@ -46,25 +46,9 @@ namespace AMLWorker
         }
 
 
-        public override bool SupportField(object parentObject, string fieldName)
+        protected override object ResolveTopLevelType(Type t)
         {
-            if (parentObject is AmlRepositoryQuery && fieldName == "Transactions" || fieldName == "Accounts" ||
-                fieldName == "Parties")
-                return true;
-            return false;
-        }
-
-        public override IEnumerable<object> ResolveFieldValue(object parentObject, string fieldName,
-            Dictionary<string, object> argumentValues)
-        {
-            if (parentObject is AmlRepositoryQuery && fieldName == "Accounts")
-            {
-                foreach (var c in SqlTableHelper.SelectData(conn, accountSql, GetRange(argumentValues),
-                    GetSort(argumentValues)))
-                {
-                    yield return c;
-                }
-            }
+            return new AmlRepositoryQuery();
         }
     }
 }

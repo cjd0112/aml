@@ -4,6 +4,8 @@ message GraphQuery
 {
 	string Query = 1;
 	bool IsSchemaQuery = 2;
+	string OperationName = 3;
+	string Variables = 4;
 }
 
 message GraphResponse

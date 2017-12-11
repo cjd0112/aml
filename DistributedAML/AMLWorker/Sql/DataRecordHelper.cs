@@ -4,23 +4,33 @@ using As.GraphQL.Interface;
 
 namespace AMLWorker.Sql
 {
-    public class DataRecordHelper : ISupportGetValue
+    public class DataRecordHelper<T> : ISupportGetValue
     {
-        public Type UnderlyingType { get; set; }   
+        public SqlitePropertiesAndCommands<T>  propertiesAndCommands { get; set; }   
         public IDataRecord Record { get; set; }
         public int OrdinalInQuery { get; set; }
 
-        public DataRecordHelper(int ordinalInQuery,Type t, IDataRecord record)
+        public DataRecordHelper(SqlitePropertiesAndCommands<T> propertiesAndCommands, IDataRecord record)
         {
-            UnderlyingType = t;
+            this.propertiesAndCommands = propertiesAndCommands;
             Record = record;
-            OrdinalInQuery = ordinalInQuery;
         }
 
+
+        public T GetObject()
+        {
+            return propertiesAndCommands.CreateInstance(this);
+        }
 
         public Object GetValue(String field)
         {
             return Record[field];
+        }
+
+        public DataRecordHelper<T> IncrementCount()
+        {
+            OrdinalInQuery++;
+            return this;
         }
 
     }
