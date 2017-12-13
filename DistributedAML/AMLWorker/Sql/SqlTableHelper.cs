@@ -292,12 +292,15 @@ namespace AMLWorker.Sql
             txn.Commit();
         }
 
-        public static IEnumerable<DataRecordHelper<T>> SelectData<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,Range range,Sort sort)
+        public static IEnumerable<DataRecordHelper<T>> SelectData<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,String whereClause,Range range,Sort sort)
         {
             using (var txn = connection.BeginTransaction())
             {
-                var selectCommand =
-                    $"{propertiesAndCommands.SelectCommand()} where {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+                string selectCommand;
+                if (String.IsNullOrEmpty(whereClause))
+                    selectCommand = $"{propertiesAndCommands.SelectCommand()} where {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+                else
+                    selectCommand = $"{propertiesAndCommands.SelectCommand()} where {whereClause} and {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
 
                 using (var queryCmd = connection.CreateCommand())
                 {

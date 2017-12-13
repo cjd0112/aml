@@ -8,11 +8,18 @@ namespace AMLWorker.A4A
         public string Message { get; set; }
     }
 
-    public class A4AMutations 
+    public class A4AMutations
     {
+        private A4ARepositoryGraphDb db;
+
+        public A4AMutations(A4ARepositoryGraphDb db)
+        {
+            this.db = db;
+        }
+
         public A4AMessage AddMessage(A4AMessageSetter msg)
         {
-            throw new NotImplementedException();
+            return db.AddMessage(msg);
         }
     }
 }
