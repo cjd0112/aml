@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Fasterflect;
 using GraphQL;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace TestConsole
 {
@@ -17,42 +19,9 @@ namespace TestConsole
         {
             try
             {
-
-                var x = new Account();
-
-                int z = x.GetFoo("shag");
-
-                var t = typeof(Account);
-
-                foreach (MethodInfo c in typeof(Ext2).GetMethods())
-                {
-                    if (c.GetCustomAttribute<ExtensionAttribute>() != null)
-                    {
-                        var p = c.GetCustomAttribute<ExtensionAttribute>();
-                        foreach (ParameterInfo pi in c.GetParameters())
-                        {
-                            var z22 = pi;
-                        }
-
-
-                        var obj = c.Invoke(null, new object[] {x, "test"});
-
-                    }
-
-                }
-
-
-
-
-                Console.WriteLine("Hello World!");
-
-                var query = new StreamReader("SchemaQuery.txt").ReadToEnd();
-                /*
-                var output = new GraphQlDocument(query)
-                    .Validate(typeof(Query))
-                    .Run(new Query())
-                    .GetOutput();
-                    */
+                var z = new JsonConvert.Deserialize()
+                JToken t = 
+               
             }
             catch (Exception e)
             {

@@ -1,4 +1,7 @@
-﻿@using App4Answers.Views.Manage
+﻿@using System.Linq
+@using App4Answers.Models
+@using App4Answers.Views.Manage
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();

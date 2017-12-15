@@ -3,6 +3,8 @@
  * can be found in the LICENSE.txt file in the project root.
  */
 
+using Antlr4.Runtime.Dfa;
+
 namespace Antlr4.Runtime.Atn
 {
     /// <summary>
@@ -13,7 +15,7 @@ namespace Antlr4.Runtime.Atn
     /// This class represents profiling event information for semantic predicate
     /// evaluations which occur during prediction.
     /// </remarks>
-    /// <seealso cref="ParserATNSimulator.EvalSemanticContext(Antlr4.Runtime.Dfa.DFAState.PredPrediction[], Antlr4.Runtime.ParserRuleContext, bool)"/>
+    /// <seealso cref="ParserATNSimulator.EvalSemanticContext(PredPrediction[], Antlr4.Runtime.ParserRuleContext, bool)"/>
     /// <since>4.3</since>
     public class PredicateEvalInfo : DecisionEventInfo
     {
