@@ -1,7 +1,6 @@
-﻿using System;
-using As.GraphQL;
+﻿using As.GraphQL;
 
-namespace AMLWorker.A4A
+namespace As.A4ACore
 {
 
     public class A4AQuery 

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AMLWorker.Sql;
+using As.GraphDB;
+using As.GraphDB.Sql;
 using Microsoft.Data.Sqlite;
 
-namespace AMLWorker.A4A
+namespace As.A4ACore
 {
 
     public class A4ARepositoryGraphDb : RepositoryGraphDbBase

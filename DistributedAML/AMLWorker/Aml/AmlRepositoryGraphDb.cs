@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using AMLWorker.Sql;
+using As.GraphDB;
+using As.GraphDB.Sql;
 using As.GraphQL;
-using As.GraphQL.Interface;
-using Fasterflect;
-using Google.Protobuf;
-using GraphQL;
 using Microsoft.Data.Sqlite;
 
 namespace AMLWorker

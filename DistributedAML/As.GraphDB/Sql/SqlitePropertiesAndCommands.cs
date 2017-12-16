@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using As.GraphQL.Interface;
 using Fasterflect;
-using Google.Protobuf;
 
-namespace AMLWorker.Sql
+namespace As.GraphDB.Sql
 {
     public enum ColumnType
     {
@@ -36,16 +35,16 @@ namespace AMLWorker.Sql
 
         private ConstructorInvoker ci;
         
-        public SqlitePropertiesAndCommands(String tableName,bool ignoreEnumerableFields=true)
+        public SqlitePropertiesAndCommands(String tableName,Predicate<PropertyInfo> includeProperty = null)
         {
             this.t = typeof(T);
             this.tableName = tableName;
             foreach (var c in t.GetProperties().Where(x => x.PropertyType == typeof(String) || !typeof(IEnumerable).IsAssignableFrom(x.PropertyType)))
             {
-                if (typeof(IMessage).IsAssignableFrom(t))
+                if (!c.IsWritable()) continue;
+                if (includeProperty != null && includeProperty(c) == false)
                 {
-                    if (c.Name == "Descriptor" || c.Name == "Parser")
-                        continue;
+                    continue;
                 }
 
                 if (c.Name.ToLower() == "id")
@@ -80,7 +79,7 @@ namespace AMLWorker.Sql
         }
 
 
-        public SqlitePropertiesAndCommands() : this(typeof(T).Name)
+        public SqlitePropertiesAndCommands(Predicate<PropertyInfo> propertyFilter=null) : this(typeof(T).Name,propertyFilter)
         {
         }
 

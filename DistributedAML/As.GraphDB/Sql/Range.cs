@@ -1,4 +1,4 @@
-﻿namespace AMLWorker.Sql
+﻿namespace As.GraphDB.Sql
 {
     public class Range
     {

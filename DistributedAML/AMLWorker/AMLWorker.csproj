@@ -27,7 +27,9 @@
     <ProjectReference Include="..\..\GraphQL\As.GraphQL.Antlr\As.GraphQL.Antlr.csproj" />
     <ProjectReference Include="..\..\GraphQL\As.GraphQL.Interface\As.GraphQL.Interface.csproj" />
     <ProjectReference Include="..\..\GraphQL\As.GraphQL\As.GraphQL.csproj" />
+    <ProjectReference Include="..\As.A4ACore\As.A4ACore.csproj" />
     <ProjectReference Include="..\As.Comms\As.Comms.csproj" />
+    <ProjectReference Include="..\As.GraphDB\As.GraphDB.csproj" />
     <ProjectReference Include="..\As.Logger\As.Logger.csproj" />
     <ProjectReference Include="..\As.Shared\As.Shared.csproj" />
   </ItemGroup>
@@ -35,5 +37,8 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sql" />
   </ItemGroup>
 </Project>

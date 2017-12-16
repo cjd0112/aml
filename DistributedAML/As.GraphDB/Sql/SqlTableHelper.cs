@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using As.Logger;
-using Fasterflect;
 using Microsoft.Data.Sqlite;
 
-namespace AMLWorker.Sql
+namespace As.GraphDB.Sql
 {
     public static class SqlTableHelper
     {
@@ -22,8 +18,7 @@ namespace AMLWorker.Sql
 
         public static SqliteConnection NewConnection(string connectionString)
         {
-            var c = new SqliteConnection(
-                "" + new SqliteConnectionStringBuilder { DataSource = $"{connectionString}" });
+            var c = new SqliteConnection(connectionString);
 
             c.Open();
             return c;

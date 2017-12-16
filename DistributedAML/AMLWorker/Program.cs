@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AMLWorker.AS.Application;
 using As.Logger;
-using NetMQ;
 using StructureMap;
 
 namespace AMLWorker

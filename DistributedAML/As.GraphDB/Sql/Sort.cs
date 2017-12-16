@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AMLWorker.Sql
+namespace As.GraphDB.Sql
 {
     public enum SortTypeEnum
     {

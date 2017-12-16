@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AMLWorker.Sql;
 using As.Comms;
 using As.Comms.ClientServer;
+using As.GraphDB;
+using As.GraphDB.Sql;
 using As.Logger;
 
 namespace AMLWorker.Aml
@@ -149,6 +150,14 @@ namespace AMLWorker.Aml
             }
             return ret;
         }
+        
+        
+        class GQ : IGraphQuery
+        {
+            public string OperationName { get; set; }
+            public string Query { get; set; }
+            public string Variables { get; set; }
+        }
 
         public override GraphResponse RunQuery(GraphQuery query)
         {
@@ -156,7 +165,12 @@ namespace AMLWorker.Aml
             {
                 return new GraphResponse
                 {
-                    Response = new AmlRepositoryGraphDb(connection,partySql,accountSql,transactionSql).Run(query).ToString()
+                    Response = new AmlRepositoryGraphDb(connection,partySql,accountSql,transactionSql).Run(new GQ
+                    {
+                        OperationName = query.OperationName,
+                        Query = query.Query,
+                        Variables = query.Variables
+                    },new ProtobufCustomizeSchema()).ToString()
                 };
             }
         }

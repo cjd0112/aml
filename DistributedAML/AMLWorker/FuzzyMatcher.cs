@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using AMLWorker.Sql;
 using As.Comms;
 using As.Comms.ClientServer;
+using As.GraphDB.Sql;
 using As.Logger;
 using Microsoft.Data.Sqlite;
-using As.Shared;
 
 namespace AMLWorker
 {

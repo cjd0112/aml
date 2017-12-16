@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using AMLWorker.Sql;
+using As.GraphDB.Sql;
 
-namespace AMLWorker.A4A
+namespace As.A4ACore
 {
     /// <summary>
     /// Top Level App For Answers Query Object

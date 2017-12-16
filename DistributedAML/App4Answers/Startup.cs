@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using App4Answers.Data;
 using App4Answers.Models;
 using App4Answers.Services;
+using As.A4ACore;
+using StructureMap;
 
 namespace App4Answers
 {
@@ -24,10 +26,10 @@ namespace App4Answers
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -35,8 +37,40 @@ namespace App4Answers
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            
 
             services.AddMvc();
+            
+            
+            services.AddMvc().AddControllersAsServices();
+
+         
+
+            var z = new Registry();
+
+           
+            z.Scan(x =>
+            {
+                x.TheCallingAssembly();
+                x.Assembly("As.A4ACore");
+                x.WithDefaultConventions();
+            });
+            
+            
+            
+            var container = new StructureMap.Container();
+            container.Configure(config =>
+            {
+                config.Populate(services);
+                config.AddRegistry(z);
+                config.ForConcreteType<A4ARepository>().Configure.Ctor<string>("connectionString").Is(Configuration.GetConnectionString("MainLogic"));
+
+                
+            });
+            
+            return container.GetInstance<IServiceProvider>();
+            
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

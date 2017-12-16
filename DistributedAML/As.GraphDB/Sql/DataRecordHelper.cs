@@ -2,7 +2,7 @@
 using System.Data;
 using As.GraphQL.Interface;
 
-namespace AMLWorker.Sql
+namespace As.GraphDB.Sql
 {
     public class DataRecordHelper<T> : ISupportGetValue
     {

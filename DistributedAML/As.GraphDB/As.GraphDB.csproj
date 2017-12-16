@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GraphQL\As.Antlr4.Core\As.Antlr4.Core.csproj" />
+    <ProjectReference Include="..\..\GraphQL\As.GraphQL.Antlr\As.GraphQL.Antlr.csproj" />
+    <ProjectReference Include="..\..\GraphQL\As.GraphQL.Interface\As.GraphQL.Interface.csproj">
+      <Project>{055BF548-6160-4561-886E-E525BAB2E92D}</Project>
+      <Name>As.GraphQL.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GraphQL\As.GraphQL\As.GraphQL.csproj" />
+    <ProjectReference Include="..\As.Logger\As.Logger.csproj" />
+    <ProjectReference Include="..\As.Shared\As.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Fasterflect.Netstandard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\.nuget\packages\fasterflect.netstandard\1.0.8\lib\netstandard1.5\Fasterflect.Netstandard.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.1.0-preview1-27377" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.1.0-preview1-27377" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.1" />
+  </ItemGroup>
+</Project>
