@@ -16,41 +16,49 @@ namespace As.A4ACore
         private SqlitePropertiesAndCommands<A4ACategory> categorySql = new SqlitePropertiesAndCommands<A4ACategory>("Categories");
         private SqlitePropertiesAndCommands<A4AMessage> messageSql = new SqlitePropertiesAndCommands<A4AMessage>("Messages");
         private SqlitePropertiesAndCommands<A4AParty> partySql = new SqlitePropertiesAndCommands<A4AParty>("Parties");
-        
+
+        private SqlTableWithId sqlTableWithId;
+
+        private SqlTableComplexLinkages<A4AEntityType, A4ARelationType> sqlTableComplexLinkages;
+
         public A4ARepository(String connectionString) 
         {
             this.connectionString = connectionString;
 
+            sqlTableWithId = new SqlTableWithId();
+
+            sqlTableComplexLinkages = new SqlTableComplexLinkages<A4AEntityType,A4ARelationType>();
+
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
 
-            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            using (var connection = sqlTableWithId.NewConnection(connectionString))
             {
-                if (!SqlTableHelper.TableExists(connection, partySql))
+                if (!sqlTableWithId.TableExists(connection, partySql))
                 {
-                    SqlTableHelper.CreateTable(connection,partySql);
+                    sqlTableWithId.CreateTable(connection,partySql);
                 }
                 else
                 {
-                    SqlTableHelper.UpdateTableStructure(connection,partySql);
+                    sqlTableWithId.UpdateTableStructure(connection,partySql);
                 }
 
-                if (!SqlTableHelper.TableExists(connection, messageSql))
+                if (!sqlTableWithId.TableExists(connection, messageSql))
                 {
-                    SqlTableHelper.CreateTable(connection,messageSql);
+                    sqlTableWithId.CreateTable(connection,messageSql);
                 }
                 else
                 {
-                    SqlTableHelper.UpdateTableStructure(connection, messageSql);
+                    sqlTableWithId.UpdateTableStructure(connection, messageSql);
                 }
 
 
-                if (!SqlTableHelper.TableExists(connection, categorySql))
+                if (!sqlTableWithId.TableExists(connection, categorySql))
                 {
-                    SqlTableHelper.CreateTable(connection,categorySql);
+                    sqlTableWithId.CreateTable(connection,categorySql);
                 }
                 else
                 {
-                    SqlTableHelper.UpdateTableStructure(connection, categorySql);
+                    sqlTableWithId.UpdateTableStructure(connection, categorySql);
                 }
 
             }
@@ -65,7 +73,7 @@ namespace As.A4ACore
 
         public GraphResponse RunQuery(GraphQuery query)
         {
-            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            using (var connection = sqlTableWithId.NewConnection(connectionString))
             {
                 return new GraphResponse
                 {
@@ -82,48 +90,48 @@ namespace As.A4ACore
 
         public A4AParty AddParty(A4AParty party)
         {
-            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            using (var connection = sqlTableWithId.NewConnection(connectionString))
             {
-                var id = SqlTableHelper.GetNextId(connection, partySql.tableName);
+                var id = sqlTableWithId.GetNextId(connection, partySql.tableName);
                 party.Id = $"PARTY{id:0000000}";
-                SqlTableHelper.InsertOrReplace(connection, partySql, new[] {party});
+                sqlTableWithId.InsertOrReplace(connection, partySql, new[] {party});
 
-                return SqlTableHelper.SelectDataById(connection, partySql, party.Id);
+                return sqlTableWithId.SelectDataById(connection, partySql, party.Id);
             }
         }
 
         public A4AParty SaveParty(A4AParty party)
         {
-            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            using (var connection = sqlTableWithId.NewConnection(connectionString))
             {
-                SqlTableHelper.InsertOrReplace(connection, partySql, new[] { party });
-                return SqlTableHelper.SelectDataById(connection, partySql, party.Id);
+                sqlTableWithId.InsertOrReplace(connection, partySql, new[] { party });
+                return sqlTableWithId.SelectDataById(connection, partySql, party.Id);
             }
         }
 
         public void DeleteParty(String id)
         {
-            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            using (var connection = sqlTableWithId.NewConnection(connectionString))
             {
-                SqlTableHelper.Delete(connection, partySql,id);
+                sqlTableWithId.Delete(connection, partySql,id);
             }
         }
 
 
         public A4AParty GetPartyById(string id)
         {
-            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            using (var connection = sqlTableWithId.NewConnection(connectionString))
             {
-                return SqlTableHelper.SelectDataById(connection, partySql, id);
+                return sqlTableWithId.SelectDataById(connection, partySql, id);
             }
         }
 
 
         public IEnumerable<A4AParty> QueryParties(String whereClause,Range range,Sort sort)
         {
-            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            using (var connection = sqlTableWithId.NewConnection(connectionString))
             {
-                return SqlTableHelper.SelectData(connection, partySql, whereClause, range, sort).Select(x => x.GetObject())
+                return sqlTableWithId.SelectData(connection, partySql, whereClause, range, sort).Select(x => x.GetObject())
                     .ToArray();
             }
         }

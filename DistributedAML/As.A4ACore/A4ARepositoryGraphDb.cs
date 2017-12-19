@@ -28,7 +28,7 @@ namespace As.A4ACore
     
         public IEnumerable<A4AMessage> SearchMessages(string search, Range range, Sort sort)
         {
-            foreach (var c in SqlTableHelper.SelectData(conn, messageSql, "", range,sort))
+            foreach (var c in new SqlTableWithId().SelectData(conn, messageSql, "", range,sort))
             {
                 yield return c.GetObject();
             }
@@ -37,9 +37,10 @@ namespace As.A4ACore
 
         public A4AMessage AddMessage(A4AMessageSetter setter)
         {
-            int foo = SqlTableHelper.InsertOrReplace(conn, messageSql, new []{new A4AMessage{Content = setter.Message,Id=setter.Id}});
+            var sqlTableWithId = new SqlTableWithId();
+            int foo = sqlTableWithId.InsertOrReplace(conn, messageSql, new []{new A4AMessage{Content = setter.Message,Id=setter.Id}});
 
-            var z = SqlTableHelper.SelectData(conn, messageSql, $" id like '{setter.Id}'", new Range(), new Sort()).Select(x=>x.GetObject()).FirstOrDefault();
+            var z = sqlTableWithId.SelectData(conn, messageSql, $" id like '{setter.Id}'", new Range(), new Sort()).Select(x=>x.GetObject()).FirstOrDefault();
 
             if (z == null)
                 throw new Exception($"Could not find recently added object with id - {setter.Id}");

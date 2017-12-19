@@ -53,6 +53,11 @@ namespace App4Answers.Models.A4Amodels
         }
 
 
+        public ViewModelListBase ListExpert()
+        {
+            Repository.QueryParties($"PartyType like '{A4APartyType.Expert}'", new Range(), new Sort());
+        }
+
         public GraphResponse RunQuery(GraphQuery query)
         {
             return Repository.RunQuery(query);

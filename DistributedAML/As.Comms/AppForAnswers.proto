@@ -13,6 +13,7 @@ enum A4ARelationType
 	RelatedMessage=1;
 	ExpertOnCategory=2;
 	AuthorMessage=3;
+	WorksForCompany=4;
 }
 
 enum A4AContentType
