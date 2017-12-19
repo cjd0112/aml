@@ -1,0 +1,71 @@
+﻿@using App4Answers.Models.A4Amodels
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+
+@{
+    ViewData["Title"] = "Terms";
+    ViewData["RenderExpert"] = false;
+    ViewData["Background"] = "/images/darkblue.png";
+    ViewData["RenderAppStore"] = false;
+    Layout = "_Layout";
+}
+
+
+    
+<div class="col-sm-12" style="height: 20px">
+        
+</div>
+
+<div class="row">
+
+<div class="col-sm-1">
+
+</div>
+
+    <div class="col-sm-2" style="color: white; padding-right: 0px; margin-right: 0px" align="left">
+        <div class="container" style="padding-top:23px">
+            <ul class="nav  nav-stacked">
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Dashboard">Dashboard</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Experts">Experts</a>                
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Professions">Professions</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Categories">Categories</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Experts">Subcategories</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Users">Users</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Experts">Admin</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="GroupContact">Group Contact</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Messages">Messages</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="@CategoriesAndVerbs.Category.Company" asp-route-verb="@CategoriesAndVerbs.Verb.List">Companies</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-sm-8" style="color: white; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px;" align="left">
+        <div style="background-color: white; height: 700px; margin-left: 0px; padding-top: 0px; padding-left: 0px; vertical-align: top; margin-top: 0px">
+            @if (Model is ViewModelListBase)
+            {
+                @Html.Partial("PartialView/ViewModelListViewer");
+
+            }
+            else if (Model is ViewModelBase)
+            {
+                @Html.Partial("PartialView/ViewModelEditor");
+
+            }
+            else if (Model is string)
+            {
+                // empty default 
+            }
+            else
+            {
+                throw new Exception($"Unexpected ViewModel type - {Model.GetType().Name}");
+            }
+        </div>
+    
+    
+    </div>
+    
+    <div class="col-sm-1">
+
+    </div>
+</div>
+

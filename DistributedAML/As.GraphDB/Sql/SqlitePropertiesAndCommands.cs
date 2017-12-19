@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using As.GraphQL.Interface;
+using As.Shared;
 using Fasterflect;
 
 namespace As.GraphDB.Sql
@@ -16,22 +17,13 @@ namespace As.GraphDB.Sql
         Numeric
     }
 
-    public class PropertyContainer
-    {
-        public PropertyInfo pi;
-        public MemberGetter getter;
-        public MemberSetter setter;
-    }
-
     public class SqlitePropertiesAndCommands<T>
     {
         public Type t;
         public String tableName;
         List<PropertyContainer> pis = new List<PropertyContainer>();
 
-
-        private MemberGetter id;
-
+        private PropertyContainer id;
 
         private ConstructorInvoker ci;
         
@@ -48,14 +40,9 @@ namespace As.GraphDB.Sql
                 }
 
                 if (c.Name.ToLower() == "id")
-                    id = c.DelegateForGetPropertyValue();
+                    id = new PropertyContainer(c);
 
-                pis.Add(new PropertyContainer
-                {
-                    pi = c,
-                    getter = c.DelegateForGetPropertyValue(),
-                    setter = c.DelegateForSetPropertyValue()
-                });
+                pis.Add(new PropertyContainer(c));
             }
 
             ci = this.t.DelegateForCreateInstance();
@@ -72,7 +59,7 @@ namespace As.GraphDB.Sql
             var t = CreateInstance();
             foreach (var q in pis)
             {
-                q.setter(t, ConvertValue(sv.GetValue(q.pi.Name),q.pi));
+                q.SetValue(t,sv.GetValue(q.pi.Name));
             }
             return (T) t;
 
@@ -85,7 +72,7 @@ namespace As.GraphDB.Sql
 
         public String GetId(T obj)
         {
-            return (string)id(obj);
+            return (string)id.GetValue(obj);
         }
         
       
@@ -113,7 +100,12 @@ namespace As.GraphDB.Sql
             return $"alter table {tableName} add column {columnName} {columnType};";
         }
 
-        public string UpdateColumnValuesCommand(String columnName)
+        public string UpdateColumnValuesCommandStr(String columnName,String value)
+        {
+            return $"update {tableName} set {columnName}=\"{value}\"";
+        }
+
+        public string UpdateColumnValuesCommandForId(String columnName)
         {
             return $"update {tableName} set {columnName}=$value where id=$id";
         }
@@ -150,6 +142,11 @@ namespace As.GraphDB.Sql
             values.Append(")");
 
             return b.ToString() + " " + names.ToString() + " " + values.ToString();
+        }
+
+        public String DeleteCommand(string id)
+        {
+            return $"delete from {tableName} where Id like '{id}'";
         }
 
         public String SelectCommand()
@@ -223,12 +220,6 @@ namespace As.GraphDB.Sql
                 return "numeric";
         }
 
-        Object ConvertValue(Object o, PropertyInfo pi)
-        {
-            if (pi.PropertyType.IsEnum)
-                return Enum.Parse(pi.PropertyType, (string) o);
-            return o;
-        }
-
+      
     }
 }

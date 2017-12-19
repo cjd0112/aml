@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using As.GraphDB;
 using As.GraphDB.Sql;
@@ -27,10 +29,18 @@ namespace As.A4ACore
                 {
                     SqlTableHelper.CreateTable(connection,partySql);
                 }
+                else
+                {
+                    SqlTableHelper.UpdateTableStructure(connection,partySql);
+                }
 
                 if (!SqlTableHelper.TableExists(connection, messageSql))
                 {
                     SqlTableHelper.CreateTable(connection,messageSql);
+                }
+                else
+                {
+                    SqlTableHelper.UpdateTableStructure(connection, messageSql);
                 }
 
 
@@ -38,6 +48,11 @@ namespace As.A4ACore
                 {
                     SqlTableHelper.CreateTable(connection,categorySql);
                 }
+                else
+                {
+                    SqlTableHelper.UpdateTableStructure(connection, categorySql);
+                }
+
             }
         }
 
@@ -64,5 +79,54 @@ namespace As.A4ACore
                 };
             }
         }
+
+        public A4AParty AddParty(A4AParty party)
+        {
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            {
+                var id = SqlTableHelper.GetNextId(connection, partySql.tableName);
+                party.Id = $"PARTY{id:0000000}";
+                SqlTableHelper.InsertOrReplace(connection, partySql, new[] {party});
+
+                return SqlTableHelper.SelectDataById(connection, partySql, party.Id);
+            }
+        }
+
+        public A4AParty SaveParty(A4AParty party)
+        {
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            {
+                SqlTableHelper.InsertOrReplace(connection, partySql, new[] { party });
+                return SqlTableHelper.SelectDataById(connection, partySql, party.Id);
+            }
+        }
+
+        public void DeleteParty(String id)
+        {
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            {
+                SqlTableHelper.Delete(connection, partySql,id);
+            }
+        }
+
+
+        public A4AParty GetPartyById(string id)
+        {
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            {
+                return SqlTableHelper.SelectDataById(connection, partySql, id);
+            }
+        }
+
+
+        public IEnumerable<A4AParty> QueryParties(String whereClause,Range range,Sort sort)
+        {
+            using (var connection = SqlTableHelper.NewConnection(connectionString))
+            {
+                return SqlTableHelper.SelectData(connection, partySql, whereClause, range, sort).Select(x => x.GetObject())
+                    .ToArray();
+            }
+        }
+
     }
 }

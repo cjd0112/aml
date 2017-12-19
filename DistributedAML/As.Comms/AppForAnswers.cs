@@ -23,35 +23,40 @@ public static partial class AppForAnswersReflection {
           "ChNBcHBGb3JBbnN3ZXJzLnByb3RvIpYBCgxBNEFSZWxhdGlvbnMSIAoIRnJv",
           "bVR5cGUYASABKA4yDi5BNEFFbnRpdHlUeXBlEg4KBkZyb21JZBgCIAEoCRIe",
           "CgZUb1R5cGUYAyABKA4yDi5BNEFFbnRpdHlUeXBlEgwKBFRvSWQYBCABKAkS",
-          "JgoMUmVsYXRpb25UeXBlGAUgASgOMhAuQTRBUmVsYXRpb25UeXBlIsMCCghB",
+          "JgoMUmVsYXRpb25UeXBlGAUgASgOMhAuQTRBUmVsYXRpb25UeXBlIpYECghB",
           "NEFQYXJ0eRIKCgJJZBgBIAEoCRIRCglGaXJzdE5hbWUYAiABKAkSEAoITGFz",
           "dE5hbWUYAyABKAkSEAoIVXNlck5hbWUYBCABKAkSEgoKQWxpYXNFbWFpbBgF",
-          "IAEoCRIRCglSZWFsRW1haWwYBiABKAkSDgoGTW9iaWxlGAcgASgJEiAKCVBh",
-          "cnR5VHlwZRgIIAEoDjINLkE0QVBhcnR5VHlwZRIpCg9SdW50aW1lUmVsYXRp",
-          "b24YMiABKA4yEC5BNEFSZWxhdGlvblR5cGUSIQoOUmVsYXRlZFBhcnRpZXMY",
-          "ZCADKAsyCS5BNEFQYXJ0eRInChFSZWxhdGVkQ2F0ZWdvcmllcxhlIAMoCzIM",
-          "LkE0QUNhdGVnb3J5EiQKD1JlbGF0ZWRNZXNzYWdlcxhmIAMoCzILLkE0QU1l",
-          "c3NhZ2UizAEKC0E0QUNhdGVnb3J5EgoKAklkGAEgASgJEhQKDENhdGVnb3J5",
-          "TmFtZRgCIAEoCRIpCg9SdW50aW1lUmVsYXRpb24YMiABKA4yEC5BNEFSZWxh",
-          "dGlvblR5cGUSJwoRUmVsYXRlZENhdGVnb3JpZXMYAyADKAsyDC5BNEFDYXRl",
-          "Z29yeRIhCg5SZWxhdGVkUGFydGllcxgEIAMoCzIJLkE0QVBhcnR5EiQKD1Jl",
-          "bGF0ZWRNZXNzYWdlcxhmIAMoCzILLkE0QU1lc3NhZ2Ui7AEKCkE0QU1lc3Nh",
-          "Z2USCgoCSWQYASABKAkSDwoHQ29udGVudBgCIAEoCRIkCgtDb250ZW50VHlw",
-          "ZRgDIAEoDjIPLkE0QUNvbnRlbnRUeXBlEikKD1J1bnRpbWVSZWxhdGlvbhgy",
-          "IAEoDjIQLkE0QVJlbGF0aW9uVHlwZRIhCg5SZWxhdGVkUGFydGllcxhkIAMo",
-          "CzIJLkE0QVBhcnR5EicKEVJlbGF0ZWRDYXRlZ29yaWVzGGUgAygLMgwuQTRB",
-          "Q2F0ZWdvcnkSJAoPUmVsYXRlZE1lc3NhZ2VzGGYgAygLMgsuQTRBTWVzc2Fn",
-          "ZSo1Cg1BNEFFbnRpdHlUeXBlEgkKBVBhcnR5EAASCwoHTWVzc2FnZRABEgwK",
-          "CENhdGVnb3J5EAIqXwoPQTRBUmVsYXRpb25UeXBlEg8KC1BhcmVudENoaWxk",
-          "EAASEgoOUmVsYXRlZE1lc3NhZ2UQARIUChBFeHBlcnRPbkNhdGVnb3J5EAIS",
-          "EQoNQXV0aG9yTWVzc2FnZRADKhsKDkE0QUNvbnRlbnRUeXBlEgkKBUVtYWls",
-          "EAAqMwoMQTRBUGFydHlUeXBlEgsKB0NvbXBhbnkQABIKCgZQZXJzb24QARIK",
-          "CgZFeHBlcnQQAmIGcHJvdG8z"));
+          "IAEoCRIRCglSZWFsRW1haWwYBiABKAkSDgoGTW9iaWxlGAcgASgJEhMKC0Nv",
+          "bXBhbnlOYW1lGAkgASgJEhAKCEFkZHJlc3MxGAogASgJEhAKCEFkZHJlc3My",
+          "GAsgASgJEg8KB0NvdW50cnkYDCABKAkSEAoIUG9zdGNvZGUYDSABKAkSEQoJ",
+          "VGVsZXBob25lGA4gASgJEg8KB1dlYnNpdGUYDyABKAkSEgoKTWFpbkNvbG91",
+          "chgQIAEoCRIXCg9TZWNvbmRhcnlDb2xvdXIYESABKAkSFgoOVGVydGlhcnlD",
+          "b2xvdXIYEiABKAkSDAoETG9nbxgTIAEoCRIgCglQYXJ0eVR5cGUYSyABKA4y",
+          "DS5BNEFQYXJ0eVR5cGUSKQoPUnVudGltZVJlbGF0aW9uGDIgASgOMhAuQTRB",
+          "UmVsYXRpb25UeXBlEiEKDlJlbGF0ZWRQYXJ0aWVzGGQgAygLMgkuQTRBUGFy",
+          "dHkSJwoRUmVsYXRlZENhdGVnb3JpZXMYZSADKAsyDC5BNEFDYXRlZ29yeRIk",
+          "Cg9SZWxhdGVkTWVzc2FnZXMYZiADKAsyCy5BNEFNZXNzYWdlIswBCgtBNEFD",
+          "YXRlZ29yeRIKCgJJZBgBIAEoCRIUCgxDYXRlZ29yeU5hbWUYAiABKAkSKQoP",
+          "UnVudGltZVJlbGF0aW9uGDIgASgOMhAuQTRBUmVsYXRpb25UeXBlEicKEVJl",
+          "bGF0ZWRDYXRlZ29yaWVzGAMgAygLMgwuQTRBQ2F0ZWdvcnkSIQoOUmVsYXRl",
+          "ZFBhcnRpZXMYBCADKAsyCS5BNEFQYXJ0eRIkCg9SZWxhdGVkTWVzc2FnZXMY",
+          "ZiADKAsyCy5BNEFNZXNzYWdlIuwBCgpBNEFNZXNzYWdlEgoKAklkGAEgASgJ",
+          "Eg8KB0NvbnRlbnQYAiABKAkSJAoLQ29udGVudFR5cGUYAyABKA4yDy5BNEFD",
+          "b250ZW50VHlwZRIpCg9SdW50aW1lUmVsYXRpb24YMiABKA4yEC5BNEFSZWxh",
+          "dGlvblR5cGUSIQoOUmVsYXRlZFBhcnRpZXMYZCADKAsyCS5BNEFQYXJ0eRIn",
+          "ChFSZWxhdGVkQ2F0ZWdvcmllcxhlIAMoCzIMLkE0QUNhdGVnb3J5EiQKD1Jl",
+          "bGF0ZWRNZXNzYWdlcxhmIAMoCzILLkE0QU1lc3NhZ2UqNQoNQTRBRW50aXR5",
+          "VHlwZRIJCgVQYXJ0eRAAEgsKB01lc3NhZ2UQARIMCghDYXRlZ29yeRACKl8K",
+          "D0E0QVJlbGF0aW9uVHlwZRIPCgtQYXJlbnRDaGlsZBAAEhIKDlJlbGF0ZWRN",
+          "ZXNzYWdlEAESFAoQRXhwZXJ0T25DYXRlZ29yeRACEhEKDUF1dGhvck1lc3Nh",
+          "Z2UQAyobCg5BNEFDb250ZW50VHlwZRIJCgVFbWFpbBAAKjMKDEE0QVBhcnR5",
+          "VHlwZRILCgdDb21wYW55EAASCgoGUGVyc29uEAESCgoGRXhwZXJ0EAJiBnBy",
+          "b3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AEntityType), typeof(global::A4ARelationType), typeof(global::A4AContentType), typeof(global::A4APartyType), }, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ARelations), global::A4ARelations.Parser, new[]{ "FromType", "FromId", "ToType", "ToId", "RelationType" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AParty), global::A4AParty.Parser, new[]{ "Id", "FirstName", "LastName", "UserName", "AliasEmail", "RealEmail", "Mobile", "PartyType", "RuntimeRelation", "RelatedParties", "RelatedCategories", "RelatedMessages" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AParty), global::A4AParty.Parser, new[]{ "Id", "FirstName", "LastName", "UserName", "AliasEmail", "RealEmail", "Mobile", "CompanyName", "Address1", "Address2", "Country", "Postcode", "Telephone", "Website", "MainColour", "SecondaryColour", "TertiaryColour", "Logo", "PartyType", "RuntimeRelation", "RelatedParties", "RelatedCategories", "RelatedMessages" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ACategory), global::A4ACategory.Parser, new[]{ "Id", "CategoryName", "RuntimeRelation", "RelatedCategories", "RelatedParties", "RelatedMessages" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "Id", "Content", "ContentType", "RuntimeRelation", "RelatedParties", "RelatedCategories", "RelatedMessages" }, null, null, null)
         }));
@@ -346,6 +351,17 @@ public sealed partial class A4AParty : pb::IMessage<A4AParty> {
     aliasEmail_ = other.aliasEmail_;
     realEmail_ = other.realEmail_;
     mobile_ = other.mobile_;
+    companyName_ = other.companyName_;
+    address1_ = other.address1_;
+    address2_ = other.address2_;
+    country_ = other.country_;
+    postcode_ = other.postcode_;
+    telephone_ = other.telephone_;
+    website_ = other.website_;
+    mainColour_ = other.mainColour_;
+    secondaryColour_ = other.secondaryColour_;
+    tertiaryColour_ = other.tertiaryColour_;
+    logo_ = other.logo_;
     partyType_ = other.partyType_;
     runtimeRelation_ = other.runtimeRelation_;
     relatedParties_ = other.relatedParties_.Clone();
@@ -438,8 +454,129 @@ public sealed partial class A4AParty : pb::IMessage<A4AParty> {
     }
   }
 
+  /// <summary>Field number for the "CompanyName" field.</summary>
+  public const int CompanyNameFieldNumber = 9;
+  private string companyName_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string CompanyName {
+    get { return companyName_; }
+    set {
+      companyName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Address1" field.</summary>
+  public const int Address1FieldNumber = 10;
+  private string address1_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Address1 {
+    get { return address1_; }
+    set {
+      address1_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Address2" field.</summary>
+  public const int Address2FieldNumber = 11;
+  private string address2_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Address2 {
+    get { return address2_; }
+    set {
+      address2_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Country" field.</summary>
+  public const int CountryFieldNumber = 12;
+  private string country_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Country {
+    get { return country_; }
+    set {
+      country_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Postcode" field.</summary>
+  public const int PostcodeFieldNumber = 13;
+  private string postcode_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Postcode {
+    get { return postcode_; }
+    set {
+      postcode_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Telephone" field.</summary>
+  public const int TelephoneFieldNumber = 14;
+  private string telephone_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Telephone {
+    get { return telephone_; }
+    set {
+      telephone_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Website" field.</summary>
+  public const int WebsiteFieldNumber = 15;
+  private string website_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Website {
+    get { return website_; }
+    set {
+      website_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "MainColour" field.</summary>
+  public const int MainColourFieldNumber = 16;
+  private string mainColour_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string MainColour {
+    get { return mainColour_; }
+    set {
+      mainColour_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "SecondaryColour" field.</summary>
+  public const int SecondaryColourFieldNumber = 17;
+  private string secondaryColour_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string SecondaryColour {
+    get { return secondaryColour_; }
+    set {
+      secondaryColour_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "TertiaryColour" field.</summary>
+  public const int TertiaryColourFieldNumber = 18;
+  private string tertiaryColour_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string TertiaryColour {
+    get { return tertiaryColour_; }
+    set {
+      tertiaryColour_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Logo" field.</summary>
+  public const int LogoFieldNumber = 19;
+  private string logo_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Logo {
+    get { return logo_; }
+    set {
+      logo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
   /// <summary>Field number for the "PartyType" field.</summary>
-  public const int PartyTypeFieldNumber = 8;
+  public const int PartyTypeFieldNumber = 75;
   private global::A4APartyType partyType_ = 0;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public global::A4APartyType PartyType {
@@ -510,6 +647,17 @@ public sealed partial class A4AParty : pb::IMessage<A4AParty> {
     if (AliasEmail != other.AliasEmail) return false;
     if (RealEmail != other.RealEmail) return false;
     if (Mobile != other.Mobile) return false;
+    if (CompanyName != other.CompanyName) return false;
+    if (Address1 != other.Address1) return false;
+    if (Address2 != other.Address2) return false;
+    if (Country != other.Country) return false;
+    if (Postcode != other.Postcode) return false;
+    if (Telephone != other.Telephone) return false;
+    if (Website != other.Website) return false;
+    if (MainColour != other.MainColour) return false;
+    if (SecondaryColour != other.SecondaryColour) return false;
+    if (TertiaryColour != other.TertiaryColour) return false;
+    if (Logo != other.Logo) return false;
     if (PartyType != other.PartyType) return false;
     if (RuntimeRelation != other.RuntimeRelation) return false;
     if(!relatedParties_.Equals(other.relatedParties_)) return false;
@@ -528,6 +676,17 @@ public sealed partial class A4AParty : pb::IMessage<A4AParty> {
     if (AliasEmail.Length != 0) hash ^= AliasEmail.GetHashCode();
     if (RealEmail.Length != 0) hash ^= RealEmail.GetHashCode();
     if (Mobile.Length != 0) hash ^= Mobile.GetHashCode();
+    if (CompanyName.Length != 0) hash ^= CompanyName.GetHashCode();
+    if (Address1.Length != 0) hash ^= Address1.GetHashCode();
+    if (Address2.Length != 0) hash ^= Address2.GetHashCode();
+    if (Country.Length != 0) hash ^= Country.GetHashCode();
+    if (Postcode.Length != 0) hash ^= Postcode.GetHashCode();
+    if (Telephone.Length != 0) hash ^= Telephone.GetHashCode();
+    if (Website.Length != 0) hash ^= Website.GetHashCode();
+    if (MainColour.Length != 0) hash ^= MainColour.GetHashCode();
+    if (SecondaryColour.Length != 0) hash ^= SecondaryColour.GetHashCode();
+    if (TertiaryColour.Length != 0) hash ^= TertiaryColour.GetHashCode();
+    if (Logo.Length != 0) hash ^= Logo.GetHashCode();
     if (PartyType != 0) hash ^= PartyType.GetHashCode();
     if (RuntimeRelation != 0) hash ^= RuntimeRelation.GetHashCode();
     hash ^= relatedParties_.GetHashCode();
@@ -571,13 +730,57 @@ public sealed partial class A4AParty : pb::IMessage<A4AParty> {
       output.WriteRawTag(58);
       output.WriteString(Mobile);
     }
-    if (PartyType != 0) {
-      output.WriteRawTag(64);
-      output.WriteEnum((int) PartyType);
+    if (CompanyName.Length != 0) {
+      output.WriteRawTag(74);
+      output.WriteString(CompanyName);
+    }
+    if (Address1.Length != 0) {
+      output.WriteRawTag(82);
+      output.WriteString(Address1);
+    }
+    if (Address2.Length != 0) {
+      output.WriteRawTag(90);
+      output.WriteString(Address2);
+    }
+    if (Country.Length != 0) {
+      output.WriteRawTag(98);
+      output.WriteString(Country);
+    }
+    if (Postcode.Length != 0) {
+      output.WriteRawTag(106);
+      output.WriteString(Postcode);
+    }
+    if (Telephone.Length != 0) {
+      output.WriteRawTag(114);
+      output.WriteString(Telephone);
+    }
+    if (Website.Length != 0) {
+      output.WriteRawTag(122);
+      output.WriteString(Website);
+    }
+    if (MainColour.Length != 0) {
+      output.WriteRawTag(130, 1);
+      output.WriteString(MainColour);
+    }
+    if (SecondaryColour.Length != 0) {
+      output.WriteRawTag(138, 1);
+      output.WriteString(SecondaryColour);
+    }
+    if (TertiaryColour.Length != 0) {
+      output.WriteRawTag(146, 1);
+      output.WriteString(TertiaryColour);
+    }
+    if (Logo.Length != 0) {
+      output.WriteRawTag(154, 1);
+      output.WriteString(Logo);
     }
     if (RuntimeRelation != 0) {
       output.WriteRawTag(144, 3);
       output.WriteEnum((int) RuntimeRelation);
+    }
+    if (PartyType != 0) {
+      output.WriteRawTag(216, 4);
+      output.WriteEnum((int) PartyType);
     }
     relatedParties_.WriteTo(output, _repeated_relatedParties_codec);
     relatedCategories_.WriteTo(output, _repeated_relatedCategories_codec);
@@ -608,8 +811,41 @@ public sealed partial class A4AParty : pb::IMessage<A4AParty> {
     if (Mobile.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Mobile);
     }
+    if (CompanyName.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(CompanyName);
+    }
+    if (Address1.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Address1);
+    }
+    if (Address2.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Address2);
+    }
+    if (Country.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Country);
+    }
+    if (Postcode.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Postcode);
+    }
+    if (Telephone.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Telephone);
+    }
+    if (Website.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Website);
+    }
+    if (MainColour.Length != 0) {
+      size += 2 + pb::CodedOutputStream.ComputeStringSize(MainColour);
+    }
+    if (SecondaryColour.Length != 0) {
+      size += 2 + pb::CodedOutputStream.ComputeStringSize(SecondaryColour);
+    }
+    if (TertiaryColour.Length != 0) {
+      size += 2 + pb::CodedOutputStream.ComputeStringSize(TertiaryColour);
+    }
+    if (Logo.Length != 0) {
+      size += 2 + pb::CodedOutputStream.ComputeStringSize(Logo);
+    }
     if (PartyType != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) PartyType);
+      size += 2 + pb::CodedOutputStream.ComputeEnumSize((int) PartyType);
     }
     if (RuntimeRelation != 0) {
       size += 2 + pb::CodedOutputStream.ComputeEnumSize((int) RuntimeRelation);
@@ -645,6 +881,39 @@ public sealed partial class A4AParty : pb::IMessage<A4AParty> {
     }
     if (other.Mobile.Length != 0) {
       Mobile = other.Mobile;
+    }
+    if (other.CompanyName.Length != 0) {
+      CompanyName = other.CompanyName;
+    }
+    if (other.Address1.Length != 0) {
+      Address1 = other.Address1;
+    }
+    if (other.Address2.Length != 0) {
+      Address2 = other.Address2;
+    }
+    if (other.Country.Length != 0) {
+      Country = other.Country;
+    }
+    if (other.Postcode.Length != 0) {
+      Postcode = other.Postcode;
+    }
+    if (other.Telephone.Length != 0) {
+      Telephone = other.Telephone;
+    }
+    if (other.Website.Length != 0) {
+      Website = other.Website;
+    }
+    if (other.MainColour.Length != 0) {
+      MainColour = other.MainColour;
+    }
+    if (other.SecondaryColour.Length != 0) {
+      SecondaryColour = other.SecondaryColour;
+    }
+    if (other.TertiaryColour.Length != 0) {
+      TertiaryColour = other.TertiaryColour;
+    }
+    if (other.Logo.Length != 0) {
+      Logo = other.Logo;
     }
     if (other.PartyType != 0) {
       PartyType = other.PartyType;
@@ -693,12 +962,56 @@ public sealed partial class A4AParty : pb::IMessage<A4AParty> {
           Mobile = input.ReadString();
           break;
         }
-        case 64: {
-          partyType_ = (global::A4APartyType) input.ReadEnum();
+        case 74: {
+          CompanyName = input.ReadString();
+          break;
+        }
+        case 82: {
+          Address1 = input.ReadString();
+          break;
+        }
+        case 90: {
+          Address2 = input.ReadString();
+          break;
+        }
+        case 98: {
+          Country = input.ReadString();
+          break;
+        }
+        case 106: {
+          Postcode = input.ReadString();
+          break;
+        }
+        case 114: {
+          Telephone = input.ReadString();
+          break;
+        }
+        case 122: {
+          Website = input.ReadString();
+          break;
+        }
+        case 130: {
+          MainColour = input.ReadString();
+          break;
+        }
+        case 138: {
+          SecondaryColour = input.ReadString();
+          break;
+        }
+        case 146: {
+          TertiaryColour = input.ReadString();
+          break;
+        }
+        case 154: {
+          Logo = input.ReadString();
           break;
         }
         case 400: {
           runtimeRelation_ = (global::A4ARelationType) input.ReadEnum();
+          break;
+        }
+        case 600: {
+          partyType_ = (global::A4APartyType) input.ReadEnum();
           break;
         }
         case 802: {

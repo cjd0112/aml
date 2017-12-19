@@ -4,6 +4,7 @@
     <UserSecretsId>aspnet-App4Answers-8CD49DF9-9F07-41B3-92DC-85E7EAB007A6</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="GraphiQL" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
@@ -18,5 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\As.A4ACore\As.A4ACore.csproj" />
+    <ProjectReference Include="..\As.Logger\As.Logger.csproj" />
   </ItemGroup>
 </Project>

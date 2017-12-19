@@ -5,7 +5,4 @@
   <ItemGroup>
     <ProjectReference Include="..\As.Antlr4.Core\As.Antlr4.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NETStandard.Library" Version="2.0.1" />
-  </ItemGroup>
 </Project>

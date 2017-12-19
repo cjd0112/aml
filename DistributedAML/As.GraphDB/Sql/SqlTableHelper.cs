@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Antlr4.Runtime.Atn;
 using As.Logger;
 using Microsoft.Data.Sqlite;
 
@@ -15,6 +16,17 @@ namespace As.GraphDB.Sql
                 Directory.CreateDirectory(dataDirectory);
             return $"{dataDirectory}/{dbFile}_{bucket}.mdb";
         }
+
+        public static int GetNextId(SqliteConnection conn,string tableName)
+        {
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = $"select max(rowid) from {tableName};";
+                var z = cmd.ExecuteScalar();
+                return (Convert.ToInt32(z));
+            }
+            
+        } 
 
         public static SqliteConnection NewConnection(string connectionString)
         {
@@ -52,8 +64,49 @@ namespace As.GraphDB.Sql
         public static int CreateTable<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands)
         {
             return ExecuteCommandLog(conn, propertiesAndCommands.CreateTableCommand());
-        }       
+        }
 
+        public static void UpdateTableStructure<T>(SqliteConnection conn,SqlitePropertiesAndCommands<T> propertiesAndCommands)
+        {
+            List<(string,string)> columns = new List<(string, string)>();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = $"PRAGMA table_info(\"{propertiesAndCommands.tableName}\");";
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        var name = (string) rdr["name"];
+                        var type = (string) rdr["type"];
+                        columns.Add((name,type));
+                    }
+                    
+                }
+            }
+
+            foreach (var c in propertiesAndCommands.SqlFields())
+            {
+                if (!columns.Contains((c.pi.Name, "text")))
+                {
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        L.Trace($"Adding new column - {c.pi.Name} to table {propertiesAndCommands.tableName}");
+                        cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.pi.Name, ColumnType.String);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        L.Trace($"Updating value of {c.pi.Name} in table {propertiesAndCommands.tableName}");
+                        string value = c.pi.PropertyType.IsEnum ? Enum.GetNames(c.pi.PropertyType)[0] : "";
+                        cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandStr(c.pi.Name, value);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+            }
+            
+        }
 
         public static int ExecuteCommandLog(SqliteConnection conn, String cmdText)
         {
@@ -313,7 +366,51 @@ namespace As.GraphDB.Sql
 
                 }
                 txn.Commit();
+                
             }
+        }
+
+        public static int Delete<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,
+            String id)
+        {
+            using (var txn = connection.BeginTransaction())
+            {
+                using (var deleteCmd = connection.CreateCommand())
+                {
+                    deleteCmd.CommandText = propertiesAndCommands.DeleteCommand(id);
+                    deleteCmd.ExecuteNonQuery();
+                }
+                txn.Commit();
+            }
+            return 1;
+
+        }
+
+        public static T SelectDataById<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands, String id)
+        {
+            using (var txn = connection.BeginTransaction())
+            {
+                string selectCommand = $"{propertiesAndCommands.SelectCommand()} where id=\"{id}\";";
+
+                using (var queryCmd = connection.CreateCommand())
+                {
+                    queryCmd.CommandText = selectCommand;
+
+                    using (var data = queryCmd.ExecuteReader())
+                    {
+                        var p = new DataRecordHelper<T>(propertiesAndCommands, data);
+
+                        if (data.Read())
+                        {
+                            var z = new DataRecordHelper<T>(propertiesAndCommands, data);
+                            return z.GetObject();
+                        }
+                    }
+
+                }
+                txn.Commit();
+            }
+            return default(T);
         }
 
         public static IEnumerable<(string, bool)> QueryId<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands, IEnumerable<string> ids)

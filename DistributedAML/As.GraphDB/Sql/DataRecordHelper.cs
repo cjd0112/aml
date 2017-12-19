@@ -21,7 +21,6 @@ namespace As.GraphDB.Sql
         {
             return propertiesAndCommands.CreateInstance(this);
         }
-
         public Object GetValue(String field)
         {
             return Record[field];

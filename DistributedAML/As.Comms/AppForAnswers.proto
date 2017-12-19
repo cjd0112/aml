@@ -46,7 +46,20 @@ message A4AParty
 	string AliasEmail=5;
 	string RealEmail=6;
 	string Mobile=7;
-	A4APartyType PartyType=8;
+	string CompanyName=9;
+	string Address1 = 10;
+	string Address2 = 11;
+	string Country = 12;
+	string Postcode = 13;
+	string Telephone = 14;
+	string Website=15;
+	string MainColour=16;
+	string SecondaryColour=17;
+	string TertiaryColour=18;
+	string Logo = 19;
+
+
+	A4APartyType PartyType=75;
 
 	A4ARelationType RuntimeRelation=50;
 	

@@ -12,10 +12,26 @@ using App4Answers.Data;
 using App4Answers.Models;
 using App4Answers.Services;
 using As.A4ACore;
+using As.Logger;
+using Microsoft.Extensions.Logging;
 using StructureMap;
 
 namespace App4Answers
 {
+    public class A4ALogger : IExternalLogger
+    {
+        private ILogger<A4ALogger> _log;
+        public A4ALogger(ILogger<A4ALogger> log)
+        {
+            this._log = log;
+        }
+        public void Log(AsLogEntry entry)
+        {
+            _log.LogDebug($"{entry.Type},{entry.Message},{entry.Module}");
+        }
+    }
+
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -28,6 +44,7 @@ namespace App4Answers
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -67,6 +84,10 @@ namespace App4Answers
 
                 
             });
+
+            var loggerAdapter = container.GetInstance<A4ALogger>();
+
+            L.SetExternalLogger(loggerAdapter,AsLogInfo.Info);
             
             return container.GetInstance<IServiceProvider>();
             
@@ -90,6 +111,10 @@ namespace App4Answers
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseGraphiQl();
+
+            app.UseStatusCodePages();
 
             app.UseMvc(routes =>
             {
