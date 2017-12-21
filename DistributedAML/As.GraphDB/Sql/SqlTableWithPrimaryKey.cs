@@ -3,30 +3,48 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Antlr4.Runtime.Atn;
+using Antlr4.Runtime.Tree.Xpath;
 using As.Logger;
+using As.Shared;
 using Microsoft.Data.Sqlite;
 
 namespace As.GraphDB.Sql
 {
-    public  class SqlTableWithId : SqlTableBase
+    public  class SqlTableWithPrimaryKey : SqlTableBase
     {
-        public  int GetNextId(SqliteConnection conn,string tableName)
+        private SqlitePropertiesAndCommands propertiesAndCommands;
+        public SqlTableWithPrimaryKey(SqlitePropertiesAndCommands propertiesAndCommands):base(propertiesAndCommands.tableName)
+        {
+            this.propertiesAndCommands = propertiesAndCommands;
+
+        }
+
+        public SqlitePropertiesAndCommands PropertiesAndCommands => propertiesAndCommands;
+
+        public int GetNextId(SqliteConnection conn)
         {
             using (var cmd = conn.CreateCommand())
             {
-                cmd.CommandText = $"select max(rowid) from {tableName};";
+                cmd.CommandText = $"select max(rowid) from {TableName};";
                 var z = cmd.ExecuteScalar();
+                if (z is DBNull)
+                    return 0;
                 return (Convert.ToInt32(z));
             }
             
-        } 
+        }
+
+        public String GetPrimaryKey(Object o)
+        {
+            return PropertiesAndCommands.GetPrimaryKey(o);
+        }
 
 
-        public  bool TableExists<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands)
+        public  bool TableExists<T>(SqliteConnection conn)
         {
             using (var cmd = conn.CreateCommand())
             {
-                cmd.CommandText = $"SELECT name FROM sqlite_master WHERE type = 'table' AND name = '{propertiesAndCommands.tableName}';";
+                cmd.CommandText = $"SELECT name FROM sqlite_master WHERE type = 'table' AND name = '{TableName}';";
                 using (var rdr = cmd.ExecuteReader())
                 {
                     return rdr.HasRows;
@@ -35,12 +53,12 @@ namespace As.GraphDB.Sql
         }
 
 
-        public  int CreateTable<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands)
+        public  int CreateTable(SqliteConnection conn)
         {
             return ExecuteCommandLog(conn, propertiesAndCommands.CreateTableCommand());
         }
 
-        public  void UpdateTableStructure<T>(SqliteConnection conn,SqlitePropertiesAndCommands<T> propertiesAndCommands)
+        public  void UpdateTableStructure(SqliteConnection conn)
         {
             List<(string,string)> columns = new List<(string, string)>();
             using (var cmd = conn.CreateCommand())
@@ -78,54 +96,14 @@ namespace As.GraphDB.Sql
                     }
 
                 }
-            }
-            
+            }            
         }
-
-    
-
-        public  int AddColumn<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands, String columnName, ColumnType type)
-        {
-            using (var cmd = conn.CreateCommand())
-            {
-                cmd.CommandText = propertiesAndCommands.AddColumnCommand(columnName, type);
-                return cmd.ExecuteNonQuery();
-            }
-        }
-
-        public  int AddColumnValues<T>(SqliteConnection conn, SqlitePropertiesAndCommands<T> propertiesAndCommands, String columnName, ColumnType type,
-            IEnumerable<(string id, Object value)> values)
-        {
-            int cnt = 0;
-            using (var txn = conn.BeginTransaction())
-            {
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = propertiesAndCommands.AddColumnCommand(columnName, type);
-
-                    foreach (var c in values)
-                    {
-                        cmd.Parameters.AddWithValue("$value", c.value);
-                        cmd.Parameters.AddWithValue("$id", c.id);
-
-                        cmd.ExecuteNonQuery();
-
-                        cnt++;
-                    }
-                }
-
-                txn.Commit();
-            }
-            return cnt;
-        }
-   
-        
-        public  int InsertOrReplace<T>(SqliteConnection connection,   SqlitePropertiesAndCommands<T> propertiesAndCommands,IEnumerable<T> objs)
+        public int InsertOrReplace<T>(SqliteConnection connection, IEnumerable<T> objs,bool orReplace=false)
         {
             L.Trace($"Starting insert rows - {objs.Count()} objects on {propertiesAndCommands.tableName}");
             int cnt = 0;
 
-            String insertCommand = propertiesAndCommands.InsertOrReplaceCommand();
+            String insertCommand = propertiesAndCommands.InsertOrReplaceCommand(orReplace);
 
             L.Trace(insertCommand);
 
@@ -135,13 +113,14 @@ namespace As.GraphDB.Sql
                 {
                     using (var cmd = connection.CreateCommand())
                     {
-                        string id = "";
                         cmd.CommandText = insertCommand;
                         foreach (var g in propertiesAndCommands.SqlFields())
                         {
-                            if (g.pi.Name.ToLower() == "id")
-                                id = (string)g.getter(c);
-
+                            // get new id on primary key unless we are replacing
+                            if (g.IsPrimaryKey && !orReplace)
+                            {
+                                g.SetValue(c, GetNextId(connection));
+                            }
                             if (g.pi.PropertyType.IsEnum)
                             {
                                 cmd.Parameters.AddWithValue(g.pi.Name, g.getter(c).ToString());
@@ -179,7 +158,7 @@ namespace As.GraphDB.Sql
 
       
 
-        public  IEnumerable<DataRecordHelper<T>> SelectData<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,String whereClause,Range range,Sort sort)
+        public  IEnumerable<DataRecordHelper<T>> SelectData<T>(SqliteConnection connection,String whereClause,Range range,Sort sort)
         {
             using (var txn = connection.BeginTransaction())
             {
@@ -209,8 +188,24 @@ namespace As.GraphDB.Sql
             }
         }
 
-        public  int Delete<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands,
-            String id)
+        public IEnumerable<string> SelectPrimaryKeyValues(SqliteConnection conn)
+        {
+            string selectCommand = $"{propertiesAndCommands.SelectPrimaryKeyValues()}";
+
+            using (var queryCmd = conn.CreateCommand())
+            {
+                queryCmd.CommandText = selectCommand;
+                using (var data = queryCmd.ExecuteReader())
+                {
+                    while (data.Read())
+                    {
+                        yield return (string)data[0];
+                    }
+                }
+            }
+        }
+
+        public  int Delete<T>(SqliteConnection connection,String id)
         {
             using (var txn = connection.BeginTransaction())
             {
@@ -225,12 +220,11 @@ namespace As.GraphDB.Sql
 
         }
 
-        public  T SelectDataById<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands, String id)
+        public  T SelectDataByPrimaryKey<T>(SqliteConnection connection, String primaryKey)
         {
             using (var txn = connection.BeginTransaction())
             {
-                string selectCommand = $"{propertiesAndCommands.SelectCommand()} where id=\"{id}\";";
-
+                string selectCommand = $"{propertiesAndCommands.SelectCommandByPrimaryKey(primaryKey)}";
                 using (var queryCmd = connection.CreateCommand())
                 {
                     queryCmd.CommandText = selectCommand;
@@ -252,19 +246,19 @@ namespace As.GraphDB.Sql
             return default(T);
         }
 
-        public  IEnumerable<(string, bool)> QueryId<T>(SqliteConnection connection, SqlitePropertiesAndCommands<T> propertiesAndCommands, IEnumerable<string> ids)
+        public  IEnumerable<(string, bool)> QueryPrimaryKey<T>(SqliteConnection connection, IEnumerable<string> primaryKeys)
         {
             using (var txn = connection.BeginTransaction())
             {
                 String queryCommand = propertiesAndCommands.QueryIdCommand();
 
-                foreach (var c in ids)
+                foreach (var c in primaryKeys)
                 {
                     using (var queryCmd = connection.CreateCommand())
                     {
                         queryCmd.CommandText = queryCommand;
 
-                        queryCmd.Parameters.AddWithValue("$id", c);
+                        queryCmd.Parameters.AddWithValue("$primaryKey", c);
                         int cnt = Convert.ToInt32(queryCmd.ExecuteScalar());
                         yield return (c, cnt > 0);
                     }

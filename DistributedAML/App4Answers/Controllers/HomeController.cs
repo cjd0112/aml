@@ -68,15 +68,15 @@ namespace App4Answers.Controllers
 
         }
 
-        Object GetViewModel(string category, string verb, string itemid, IFormCollection formCollection)
+        Object GetViewModel(string objecttype, string verb, string itemid, IFormCollection formCollection)
         {
             Object viewModel = "";
-            if (category != "" && !String.IsNullOrEmpty(verb))
+            if (objecttype != "" && !String.IsNullOrEmpty(verb))
             {
-                var mi = model.GetType().GetMethod(verb + category);
+                var mi = model.GetType().GetMethod(verb + objecttype);
                 if (mi == null)
                     throw new Exception(
-                        $"Method - {verb}{category} is not found on Model object of type - {model.GetType().Name}");
+                        $"Method - {verb}{objecttype} is not found on Model object of type - {model.GetType().Name}");
 
                 if (mi.GetParameters().Length == 0)
                     viewModel = mi.Invoke(model, null);
@@ -88,57 +88,28 @@ namespace App4Answers.Controllers
                         viewModel = mi.Invoke(model, new[] { itemid });
                     else
                         throw new Exception(
-                            $"Method - {verb}{category} takes an unexpected parameter-type {mi.GetParameters()[0].ParameterType.Name}... ");
+                            $"Method - {verb}{objecttype} takes an unexpected parameter-type {mi.GetParameters()[0].ParameterType.Name}... ");
                 }
                 else
                 {
                     throw new Exception(
-                        $"Method - {verb}{category} takes more than one parameters - we are currently only able to deal with one... ");
+                        $"Method - {verb}{objecttype} takes more than one parameters - we are currently only able to deal with one... ");
                 }
 
             }
             return viewModel;
         }
 
-        public IActionResult Administration(String category,String verb,String itemid)
+        public IActionResult Administration(String objecttype,String verb,String itemid)
         {
             try
             {
-                category = category ?? "";
+                objecttype = objecttype ?? "";
                 verb = verb ?? "";
                 itemid = itemid ?? "";
 
 
-                Object viewModel = GetViewModel(category, verb, itemid, Request.HasFormContentType? Request.Form:null);
-
-                /*
-
-                if (verb == "New" && category == "Companies")
-                {
-                    var nm = this.model.AddCompany();
-                    viewModel = new ViewModelListBase(typeof(A4ACompanySummaryViewModel), model.GetCompanies());
-                }
-                else if (verb == "List" && category == "Companies")
-                {
-                    viewModel = new ViewModelListBase(typeof(A4ACompanySummaryViewModel), model.GetCompanies());
-                }
-                else if (verb == "Edit" && category == "Companies")
-                {
-                    viewModel = model.GetCompany(itemid);
-                }
-                else if (verb == "Delete" && category == "Companies")
-                {
-                    model.DeleteCompany(itemid);
-                    viewModel = new ViewModelListBase(typeof(A4ACompanySummaryViewModel), model.GetCompanies());
-                }
-                else if (verb == "Save" && category == "Companies")
-                {
-                    var updatedCompany = new A4ACompanyDetailViewModel(Request.Form);
-                    model.SaveCompany(updatedCompany);
-                    viewModel = new ViewModelListBase(typeof(A4ACompanySummaryViewModel), model.GetCompanies());
-
-                }
-                */
+                Object viewModel = GetViewModel(objecttype, verb, itemid, Request.HasFormContentType? Request.Form:null);
                 return View(viewModel);
 
             }

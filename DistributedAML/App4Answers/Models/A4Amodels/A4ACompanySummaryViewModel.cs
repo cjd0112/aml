@@ -9,34 +9,32 @@ namespace App4Answers.Models.A4Amodels
 {
 
    
-    public class A4ACompanySummaryViewModel : ViewModelBase
+    public class A4ACompanySummaryViewModel : ViewModelBase<A4ACompany>
     {
-        public A4ACompanySummaryViewModel() : base(CategoriesAndVerbs.Category.Company, CategoriesAndVerbs.Verb.None)
+        public A4ACompanySummaryViewModel() : base(ObjectTypesAndVerbs.ObjectType.Company, ObjectTypesAndVerbs.Verb.None)
         {
-            Id = "";
 
         }
 
-        public A4ACompanySummaryViewModel(CategoriesAndVerbs.Verb verb = CategoriesAndVerbs.Verb.None) :base(CategoriesAndVerbs.Category.Company,verb)
+        public A4ACompanySummaryViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.Company,verb)
         {
             CompanyName = "Exxon";
             Telephone = "123-123-234-324";
         }
 
-        public A4ACompanySummaryViewModel(Object modelSource, CategoriesAndVerbs.Verb verb) :base(modelSource,CategoriesAndVerbs.Category.Company,verb)
+        public A4ACompanySummaryViewModel(A4ACompany modelSource, ObjectTypesAndVerbs.Verb verb) :base(modelSource,ObjectTypesAndVerbs.ObjectType.Company,verb)
         {
         }
 
-        public A4ACompanySummaryViewModel(IFormCollection form,CategoriesAndVerbs.Verb verb) :base(form,CategoriesAndVerbs.Category.Company,verb)
+        public A4ACompanySummaryViewModel(IFormCollection form,ObjectTypesAndVerbs.Verb verb) :base(form,ObjectTypesAndVerbs.ObjectType.Company,verb)
         {
         }
 
-        [Display(AutoGenerateField = false)]
-        public String Id { get; set; }
 
         public String CompanyName { get; set; }
-        public String RealEmail { get; set; }
+        public String Email { get; set; }
         public String Telephone { get; set; }
+        public String Website { get; set; }
 
 
     }

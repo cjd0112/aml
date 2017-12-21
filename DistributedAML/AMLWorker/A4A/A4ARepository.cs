@@ -11,7 +11,7 @@ namespace AMLWorker.A4A
         private As.A4ACore.A4ARepository underlying;
         public A4ARepository(IServiceServer server) : base(server)
         {
-            var connectionString = SqlTableWithId.GetConnectionString(
+            var connectionString = SqlTableWithPrimaryKey.GetConnectionString(
                 (string) server.GetConfigProperty("DataDirectory", server.BucketId),
                 server.BucketId, "A4ARepository");
             underlying = new As.A4ACore.A4ARepository(connectionString);

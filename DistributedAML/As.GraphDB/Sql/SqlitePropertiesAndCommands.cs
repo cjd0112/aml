@@ -17,47 +17,44 @@ namespace As.GraphDB.Sql
         Numeric
     }
 
-    public class SqlitePropertiesAndCommands<T>
+    // primary key is first field
+    public class SqlitePropertiesAndCommands
     {
-        public Type t;
-        public String tableName;
-        List<PropertyContainer> pis = new List<PropertyContainer>();
+        public Type t => typeContainer.UnderlyingType;
+        public String tableName => typeContainer.Name;
 
-        private PropertyContainer id;
+        public TypeContainer typeContainer;
 
-        private ConstructorInvoker ci;
-        
-        public SqlitePropertiesAndCommands(String tableName,Predicate<PropertyInfo> includeProperty = null)
+   
+        public SqlitePropertiesAndCommands(TypeContainer typeContainer)
         {
-            this.t = typeof(T);
-            this.tableName = tableName;
-            foreach (var c in t.GetProperties().Where(x => x.PropertyType == typeof(String) || !typeof(IEnumerable).IsAssignableFrom(x.PropertyType)))
+            this.typeContainer = typeContainer;
+        }
+
+        public void VerifyForeignKeysFromOtherTables(IEnumerable<SqlitePropertiesAndCommands> alltables)
+        {
+            foreach (var c in alltables.Where(x => x != this))
             {
-                if (!c.IsWritable()) continue;
-                if (includeProperty != null && includeProperty(c) == false)
+                foreach (var g in typeContainer.Properties)
                 {
-                    continue;
+                    if (c.GetPrimaryKeyProperty().Name == g.Name)
+                    {
+                        g.foreignKey = new ForeignKey {FieldName = g.Name, TableName = c.tableName};
+                    }
                 }
-
-                if (c.Name.ToLower() == "id")
-                    id = new PropertyContainer(c);
-
-                pis.Add(new PropertyContainer(c));
             }
-
-            ci = this.t.DelegateForCreateInstance();
         }
 
-        public T CreateInstance()
+        public T CreateInstance<T>()
         {
-            return (T) ci();
+            return (T) typeContainer.CreateInstance<T>();
 
         }
 
-        public T CreateInstance(ISupportGetValue sv)
+        public T CreateInstance<T>(ISupportGetValue sv)
         {
-            var t = CreateInstance();
-            foreach (var q in pis)
+            var t = CreateInstance<T>();
+            foreach (var q in typeContainer.Properties)
             {
                 q.SetValue(t,sv.GetValue(q.pi.Name));
             }
@@ -65,29 +62,26 @@ namespace As.GraphDB.Sql
 
         }
 
-
-        public SqlitePropertiesAndCommands(Predicate<PropertyInfo> propertyFilter=null) : this(typeof(T).Name,propertyFilter)
+        public String GetPrimaryKey(Object obj)
         {
+            return (string)GetPrimaryKeyProperty().GetValue(obj);
         }
 
-        public String GetId(T obj)
+        public PropertyContainer GetPrimaryKeyProperty()
         {
-            return (string)id.GetValue(obj);
+            return typeContainer.Properties.FirstOrDefault(x => x.IsPrimaryKey);
         }
         
-      
-
-
         public IEnumerable<PropertyContainer> SqlFields()
         {
-            return pis;
+            return typeContainer.Properties;
         }
 
      
 
         public string QueryIdCommand()
         {
-            return $"select count(*) from { tableName} where id = ($id)";
+            return $"select count(*) from { tableName} where {GetPrimaryKeyProperty().Name} = ($primaryKey)";
         }
 
         public string AddColumnCommand(String columnName,ColumnType type)
@@ -107,7 +101,7 @@ namespace As.GraphDB.Sql
 
         public string UpdateColumnValuesCommandForId(String columnName)
         {
-            return $"update {tableName} set {columnName}=$value where id=$id";
+            return $"update {tableName} set {columnName}=$value where {GetPrimaryKeyProperty().Name}=$primaryKey";
         }
 
         static void TrimComma(StringBuilder b)
@@ -116,11 +110,21 @@ namespace As.GraphDB.Sql
                 b.Remove(b.Length - 1, 1);
         }
 
-        public String InsertOrReplaceCommand()
+        public string SelectPrimaryKeyValues()
+        {
+            return $"select {GetPrimaryKeyProperty().Name} from {tableName};";
+        }
+
+        public String InsertOrReplaceCommand(bool includeReplace)
         {
             StringBuilder b = new StringBuilder();
 
-            b.Append($"insert or replace into {tableName} ");
+            b.Append("insert ");
+
+            if (includeReplace)
+                b.Append(" or replace ");
+
+            b.Append($"into {tableName} ");
 
             StringBuilder values = new StringBuilder();
 
@@ -130,7 +134,7 @@ namespace As.GraphDB.Sql
 
             names.Append("(");
 
-            foreach (var c in pis)
+            foreach (var c in typeContainer.Properties)
             {
                 names.Append($"{c.pi.Name},");
                 values.Append($"${c.pi.Name},");
@@ -146,7 +150,7 @@ namespace As.GraphDB.Sql
 
         public String DeleteCommand(string id)
         {
-            return $"delete from {tableName} where Id like '{id}'";
+            return $"delete from {tableName} where {GetPrimaryKeyProperty()} like '{id}'";
         }
 
         public String SelectCommand()
@@ -155,7 +159,7 @@ namespace As.GraphDB.Sql
 
             b.Append($"select  ");
 
-            foreach (var c in pis)
+            foreach (var c in typeContainer.Properties)
             {
                 b.Append($"{c.pi.Name},");
             }
@@ -166,6 +170,12 @@ namespace As.GraphDB.Sql
 
             return b.ToString();
         }
+
+        public String SelectCommandByPrimaryKey(string primaryKey)
+        {
+            return SelectCommand() + $" where {GetPrimaryKeyProperty().Name} = '{primaryKey}'; ";
+        }
+
 
         public String RangeClause(Range range)
         {
@@ -194,12 +204,17 @@ namespace As.GraphDB.Sql
             var b = new StringBuilder();
 
             b.Append($"create table {tableName} (");
-            foreach (var c in pis)
+            foreach (var c in typeContainer.Properties)
             {
-                if (c.pi.Name.ToLower() == "id")
+                if (c.IsPrimaryKey)
                     b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)} primary key,");
                 else
-                    b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)},");
+                {
+                    if (c.foreignKey == null)
+                        b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)},");
+                    else
+                        b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)} REFERENCES {c.foreignKey.TableName}({c.foreignKey.FieldName}),");
+                }
             }
 
             if (b[b.Length - 1] == ',')

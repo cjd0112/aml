@@ -1,0 +1,31 @@
+﻿
+@{
+}
+
+@model App4Answers.Models.A4Amodels.ViewModelField
+
+<div class="form-group">
+    <label style="padding-left:5px" for="@Model.Name">@Model.DisplayName:</label>
+    @if(Model.GetForeignKeyValues().Any())
+    {
+        <select class="form-control" name="@Model.Name">
+        @foreach (var c in Model.GetForeignKeyValues())
+        {
+            <option>@c</option>
+        }
+        </select>
+    }
+    else if (Model.IsEnum)
+    {
+        <select class="form-control" name="@Model.Name">
+            @foreach (var c in Model.GetEnumChoices())
+            {
+                <option>@c</option>
+            }
+        </select>        
+    }
+    else
+    {
+        <input type="text" class="form-control" name="@Model.Name" value="@Model.GetValue()"/>        
+    }
+</div>

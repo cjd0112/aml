@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using App4Answers.Data;
+using App4Answers.Extensions;
 using App4Answers.Models;
 using App4Answers.Services;
 using As.A4ACore;
@@ -54,17 +55,12 @@ namespace App4Answers
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            
 
-            services.AddMvc();
-            
+            services.AddMvc();            
             
             services.AddMvc().AddControllersAsServices();
 
-         
-
             var z = new Registry();
-
            
             z.Scan(x =>
             {
@@ -72,9 +68,7 @@ namespace App4Answers
                 x.Assembly("As.A4ACore");
                 x.WithDefaultConventions();
             });
-            
-            
-            
+
             var container = new StructureMap.Container();
             container.Configure(config =>
             {
@@ -115,6 +109,8 @@ namespace App4Answers
             app.UseGraphiQl();
 
             app.UseStatusCodePages();
+
+            app.UseTypeContainer();
 
             app.UseMvc(routes =>
             {

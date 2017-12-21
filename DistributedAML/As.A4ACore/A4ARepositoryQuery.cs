@@ -44,9 +44,5 @@ namespace As.A4ACore
         public IEnumerable<A4ACategory> Categories { get; set; }
 
 
-        /// <summary>
-        /// Parties are the entities, Experts, Users, Companies
-        /// </summary>
-        public IEnumerable<A4AParty> Parties { get; set; }
     }
 }

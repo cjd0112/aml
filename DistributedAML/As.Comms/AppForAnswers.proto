@@ -1,100 +1,103 @@
 ﻿syntax="proto3";
 
-enum A4AEntityType
-{
-	Party =0;
-	Message =1;
-	Category=2;
-}
-
-enum A4ARelationType
-{
-	ParentChild=0;
-	RelatedMessage=1;
-	ExpertOnCategory=2;
-	AuthorMessage=3;
-	WorksForCompany=4;
-}
-
 enum A4AContentType
 {
 	Email=0;
 }
-
-message A4ARelations
-{
-	A4AEntityType FromType =1;
-	string FromId =2;
-	A4AEntityType ToType = 3;
-	string ToId = 4;
-	A4ARelationType RelationType = 5;
-}
-
-enum A4APartyType
-{
-	Company=0;
-	Person=1;
-	Expert=2;
-}
-
-message A4AParty
+message A4ACompany
 {
 	// this is the party identifier
-	string Id = 1;
-	string FirstName=2;
-	string LastName=3;
-	string UserName=4;
-	string AliasEmail=5;
-	string RealEmail=6;
-	string Mobile=7;
-	string CompanyName=9;
+	string CompanyName = 1;
 	string Address1 = 10;
 	string Address2 = 11;
 	string Country = 12;
 	string Postcode = 13;
-	string Telephone = 14;
-	string Website=15;
-	string MainColour=16;
-	string SecondaryColour=17;
-	string TertiaryColour=18;
-	string Logo = 19;
-
-
-	A4APartyType PartyType=75;
-
-	A4ARelationType RuntimeRelation=50;
-	
-	repeated A4AParty RelatedParties = 100;
-	repeated A4ACategory RelatedCategories=101;
-	repeated A4AMessage RelatedMessages=102;
+	string Email = 14;
+	string Telephone = 15;
+	string Website=16;
+	string MainColour=17;
+	string SecondaryColour=18;
+	string TertiaryColour=19;
+	string Logo = 20;
 	
 }
 
-
-
-message A4ACategory
+enum A4AUserStatus
 {
-	string Id=1;
-	string CategoryName=2;
+	Active=0;
+	Suspended=1;
+}
 
-	A4ARelationType RuntimeRelation=50;
+enum A4AAdminLevel
+{
+	Administrator=0;
+	Moderator=1;
+}
 
-	repeated A4ACategory RelatedCategories = 3;
-	repeated A4AParty RelatedParties = 4;
-	repeated A4AMessage RelatedMessages=102;
+message A4AAdministrator
+{
+	string Email = 1;
+	string Name = 2;
+	A4AAdminLevel Level =3;
+}
+
+
+message A4AUser
+{
+	string UserName = 1;
+	string Email = 2;
+	A4AUserStatus Status = 3;
+}
+
+message A4AExpert
+{	
+	string ExpertName=4;
+	string FirstName=2;
+	string LastName=3;
+	string AliasEmail=5;
+	string RealEmail=6;
+	string Mobile=7;
+	string CompanyName = 8;
+}
+
+message A4ASubscription
+{
+	string Subscription = 1;
+	string Profession = 2;
+	string Category=3;
+	string SubCategory = 4;
+	string ExpertName = 5;
+
+}
+
+message A4AProfession 
+{
+	string Profession =1;
+}
+
+message A4ACategory 
+{
+	string Category=1;
+	string Profession = 2;
+}
+
+message A4ASubCategory
+{
+	string SubCategory = 1;
+	string Category = 2;
+	string Profession = 3;
 }
 
 message A4AMessage
 {
-	string Id=1;
+	string MessageId=1;
+
 	string Content=2;
 	A4AContentType ContentType=3;
 
-	A4ARelationType RuntimeRelation=50;
-
-	repeated A4AParty RelatedParties=100;
-	repeated A4ACategory RelatedCategories=101;
-	repeated A4AMessage RelatedMessages=102;
-
+	string A4ASubCategory = 4;
+	
+	string UserName = 6;
 }
+
 

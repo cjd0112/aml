@@ -27,46 +27,37 @@ namespace App4Answers.Models.A4Amodels
 	string TertiaryColour=18;
 	string Logo = 19;
     */
-    public class A4ACompanyDetailViewModel : ViewModelBase
+    public class A4ACompanyDetailViewModel : ViewModelBase<A4ACompany>
     {
-        public A4ACompanyDetailViewModel() : base(CategoriesAndVerbs.Category.Company, CategoriesAndVerbs.Verb.None)
+        public A4ACompanyDetailViewModel() : base(ObjectTypesAndVerbs.ObjectType.Company, ObjectTypesAndVerbs.Verb.None)
         {
-            Id = "";
 
         }
 
-        public A4ACompanyDetailViewModel(CategoriesAndVerbs.Verb verb = CategoriesAndVerbs.Verb.None) :base(CategoriesAndVerbs.Category.Company,verb)
+        public A4ACompanyDetailViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.Company,verb)
         {
-            Id = "";
-            
         }
 
-        public A4ACompanyDetailViewModel(Object modelSource,CategoriesAndVerbs.Verb verb = CategoriesAndVerbs.Verb.None) :base(modelSource,CategoriesAndVerbs.Category.Company,verb)
+        public A4ACompanyDetailViewModel(A4ACompany modelSource,ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(modelSource,ObjectTypesAndVerbs.ObjectType.Company,verb)
         {
-            PartyType = A4APartyType.Company;
         }
 
-        public A4ACompanyDetailViewModel(IFormCollection form, CategoriesAndVerbs.Verb verb = CategoriesAndVerbs.Verb.None) :base(form, CategoriesAndVerbs.Category.Company, verb)
+        public A4ACompanyDetailViewModel(IFormCollection form, ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(form, ObjectTypesAndVerbs.ObjectType.Company, verb)
         {
-            PartyType = A4APartyType.Company;
         }
 
-        public String Id { get; set; }
         public String CompanyName { get; set; }
         public String Address1 { get; set; }
         public String Address2 { get; set; }
+        public String Country { get; set; }
         public String Postcode { get; set; }
         public String Telephone { get; set; }
-        public String RealEmail { get; set; }
-        public String AliasEmail { get; set; }
-        public String Mobile { get; set; }
+        public String Email { get; set; }
         public String Website { get; set; }
         public String MainColour { get; set; }
         public String SecondaryColour { get; set; }
         public String TertiaryColour { get; set; }
         public String Logo { get; set; }
-
-        public A4APartyType PartyType { get; set; }
 
 
     }

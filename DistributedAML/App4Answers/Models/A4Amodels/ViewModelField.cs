@@ -22,6 +22,14 @@ namespace App4Answers.Models.A4Amodels
 
         public String DisplayName => pc.DisplayName();
 
+        public bool IsEnum => pc.PropertyType.IsEnum;
+
+        public IEnumerable<String> GetEnumChoices()
+        {
+            return pc.PropertyType.GetEnumNames();
+        }
+
+
         public Object GetValue()
         {
             return pc.GetValue(parent.Parent);
@@ -30,7 +38,11 @@ namespace App4Answers.Models.A4Amodels
         public void SetValue(Object o)
         {
             pc.SetValue(parent.Parent, o);
+        }
 
+        public IEnumerable<String> GetForeignKeyValues()
+        {
+            return parent.Parent.GetForeignKeyValues(Name);
         }
     }
 }

@@ -8,6 +8,11 @@ namespace As.GraphDB.Sql
 {
     public class SqlTableSimpleLinkages : SqlTableBase
     {
+        public SqlTableSimpleLinkages(string tableName) : base(tableName)
+        {
+            
+        }
+
         public int CreateManyToManyLinkagesTable(SqliteConnection conn, String tableName, String link1, String link2)
         {
             int foo = 0;

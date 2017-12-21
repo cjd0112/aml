@@ -24,16 +24,17 @@
     <div class="col-sm-2" style="color: white; padding-right: 0px; margin-right: 0px" align="left">
         <div class="container" style="padding-top:23px">
             <ul class="nav  nav-stacked">
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Dashboard">Dashboard</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Experts">Experts</a>                
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Professions">Professions</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Categories">Categories</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Experts">Subcategories</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Users">Users</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Experts">Admin</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="GroupContact">Group Contact</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="Messages">Messages</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-category="@CategoriesAndVerbs.Category.Company" asp-route-verb="@CategoriesAndVerbs.Verb.List">Companies</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="Dashboard">Dashboard</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Expert" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Experts</a>                
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Profession" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Professions</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Category" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Categories</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.SubCategory" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Subcategories</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.User" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Users</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Administrator" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Administrators</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="GroupContact">Group Contact</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="Messages">Messages</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Company" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Companies</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Subscription" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Subscriptions</a></li>
 
             </ul>
         </div>

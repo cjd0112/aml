@@ -9,13 +9,21 @@ using Fasterflect;
 
 namespace As.Shared
 {
+    public class ForeignKey
+    {
+        public string TableName { get; set; }
+        public string FieldName { get; set; }
+    }
     public class PropertyContainer
     {
         public PropertyInfo pi;
         public MemberGetter getter;
         public MemberSetter setter;
         public int index;
-        public PropertyContainer(PropertyInfo pi,int index = 0)
+        public ForeignKey foreignKey;
+        public bool IsPrimaryKey = false;
+
+        public PropertyContainer(PropertyInfo pi,int index = 0,bool isPrimaryKey=false)
         {
             if (pi.GetMethod == null)
                 throw new Exception($"{pi.Name} - has not get method");
@@ -30,6 +38,7 @@ namespace As.Shared
             }
             this.index = index;
             this.pi = pi;
+            this.IsPrimaryKey = isPrimaryKey;
         }
 
         public String Name => pi.Name;

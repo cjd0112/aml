@@ -1,0 +1,100 @@
+﻿syntax="proto3";
+
+enum A4AEntityType
+{
+	Party =0;
+	Message =1;
+	Category=2;
+}
+
+enum A4ARelationType
+{
+	ParentChild=0;
+	RelatedMessage=1;
+	ExpertOnCategory=2;
+	AuthorMessage=3;
+	WorksForCompany=4;
+}
+
+enum A4AContentType
+{
+	Email=0;
+}
+
+message A4ARelations
+{
+	A4AEntityType FromType =1;
+	string FromId =2;
+	A4AEntityType ToType = 3;
+	string ToId = 4;
+	A4ARelationType RelationType = 5;
+}
+
+enum A4APartyType
+{
+	Company=0;
+	Person=1;
+	Expert=2;
+}
+
+message A4AParty
+{
+	// this is the party identifier
+	string Id = 1;
+	string FirstName=2;
+	string LastName=3;
+	string UserName=4;
+	string AliasEmail=5;
+	string RealEmail=6;
+	string Mobile=7;
+	string CompanyName=9;
+	string Address1 = 10;
+	string Address2 = 11;
+	string Country = 12;
+	string Postcode = 13;
+	string Telephone = 14;
+	string Website=15;
+	string MainColour=16;
+	string SecondaryColour=17;
+	string TertiaryColour=18;
+	string Logo = 19;
+
+
+	A4APartyType PartyType=75;
+
+	A4ARelationType RuntimeRelation=50;
+	
+	repeated A4AParty RelatedParties = 100;
+	repeated A4ACategory RelatedCategories=101;
+	repeated A4AMessage RelatedMessages=102;
+	
+}
+
+
+
+message A4ACategory
+{
+	string Id=1;
+	string CategoryName=2;
+
+	A4ARelationType RuntimeRelation=50;
+
+	repeated A4ACategory RelatedCategories = 3;
+	repeated A4AParty RelatedParties = 4;
+	repeated A4AMessage RelatedMessages=102;
+}
+
+message A4AMessage
+{
+	string Id=1;
+	string Content=2;
+	A4AContentType ContentType=3;
+
+	A4ARelationType RuntimeRelation=50;
+
+	repeated A4AParty RelatedParties=100;
+	repeated A4ACategory RelatedCategories=101;
+	repeated A4AMessage RelatedMessages=102;
+
+}
+

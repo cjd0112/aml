@@ -5,13 +5,19 @@ using System.Threading.Tasks;
 
 namespace App4Answers.Models.A4Amodels
 {
-    public class CategoriesAndVerbs
+    public class ObjectTypesAndVerbs
     {
-        public enum Category
+        public enum ObjectType
         {
             None,
             Company,
-            Expert
+            Expert,
+            Profession,
+            Category,
+            SubCategory,
+            Subscription,
+            User,
+            Administrator
         }
 
         public enum Verb

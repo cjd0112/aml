@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using As.GraphDB.Sql;
+using As.Shared;
 
 namespace As.A4ACore
 {
@@ -7,12 +9,13 @@ namespace As.A4ACore
     {
         GraphResponse RunQuery(GraphQuery query);
 
-        A4AParty AddParty(A4AParty party);
-        IEnumerable<A4AParty> QueryParties(string query,Range r,Sort s);
-        A4AParty GetPartyById(string id);
-        A4AParty SaveParty(A4AParty party);
-        void DeleteParty(string id);
+        T AddObject<T>(T party);
+        IEnumerable<T> QueryObjects<T>(string query,Range r,Sort s);
+        T GetObjectByPrimaryKey<T>(string id);
+        T SaveObject<T>(T party);
+        void DeleteObject<T>(string id);
 
+        IEnumerable<(ForeignKey foreignKey, IEnumerable<string> values)> GetPossibleForeignKeys<T>();
 
     }
 }

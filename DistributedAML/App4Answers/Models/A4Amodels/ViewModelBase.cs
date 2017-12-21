@@ -15,6 +15,10 @@ namespace App4Answers.Models.A4Amodels
 {
     public class ViewModelBase
     {
+        protected ViewModelBase()
+        {
+            
+        }
         public IEnumerable<String> GetColumnNames()
         {
             return typeContainer.Properties.Select(x => x.pi.Name);
@@ -25,51 +29,15 @@ namespace App4Answers.Models.A4Amodels
             return typeContainer.Properties.Count();
         }
 
-        private TypeContainer typeContainer;
+        protected TypeContainer typeContainer;
 
-        public CategoriesAndVerbs.Category Category;
-        public CategoriesAndVerbs.Verb Verb;
+        public ObjectTypesAndVerbs.ObjectType ObjectType;
 
-        protected ViewModelBase(CategoriesAndVerbs.Category category,CategoriesAndVerbs.Verb verb)
-        {
-            Category = category;
-            Verb = verb;
-            typeContainer = TypeContainer.GetTypeContainer(GetType(),x => x.PropertyType == typeof(String) || !typeof(IEnumerable).IsAssignableFrom(x.PropertyType));
-        }
+        public ObjectTypesAndVerbs.Verb Verb;
 
-        protected ViewModelBase(Object modelSource, CategoriesAndVerbs.Category category, CategoriesAndVerbs.Verb verb) :this(category,verb)
-        {
-            var tc = TypeContainer.GetTypeContainer(modelSource.GetType());
-            foreach (var c in typeContainer.Properties)
-            {
-                var modelField = tc.GetProperty(c.Name);
-                if (modelField == null)
-                    throw new Exception(
-                        $"Model field - {c.Name} - from ViewModel - {this.typeContainer.UnderlyingType.Name} - is not found on type of object - {modelSource.GetType()}");
-                c.SetValue(this,modelField.GetValue(modelSource));
-            }
-        }
+        protected TypeContainer modelTypeContainer;
 
-        protected ViewModelBase(IFormCollection form, CategoriesAndVerbs.Category category, CategoriesAndVerbs.Verb verb) : this(category,verb)
-        {
-            foreach (var c in typeContainer.Properties)
-            {
-                if (form.ContainsKey(c.Name))
-                    c.SetValue(this, form[c.Name].ToString());
-            }
-        }
-
-        public T ModelClassFromViewModel<T>()
-        {
-            var newType = TypeContainer.GetTypeContainer(typeof(T));
-            T newOne = newType.CreateInstance<T>();
-
-            foreach (var c in typeContainer.Properties)
-            {
-                newType.GetProperty(c.Name).SetValue(newOne,c.GetValue(this));
-            }
-            return newOne;
-        }
+        public String PrimaryKeyName { get; set; }
 
 
 
@@ -79,9 +47,14 @@ namespace App4Answers.Models.A4Amodels
             int cnt = 0;
             foreach (var row in typeContainer.Properties.GroupBy(x => x.index / numColumns))
             {
-                rows.Add(new ViewModelRow(this,cnt++,row.ToList()));
+                rows.Add(new ViewModelRow(this, cnt++, row.ToList()));
             }
             return rows;
+        }
+
+        public virtual String GetPrimaryKey()
+        {
+            return (String)GetValue(PrimaryKeyName);
         }
 
         public Object GetValue(string name)
@@ -95,7 +68,97 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
+        public IEnumerable<String> GetForeignKeyValues(string name)
+        {
+            foreach (var c in foreignKeys)
+            {
+                if (c.foreignKey.FieldName == name)
+                    return c.values;
+            }
+            return Enumerable.Empty<string>();
+        }
 
-      
+        private IEnumerable<(ForeignKey foreignKey, IEnumerable<string> values)> foreignKeys = null;
+        public T AddForeignKeys<T>(IEnumerable<(ForeignKey foreignKey, IEnumerable<string> values)> foreignKeys) where T:ViewModelBase
+        {
+            this.foreignKeys = foreignKeys;
+            return (T)this;
+        }
+
+    }
+
+    public class ViewModelBase<T> : ViewModelBase
+    {
+
+        protected ViewModelBase(ObjectTypesAndVerbs.ObjectType objectType,ObjectTypesAndVerbs.Verb verb)
+        {
+            ObjectType = objectType;
+            Verb = verb;
+            typeContainer = TypeContainer.GetTypeContainer(GetType());
+            modelTypeContainer = TypeContainer.GetTypeContainer(typeof(T));
+
+            // figure out our primary key based on model PK
+            var pkName = modelTypeContainer.Properties.FirstOrDefault(x => x.IsPrimaryKey);
+            if (pkName == null)
+                throw new Exception($"Primary key not found on model table - {modelTypeContainer.Name}");
+
+            var mypk = typeContainer.Properties.FirstOrDefault(x => x.Name == pkName.Name);
+
+            if (mypk == null)
+                throw new Exception(
+                    $"Primary key not found on view-model table - {typeContainer.Name} - view-model requires same PK as underlying model - {pkName.Name}");
+
+            mypk.IsPrimaryKey = true;
+
+            PrimaryKeyName = mypk.Name;
+
+        }
+
+        protected ViewModelBase(T modelSource, ObjectTypesAndVerbs.ObjectType objectType, ObjectTypesAndVerbs.Verb verb) :this(objectType,verb)
+        {
+            var tc = TypeContainer.GetTypeContainer(typeof(T));
+            foreach (var c in typeContainer.Properties)
+            {
+                var modelField = tc.GetProperty(c.Name);
+                if (modelField == null)
+                    throw new Exception(
+                        $"Model field - {c.Name} - from ViewModel - {this.typeContainer.UnderlyingType.Name} - is not found on type of object - {modelSource.GetType()}");
+                c.SetValue(this,modelField.GetValue(modelSource));
+            }
+        }
+
+        protected ViewModelBase(IFormCollection form, ObjectTypesAndVerbs.ObjectType objectType, ObjectTypesAndVerbs.Verb verb) : this(objectType,verb)
+        {
+            foreach (var c in typeContainer.Properties)
+            {
+                if (form.ContainsKey(c.Name))
+                    c.SetValue(this, form[c.Name].ToString());
+            }
+        }
+
+        public T ModelClassFromViewModel()
+        {
+            var newType = TypeContainer.GetTypeContainer(typeof(T));
+            T newOne = newType.CreateInstance<T>();
+
+            foreach (var c in typeContainer.Properties)
+            {
+                var modelProperty = newType.GetProperty(c.Name);
+                if (modelProperty == null)
+                    throw new Exception($"Viewmodel property - {c.Name} is not found on model - {typeof(T).Name}.");
+
+                modelProperty.SetValue(newOne,c.GetValue(this));
+            }
+            return newOne;
+        }
+
+
+
+
+
+
+
+
+
     }
 }

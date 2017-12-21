@@ -17,44 +17,44 @@ namespace AMLWorker.Aml
         private SqlitePropertiesAndCommands<Account> accountSql = new SqlitePropertiesAndCommands<Account>("Accounts");
         private SqlitePropertiesAndCommands<Transaction> transactionSql = new SqlitePropertiesAndCommands<Transaction>("Transactions");
 
-        private SqlTableWithId sqlTableWithId;
+        private SqlTableWithPrimaryKey _sqlTableWithPrimaryKey;
         
         public AmlRepository(IServiceServer server) : base(server)
         {
-            sqlTableWithId = new SqlTableWithId();
+            _sqlTableWithPrimaryKey = new SqlTableWithPrimaryKey();
 
-            connectionString = sqlTableWithId.GetConnectionString(
+            connectionString = _sqlTableWithPrimaryKey.GetConnectionString(
                 (string) server.GetConfigProperty("DataDirectory", server.BucketId),
                 server.BucketId, "AmlWorker");
 
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
 
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = _sqlTableWithPrimaryKey.NewConnection(connectionString))
             {
-                if (!sqlTableWithId.TableExists(connection, partySql))
+                if (!_sqlTableWithPrimaryKey.TableExists(connection, partySql))
                 {
-                    sqlTableWithId.CreateTable(connection,partySql);
+                    _sqlTableWithPrimaryKey.CreateTable(connection,partySql);
                 }
 
-                if (!sqlTableWithId.TableExists(connection, accountSql))
+                if (!_sqlTableWithPrimaryKey.TableExists(connection, accountSql))
                 {
-                    sqlTableWithId.CreateTable(connection,accountSql);
+                    _sqlTableWithPrimaryKey.CreateTable(connection,accountSql);
                 }
 
-                if (!sqlTableWithId.TableExists(connection, "AccountParty"))
+                if (!_sqlTableWithPrimaryKey.TableExists(connection, "AccountParty"))
                 {
                     new SqlTableSimpleLinkages().CreateManyToManyLinkagesTableWithForeignKeyConstraint(connection, "AccountParty",
                         "AccountId", "PartyId", "Accounts", "Id");
                 }
 
-                if (!sqlTableWithId.TableExists(connection, "PartyAccount"))
+                if (!_sqlTableWithPrimaryKey.TableExists(connection, "PartyAccount"))
                 {
                     new SqlTableSimpleLinkages().CreateManyToManyLinkagesTable(connection, "PartyAccount", "PartyId", "AccountId");
                 }
 
-                if (!sqlTableWithId.TableExists(connection, transactionSql))
+                if (!_sqlTableWithPrimaryKey.TableExists(connection, transactionSql))
                 {
-                    sqlTableWithId.CreateTable(connection,transactionSql);
+                    _sqlTableWithPrimaryKey.CreateTable(connection,transactionSql);
                 }
             }
         }
@@ -63,23 +63,23 @@ namespace AMLWorker.Aml
 
         public override int StoreParties(IEnumerable<Party> parties)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = _sqlTableWithPrimaryKey.NewConnection(connectionString))
             {
-                return sqlTableWithId.InsertOrReplace(connection, partySql, parties);
+                return _sqlTableWithPrimaryKey.InsertOrReplace(connection, partySql, parties);
             }
         }
 
         public override int StoreAccounts(IEnumerable<Account> accounts)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = _sqlTableWithPrimaryKey.NewConnection(connectionString))
             {
-                return sqlTableWithId.InsertOrReplace(connection, accountSql,accounts);
+                return _sqlTableWithPrimaryKey.InsertOrReplace(connection, accountSql,accounts);
             }
         }
 
         public override int StoreLinkages(IEnumerable<AccountToParty> mappings, LinkageDirection dir)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = _sqlTableWithPrimaryKey.NewConnection(connectionString))
             {
                 if (dir == LinkageDirection.AccountToParty)
                 {
@@ -114,7 +114,7 @@ namespace AMLWorker.Aml
         public override IEnumerable<AccountToParty> GetLinkages(IEnumerable<Identifier> source, LinkageDirection dir)
         {
             var ret = new List<AccountToParty>();
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = _sqlTableWithPrimaryKey.NewConnection(connectionString))
             {
                 if (dir == LinkageDirection.AccountToParty)
                 {
@@ -143,9 +143,9 @@ namespace AMLWorker.Aml
         public override IEnumerable<YesNo> AccountsExist(IEnumerable<Identifier> account)
         {
             var ret = new List<YesNo>();
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = _sqlTableWithPrimaryKey.NewConnection(connectionString))
             {
-                foreach (var c in sqlTableWithId.QueryId(connection, accountSql,account.Select(x=>x.Id)))
+                foreach (var c in _sqlTableWithPrimaryKey.QueryPrimaryKey(connection, accountSql,account.Select(x=>x.Id)))
                 {
                     ret.Add(new YesNo{Val=c.Item2});
                 }
@@ -163,7 +163,7 @@ namespace AMLWorker.Aml
 
         public override GraphResponse RunQuery(GraphQuery query)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = _sqlTableWithPrimaryKey.NewConnection(connectionString))
             {
                 return new GraphResponse
                 {
@@ -179,9 +179,9 @@ namespace AMLWorker.Aml
 
         public override int StoreTransactions(IEnumerable<Transaction> txns)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = _sqlTableWithPrimaryKey.NewConnection(connectionString))
             {
-                return sqlTableWithId.InsertOrReplace(connection, transactionSql, txns);
+                return _sqlTableWithPrimaryKey.InsertOrReplace(connection, transactionSql, txns);
             }
         }
     }

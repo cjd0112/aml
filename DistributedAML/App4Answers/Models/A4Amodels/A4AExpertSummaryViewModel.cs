@@ -9,36 +9,29 @@ namespace App4Answers.Models.A4Amodels
 {
 
    
-    public class A4AExpertSummaryViewModel : ViewModelBase
+    public class A4AExpertSummaryViewModel : ViewModelBase<A4AExpert>
     {
-        public A4AExpertSummaryViewModel() : base(CategoriesAndVerbs.Category.Expert, CategoriesAndVerbs.Verb.None)
+        public A4AExpertSummaryViewModel() : base(ObjectTypesAndVerbs.ObjectType.Expert, ObjectTypesAndVerbs.Verb.None)
         {
-            Id = "";
 
         }
 
-        public A4AExpertSummaryViewModel(CategoriesAndVerbs.Verb verb = CategoriesAndVerbs.Verb.None) :base(CategoriesAndVerbs.Category.Expert,verb)
+        public A4AExpertSummaryViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.Expert,verb)
         {
         }
 
-        public A4AExpertSummaryViewModel(Object modelSource, CategoriesAndVerbs.Verb verb) :base(modelSource,CategoriesAndVerbs.Category.Expert,verb)
+        public A4AExpertSummaryViewModel(A4AExpert modelSource, ObjectTypesAndVerbs.Verb verb) :base(modelSource,ObjectTypesAndVerbs.ObjectType.Expert,verb)
         {
         }
 
-        public A4AExpertSummaryViewModel(IFormCollection form,CategoriesAndVerbs.Verb verb) :base(form,CategoriesAndVerbs.Category.Expert,verb)
+        public A4AExpertSummaryViewModel(IFormCollection form,ObjectTypesAndVerbs.Verb verb) :base(form,ObjectTypesAndVerbs.ObjectType.Expert,verb)
         {
         }
 
-        [Display(AutoGenerateField = false)]
-        public String Id { get; set; }
-
-        public String FirstName { get; set; }
-        public String LastName { get; set; }
-        public String RealEmail { get; set; }
-        public String AliasEmail { get; set; }
+        public String ExpertName { get; set; }
         public String CompanyName { get; set; }
-        public String Telephone { get; set; }
-
+        public String Mobile { get; set; }
+        public String RealEmail { get; set; }
 
     }
 }

@@ -6,11 +6,11 @@ namespace As.GraphDB.Sql
 {
     public class DataRecordHelper<T> : ISupportGetValue
     {
-        public SqlitePropertiesAndCommands<T>  propertiesAndCommands { get; set; }   
+        public SqlitePropertiesAndCommands  propertiesAndCommands { get; set; }   
         public IDataRecord Record { get; set; }
         public int OrdinalInQuery { get; set; }
 
-        public DataRecordHelper(SqlitePropertiesAndCommands<T> propertiesAndCommands, IDataRecord record)
+        public DataRecordHelper(SqlitePropertiesAndCommands propertiesAndCommands, IDataRecord record)
         {
             this.propertiesAndCommands = propertiesAndCommands;
             Record = record;
@@ -19,7 +19,7 @@ namespace As.GraphDB.Sql
 
         public T GetObject()
         {
-            return propertiesAndCommands.CreateInstance(this);
+            return propertiesAndCommands.CreateInstance<T>(this);
         }
         public Object GetValue(String field)
         {

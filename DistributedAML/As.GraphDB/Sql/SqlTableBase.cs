@@ -9,23 +9,29 @@ namespace As.GraphDB.Sql
 {
     public class SqlTableBase
     {
-        public String GetConnectionString(String dataDirectory, int bucket, String dbFile)
+        public SqlTableBase(string tableName)
         {
-            if (Directory.Exists(dataDirectory) == false)
-                Directory.CreateDirectory(dataDirectory);
-            return $"{dataDirectory}/{dbFile}_{bucket}.mdb";
+            this.TableName = tableName;
+
+        }
+        public String TableName { get; set; }
+
+    
+
+        public bool TableExists(SqliteConnection conn)
+        {
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = $"SELECT name FROM sqlite_master WHERE type = 'table' AND name = '{TableName}';";
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    return rdr.HasRows;
+                }
+            }
         }
 
 
-        public SqliteConnection NewConnection(string connectionString)
-        {
-            var c = new SqliteConnection(connectionString);
-
-            c.Open();
-            return c;
-        }
-
-        public bool TableExists(SqliteConnection conn, String tableName)
+        public bool TableExists(SqliteConnection conn,String tableName)
         {
             using (var cmd = conn.CreateCommand())
             {
@@ -49,21 +55,21 @@ namespace As.GraphDB.Sql
 
 
 
-        public  bool IndexExists(SqliteConnection conn, String tableName, string columnName)
+        public  bool IndexExists(SqliteConnection conn, string columnName)
         {
             using (var cmd = conn.CreateCommand())
             {
-                cmd.CommandText = $"pragma index_info({tableName + "_" + columnName});";
+                cmd.CommandText = $"pragma index_info({TableName + "_" + columnName});";
                 var rdr = cmd.ExecuteReader();
                 return rdr.HasRows;
             }
         }
 
-        public int CreateIndex(SqliteConnection conn, String tableName, String columnName)
+        public int CreateIndex(SqliteConnection conn, String columnName)
         {
             using (var cmd = conn.CreateCommand())
             {
-                cmd.CommandText = $"create index {tableName + "_" + columnName} on {tableName}({columnName})";
+                cmd.CommandText = $"create index {TableName + "_" + columnName} on {TableName}({columnName})";
                 return cmd.ExecuteNonQuery();
             }
         }

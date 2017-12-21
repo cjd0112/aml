@@ -1,66 +1,64 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using As.GraphDB;
 using As.GraphDB.Sql;
 using As.Logger;
+using As.Shared;
+using Google.Protobuf;
 
 namespace As.A4ACore
 {
     public class A4ARepository : IA4ARepository
     {
-        private string connectionString;
+        private static IEnumerable<Type> _A4ATypes;
 
-     
-        private SqlitePropertiesAndCommands<A4ACategory> categorySql = new SqlitePropertiesAndCommands<A4ACategory>("Categories");
-        private SqlitePropertiesAndCommands<A4AMessage> messageSql = new SqlitePropertiesAndCommands<A4AMessage>("Messages");
-        private SqlitePropertiesAndCommands<A4AParty> partySql = new SqlitePropertiesAndCommands<A4AParty>("Parties");
-
-        private SqlTableWithId sqlTableWithId;
-
-        private SqlTableComplexLinkages<A4AEntityType, A4ARelationType> sqlTableComplexLinkages;
-
-        public A4ARepository(String connectionString) 
+        private static IEnumerable<Type> A4ATypes
         {
-            this.connectionString = connectionString;
+            get
+            {
+                return _A4ATypes ?? (_A4ATypes = Assembly.GetAssembly(typeof(A4ACategory)).GetTypes()
+                           .Where(predicate: x =>
+                               x.Name.StartsWith("A4A") && x.IsClass && typeof(IMessage).IsAssignableFrom(x))
+                           .Select(x => x).ToArray());
+            }
+        }
 
-            sqlTableWithId = new SqlTableWithId();
+        Dictionary<Type, SqlTableWithPrimaryKey> tables = new Dictionary<Type, SqlTableWithPrimaryKey>();
 
-            sqlTableComplexLinkages = new SqlTableComplexLinkages<A4AEntityType,A4ARelationType>();
+        private SqlConnection conn;
+
+        public A4ARepository(String connectionString)
+        {
+            L.Trace("Initializing types in assembly");
+
+            foreach (var type in A4ATypes)
+            {
+                tables[type] =
+                    new SqlTableWithPrimaryKey(new SqlitePropertiesAndCommands(TypeContainer.GetTypeContainer(type)));
+            }
+            conn = new SqlConnection(connectionString);
 
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
 
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = conn.Connection())
             {
-                if (!sqlTableWithId.TableExists(connection, partySql))
+                foreach (var c in tables.Keys)
                 {
-                    sqlTableWithId.CreateTable(connection,partySql);
-                }
-                else
-                {
-                    sqlTableWithId.UpdateTableStructure(connection,partySql);
-                }
+                    tables[c].PropertiesAndCommands
+                        .VerifyForeignKeysFromOtherTables(tables.Values.Select(x => x.PropertiesAndCommands));
 
-                if (!sqlTableWithId.TableExists(connection, messageSql))
-                {
-                    sqlTableWithId.CreateTable(connection,messageSql);
+                    if (tables[c].TableExists(connection) == false)
+                    {
+                        tables[c].CreateTable(connection);
+                    }
+                    else
+                    {
+                        tables[c].UpdateTableStructure(connection);
+                    }
                 }
-                else
-                {
-                    sqlTableWithId.UpdateTableStructure(connection, messageSql);
-                }
-
-
-                if (!sqlTableWithId.TableExists(connection, categorySql))
-                {
-                    sqlTableWithId.CreateTable(connection,categorySql);
-                }
-                else
-                {
-                    sqlTableWithId.UpdateTableStructure(connection, categorySql);
-                }
-
             }
         }
 
@@ -73,68 +71,87 @@ namespace As.A4ACore
 
         public GraphResponse RunQuery(GraphQuery query)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = conn.Connection())
             {
                 return new GraphResponse
                 {
-                    Response = new A4ARepositoryGraphDb(connection,partySql,categorySql, messageSql).Run(new GQ
+                    Response = new A4ARepositoryGraphDb(connection, tables[typeof(A4AMessage)]).Run(new GQ
                     {
                         OperationName = query.OperationName,
                         Query = query.Query,
                         Variables = query.Variables
-                           
-                    },new A4ACustomizeSchema()).ToString()
+
+                    }, new A4ACustomizeSchema()).ToString()
                 };
             }
         }
 
-        public A4AParty AddParty(A4AParty party)
+        public T AddObject<T>(T obj)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = conn.ConnectionFk())
             {
-                var id = sqlTableWithId.GetNextId(connection, partySql.tableName);
-                party.Id = $"PARTY{id:0000000}";
-                sqlTableWithId.InsertOrReplace(connection, partySql, new[] {party});
+                var sqlTable = tables[typeof(T)];
+                sqlTable.InsertOrReplace(connection, new[] {obj});
 
-                return sqlTableWithId.SelectDataById(connection, partySql, party.Id);
+                return sqlTable.SelectDataByPrimaryKey<T>(connection, sqlTable.GetPrimaryKey(obj));
             }
         }
 
-        public A4AParty SaveParty(A4AParty party)
+        public T SaveObject<T>(T obj)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = conn.ConnectionFk())
             {
-                sqlTableWithId.InsertOrReplace(connection, partySql, new[] { party });
-                return sqlTableWithId.SelectDataById(connection, partySql, party.Id);
+                var sqlTable = tables[typeof(T)];
+                sqlTable.InsertOrReplace(connection, new[] {obj}, true);
+                return sqlTable.SelectDataByPrimaryKey<T>(connection, sqlTable.GetPrimaryKey(obj));
             }
         }
 
-        public void DeleteParty(String id)
+        public void DeleteObject<T>(String primaryKey)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = conn.ConnectionFk())
             {
-                sqlTableWithId.Delete(connection, partySql,id);
-            }
-        }
-
-
-        public A4AParty GetPartyById(string id)
-        {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
-            {
-                return sqlTableWithId.SelectDataById(connection, partySql, id);
+                var sqlTable = tables[typeof(T)];
+                sqlTable.Delete<T>(connection, primaryKey);
             }
         }
 
 
-        public IEnumerable<A4AParty> QueryParties(String whereClause,Range range,Sort sort)
+        public T GetObjectByPrimaryKey<T>(string primaryKey)
         {
-            using (var connection = sqlTableWithId.NewConnection(connectionString))
+            using (var connection = conn.Connection())
             {
-                return sqlTableWithId.SelectData(connection, partySql, whereClause, range, sort).Select(x => x.GetObject())
+                var sqlTable = tables[typeof(T)];
+                return sqlTable.SelectDataByPrimaryKey<T>(connection, primaryKey);
+            }
+        }
+
+        public IEnumerable<T> QueryObjects<T>(String whereClause, Range range, Sort sort)
+        {
+            using (var connection = conn.Connection())
+            {
+                var sqlTable = tables[typeof(T)];
+                return sqlTable.SelectData<T>(connection, whereClause, range, sort).Select(x => x.GetObject())
                     .ToArray();
             }
         }
+
+        public IEnumerable<(ForeignKey foreignKey, IEnumerable<string> values)> GetPossibleForeignKeys<T>()
+        {
+            using (var connection = conn.Connection())
+            {
+                var sqlTable = tables[typeof(T)];
+                foreach (var c in sqlTable.PropertiesAndCommands.typeContainer.Properties
+                    .Where(x => x.foreignKey != null)
+                    .Select(x => x.foreignKey))
+                {
+                    var table = tables[A4ATypes.First(x => x.Name == c.TableName)];
+
+                    yield return (c, table.SelectPrimaryKeyValues(connection).ToArray());
+                }
+            }
+        }
+
 
     }
 }

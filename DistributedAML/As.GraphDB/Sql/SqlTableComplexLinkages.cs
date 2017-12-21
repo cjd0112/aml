@@ -18,31 +18,33 @@ namespace As.GraphDB.Sql
             FromId,
             RelationType
         }
-        public SqlTableComplexLinkages()
+
+        public SqlTableComplexLinkages(String name) :base(name)
         {
+            TableName = name;
         }
 
-        public int CreateManyToManyLinkagesTable(SqliteConnection conn, String tableName)
+        public int CreateManyToManyLinkagesTable(SqliteConnection conn)
         {
             int foo = 0;
-            foo = ExecuteCommandLog(conn, $@"create table {tableName} (FromType text, FromId text, ToType text, ToId text, RelationType text);
-            create index {tableName}_FromType_idx on {tableName}(FromType);
-            create index {tableName}_ToType_idx on {tableName}(ToType);
-            create index {tableName}_FromId_idx on {tableName}(FromId);
-            create index {tableName}_ToId_idx on {tableName}(ToId);
-            create index {tableName}_RelationType_idx on {tableName}(RelationType);");
+            foo = ExecuteCommandLog(conn, $@"create table {TableName} (FromType text, FromId text, ToType text, ToId text, RelationType text);
+            create index {TableName}_FromType_idx on {TableName}(FromType);
+            create index {TableName}_ToType_idx on {TableName}(ToType);
+            create index {TableName}_FromId_idx on {TableName}(FromId);
+            create index {TableName}_ToId_idx on {TableName}(ToId);
+            create index {TableName}_RelationType_idx on {TableName}(RelationType);");
 
             return foo;
         }
 
-        public int InsertOrReplaceLinkageRows(SqliteConnection connection, String tableName, IEnumerable<SqlComplexLinkage<T,Y>> linkages)
+        public int InsertOrReplaceLinkageRows(SqliteConnection connection, IEnumerable<SqlComplexLinkage<T,Y>> linkages)
         {
             int cnt = 0;
 
             using (var txn = connection.BeginTransaction())
             {
                 String insertSql =
-                    $"insert or replace into {tableName} (FromType,FromId,ToType,ToId,RelationType) values ($fromType,$fromId,$toType,$toId,$relationType);";
+                    $"insert or replace into {TableName} (FromType,FromId,ToType,ToId,RelationType) values ($fromType,$fromId,$toType,$toId,$relationType);";
 
                 foreach (var c in linkages)
                 {
@@ -72,9 +74,9 @@ namespace As.GraphDB.Sql
             }
         }
 
-        public IEnumerable<SqlComplexLinkage<T,Y>> QueryLinkageRows(SqliteConnection connection, String tableName,IEnumerable<(SqlLinkageField,Object)> query)
+        public IEnumerable<SqlComplexLinkage<T,Y>> QueryLinkageRows(SqliteConnection connection, IEnumerable<(SqlLinkageField,Object)> query)
         {
-            StringBuilder queryCommand = new StringBuilder($"select FromType,FromId,ToType,ToId, RelationType from {tableName} where ");
+            StringBuilder queryCommand = new StringBuilder($"select FromType,FromId,ToType,ToId, RelationType from {TableName} where ");
 
             foreach (var c in query)
             {
