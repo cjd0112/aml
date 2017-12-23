@@ -78,21 +78,45 @@ namespace As.GraphDB.Sql
 
             foreach (var c in propertiesAndCommands.SqlFields())
             {
-                if (!columns.Contains((c.pi.Name, "text")))
-                {
-                    using (var cmd = conn.CreateCommand())
+                if (!columns.Any(x=>x.Item1 == c.pi.Name))
+                { 
+                    if (SqlitePropertiesAndCommands.ConvertPropertyType(c.PropertyType) == "text")
                     {
-                        L.Trace($"Adding new column - {c.pi.Name} to table {propertiesAndCommands.tableName}");
-                        cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.pi.Name, ColumnType.String);
-                        cmd.ExecuteNonQuery();
-                    }
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            L.Trace($"Adding new column - {c.pi.Name} to table {propertiesAndCommands.tableName}");
+                            cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.pi.Name, ColumnType.String);
+                            cmd.ExecuteNonQuery();
+                        }
 
-                    using (var cmd = conn.CreateCommand())
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            L.Trace($"Updating value of {c.pi.Name} in table {propertiesAndCommands.tableName}");
+                            string value = c.pi.PropertyType.IsEnum ? Enum.GetNames(c.pi.PropertyType)[0] : "";
+                            cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandStr(c.pi.Name, value);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    else if (SqlitePropertiesAndCommands.ConvertPropertyType(c.PropertyType) == "numeric")
                     {
-                        L.Trace($"Updating value of {c.pi.Name} in table {propertiesAndCommands.tableName}");
-                        string value = c.pi.PropertyType.IsEnum ? Enum.GetNames(c.pi.PropertyType)[0] : "";
-                        cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandStr(c.pi.Name, value);
-                        cmd.ExecuteNonQuery();
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            L.Trace($"Adding new column - {c.pi.Name} to table {propertiesAndCommands.tableName}");
+                            cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.pi.Name, ColumnType.Numeric);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            L.Trace($"Updating value of {c.pi.Name} in table {propertiesAndCommands.tableName}");
+                            cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandNumeric(c.pi.Name, 0);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                    }
+                    else
+                    {
+                        throw new Exception($"Unexpected proeprty type to create new Sqlite column: {c.PropertyType} - name of field - {c.Name}");
                     }
 
                 }

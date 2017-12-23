@@ -4,6 +4,19 @@ enum A4AContentType
 {
 	Email=0;
 }
+
+message A4AAuthenticationAccount
+{
+	string AuthenticationEmail =1;
+	int32 Code1 = 2;
+	int32 Code2 = 3;
+	int32 Code3 = 4;
+	int32 Code4 = 5;
+
+	bool IsAdmin = 6;
+	bool IsExpert = 7;
+	bool IsUser = 8;
+}
 message A4ACompany
 {
 	// this is the party identifier
@@ -36,8 +49,8 @@ enum A4AAdminLevel
 
 message A4AAdministrator
 {
-	string Email = 1;
-	string Name = 2;
+	string AdministratorName = 1;
+	string Email = 2;
 	A4AAdminLevel Level =3;
 }
 

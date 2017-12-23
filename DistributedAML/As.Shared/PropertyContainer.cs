@@ -66,18 +66,11 @@ namespace As.Shared
             var da = pi.GetCustomAttribute<DisplayAttribute>();
             if (da != null && !String.IsNullOrEmpty(da.Name))
                 return da.Name;
-            StringBuilder b = new StringBuilder();
-            int cnt = 0;
-            foreach (var c in pi.Name)
-            {
-                if (cnt > 0 && char.IsUpper(c) || char.IsDigit(c))
-                    b.Append(' ');
 
-                b.Append(c);
-                cnt++;
-            }
-            return b.ToString();
+            return Name.ConvertCamelCase();
         }
+
+
 
         // probably a bit more to do here
         public Object Convert(Object i)
@@ -97,7 +90,20 @@ namespace As.Shared
                     if (pi.PropertyType == typeof(String))
                         ret = s;
                     else if (pi.PropertyType == typeof(Boolean))
-                        ret = System.Convert.ToBoolean(s);
+                    {
+                        if (s.ToLower() == "true")
+                            ret = true;
+                        else if (s.ToLower() == "false")
+                            ret = false;
+                        else
+                        {
+                            var i2 = System.Convert.ToInt32(s);
+                            if (i2 != 0)
+                                ret = true;
+                            else
+                                ret = false;
+                        }
+                    }
                     else if (pi.PropertyType.IsEnum)
                         ret = Enum.Parse(pi.PropertyType, s);
                     else if (pi.PropertyType == typeof(Int32))

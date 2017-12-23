@@ -9,20 +9,20 @@ namespace App4Answers.Models.A4Amodels
 {
     public class A4ASubCategoryDetailViewModel : ViewModelBase<A4ASubCategory>
     {
-        public A4ASubCategoryDetailViewModel() : base(ObjectTypesAndVerbs.ObjectType.SubCategory, ObjectTypesAndVerbs.Verb.None)
+        public A4ASubCategoryDetailViewModel() : base(ObjectTypesAndVerbsAndRoles.ObjectType.SubCategory, ObjectTypesAndVerbsAndRoles.Verb.None)
         {
 
         }
 
-        public A4ASubCategoryDetailViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.SubCategory,verb)
+        public A4ASubCategoryDetailViewModel(ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(ObjectTypesAndVerbsAndRoles.ObjectType.SubCategory,verb)
         {
         }
 
-        public A4ASubCategoryDetailViewModel(A4ASubCategory modelSource,ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(modelSource,ObjectTypesAndVerbs.ObjectType.SubCategory,verb)
+        public A4ASubCategoryDetailViewModel(A4ASubCategory modelSource,ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(modelSource,ObjectTypesAndVerbsAndRoles.ObjectType.SubCategory,verb)
         {
         }
 
-        public A4ASubCategoryDetailViewModel(IFormCollection form, ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(form, ObjectTypesAndVerbs.ObjectType.SubCategory, verb)
+        public A4ASubCategoryDetailViewModel(IFormCollection form, ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(form, ObjectTypesAndVerbsAndRoles.ObjectType.SubCategory, verb)
         {
         }
 

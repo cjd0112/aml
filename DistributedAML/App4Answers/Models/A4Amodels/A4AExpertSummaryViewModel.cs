@@ -11,20 +11,20 @@ namespace App4Answers.Models.A4Amodels
    
     public class A4AExpertSummaryViewModel : ViewModelBase<A4AExpert>
     {
-        public A4AExpertSummaryViewModel() : base(ObjectTypesAndVerbs.ObjectType.Expert, ObjectTypesAndVerbs.Verb.None)
+        public A4AExpertSummaryViewModel() : base(ObjectTypesAndVerbsAndRoles.ObjectType.Expert, ObjectTypesAndVerbsAndRoles.Verb.None)
         {
 
         }
 
-        public A4AExpertSummaryViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.Expert,verb)
+        public A4AExpertSummaryViewModel(ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(ObjectTypesAndVerbsAndRoles.ObjectType.Expert,verb)
         {
         }
 
-        public A4AExpertSummaryViewModel(A4AExpert modelSource, ObjectTypesAndVerbs.Verb verb) :base(modelSource,ObjectTypesAndVerbs.ObjectType.Expert,verb)
+        public A4AExpertSummaryViewModel(A4AExpert modelSource, ObjectTypesAndVerbsAndRoles.Verb verb) :base(modelSource,ObjectTypesAndVerbsAndRoles.ObjectType.Expert,verb)
         {
         }
 
-        public A4AExpertSummaryViewModel(IFormCollection form,ObjectTypesAndVerbs.Verb verb) :base(form,ObjectTypesAndVerbs.ObjectType.Expert,verb)
+        public A4AExpertSummaryViewModel(IFormCollection form,ObjectTypesAndVerbsAndRoles.Verb verb) :base(form,ObjectTypesAndVerbsAndRoles.ObjectType.Expert,verb)
         {
         }
 

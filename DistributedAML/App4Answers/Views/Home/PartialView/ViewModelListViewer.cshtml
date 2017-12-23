@@ -41,10 +41,10 @@
                     </td>
                 }
                 <td class="well well-lg a4ainput" style="text-align: center">
-                    <a style="padding-top:3px" asp-action="Administration" asp-route-objecttype="@Model.ObjectType" asp-route-verb="@ObjectTypesAndVerbs.Verb.Edit" asp-route-itemid ="@c.GetPrimaryKey()"><i style="font-size: 20px" class="glyphicon glyphicon-pencil"></i></a>
+                    <a style="padding-top:3px" asp-action="Administration" asp-route-objecttype="@Model.ObjectType" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.Edit" asp-route-itemid ="@c.GetPrimaryKey()"><i style="font-size: 20px" class="glyphicon glyphicon-pencil"></i></a>
                 </td>
                 <td class="well well-lg" style="text-align: center">
-                    <a style="padding-top:3px" asp-action="Administration" asp-route-objecttype="@Model.ObjectType" asp-route-verb="@ObjectTypesAndVerbs.Verb.Delete" asp-route-itemid="@c.GetPrimaryKey()"><i style="font-size: 20px;  " class="glyphicon glyphicon-remove"></i></a>
+                    <a style="padding-top:3px" asp-action="Administration" asp-route-objecttype="@Model.ObjectType" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.Delete" asp-route-itemid="@c.GetPrimaryKey()"><i style="font-size: 20px;  " class="glyphicon glyphicon-remove"></i></a>
                 </td>
 
             </tr>
@@ -53,7 +53,7 @@
             
         <tr>
             <td class="well well-lg a4ainput" >
-                <a asp-action="Administration" asp-route-objecttype="@Model.ObjectType" asp-route-verb="@ObjectTypesAndVerbs.Verb.New" style="padding-top: 2px;"><i style="font-size: 20px; color: blue" class="glyphicon glyphicon-pencil"></i>New @ViewData["objectType"]</a>
+                <a asp-action="Administration" asp-route-objecttype="@Model.ObjectType" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.New" style="padding-top: 2px;"><i style="font-size: 20px; color: blue" class="glyphicon glyphicon-pencil"></i>New @ViewData["objectType"]</a>
             </td>
             <td colspan="@Model.GetColumns().Count(x=>x.Display()) + 1">
                 
