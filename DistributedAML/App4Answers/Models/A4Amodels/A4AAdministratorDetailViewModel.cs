@@ -27,7 +27,7 @@ namespace App4Answers.Models.A4Amodels
         }
 
         public String Email { get; set; }
-        public String Name { get; set; }
+        public String AdministratorName { get; set; }
         public A4AAdminLevel Level { get; set; }
 
 

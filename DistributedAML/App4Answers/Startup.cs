@@ -14,7 +14,9 @@ using App4Answers.Models;
 using App4Answers.Services;
 using As.A4ACore;
 using As.Logger;
+using As.Shared;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage;
 using StructureMap;
 
 namespace App4Answers
@@ -47,7 +49,7 @@ namespace App4Answers
         {
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection_"+Helper.GetPlatform().ToString()))); 
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -74,7 +76,7 @@ namespace App4Answers
             {
                 config.Populate(services);
                 config.AddRegistry(z);
-                config.ForConcreteType<A4ARepository>().Configure.Ctor<string>("connectionString").Is(Configuration.GetConnectionString("MainLogic"));
+                config.ForConcreteType<A4ARepository>().Configure.Ctor<string>("connectionString").Is(Configuration.GetConnectionString("MainLogic_" + Helper.GetPlatform().ToString()));
 
                 
             });
