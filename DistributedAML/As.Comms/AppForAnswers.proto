@@ -36,8 +36,8 @@ enum A4AAdminLevel
 
 message A4AAdministrator
 {
-	string Email = 1;
-	string Name = 2;
+    string AdministratorName =1;
+	string Email = 2;
 	A4AAdminLevel Level =3;
 }
 
