@@ -36,5 +36,13 @@ namespace App4Answers.Models.A4Amodels
             Expert,
             User
         }
+
+        public enum Mails
+        {
+            Inbox,
+            Sent,
+            Drafts,
+            Trash
+        }
     }
 }

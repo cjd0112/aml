@@ -14,7 +14,7 @@
 
     
 <div class="col-sm-12" style="height: 20px">
-        
+    <h1>hit here</h1>
 </div>
 
 <div class="row">
@@ -23,52 +23,33 @@
 
 </div>
 
-    <div class="col-sm-2" style="color: white; padding-right: 0px; margin-right: 0px" align="left">
+    <div class="col-sm-1" style="color: white; padding-right: 0px; margin-right: 0px" align="left">
         <div class="container" style="padding-top:23px">
             <ul class="nav  nav-stacked">
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="Dashboard">Dashboard</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbsAndRoles.ObjectType.Expert" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.List">Experts</a>                
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbsAndRoles.ObjectType.Profession" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.List">Professions</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbsAndRoles.ObjectType.Category" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.List">Categories</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbsAndRoles.ObjectType.SubCategory" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.List">Subcategories</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbsAndRoles.ObjectType.User" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.List">Users</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbsAndRoles.ObjectType.Administrator" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.List">Administrators</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="GroupContact">Group Contact</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="Messages">Messages</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbsAndRoles.ObjectType.Company" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.List">Companies</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbsAndRoles.ObjectType.Subscription" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.List">Subscriptions</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="ExpertAction" asp-route-mailtype="ObjectTypesAndVerbs.Mail.Inbox">Inbox</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="ExpertAction" asp-route-mailtype="ObjectTypesAndVerbs.Mail.Sent">Sent</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="ExpertAction" asp-route-mailtype="ObjectTypesAndVerbs.Mail.Drafts">Drafts</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="ExpertAction" asp-route-mailtype="ObjectTypesAndVerbs.Mail.Trash">Trash</a></li>
 
             </ul>
         </div>
     </div>
 
-    <div class="col-sm-8" style="color: white; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px;" align="left">
+    <div class="col-sm-3" style="color: white; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px;" align="left">
         <div style="background-color: white; height: 700px; margin-left: 0px; padding-top: 0px; padding-left: 0px; vertical-align: top; margin-top: 0px">
-            @if (Model is ViewModelListBase)
-            {
-                @Html.Partial("PartialView/ViewModelListViewer");
+            
 
-            }
-            else if (Model is ViewModelBase)
-            {
-                @Html.Partial("PartialView/ViewModelEditor");
 
-            }
-            else if (Model is string)
-            {
-                // empty default 
-            }
-            else
-            {
-                throw new Exception($"Unexpected ViewModel type - {Model.GetType().Name}");
-            }
-        </div>
-    
-    
+        </div>    
     </div>
-    
-    <div class="col-sm-1">
+    <div class="col-sm-7" style="color: white; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px;" align="left">
+        <div style="background-color: gray; height: 700px; margin-left: 0px; padding-top: 0px; padding-left: 0px; vertical-align: top; margin-top: 0px">
+            
 
+
+        </div>    
     </div>
+
+    
 </div>
 

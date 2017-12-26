@@ -36,6 +36,9 @@ namespace App4Answers.Controllers
                 HttpContext.Session.SetString("User", thisLogin.Email);
                 if (thisLogin.AuthenticationAccount.IsAdmin)
                     return RedirectToAction(nameof(Administration),new { objecttype = ObjectTypesAndVerbsAndRoles.ObjectType.Company, verb = ObjectTypesAndVerbsAndRoles.Verb.List });
+                else if (thisLogin.AuthenticationAccount.IsExpert)
+                    return RedirectToAction(nameof(ExpertAction));
+
             }
             return View(thisLogin);
         }
@@ -138,6 +141,24 @@ namespace App4Answers.Controllers
 
             }
         }
+        
+        public IActionResult ExpertAction(string mailtype)
+        {
+            try
+            {
+                return View();
+
+            }
+            catch (Exception e)
+            {
+                if (e.InnerException == null)
+                    throw new ApplicationException($"{e.Message} - {e.StackTrace.ToString()}");
+                else
+                    throw new ApplicationException($"{e.InnerException.Message} - {e.InnerException.StackTrace.ToString()}");
+
+            }
+        }
+
 
         public IActionResult Error()
         {

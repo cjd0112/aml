@@ -60,6 +60,11 @@ namespace App4Answers
             services.AddMvc();            
             
             services.AddMvc().AddControllersAsServices();
+            
+            services.AddMvc()
+                .AddSessionStateTempDataProvider();
+
+            services.AddSession();
 
             var z = new Registry();
            
@@ -112,6 +117,8 @@ namespace App4Answers
             app.UseStatusCodePages();
 
             app.UseTypeContainer();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
