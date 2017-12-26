@@ -11,20 +11,20 @@ namespace App4Answers.Models.A4Amodels
    
     public class A4AUserDetailViewModel : ViewModelBase<A4AUser>
     {
-        public A4AUserDetailViewModel() : base(ObjectTypesAndVerbs.ObjectType.User, ObjectTypesAndVerbs.Verb.None)
+        public A4AUserDetailViewModel() : base(ObjectTypesAndVerbsAndRoles.ObjectType.User, ObjectTypesAndVerbsAndRoles.Verb.None)
         {
 
         }
 
-        public A4AUserDetailViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.User,verb)
+        public A4AUserDetailViewModel(ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(ObjectTypesAndVerbsAndRoles.ObjectType.User,verb)
         {
         }
 
-        public A4AUserDetailViewModel(A4AUser modelSource, ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(modelSource,ObjectTypesAndVerbs.ObjectType.User,verb)
+        public A4AUserDetailViewModel(A4AUser modelSource, ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(modelSource,ObjectTypesAndVerbsAndRoles.ObjectType.User,verb)
         {
         }
 
-        public A4AUserDetailViewModel(IFormCollection form,ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(form,ObjectTypesAndVerbs.ObjectType.User,verb)
+        public A4AUserDetailViewModel(IFormCollection form,ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(form,ObjectTypesAndVerbsAndRoles.ObjectType.User,verb)
         {
         }
 

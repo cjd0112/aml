@@ -17,7 +17,7 @@ namespace App4Answers.Models.A4Amodels
     {
         protected ViewModelBase()
         {
-            
+            typeContainer = TypeContainer.GetTypeContainer(GetType());
         }
         public IEnumerable<String> GetColumnNames()
         {
@@ -31,9 +31,9 @@ namespace App4Answers.Models.A4Amodels
 
         protected TypeContainer typeContainer;
 
-        public ObjectTypesAndVerbs.ObjectType ObjectType;
+        public ObjectTypesAndVerbsAndRoles.ObjectType ObjectType;
 
-        public ObjectTypesAndVerbs.Verb Verb;
+        public ObjectTypesAndVerbsAndRoles.Verb Verb;
 
         protected TypeContainer modelTypeContainer;
 
@@ -90,11 +90,10 @@ namespace App4Answers.Models.A4Amodels
     public class ViewModelBase<T> : ViewModelBase
     {
 
-        protected ViewModelBase(ObjectTypesAndVerbs.ObjectType objectType,ObjectTypesAndVerbs.Verb verb)
+        protected ViewModelBase(ObjectTypesAndVerbsAndRoles.ObjectType objectType,ObjectTypesAndVerbsAndRoles.Verb verb)
         {
             ObjectType = objectType;
             Verb = verb;
-            typeContainer = TypeContainer.GetTypeContainer(GetType());
             modelTypeContainer = TypeContainer.GetTypeContainer(typeof(T));
 
             // figure out our primary key based on model PK
@@ -114,7 +113,7 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        protected ViewModelBase(T modelSource, ObjectTypesAndVerbs.ObjectType objectType, ObjectTypesAndVerbs.Verb verb) :this(objectType,verb)
+        protected ViewModelBase(T modelSource, ObjectTypesAndVerbsAndRoles.ObjectType objectType, ObjectTypesAndVerbsAndRoles.Verb verb) :this(objectType,verb)
         {
             var tc = TypeContainer.GetTypeContainer(typeof(T));
             foreach (var c in typeContainer.Properties)
@@ -127,7 +126,7 @@ namespace App4Answers.Models.A4Amodels
             }
         }
 
-        protected ViewModelBase(IFormCollection form, ObjectTypesAndVerbs.ObjectType objectType, ObjectTypesAndVerbs.Verb verb) : this(objectType,verb)
+        protected ViewModelBase(IFormCollection form, ObjectTypesAndVerbsAndRoles.ObjectType objectType, ObjectTypesAndVerbsAndRoles.Verb verb) : this(objectType,verb)
         {
             foreach (var c in typeContainer.Properties)
             {

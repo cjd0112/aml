@@ -14,10 +14,10 @@ namespace App4Answers.Models.A4Amodels
     {
         private IEnumerable<ViewModelBase> objs;
         private TypeContainer typeContainer;
-        public ObjectTypesAndVerbs.ObjectType ObjectType;
-        public ObjectTypesAndVerbs.Verb Verb;
+        public ObjectTypesAndVerbsAndRoles.ObjectType ObjectType;
+        public ObjectTypesAndVerbsAndRoles.Verb Verb;
 
-        public ViewModelListBase(Type t,IEnumerable<ViewModelBase> objs,ObjectTypesAndVerbs.ObjectType objectType,ObjectTypesAndVerbs.Verb verb)
+        public ViewModelListBase(Type t,IEnumerable<ViewModelBase> objs,ObjectTypesAndVerbsAndRoles.ObjectType objectType,ObjectTypesAndVerbsAndRoles.Verb verb)
         {
             this.typeContainer = TypeContainer.GetTypeContainer(t);
             this.objs = objs;

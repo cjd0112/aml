@@ -11,20 +11,20 @@ namespace App4Answers.Models.A4Amodels
    
     public class A4AExpertDetailViewModel : ViewModelBase<A4AExpert>
     {
-        public A4AExpertDetailViewModel() : base(ObjectTypesAndVerbs.ObjectType.Expert, ObjectTypesAndVerbs.Verb.None)
+        public A4AExpertDetailViewModel() : base(ObjectTypesAndVerbsAndRoles.ObjectType.Expert, ObjectTypesAndVerbsAndRoles.Verb.None)
         {
 
         }
 
-        public A4AExpertDetailViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.Expert,verb)
+        public A4AExpertDetailViewModel(ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(ObjectTypesAndVerbsAndRoles.ObjectType.Expert,verb)
         {
         }
 
-        public A4AExpertDetailViewModel(A4AExpert modelSource, ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(modelSource,ObjectTypesAndVerbs.ObjectType.Expert,verb)
+        public A4AExpertDetailViewModel(A4AExpert modelSource, ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(modelSource,ObjectTypesAndVerbsAndRoles.ObjectType.Expert,verb)
         {
         }
 
-        public A4AExpertDetailViewModel(IFormCollection form,ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(form,ObjectTypesAndVerbs.ObjectType.Expert,verb)
+        public A4AExpertDetailViewModel(IFormCollection form,ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(form,ObjectTypesAndVerbsAndRoles.ObjectType.Expert,verb)
         {
         }
 

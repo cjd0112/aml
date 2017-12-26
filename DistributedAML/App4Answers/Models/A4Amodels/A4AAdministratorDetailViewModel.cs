@@ -9,20 +9,20 @@ namespace App4Answers.Models.A4Amodels
 {
     public class A4AAdministratorDetailViewModel : ViewModelBase<A4AAdministrator>
     {
-        public A4AAdministratorDetailViewModel() : base(ObjectTypesAndVerbs.ObjectType.Administrator, ObjectTypesAndVerbs.Verb.None)
+        public A4AAdministratorDetailViewModel() : base(ObjectTypesAndVerbsAndRoles.ObjectType.Administrator, ObjectTypesAndVerbsAndRoles.Verb.None)
         {
 
         }
 
-        public A4AAdministratorDetailViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.Administrator,verb)
+        public A4AAdministratorDetailViewModel(ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(ObjectTypesAndVerbsAndRoles.ObjectType.Administrator,verb)
         {
         }
 
-        public A4AAdministratorDetailViewModel(A4AAdministrator modelSource,ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(modelSource,ObjectTypesAndVerbs.ObjectType.Administrator,verb)
+        public A4AAdministratorDetailViewModel(A4AAdministrator modelSource,ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(modelSource,ObjectTypesAndVerbsAndRoles.ObjectType.Administrator,verb)
         {
         }
 
-        public A4AAdministratorDetailViewModel(IFormCollection form, ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(form, ObjectTypesAndVerbs.ObjectType.Administrator, verb)
+        public A4AAdministratorDetailViewModel(IFormCollection form, ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(form, ObjectTypesAndVerbsAndRoles.ObjectType.Administrator, verb)
         {
         }
 

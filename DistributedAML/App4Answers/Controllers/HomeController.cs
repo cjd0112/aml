@@ -8,6 +8,7 @@ using App4Answers.Models;
 using App4Answers.Models.A4Amodels;
 using As.Comms;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace App4Answers.Controllers
 {
@@ -19,9 +20,24 @@ namespace App4Answers.Controllers
             this.model = model;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            return View();
+            return View(new A4ALoginViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Index(A4ALoginViewModel login)
+        {
+            var thisLogin = model.Login(login);
+            if (thisLogin.Authenticated == A4ALoginViewModel.AuthenticationResult.Authenticated)
+            {
+                HttpContext.Session.SetString("User", thisLogin.Email);
+                if (thisLogin.AuthenticationAccount.IsAdmin)
+                    return RedirectToAction(nameof(Administration),new { objecttype = ObjectTypesAndVerbsAndRoles.ObjectType.Company, verb = ObjectTypesAndVerbsAndRoles.Verb.List });
+            }
+            return View(thisLogin);
         }
 
         public IActionResult About()

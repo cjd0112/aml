@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace App4Answers.Models.A4Amodels
 {
-    public class ObjectTypesAndVerbs
+    public class ObjectTypesAndVerbsAndRoles
     {
         public enum ObjectType
         {
@@ -28,6 +28,13 @@ namespace App4Answers.Models.A4Amodels
             Edit,
             Delete,
             Save
+        }
+
+        public enum Role
+        {
+            Administrator,
+            Expert,
+            User
         }
     }
 }

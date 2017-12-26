@@ -29,20 +29,20 @@ namespace App4Answers.Models.A4Amodels
     */
     public class A4ACompanyDetailViewModel : ViewModelBase<A4ACompany>
     {
-        public A4ACompanyDetailViewModel() : base(ObjectTypesAndVerbs.ObjectType.Company, ObjectTypesAndVerbs.Verb.None)
+        public A4ACompanyDetailViewModel() : base(ObjectTypesAndVerbsAndRoles.ObjectType.Company, ObjectTypesAndVerbsAndRoles.Verb.None)
         {
 
         }
 
-        public A4ACompanyDetailViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.Company,verb)
+        public A4ACompanyDetailViewModel(ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(ObjectTypesAndVerbsAndRoles.ObjectType.Company,verb)
         {
         }
 
-        public A4ACompanyDetailViewModel(A4ACompany modelSource,ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(modelSource,ObjectTypesAndVerbs.ObjectType.Company,verb)
+        public A4ACompanyDetailViewModel(A4ACompany modelSource,ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(modelSource,ObjectTypesAndVerbsAndRoles.ObjectType.Company,verb)
         {
         }
 
-        public A4ACompanyDetailViewModel(IFormCollection form, ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(form, ObjectTypesAndVerbs.ObjectType.Company, verb)
+        public A4ACompanyDetailViewModel(IFormCollection form, ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(form, ObjectTypesAndVerbsAndRoles.ObjectType.Company, verb)
         {
         }
 

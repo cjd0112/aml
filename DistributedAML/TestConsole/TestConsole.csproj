@@ -4,11 +4,13 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="As.Antlr4.Core" Version="1.0.0" />
-    <PackageReference Include="As.GraphQL" Version="1.0.0" />
     <PackageReference Include="Fasterflect.Netstandard" Version="1.0.8" />
+    <PackageReference Include="RestSharp" Version="106.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\GraphQL\As.GraphQL.Antlr\As.GraphQL.Antlr.csproj" />
+    <ProjectReference Include="..\..\GraphQL\As.GraphQL.Interface\As.GraphQL.Interface.csproj" />
+    <ProjectReference Include="..\..\GraphQL\As.GraphQL\As.GraphQL.csproj" />
     <ProjectReference Include="..\As.Comms\As.Comms.csproj" />
   </ItemGroup>
 </Project>

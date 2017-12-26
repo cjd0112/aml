@@ -99,6 +99,13 @@ namespace As.GraphDB.Sql
             return $"update {tableName} set {columnName}=\"{value}\"";
         }
 
+        public string UpdateColumnValuesCommandNumeric(String columnName, Int32 value)
+        {
+            return $"update {tableName} set {columnName}={value}";
+        }
+
+
+
         public string UpdateColumnValuesCommandForId(String columnName)
         {
             return $"update {tableName} set {columnName}=$value where {GetPrimaryKeyProperty().Name}=$primaryKey";
@@ -225,7 +232,7 @@ namespace As.GraphDB.Sql
             return b.ToString();
         }
 
-        static String ConvertPropertyType(Type t)
+        public static String ConvertPropertyType(Type t)
         {
             if (t == typeof(String))
                 return "text";

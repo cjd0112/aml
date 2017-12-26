@@ -29,20 +29,20 @@ namespace App4Answers.Models.A4Amodels
     */
     public class A4AProfessionDetailViewModel : ViewModelBase<A4AProfession>
     {
-        public A4AProfessionDetailViewModel() : base(ObjectTypesAndVerbs.ObjectType.Profession, ObjectTypesAndVerbs.Verb.None)
+        public A4AProfessionDetailViewModel() : base(ObjectTypesAndVerbsAndRoles.ObjectType.Profession, ObjectTypesAndVerbsAndRoles.Verb.None)
         {
 
         }
 
-        public A4AProfessionDetailViewModel(ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(ObjectTypesAndVerbs.ObjectType.Profession,verb)
+        public A4AProfessionDetailViewModel(ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(ObjectTypesAndVerbsAndRoles.ObjectType.Profession,verb)
         {
         }
 
-        public A4AProfessionDetailViewModel(A4AProfession modelSource,ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(modelSource,ObjectTypesAndVerbs.ObjectType.Profession,verb)
+        public A4AProfessionDetailViewModel(A4AProfession modelSource,ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(modelSource,ObjectTypesAndVerbsAndRoles.ObjectType.Profession,verb)
         {
         }
 
-        public A4AProfessionDetailViewModel(IFormCollection form, ObjectTypesAndVerbs.Verb verb = ObjectTypesAndVerbs.Verb.None) :base(form, ObjectTypesAndVerbs.ObjectType.Profession, verb)
+        public A4AProfessionDetailViewModel(IFormCollection form, ObjectTypesAndVerbsAndRoles.Verb verb = ObjectTypesAndVerbsAndRoles.Verb.None) :base(form, ObjectTypesAndVerbsAndRoles.ObjectType.Profession, verb)
         {
         }
 

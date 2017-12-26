@@ -11,19 +11,44 @@ namespace App4Answers.Models.A4Amodels
     {
         public A4ARepository Repository { get; private set; }
 
-        public ObjectTypesAndVerbs.ObjectType ObjectType { get; set; }
-        public ObjectTypesAndVerbs.Verb Verb { get; set; }
+        public ObjectTypesAndVerbsAndRoles.ObjectType ObjectType { get; set; }
+        public ObjectTypesAndVerbsAndRoles.Verb Verb { get; set; }
 
         public A4AModel1(A4ARepository repository)
         {
             this.Repository = repository;
         }
+
+        public A4ALoginViewModel Login(A4ALoginViewModel vm)
+        {
+            var aa = Repository.GetObjectByPrimaryKey<A4AAuthenticationAccount>(vm.Email);
+            if (aa == null)
+            {
+                // account does not exist
+                vm.Authenticated = A4ALoginViewModel.AuthenticationResult.UserNotFound;
+            }
+            else
+            {
+                vm.AuthenticationAccount = aa;
+
+                if (vm.Code1 == aa.Code1 && vm.Code2 == aa.Code2 && vm.Code3 == aa.Code3 && vm.Code4 == aa.Code4)
+                {
+                    vm.Authenticated = A4ALoginViewModel.AuthenticationResult.Authenticated;
+                }
+                else
+                {
+                    vm.Authenticated = A4ALoginViewModel.AuthenticationResult.PasswordInvalid;
+                }
+            }
+            return vm;
+        }
+
         #region COMPANY
 
 
         public A4ACompanyDetailViewModel NewCompany()
         {
-            return new A4ACompanyDetailViewModel(new A4ACompany(), ObjectTypesAndVerbs.Verb.New)
+            return new A4ACompanyDetailViewModel(new A4ACompany(), ObjectTypesAndVerbsAndRoles.Verb.New)
                 .AddForeignKeys<A4ACompanyDetailViewModel>(Repository.GetPossibleForeignKeys<A4ACompany>());
         }
 
@@ -31,14 +56,14 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4ACompanySummaryViewModel), Repository
                 .QueryObjects<A4ACompany>($"", new Range(), new Sort())
-                .Select(x => new A4ACompanySummaryViewModel(x,ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Company,ObjectTypesAndVerbs.Verb.List);
+                .Select(x => new A4ACompanySummaryViewModel(x,ObjectTypesAndVerbsAndRoles.Verb.List)),
+                ObjectTypesAndVerbsAndRoles.ObjectType.Company,ObjectTypesAndVerbsAndRoles.Verb.List);
         }
 
         public A4ACompanyDetailViewModel EditCompany(string id)
         {
             return new A4ACompanyDetailViewModel(Repository.GetObjectByPrimaryKey<A4ACompany>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ObjectTypesAndVerbsAndRoles.Verb.Edit)
                 .AddForeignKeys<A4ACompanyDetailViewModel>(Repository.GetPossibleForeignKeys<A4ACompany>());
         }
 
@@ -59,13 +84,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4AExpertSummaryViewModel), Repository
                     .QueryObjects<A4AExpert>($"", new Range(), new Sort())
-                    .Select(x => new A4AExpertSummaryViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Expert, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4AExpertSummaryViewModel(x, ObjectTypesAndVerbsAndRoles.Verb.List)),
+                ObjectTypesAndVerbsAndRoles.ObjectType.Expert, ObjectTypesAndVerbsAndRoles.Verb.List);
         }
 
         public A4AExpertDetailViewModel NewExpert()
         {
-            return new A4AExpertDetailViewModel(new A4AExpert(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4AExpertDetailViewModel>(
+            return new A4AExpertDetailViewModel(new A4AExpert(), ObjectTypesAndVerbsAndRoles.Verb.New).AddForeignKeys<A4AExpertDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4AExpert>());
         }
 
@@ -73,7 +98,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4AExpertDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4AExpert>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ObjectTypesAndVerbsAndRoles.Verb.Edit)
                 .AddForeignKeys<A4AExpertDetailViewModel>(Repository.GetPossibleForeignKeys<A4AExpert>());
         }
 
@@ -96,13 +121,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4AProfessionDetailViewModel), Repository
                     .QueryObjects<A4AProfession>($"", new Range(), new Sort())
-                    .Select(x => new A4AProfessionDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Profession, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4AProfessionDetailViewModel(x, ObjectTypesAndVerbsAndRoles.Verb.List)),
+                ObjectTypesAndVerbsAndRoles.ObjectType.Profession, ObjectTypesAndVerbsAndRoles.Verb.List);
         }
 
         public A4AProfessionDetailViewModel NewProfession()
         {
-            return new A4AProfessionDetailViewModel(new A4AProfession(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4AProfessionDetailViewModel>(
+            return new A4AProfessionDetailViewModel(new A4AProfession(), ObjectTypesAndVerbsAndRoles.Verb.New).AddForeignKeys<A4AProfessionDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4AProfession>());
         }
 
@@ -110,7 +135,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4AProfessionDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4AProfession>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ObjectTypesAndVerbsAndRoles.Verb.Edit)
                 .AddForeignKeys<A4AProfessionDetailViewModel>(Repository.GetPossibleForeignKeys<A4AProfession>());
         }
 
@@ -133,13 +158,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4ACategoryDetailViewModel), Repository
                     .QueryObjects<A4ACategory>($"", new Range(), new Sort())
-                    .Select(x => new A4ACategoryDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Category, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4ACategoryDetailViewModel(x, ObjectTypesAndVerbsAndRoles.Verb.List)),
+                ObjectTypesAndVerbsAndRoles.ObjectType.Category, ObjectTypesAndVerbsAndRoles.Verb.List);
         }
 
         public A4ACategoryDetailViewModel NewCategory()
         {
-            return new A4ACategoryDetailViewModel(new A4ACategory(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4ACategoryDetailViewModel>(
+            return new A4ACategoryDetailViewModel(new A4ACategory(), ObjectTypesAndVerbsAndRoles.Verb.New).AddForeignKeys<A4ACategoryDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4ACategory>());
         }
 
@@ -147,7 +172,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4ACategoryDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4ACategory>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ObjectTypesAndVerbsAndRoles.Verb.Edit)
                 .AddForeignKeys<A4ACategoryDetailViewModel>(Repository.GetPossibleForeignKeys<A4ACategory>());
         }
 
@@ -169,13 +194,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4ASubCategoryDetailViewModel), Repository
                     .QueryObjects<A4ASubCategory>($"", new Range(), new Sort())
-                    .Select(x => new A4ASubCategoryDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.SubCategory, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4ASubCategoryDetailViewModel(x, ObjectTypesAndVerbsAndRoles.Verb.List)),
+                ObjectTypesAndVerbsAndRoles.ObjectType.SubCategory, ObjectTypesAndVerbsAndRoles.Verb.List);
         }
 
         public A4ASubCategoryDetailViewModel NewSubCategory()
         {
-            return new A4ASubCategoryDetailViewModel(new A4ASubCategory(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4ASubCategoryDetailViewModel>(
+            return new A4ASubCategoryDetailViewModel(new A4ASubCategory(), ObjectTypesAndVerbsAndRoles.Verb.New).AddForeignKeys<A4ASubCategoryDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4ASubCategory>());
         }
 
@@ -183,7 +208,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4ASubCategoryDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4ASubCategory>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ObjectTypesAndVerbsAndRoles.Verb.Edit)
                 .AddForeignKeys<A4ASubCategoryDetailViewModel>(Repository.GetPossibleForeignKeys<A4ASubCategory>());
         }
 
@@ -205,13 +230,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4ASubscriptionDetailViewModel), Repository
                     .QueryObjects<A4ASubscription>($"", new Range(), new Sort())
-                    .Select(x => new A4ASubscriptionDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Subscription, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4ASubscriptionDetailViewModel(x, ObjectTypesAndVerbsAndRoles.Verb.List)),
+                ObjectTypesAndVerbsAndRoles.ObjectType.Subscription, ObjectTypesAndVerbsAndRoles.Verb.List);
         }
 
         public A4ASubscriptionDetailViewModel NewSubscription()
         {
-            return new A4ASubscriptionDetailViewModel(new A4ASubscription(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4ASubscriptionDetailViewModel>(
+            return new A4ASubscriptionDetailViewModel(new A4ASubscription(), ObjectTypesAndVerbsAndRoles.Verb.New).AddForeignKeys<A4ASubscriptionDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4ASubscription>());
         }
 
@@ -219,7 +244,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4ASubscriptionDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4ASubscription>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ObjectTypesAndVerbsAndRoles.Verb.Edit)
                 .AddForeignKeys<A4ASubscriptionDetailViewModel>(Repository.GetPossibleForeignKeys<A4ASubscription>());
         }
 
@@ -241,13 +266,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4AAdministratorDetailViewModel), Repository
                     .QueryObjects<A4AAdministrator>($"", new Range(), new Sort())
-                    .Select(x => new A4AAdministratorDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Administrator, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4AAdministratorDetailViewModel(x, ObjectTypesAndVerbsAndRoles.Verb.List)),
+                ObjectTypesAndVerbsAndRoles.ObjectType.Administrator, ObjectTypesAndVerbsAndRoles.Verb.List);
         }
 
         public A4AAdministratorDetailViewModel NewAdministrator()
         {
-            return new A4AAdministratorDetailViewModel(new A4AAdministrator(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4AAdministratorDetailViewModel>(
+            return new A4AAdministratorDetailViewModel(new A4AAdministrator(), ObjectTypesAndVerbsAndRoles.Verb.New).AddForeignKeys<A4AAdministratorDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4AAdministrator>());
         }
 
@@ -255,7 +280,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4AAdministratorDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4AAdministrator>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ObjectTypesAndVerbsAndRoles.Verb.Edit)
                 .AddForeignKeys<A4AAdministratorDetailViewModel>(Repository.GetPossibleForeignKeys<A4AAdministrator>());
         }
 
@@ -277,13 +302,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4AUserDetailViewModel), Repository
                     .QueryObjects<A4AUser>($"", new Range(), new Sort())
-                    .Select(x => new A4AUserDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.User, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4AUserDetailViewModel(x, ObjectTypesAndVerbsAndRoles.Verb.List)),
+                ObjectTypesAndVerbsAndRoles.ObjectType.User, ObjectTypesAndVerbsAndRoles.Verb.List);
         }
 
         public A4AUserDetailViewModel NewUser()
         {
-            return new A4AUserDetailViewModel(new A4AUser(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4AUserDetailViewModel>(
+            return new A4AUserDetailViewModel(new A4AUser(), ObjectTypesAndVerbsAndRoles.Verb.New).AddForeignKeys<A4AUserDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4AUser>());
         }
 
@@ -291,7 +316,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4AUserDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4AUser>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ObjectTypesAndVerbsAndRoles.Verb.Edit)
                 .AddForeignKeys<A4AUserDetailViewModel>(Repository.GetPossibleForeignKeys<A4AUser>());
         }
 
