@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using As.Shared;
 
-namespace App4Answers.Models.A4Amodels
+namespace App4Answers.Models.A4Amodels.Base
 {
     public class ViewModelListBase : IEnumerable<ViewModelBase>
     {
         private IEnumerable<ViewModelBase> objs;
         private TypeContainer typeContainer;
-        public ObjectTypesAndVerbsAndRoles.ObjectType ObjectType;
-        public ObjectTypesAndVerbsAndRoles.Verb Verb;
+        public ModelNames.AdministrationNames AdministrationNames;
+        public ModelNames.Verb Verb;
 
-        public ViewModelListBase(Type t,IEnumerable<ViewModelBase> objs,ObjectTypesAndVerbsAndRoles.ObjectType objectType,ObjectTypesAndVerbsAndRoles.Verb verb)
+        public ViewModelListBase(Type t,IEnumerable<ViewModelBase> objs,ModelNames.AdministrationNames administrationNames,ModelNames.Verb verb)
         {
             this.typeContainer = TypeContainer.GetTypeContainer(t);
             this.objs = objs;
-            ObjectType = objectType;
+            AdministrationNames = administrationNames;
             Verb = verb;
         }
 

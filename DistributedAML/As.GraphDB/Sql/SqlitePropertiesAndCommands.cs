@@ -33,13 +33,13 @@ namespace As.GraphDB.Sql
 
         public void VerifyForeignKeysFromOtherTables(IEnumerable<SqlitePropertiesAndCommands> alltables)
         {
-            foreach (var c in alltables.Where(x => x != this))
+            foreach (var c in alltables)
             {
                 foreach (var g in typeContainer.Properties)
                 {
-                    if (c.GetPrimaryKeyProperty().Name == g.Name)
+                    if (g.Name.StartsWith(c.GetPrimaryKeyProperty().Name))
                     {
-                        g.foreignKey = new ForeignKey {FieldName = g.Name, TableName = c.tableName};
+                        g.foreignKey = new ForeignKey {ChildFieldName = g.Name, ParentTableName = c.tableName,ChildTableName = tableName,ParentFieldName = c.GetPrimaryKeyProperty().Name};
                     }
                 }
             }
@@ -157,7 +157,7 @@ namespace As.GraphDB.Sql
 
         public String DeleteCommand(string id)
         {
-            return $"delete from {tableName} where {GetPrimaryKeyProperty()} like '{id}'";
+            return $"delete from {tableName} where {GetPrimaryKeyProperty().Name} like '{id}'";
         }
 
         public String SelectCommand()
@@ -220,7 +220,7 @@ namespace As.GraphDB.Sql
                     if (c.foreignKey == null)
                         b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)},");
                     else
-                        b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)} REFERENCES {c.foreignKey.TableName}({c.foreignKey.FieldName}),");
+                        b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)} REFERENCES {c.foreignKey.ParentTableName}({c.foreignKey.ParentFieldName}),");
                 }
             }
 

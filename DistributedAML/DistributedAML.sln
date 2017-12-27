@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommsConsole", "CommsConsole\CommsConsole.csproj", "{29D8CF23-8BA6-496B-8DA4-7C4C07647F35}"
 EndProject
@@ -31,11 +31,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "As.GraphQL.Antlr", "..\Grap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "As.GraphQL.Interface", "..\GraphQL\As.GraphQL.Interface\As.GraphQL.Interface.csproj", "{055BF548-6160-4561-886E-E525BAB2E92D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App4Answers", "App4Answers\App4Answers.csproj", "{72704080-5AE1-406E-A113-40BEF48BEC50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App4Answers", "App4Answers\App4Answers.csproj", "{72704080-5AE1-406E-A113-40BEF48BEC50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "As.GraphDB", "As.GraphDB\As.GraphDB.csproj", "{903033F9-8433-4A01-BA7A-737518593BB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "As.GraphDB", "As.GraphDB\As.GraphDB.csproj", "{903033F9-8433-4A01-BA7A-737518593BB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "As.A4ACore", "As.A4ACore\As.A4ACore.csproj", "{34561481-3A23-4CF2-A724-8CB17299B07F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "As.A4ACore", "As.A4ACore\As.A4ACore.csproj", "{34561481-3A23-4CF2-A724-8CB17299B07F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "As.Email", "As.Email\As.Email.csproj", "{D3D1FE0D-65EA-428F-8FBB-EBD8AB4114F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +109,10 @@ Global
 		{34561481-3A23-4CF2-A724-8CB17299B07F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34561481-3A23-4CF2-A724-8CB17299B07F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34561481-3A23-4CF2-A724-8CB17299B07F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3D1FE0D-65EA-428F-8FBB-EBD8AB4114F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D1FE0D-65EA-428F-8FBB-EBD8AB4114F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D1FE0D-65EA-428F-8FBB-EBD8AB4114F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D1FE0D-65EA-428F-8FBB-EBD8AB4114F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

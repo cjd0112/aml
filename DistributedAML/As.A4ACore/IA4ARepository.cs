@@ -14,8 +14,14 @@ namespace As.A4ACore
         T GetObjectByPrimaryKey<T>(string id);
         T SaveObject<T>(T party);
         void DeleteObject<T>(string id);
+        int Count<T>();
 
         IEnumerable<(ForeignKey foreignKey, IEnumerable<string> values)> GetPossibleForeignKeys<T>();
+
+
+        IEnumerable<A4AExpert> GetExpertsForMessage(A4AMessage msg);
+
+
 
     }
 }

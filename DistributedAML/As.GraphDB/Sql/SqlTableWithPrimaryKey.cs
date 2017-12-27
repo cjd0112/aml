@@ -19,6 +19,14 @@ namespace As.GraphDB.Sql
 
         }
 
+        private Func<int, String> autoPrimaryKey;
+
+        public SqlTableWithPrimaryKey SetAutoPrimaryKey(Func<int,string> autoPrimaryKey)
+        {
+            this.autoPrimaryKey = autoPrimaryKey;
+            return this;
+        }
+
         public SqlitePropertiesAndCommands PropertiesAndCommands => propertiesAndCommands;
 
         public int GetNextId(SqliteConnection conn)
@@ -52,6 +60,17 @@ namespace As.GraphDB.Sql
             }
         }
 
+        public int GetCount(SqliteConnection conn)
+        {
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = $"SELECT count(*) from {TableName};";
+
+                var foo = cmd.ExecuteScalar();
+
+                return Convert.ToInt32(foo);
+            }
+        }
 
         public  int CreateTable(SqliteConnection conn)
         {
@@ -141,9 +160,21 @@ namespace As.GraphDB.Sql
                         foreach (var g in propertiesAndCommands.SqlFields())
                         {
                             // get new id on primary key unless we are replacing
-                            if (g.IsPrimaryKey && !orReplace)
+                            if (g.IsPrimaryKey)
                             {
-                                g.SetValue(c, GetNextId(connection));
+                                var pk = (string)g.GetValue(c);
+                                if (String.IsNullOrEmpty(pk))
+                                {
+                                    if (autoPrimaryKey == null)
+                                        g.SetValue(c, TableName + GetNextId(connection).ToString());
+                                    else
+                                        g.SetValue(c, autoPrimaryKey(GetNextId(connection)));
+
+                                }
+                                else
+                                {
+                                    g.SetValue(c, pk);
+                                }
                             }
                             if (g.pi.PropertyType.IsEnum)
                             {
@@ -246,26 +277,22 @@ namespace As.GraphDB.Sql
 
         public  T SelectDataByPrimaryKey<T>(SqliteConnection connection, String primaryKey)
         {
-            using (var txn = connection.BeginTransaction())
+            string selectCommand = $"{propertiesAndCommands.SelectCommandByPrimaryKey(primaryKey)}";
+            using (var queryCmd = connection.CreateCommand())
             {
-                string selectCommand = $"{propertiesAndCommands.SelectCommandByPrimaryKey(primaryKey)}";
-                using (var queryCmd = connection.CreateCommand())
+                queryCmd.CommandText = selectCommand;
+
+                using (var data = queryCmd.ExecuteReader())
                 {
-                    queryCmd.CommandText = selectCommand;
+                    var p = new DataRecordHelper<T>(propertiesAndCommands, data);
 
-                    using (var data = queryCmd.ExecuteReader())
+                    if (data.Read())
                     {
-                        var p = new DataRecordHelper<T>(propertiesAndCommands, data);
-
-                        if (data.Read())
-                        {
-                            var z = new DataRecordHelper<T>(propertiesAndCommands, data);
-                            return z.GetObject();
-                        }
+                        var z = new DataRecordHelper<T>(propertiesAndCommands, data);
+                        return z.GetObject();
                     }
-
                 }
-                txn.Commit();
+
             }
             return default(T);
         }

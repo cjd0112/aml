@@ -9,8 +9,10 @@ namespace As.Shared
 {
     public class ForeignKey
     {
-        public string TableName { get; set; }
-        public string FieldName { get; set; }
+        public string ChildTableName { get; set; }
+        public string ChildFieldName { get; set; }
+        public string ParentFieldName { get; set; }
+        public string ParentTableName { get; set; }
     }
     public class PropertyContainer
     {

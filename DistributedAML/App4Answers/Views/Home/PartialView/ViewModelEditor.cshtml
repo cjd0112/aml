@@ -5,11 +5,12 @@
 }
 
 @using App4Answers.Models.A4Amodels
+@using App4Answers.Models.A4Amodels.Base
 @using Microsoft.AspNetCore.Mvc.Rendering
-@model App4Answers.Models.A4Amodels.ViewModelBase
+@model App4Answers.Models.A4Amodels.Base.ViewModelBase
     
     
-<form asp-action="Administration" asp-route-objecttype="@Model.ObjectType" asp-route-verb="@ObjectTypesAndVerbsAndRoles.Verb.Save" asp-route-itemid="@Model.GetPrimaryKey()" >
+<form asp-action="Administration" asp-route-objecttype="@Model.AdministrationNames" asp-route-verb="@ModelNames.Verb.Save" asp-route-itemid="@Model.GetPrimaryKey()" >
 <div class="row" style="height:20px"></div>    
 
 

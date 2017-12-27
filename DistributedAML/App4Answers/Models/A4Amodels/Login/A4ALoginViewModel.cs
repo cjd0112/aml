@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using App4Answers.Models.A4Amodels.Base;
 
-namespace App4Answers.Models.A4Amodels
+namespace App4Answers.Models.A4Amodels.Login
 {
     public class A4ALoginViewModel : ViewModelBase
     {

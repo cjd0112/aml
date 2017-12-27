@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace App4Answers.Models.A4Amodels
+namespace App4Answers.Models.A4Amodels.Base
 {
     public class ViewModelColumnDescriptor
     {

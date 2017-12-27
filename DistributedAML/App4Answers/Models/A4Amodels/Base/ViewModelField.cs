@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using As.Shared;
 
-namespace App4Answers.Models.A4Amodels
+namespace App4Answers.Models.A4Amodels.Base
 {
     public class ViewModelField
     {

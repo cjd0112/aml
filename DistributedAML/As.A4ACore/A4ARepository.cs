@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using As.GraphDB;
@@ -112,6 +113,12 @@ namespace As.A4ACore
             using (var connection = conn.ConnectionFk())
             {
                 var sqlTable = tables[typeof(T)];
+
+                var existing = sqlTable.SelectDataByPrimaryKey<T>(connection, primaryKey);
+
+                if (existing == null)
+                    throw new Exception($"Delete failed - Entry in table {sqlTable.TableName} with primaryKey: '{primaryKey}'  on column {sqlTable.PropertiesAndCommands.GetPrimaryKeyProperty().Name} is not found");
+
                 sqlTable.Delete<T>(connection, primaryKey);
             }
         }
@@ -145,13 +152,44 @@ namespace As.A4ACore
                     .Where(x => x.foreignKey != null)
                     .Select(x => x.foreignKey))
                 {
-                    var table = tables[A4ATypes.First(x => x.Name == c.TableName)];
+                    var table = tables[A4ATypes.First(x => x.Name == c.ParentTableName)];
 
                     yield return (c, table.SelectPrimaryKeyValues(connection).ToArray());
                 }
             }
         }
 
+        public IEnumerable<A4AExpert> GetExpertsForMessage(A4AMessage msg)
+        {
+            List<A4AExpert> experts = new List<A4AExpert>();
+            using (var connection = conn.Connection())
+            {
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText =
+                        $"select C.* from A4ASubscription as A inner join A4AMessage as B inner join A4AExpert as C on A.Profession == B.Profession and C.ExpertName == A.ExpertName and A.Category == B.Category and A.SubCategory == B.SubCategory and B.MessageId = '{msg.MessageId}';";
+                    using (var data = cmd.ExecuteReader())
+                    {
+                        var p = new DataRecordHelper<A4AExpert>(tables[typeof(A4AExpert)].PropertiesAndCommands, data);
 
+                        while (data.Read())
+                        {
+                            experts.Add(p.GetObject());
+                        }
+                    }
+                }
+            }
+
+            return experts;
+        }
+
+        public int Count<T>()
+        {
+            using (var connection = conn.Connection())
+            {
+                var sqlTable = tables[typeof(T)];
+                return sqlTable.GetCount(connection);
+            }
+        }
     }
 }

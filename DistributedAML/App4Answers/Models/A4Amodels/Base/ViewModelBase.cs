@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using As.Shared;
-using Fasterflect;
-using Google.Protobuf;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
 
-
-namespace App4Answers.Models.A4Amodels
+namespace App4Answers.Models.A4Amodels.Base
 {
     public class ViewModelBase
     {
@@ -31,9 +24,9 @@ namespace App4Answers.Models.A4Amodels
 
         protected TypeContainer typeContainer;
 
-        public ObjectTypesAndVerbsAndRoles.ObjectType ObjectType;
+        public ModelNames.AdministrationNames AdministrationNames;
 
-        public ObjectTypesAndVerbsAndRoles.Verb Verb;
+        public ModelNames.Verb Verb;
 
         protected TypeContainer modelTypeContainer;
 
@@ -72,7 +65,7 @@ namespace App4Answers.Models.A4Amodels
         {
             foreach (var c in foreignKeys)
             {
-                if (c.foreignKey.FieldName == name)
+                if (c.foreignKey.ChildFieldName == name)
                     return c.values;
             }
             return Enumerable.Empty<string>();
@@ -90,9 +83,9 @@ namespace App4Answers.Models.A4Amodels
     public class ViewModelBase<T> : ViewModelBase
     {
 
-        protected ViewModelBase(ObjectTypesAndVerbsAndRoles.ObjectType objectType,ObjectTypesAndVerbsAndRoles.Verb verb)
+        protected ViewModelBase(ModelNames.AdministrationNames administrationNames,ModelNames.Verb verb)
         {
-            ObjectType = objectType;
+            AdministrationNames = administrationNames;
             Verb = verb;
             modelTypeContainer = TypeContainer.GetTypeContainer(typeof(T));
 
@@ -113,7 +106,7 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        protected ViewModelBase(T modelSource, ObjectTypesAndVerbsAndRoles.ObjectType objectType, ObjectTypesAndVerbsAndRoles.Verb verb) :this(objectType,verb)
+        protected ViewModelBase(T modelSource, ModelNames.AdministrationNames administrationNames, ModelNames.Verb verb) :this(administrationNames,verb)
         {
             var tc = TypeContainer.GetTypeContainer(typeof(T));
             foreach (var c in typeContainer.Properties)
@@ -126,7 +119,7 @@ namespace App4Answers.Models.A4Amodels
             }
         }
 
-        protected ViewModelBase(IFormCollection form, ObjectTypesAndVerbsAndRoles.ObjectType objectType, ObjectTypesAndVerbsAndRoles.Verb verb) : this(objectType,verb)
+        protected ViewModelBase(IFormCollection form, ModelNames.AdministrationNames administrationNames, ModelNames.Verb verb) : this(administrationNames,verb)
         {
             foreach (var c in typeContainer.Properties)
             {

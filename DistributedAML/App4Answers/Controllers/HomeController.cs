@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using App4Answers.Models;
 using App4Answers.Models.A4Amodels;
+using App4Answers.Models.A4Amodels.Login;
 using As.Comms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
@@ -33,11 +34,23 @@ namespace App4Answers.Controllers
             var thisLogin = model.Login(login);
             if (thisLogin.Authenticated == A4ALoginViewModel.AuthenticationResult.Authenticated)
             {
-                HttpContext.Session.SetString("User", thisLogin.Email);
+                HttpContext.Session.SetString(ModelNames.SessionStrings.User.ToString(), thisLogin.Email);
                 if (thisLogin.AuthenticationAccount.IsAdmin)
-                    return RedirectToAction(nameof(Administration),new { objecttype = ObjectTypesAndVerbsAndRoles.ObjectType.Company, verb = ObjectTypesAndVerbsAndRoles.Verb.List });
+                {
+                    HttpContext.Session.SetString(ModelNames.SessionStrings.Role.ToString(), ModelNames.Role.Administrator.ToString());
+                    return RedirectToAction(nameof(Administration), new { objecttype = ModelNames.AdministrationNames.Company, verb = ModelNames.Verb.List });
+                }
                 else if (thisLogin.AuthenticationAccount.IsExpert)
-                    return RedirectToAction(nameof(ExpertAction));
+                {
+                    HttpContext.Session.SetString(ModelNames.SessionStrings.Role.ToString(), ModelNames.Role.Expert.ToString());
+                    return RedirectToAction(nameof(EmailManager),new {verb=ModelNames.Verb.List,listtype= ModelNames.EmailList.Inbox});
+                }
+                else if (thisLogin.AuthenticationAccount.IsUser)
+                {
+                    HttpContext.Session.SetString(ModelNames.SessionStrings.Role.ToString(), ModelNames.Role.User.ToString());
+                    return RedirectToAction(nameof(EmailManager), new { verb = ModelNames.Verb.List, listtype = ModelNames.EmailList.Inbox });
+                }
+
 
             }
             return View(thisLogin);
@@ -87,7 +100,7 @@ namespace App4Answers.Controllers
 
         }
 
-        Object GetViewModel(string objecttype, string verb, string itemid, IFormCollection formCollection)
+        Object GetAdministrationViewModel(string objecttype, string verb, string itemid, IFormCollection formCollection,ModelNames.EmailList listType)
         {
             Object viewModel = "";
             if (objecttype != "" && !String.IsNullOrEmpty(verb))
@@ -104,12 +117,14 @@ namespace App4Answers.Controllers
                     if (mi.GetParameters()[0].ParameterType == typeof(IFormCollection))
                         viewModel = mi.Invoke(model, new[] { Request.Form });
                     else if (mi.GetParameters()[0].ParameterType == typeof(string))
-                        viewModel = mi.Invoke(model, new[] { itemid });
+                        viewModel = mi.Invoke(model, new[] { itemid});
+                    else if (mi.GetParameters()[0].ParameterType == typeof(ModelNames.EmailList))
+                        viewModel = mi.Invoke(model, new[] {(object) listType});
                     else
                         throw new Exception(
                             $"Method - {verb}{objecttype} takes an unexpected parameter-type {mi.GetParameters()[0].ParameterType.Name}... ");
                 }
-                else
+                else 
                 {
                     throw new Exception(
                         $"Method - {verb}{objecttype} takes more than one parameters - we are currently only able to deal with one... ");
@@ -128,7 +143,7 @@ namespace App4Answers.Controllers
                 itemid = itemid ?? "";
 
 
-                Object viewModel = GetViewModel(objecttype, verb, itemid, Request.HasFormContentType? Request.Form:null);
+                Object viewModel = GetAdministrationViewModel(objecttype, verb, itemid, Request.HasFormContentType? Request.Form:null,ModelNames.EmailList.None);
                 return View(viewModel);
 
             }
@@ -141,12 +156,18 @@ namespace App4Answers.Controllers
 
             }
         }
+
         
-        public IActionResult ExpertAction(string mailtype)
+
+        public IActionResult EmailManager(string verb,string itemid,ModelNames.EmailList listtype)
         {
             try
             {
-                return View();
+                verb = verb ?? "";
+                itemid = itemid ?? "";
+
+                Object viewModel = GetAdministrationViewModel(ModelNames.AdministrationNames.Message.ToString(), verb, itemid, Request.HasFormContentType ? Request.Form : null,listtype);
+                return View(viewModel);
 
             }
             catch (Exception e)

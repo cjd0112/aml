@@ -76,6 +76,9 @@ namespace App4Answers
             });
 
             var container = new StructureMap.Container();
+
+            services.AddSingleton<Container>(container);
+
             container.Configure(config =>
             {
                 config.Populate(services);
@@ -88,6 +91,9 @@ namespace App4Answers
             var loggerAdapter = container.GetInstance<A4ALogger>();
 
             L.SetExternalLogger(loggerAdapter,AsLogInfo.Info);
+
+
+
             
             return container.GetInstance<IServiceProvider>();
             
@@ -119,6 +125,13 @@ namespace App4Answers
             app.UseTypeContainer();
 
             app.UseSession();
+
+            var cont = app.ApplicationServices.GetService<Container>();
+
+            var z2 = cont.GetInstance<InitializeA4ADatabase>();
+
+            if (!z2.IsInitialized())
+                z2.Initialize();
 
             app.UseMvc(routes =>
             {

@@ -1,4 +1,4 @@
-﻿﻿syntax="proto3";
+﻿syntax="proto3";
 
 enum A4AContentType
 {
@@ -7,7 +7,7 @@ enum A4AContentType
 
 message A4AAuthenticationAccount
 {
-	string AuthenticationEmail =1;
+	string Email =1;
 	int32 Code1 = 2;
 	int32 Code2 = 3;
 	int32 Code3 = 4;
@@ -25,7 +25,6 @@ message A4ACompany
 	string Address2 = 11;
 	string Country = 12;
 	string Postcode = 13;
-	string Email = 14;
 	string Telephone = 15;
 	string Website=16;
 	string MainColour=17;
@@ -64,11 +63,10 @@ message A4AUser
 
 message A4AExpert
 {	
-	string ExpertName=4;
+	string ExpertName=1;
 	string FirstName=2;
 	string LastName=3;
-	string AliasEmail=5;
-	string RealEmail=6;
+	string Email = 4;
 	string Mobile=7;
 	string CompanyName = 8;
 }
@@ -101,16 +99,49 @@ message A4ASubCategory
 	string Profession = 3;
 }
 
+enum EmailStatus
+{
+	Created = 0;
+	Sent = 1;
+	Replied = 2;
+}
+
+message A4AEmailRecord
+{
+	string EmailRecordId = 1;
+	string MessageId = 2;
+	string EmailFrom = 3;
+	string EmailTo = 4;
+
+	string EmailRecordIdRelatedTo = 5;
+
+	EmailStatus Status = 6;
+
+	string ExternalMessageId = 7;
+
+	string ExternalStatus = 8;
+}
+
 message A4AMessage
 {
 	string MessageId=1;
 
 	string Content=2;
-	A4AContentType ContentType=3;
 
-	string A4ASubCategory = 4;
+	A4AContentType ContentType=3;
 	
-	string UserName = 6;
+	string EmailSender = 7;
+
+	string Date = 8;
+
+	string Subject = 9;
+
+	string Profession = 10;
+
+	string Category = 11;
+
+	string SubCategory = 12;
+
 }
 
 

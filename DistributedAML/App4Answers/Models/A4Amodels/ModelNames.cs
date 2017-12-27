@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace App4Answers.Models.A4Amodels
 {
-    public class ObjectTypesAndVerbsAndRoles
+    public class ModelNames
     {
-        public enum ObjectType
+        public enum AdministrationNames
         {
             None,
             Company,
@@ -17,7 +17,8 @@ namespace App4Answers.Models.A4Amodels
             SubCategory,
             Subscription,
             User,
-            Administrator
+            Administrator,
+            Message
         }
 
         public enum Verb
@@ -27,7 +28,7 @@ namespace App4Answers.Models.A4Amodels
             List,
             Edit,
             Delete,
-            Save
+            Save,
         }
 
         public enum Role
@@ -37,12 +38,24 @@ namespace App4Answers.Models.A4Amodels
             User
         }
 
-        public enum Mails
+        public enum EmailList
         {
+            None,
             Inbox,
             Sent,
             Drafts,
-            Trash
+            Trash            
+        }
+
+        public enum SessionStrings
+        {
+            User,
+            Role
+        }
+
+        public enum ItemStrings
+        {
+            EmailListType
         }
     }
 }
