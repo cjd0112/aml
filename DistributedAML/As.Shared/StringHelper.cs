@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace As.Shared
 {
@@ -19,6 +20,11 @@ namespace As.Shared
                 cnt++;
             }
             return b.ToString();
+        }
+
+        public static String ToJSonString(this object o)
+        {
+            return JsonConvert.SerializeObject(o);
         }
     }
 }

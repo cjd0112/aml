@@ -27,6 +27,14 @@ namespace As.GraphDB.Sql
             return this;
         }
 
+        private bool convertEmptyForeignKeysToNull;
+
+        public SqlTableWithPrimaryKey ConvertEmptyForeignKeysToNull()
+        {
+            this.convertEmptyForeignKeysToNull = true;
+            return this;
+        }
+
         public SqlitePropertiesAndCommands PropertiesAndCommands => propertiesAndCommands;
 
         public int GetNextId(SqliteConnection conn)
@@ -176,13 +184,26 @@ namespace As.GraphDB.Sql
                                     g.SetValue(c, pk);
                                 }
                             }
+
+
                             if (g.pi.PropertyType.IsEnum)
                             {
                                 cmd.Parameters.AddWithValue(g.pi.Name, g.getter(c).ToString());
                             }
                             else
                             {
-                                cmd.Parameters.AddWithValue(g.pi.Name, g.getter(c));
+                                // the protobuf libraries do not allow setting NULL values on strings - so we have to set direct in SQL code
+                                var q = g.getter(c);
+
+                                if (g.foreignKey != null && convertEmptyForeignKeysToNull && q is string && (string) q== "")
+                                {
+                                    cmd.Parameters.AddWithValue(g.pi.Name, DBNull.Value);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue(g.pi.Name, q);
+                                }
+
                             }
                         }
 
@@ -194,6 +215,7 @@ namespace As.GraphDB.Sql
                         catch (Exception e)
                         {
                             L.Trace(e.Message);
+                            L.Trace(cmd.CommandText);
                         }
 
                         if (cnt % 100000 == 0)
@@ -211,35 +233,67 @@ namespace As.GraphDB.Sql
             return cnt;
         }
 
-      
 
-        public  IEnumerable<DataRecordHelper<T>> SelectData<T>(SqliteConnection connection,String whereClause,Range range,Sort sort)
+        public T SelectOne<T>(SqliteConnection connection, string propertyName, Object value,bool assertEmpty=true,bool assertMultiple=true)
         {
-            using (var txn = connection.BeginTransaction())
+            using (var queryCmd = connection.CreateCommand())
             {
-                string selectCommand;
-                if (String.IsNullOrEmpty(whereClause))
-                    selectCommand = $"{propertiesAndCommands.SelectCommand()} where {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+                if (value is string || value is Enum)
+                    queryCmd.CommandText =
+                        $"select * from {propertiesAndCommands.tableName} where {propertyName} = '{value.ToString()}'";
                 else
-                    selectCommand = $"{propertiesAndCommands.SelectCommand()} where {whereClause} and {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+                    queryCmd.CommandText =
+                        $"select * from {propertiesAndCommands.tableName} where {propertyName} = {value}";
 
-                using (var queryCmd = connection.CreateCommand())
+                using (var data = queryCmd.ExecuteReader())
                 {
-                    queryCmd.CommandText = selectCommand;
-
-                    using (var data = queryCmd.ExecuteReader())
+                    var p = new DataRecordHelper<T>(propertiesAndCommands, data);
+                    if (data.Read())
                     {
-                        var p = new DataRecordHelper<T>(propertiesAndCommands,data);
+                        var obj = p.GetObject();
 
-                        while (data.Read())
-                        {
-                            yield return p.IncrementCount(); 
-                        }
+                        if (data.Read() && assertMultiple)
+                            throw new Exception(
+                                $"{propertiesAndCommands.tableName} has more than one entry where {propertyName} equals {value}");
+
+                        return obj;
                     }
-
+                    else
+                    {
+                        if (assertEmpty)
+                            throw new Exception(
+                                $"{propertiesAndCommands.tableName} does not contain entry where {propertyName} equals {value}");
+                        return default(T);
+                    }
                 }
-                txn.Commit();
-                
+            }
+
+        }
+
+
+
+        public  IEnumerable<DataRecordHelper<T>> SelectData<T>(SqliteConnection connection,String whereClause,Range range=null,Sort sort=null)
+        {
+            string selectCommand;
+            if (String.IsNullOrEmpty(whereClause))
+                selectCommand = $"{propertiesAndCommands.SelectCommand()} where {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+            else
+                selectCommand = $"{propertiesAndCommands.SelectCommand()} where {whereClause} and {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+
+            using (var queryCmd = connection.CreateCommand())
+            {
+                queryCmd.CommandText = selectCommand;
+
+                using (var data = queryCmd.ExecuteReader())
+                {
+                    var p = new DataRecordHelper<T>(propertiesAndCommands,data);
+
+                    while (data.Read())
+                    {
+                        yield return p.IncrementCount(); 
+                    }
+                }
+
             }
         }
 

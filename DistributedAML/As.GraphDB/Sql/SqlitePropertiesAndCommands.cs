@@ -37,7 +37,8 @@ namespace As.GraphDB.Sql
             {
                 foreach (var g in typeContainer.Properties)
                 {
-                    if (g.Name.StartsWith(c.GetPrimaryKeyProperty().Name))
+                    // our primary key cannot be foreign key
+                    if (!g.IsPrimaryKey && g.Name.StartsWith(c.GetPrimaryKeyProperty().Name))
                     {
                         g.foreignKey = new ForeignKey {ChildFieldName = g.Name, ParentTableName = c.tableName,ChildTableName = tableName,ParentFieldName = c.GetPrimaryKeyProperty().Name};
                     }

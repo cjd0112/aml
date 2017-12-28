@@ -19,9 +19,9 @@ namespace As.A4ACore
         IEnumerable<(ForeignKey foreignKey, IEnumerable<string> values)> GetPossibleForeignKeys<T>();
 
 
-        IEnumerable<A4AExpert> GetExpertsForMessage(A4AMessage msg);
+        (A4AUser user,IEnumerable<A4AExpert> experts) GetUserAndExpertsForMessage(A4AMessage msg);
 
-
+        A4AEmailRecord UpdateEmailRecordStatus(string externalMessageId, string status);
 
     }
 }

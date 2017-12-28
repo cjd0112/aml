@@ -6,7 +6,10 @@ using App4Answers.Models.A4Amodels.Base;
 using App4Answers.Models.A4Amodels.EmailManager;
 using App4Answers.Models.A4Amodels.Login;
 using As.A4ACore;
+using As.Email;
 using As.GraphDB.Sql;
+using As.Logger;
+using As.Shared;
 using Microsoft.AspNetCore.Http;
 
 namespace App4Answers.Models.A4Amodels
@@ -18,11 +21,28 @@ namespace App4Answers.Models.A4Amodels
         public ModelNames.AdministrationNames AdministrationNames { get; set; }
         public ModelNames.Verb Verb { get; set; }
         private HttpContextAccessor accessor;
-        public A4AModel1(A4ARepository repository,HttpContextAccessor accessor)
+        private IEmailSender sender;
+        public A4AModel1(A4ARepository repository,HttpContextAccessor accessor,IEmailSender sender )
         {
             this.Repository = repository;
             this.accessor = accessor;
+            this.sender = sender;
 
+        }
+
+        public A4AEmailService GetEmailDefinition()
+        {
+            var emailService = Repository.GetObjectByPrimaryKey<A4AEmailService>("mailgun");
+            if (emailService == null)
+                throw new Exception(
+                    "Could not load email service settings from database - looking for 'mailgun' entry in 'A4AEmailService' table");
+
+            return emailService;
+        }
+
+        public void SaveEmailDefinition(A4AEmailService service)
+        {
+            Repository.SaveObject(service);
         }
 
         private String GetUser()
@@ -383,12 +403,12 @@ namespace App4Answers.Models.A4Amodels
         {
             var mail = Repository.SaveObject(new A4AMessageDetailViewModel(form).ModelClassFromViewModel());
 
-            foreach (var c in Repository.GetExpertsForMessage(mail))
+            var userAndExperts = Repository.GetUserAndExpertsForMessage(mail);
+
+            foreach (var record in sender.SendMail(GetEmailDefinition(),mail, userAndExperts.user, userAndExperts.experts))
             {
-
+                var newEmailRecord = Repository.AddObject(record);
             }
-
-
 
             return ListMessage(ModelNames.EmailList.Inbox);
 
@@ -400,6 +420,36 @@ namespace App4Answers.Models.A4Amodels
             return ListMessage(ModelNames.EmailList.Inbox);
         }
         #endregion USERS 
+
+
+        public void PollEmailState()
+        {
+            var emailDefinition = GetEmailDefinition();
+
+            var emailEvents = sender.GetNextMailEvents(emailDefinition);
+
+            SaveEmailDefinition(emailDefinition);
+
+            foreach (var c in emailEvents.items)
+            {
+                if (c.message.headers.from.Contains(emailDefinition.Domain))
+                {
+                    if (c.eventType == EventTypes.delivered)
+                    {
+                        var emailRecord =
+                            Repository.UpdateEmailRecordStatus(c.message.headers.messageid, c.eventType.ToString());
+
+                        L.Trace($"Updated email record - {emailRecord.ToJSonString()}");
+                    }
+                }
+                else
+                {
+                    //ProcessNotificationToUs(c);
+                }
+            }
+
+        }
+
 
         public GraphResponse RunQuery(GraphQuery query)
         {

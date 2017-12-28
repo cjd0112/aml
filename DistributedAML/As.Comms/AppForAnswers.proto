@@ -46,6 +46,20 @@ enum A4AAdminLevel
 	Moderator=1;
 }
 
+message A4AEmailService
+{
+	string ServiceName = 1;
+	string ApiUserName= 2;
+	string ApiPassword = 3;
+	string Uri = 4;
+	string Domain = 5;
+
+	int64 lastPollTime = 6;
+
+	int64 delayMilliseconds = 7;
+	
+}
+
 message A4AAdministrator
 {
 	string AdministratorName = 1;
@@ -120,6 +134,8 @@ message A4AEmailRecord
 	string ExternalMessageId = 7;
 
 	string ExternalStatus = 8;
+
+	string UpdatedTime = 10;
 }
 
 message A4AMessage

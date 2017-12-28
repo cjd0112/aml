@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using App4Answers.Models;
@@ -10,6 +11,7 @@ using App4Answers.Models.A4Amodels.Login;
 using As.Comms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using As.Email;
 
 namespace App4Answers.Controllers
 {
@@ -26,6 +28,13 @@ namespace App4Answers.Controllers
         public IActionResult Index()
         {
             return View(new A4ALoginViewModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ReceiveMessage(EmailPostResponse response)
+        {
+            return new StatusCodeResult((int)HttpStatusCode.NoContent);
         }
 
         [HttpPost]

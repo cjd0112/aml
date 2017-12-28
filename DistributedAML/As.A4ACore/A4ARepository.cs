@@ -39,6 +39,9 @@ namespace As.A4ACore
             {
                 tables[type] =
                     new SqlTableWithPrimaryKey(new SqlitePropertiesAndCommands(TypeContainer.GetTypeContainer(type)));
+
+                if (type == typeof(A4AEmailRecord))
+                    tables[type].ConvertEmptyForeignKeysToNull();
             }
             conn = new SqlConnection(connectionString);
 
@@ -48,6 +51,10 @@ namespace As.A4ACore
             {
                 foreach (var c in tables.Keys)
                 {
+                    if (c == typeof(A4AEmailRecord))
+                    {
+
+                    }
                     tables[c].PropertiesAndCommands
                         .VerifyForeignKeysFromOtherTables(tables.Values.Select(x => x.PropertiesAndCommands));
 
@@ -159,8 +166,9 @@ namespace As.A4ACore
             }
         }
 
-        public IEnumerable<A4AExpert> GetExpertsForMessage(A4AMessage msg)
+        public (A4AUser user,IEnumerable<A4AExpert> experts) GetUserAndExpertsForMessage(A4AMessage msg)
         {
+            A4AUser user = null;
             List<A4AExpert> experts = new List<A4AExpert>();
             using (var connection = conn.Connection())
             {
@@ -178,9 +186,12 @@ namespace As.A4ACore
                         }
                     }
                 }
+
+                var userTable = tables[typeof(A4AUser)];
+                user = userTable.SelectOne<A4AUser>(connection, "Email", msg.EmailSender);
             }
 
-            return experts;
+            return (user,experts);
         }
 
         public int Count<T>()
@@ -191,5 +202,21 @@ namespace As.A4ACore
                 return sqlTable.GetCount(connection);
             }
         }
+
+        public A4AEmailRecord UpdateEmailRecordStatus(string externalMessageId, string status)
+        {
+            using (var connection = conn.Connection())
+            {
+                var sqlTable = tables[typeof(A4AEmailRecord)];
+                var z = sqlTable.SelectOne<A4AEmailRecord>(connection, "externalMessageId",externalMessageId);
+                z.ExternalStatus = status;
+                z.UpdatedTime = DateTime.Now.ToUniversalTime().ToString("r");
+
+                sqlTable.InsertOrReplace(connection, new[] {z}, true);
+
+                return z;
+            }
+        }
+
     }
 }

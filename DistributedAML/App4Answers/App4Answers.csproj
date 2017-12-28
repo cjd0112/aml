@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\As.A4ACore\As.A4ACore.csproj" />
+    <ProjectReference Include="..\As.Email\As.Email.csproj" />
     <ProjectReference Include="..\As.Logger\As.Logger.csproj" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +19,7 @@ using As.Shared;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using StructureMap;
+using App4Answers.Models.A4Amodels;
 
 namespace App4Answers
 {
@@ -72,6 +74,8 @@ namespace App4Answers
             {
                 x.TheCallingAssembly();
                 x.Assembly("As.A4ACore");
+                x.Assembly("As.Email");
+                x.SingleImplementationsOfInterface();
                 x.WithDefaultConventions();
             });
 
@@ -126,12 +130,30 @@ namespace App4Answers
 
             app.UseSession();
 
-            var cont = app.ApplicationServices.GetService<Container>();
+            container = app.ApplicationServices.GetService<Container>();
 
-            var z2 = cont.GetInstance<InitializeA4ADatabase>();
+            var z2 = container.GetInstance<InitializeA4ADatabase>();
 
             if (!z2.IsInitialized())
                 z2.Initialize();
+
+            var myModel = container.GetInstance<A4AModel1>();
+
+            var emailService = myModel.GetEmailDefinition();
+
+            if (emailService != null)
+            {
+                var span = new TimeSpan(0, 0, 0, 0, (int) emailService.DelayMilliseconds);
+
+                timer = new Timer(myCallback, null, span, span);
+
+            }
+            else
+            {
+                L.Trace("Email service is not configured in database ... continuing but emails will not be polled - check static set up in DB");
+            }
+
+
 
             app.UseMvc(routes =>
             {
@@ -139,6 +161,16 @@ namespace App4Answers
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private Timer timer = null;
+        private Container container = null;
+
+        void myCallback(Object o)
+        {
+            var myModel = container.GetInstance<A4AModel1>();
+            myModel.PollEmailState();
+
         }
     }
 }
