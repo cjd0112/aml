@@ -49,6 +49,8 @@ namespace As.Email
             get;
             set;
         }
+
+        public String id { get; set; }
     }
 
     public class EventsResponse

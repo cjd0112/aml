@@ -168,10 +168,12 @@ namespace App4Answers
         private TimeSpan  period;
         private TimeSpan disablePolling = new TimeSpan(0,0,0,0,-1);
 
+        private Dictionary<string,DateTime> processedEvents = new Dictionary<string, DateTime>();
+
         void myCallback(Object o)
         {
             var myModel = container.GetInstance<A4AModel1>();
-            myModel.PollEmailState();
+            myModel.PollEmailState(processedEvents);
             timer = new Timer(myCallback,null,period,disablePolling);
 
         }

@@ -32,6 +32,7 @@ namespace App4Answers
                     IsExpert = true,
                     IsAdmin = false,
                     IsUser = false,
+                    Name="EXPERT_0000"
                 },
                 new A4AAuthenticationAccount
                 {
@@ -42,7 +43,9 @@ namespace App4Answers
                     Code4 = 4,
                     IsExpert = false,
                     IsAdmin=false,
-                    IsUser=true
+                    IsUser=true,
+                    Name="USER_0000"
+
                 },
                 new A4AAuthenticationAccount
                 {
@@ -53,7 +56,10 @@ namespace App4Answers
                     Code4 = 4,
                     IsExpert = false,
                     IsAdmin=true,
-                    IsUser=false}
+                    IsUser=false,
+                    Name="ADMIN_0000"
+
+                }
             })
             {
                 repository.AddObject(c);

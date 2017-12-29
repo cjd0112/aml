@@ -378,18 +378,15 @@ namespace App4Answers.Models.A4Amodels
         }
         #endregion USERS 
 
-
-    
-
-
+        
         #region MESSAGES
         public ViewModelListBase ListMessage(ModelNames.EmailList listType)
         {
             if (listType == ModelNames.EmailList.Logs)
             {
-                return new ViewModelListBase(typeof(A4AEmailRecordDetailViewModel), Repository
+                return new ViewModelListBase(typeof(A4AEmailRecordSummaryViewModel), Repository
                         .QueryObjects<A4AEmailRecord>($"", new Range(), new Sort())
-                        .Select(x => new A4AEmailRecordDetailViewModel(x)),
+                        .Select(x => new A4AEmailRecordSummaryViewModel(x)),
                     ModelNames.AdministrationNames.EmailRecord, ModelNames.Verb.List);
             }
             else
@@ -436,17 +433,48 @@ namespace App4Answers.Models.A4Amodels
         }
         #endregion USERS 
 
+        #region EMAILRECORD
 
-        public void PollEmailState()
+        public A4AEmailRecordDetailViewModel EditEmailRecord(string id)
+        {
+            return new A4AEmailRecordDetailViewModel(
+                Repository.GetObjectByPrimaryKey<A4AEmailRecord>(id)).
+                AddForeignKeys<A4AEmailRecordDetailViewModel>(Repository.GetPossibleForeignKeys<A4AEmailRecord>());
+        }
+
+        #endregion
+
+
+
+        public void PollEmailState(Dictionary<string,DateTime> processedEvents)
         {
             var emailDefinition = GetEmailDefinition();
+
+            // don't keep track of any events that are before our purge time. 
+
+            var purgeTime = DateTime.Now.ToUniversalTime().AddMilliseconds(-emailDefinition.LookbackMilliseconds);
+            foreach (var c in processedEvents.ToArray())
+            {
+                if (c.Value < purgeTime)
+                    processedEvents.Remove(c.Key);
+            }
 
             var emailEvents = sender.GetNextMailEvents(emailDefinition);
 
             SaveEmailDefinition(emailDefinition);
 
+            if (emailEvents?.items == null)
+            {
+                L.Trace("Found null email events or email events.Items ...");
+                return;
+            }
+
+            var incomingEmails = new List<A4AEmailRecord>(); 
             foreach (var c in emailEvents.items)
             {
+                if (processedEvents.ContainsKey(c.id))
+                    continue;
+
                 if (c.message.headers.from.Contains(emailDefinition.Domain))
                 {
                     if (c.eventType == EventTypes.delivered)
@@ -457,11 +485,15 @@ namespace App4Answers.Models.A4Amodels
                                 Repository.UpdateEmailRecordStatus(c.message.headers.messageid, c.eventType.ToString());
 
                             L.Trace($"Updated email record - {emailRecord.ToJSonString()}");
+
+                           
                         }
                         catch (Exception e)
                         {
                             L.Trace($"An exception - {e.Message} - occured processign email event - {c.ToJSonString()}");
                         }
+
+                        processedEvents[c.id] = DateTime.Now.ToUniversalTime();
                     }
                 }
                 else
@@ -487,13 +519,41 @@ namespace App4Answers.Models.A4Amodels
                             Subject = c.message.headers.subject
                         };
 
-                        Repository.AddObject(emailRecord);
+                        incomingEmails.Add(emailRecord);
 
                     }
                     catch (Exception e)
                     {
                         L.Trace($"An exception - {e.Message} - occured processign email event - {c.ToJSonString()}");
                     }
+
+                    processedEvents[c.id] = DateTime.Now.ToUniversalTime();
+                }
+            }
+
+            foreach (var c in incomingEmails)
+            {
+                try
+                {
+                    var emailPostResponse = sender.EmailFromUrl(emailDefinition, c.Url);
+
+                    var message = new A4AMessage
+                    {
+                        Content = emailPostResponse.BodyPlain,
+                        Subject = emailPostResponse.Subject,
+                        Date = emailPostResponse.Date,
+                        EmailSender = c.EmailFrom
+                    };
+
+                    message = Repository.AddObject(message);
+
+                    c.MessageId = message.MessageId;
+
+                    Repository.AddObject(c);
+                }
+                catch (Exception e)
+                {
+                    L.Trace($"An exception - {e.Message} - occured processing incoming email event - {c.ToJSonString()}");
 
                 }
             }

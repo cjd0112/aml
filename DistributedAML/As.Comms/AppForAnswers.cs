@@ -29,44 +29,45 @@ public static partial class AppForAnswersReflection {
           "dHJ5GAwgASgJEhAKCFBvc3Rjb2RlGA0gASgJEhEKCVRlbGVwaG9uZRgPIAEo",
           "CRIPCgdXZWJzaXRlGBAgASgJEhIKCk1haW5Db2xvdXIYESABKAkSFwoPU2Vj",
           "b25kYXJ5Q29sb3VyGBIgASgJEhYKDlRlcnRpYXJ5Q29sb3VyGBMgASgJEgwK",
-          "BExvZ28YFCABKAkingEKD0E0QUVtYWlsU2VydmljZRITCgtTZXJ2aWNlTmFt",
+          "BExvZ28YFCABKAkivAEKD0E0QUVtYWlsU2VydmljZRITCgtTZXJ2aWNlTmFt",
           "ZRgBIAEoCRITCgtBcGlVc2VyTmFtZRgCIAEoCRITCgtBcGlQYXNzd29yZBgD",
           "IAEoCRILCgNVcmkYBCABKAkSDgoGRG9tYWluGAUgASgJEhQKDGxhc3RQb2xs",
-          "VGltZRgGIAEoAxIZChFkZWxheU1pbGxpc2Vjb25kcxgHIAEoAyJbChBBNEFB",
-          "ZG1pbmlzdHJhdG9yEhkKEUFkbWluaXN0cmF0b3JOYW1lGAEgASgJEg0KBUVt",
-          "YWlsGAIgASgJEh0KBUxldmVsGAMgASgOMg4uQTRBQWRtaW5MZXZlbCJKCgdB",
-          "NEFVc2VyEhAKCFVzZXJOYW1lGAEgASgJEg0KBUVtYWlsGAIgASgJEh4KBlN0",
-          "YXR1cxgDIAEoDjIOLkE0QVVzZXJTdGF0dXMieAoJQTRBRXhwZXJ0EhIKCkV4",
-          "cGVydE5hbWUYASABKAkSEQoJRmlyc3ROYW1lGAIgASgJEhAKCExhc3ROYW1l",
-          "GAMgASgJEg0KBUVtYWlsGAQgASgJEg4KBk1vYmlsZRgHIAEoCRITCgtDb21w",
-          "YW55TmFtZRgIIAEoCSJ2Cg9BNEFTdWJzY3JpcHRpb24SFAoMU3Vic2NyaXB0",
-          "aW9uGAEgASgJEhIKClByb2Zlc3Npb24YAiABKAkSEAoIQ2F0ZWdvcnkYAyAB",
-          "KAkSEwoLU3ViQ2F0ZWdvcnkYBCABKAkSEgoKRXhwZXJ0TmFtZRgFIAEoCSIj",
-          "Cg1BNEFQcm9mZXNzaW9uEhIKClByb2Zlc3Npb24YASABKAkiMwoLQTRBQ2F0",
-          "ZWdvcnkSEAoIQ2F0ZWdvcnkYASABKAkSEgoKUHJvZmVzc2lvbhgCIAEoCSJL",
-          "Cg5BNEFTdWJDYXRlZ29yeRITCgtTdWJDYXRlZ29yeRgBIAEoCRIQCghDYXRl",
-          "Z29yeRgCIAEoCRISCgpQcm9mZXNzaW9uGAMgASgJIqQCCg5BNEFFbWFpbFJl",
-          "Y29yZBIVCg1FbWFpbFJlY29yZElkGAEgASgJEhEKCU1lc3NhZ2VJZBgCIAEo",
-          "CRIRCglFbWFpbEZyb20YAyABKAkSEAoITmFtZUZyb20YBCABKAkSDwoHRW1h",
-          "aWxUbxgFIAEoCRIOCgZOYW1lVG8YBiABKAkSHgoWRW1haWxSZWNvcmRJZFJl",
-          "bGF0ZWRUbxgHIAEoCRIcCgZTdGF0dXMYCCABKA4yDC5FbWFpbFN0YXR1cxIZ",
-          "ChFFeHRlcm5hbE1lc3NhZ2VJZBgJIAEoCRIWCg5FeHRlcm5hbFN0YXR1cxgK",
-          "IAEoCRITCgtVcGRhdGVkVGltZRgLIAEoCRILCgNVcmwYDCABKAkSDwoHU3Vi",
-          "amVjdBgNIAEoCSLFAQoKQTRBTWVzc2FnZRIRCglNZXNzYWdlSWQYASABKAkS",
-          "DwoHQ29udGVudBgCIAEoCRIkCgtDb250ZW50VHlwZRgDIAEoDjIPLkE0QUNv",
-          "bnRlbnRUeXBlEhMKC0VtYWlsU2VuZGVyGAcgASgJEgwKBERhdGUYCCABKAkS",
-          "DwoHU3ViamVjdBgJIAEoCRISCgpQcm9mZXNzaW9uGAogASgJEhAKCENhdGVn",
-          "b3J5GAsgASgJEhMKC1N1YkNhdGVnb3J5GAwgASgJKhsKDkE0QUNvbnRlbnRU",
-          "eXBlEgkKBUVtYWlsEAAqKgoNQTRBVXNlclN0YXR1cxIKCgZBY3RpdmUQABIN",
-          "CglTdXNwZW5kZWQQASoxCg1BNEFBZG1pbkxldmVsEhEKDUFkbWluaXN0cmF0",
-          "b3IQABINCglNb2RlcmF0b3IQASoxCgtFbWFpbFN0YXR1cxILCgdDcmVhdGVk",
-          "EAASCAoEU2VudBABEgsKB1JlcGxpZWQQAmIGcHJvdG8z"));
+          "VGltZRgGIAEoAxIZChFkZWxheU1pbGxpc2Vjb25kcxgHIAEoAxIcChRsb29r",
+          "YmFja01pbGxpc2Vjb25kcxgIIAEoAyJbChBBNEFBZG1pbmlzdHJhdG9yEhkK",
+          "EUFkbWluaXN0cmF0b3JOYW1lGAEgASgJEg0KBUVtYWlsGAIgASgJEh0KBUxl",
+          "dmVsGAMgASgOMg4uQTRBQWRtaW5MZXZlbCJKCgdBNEFVc2VyEhAKCFVzZXJO",
+          "YW1lGAEgASgJEg0KBUVtYWlsGAIgASgJEh4KBlN0YXR1cxgDIAEoDjIOLkE0",
+          "QVVzZXJTdGF0dXMieAoJQTRBRXhwZXJ0EhIKCkV4cGVydE5hbWUYASABKAkS",
+          "EQoJRmlyc3ROYW1lGAIgASgJEhAKCExhc3ROYW1lGAMgASgJEg0KBUVtYWls",
+          "GAQgASgJEg4KBk1vYmlsZRgHIAEoCRITCgtDb21wYW55TmFtZRgIIAEoCSJ2",
+          "Cg9BNEFTdWJzY3JpcHRpb24SFAoMU3Vic2NyaXB0aW9uGAEgASgJEhIKClBy",
+          "b2Zlc3Npb24YAiABKAkSEAoIQ2F0ZWdvcnkYAyABKAkSEwoLU3ViQ2F0ZWdv",
+          "cnkYBCABKAkSEgoKRXhwZXJ0TmFtZRgFIAEoCSIjCg1BNEFQcm9mZXNzaW9u",
+          "EhIKClByb2Zlc3Npb24YASABKAkiMwoLQTRBQ2F0ZWdvcnkSEAoIQ2F0ZWdv",
+          "cnkYASABKAkSEgoKUHJvZmVzc2lvbhgCIAEoCSJLCg5BNEFTdWJDYXRlZ29y",
+          "eRITCgtTdWJDYXRlZ29yeRgBIAEoCRIQCghDYXRlZ29yeRgCIAEoCRISCgpQ",
+          "cm9mZXNzaW9uGAMgASgJIqQCCg5BNEFFbWFpbFJlY29yZBIVCg1FbWFpbFJl",
+          "Y29yZElkGAEgASgJEhEKCU1lc3NhZ2VJZBgCIAEoCRIRCglFbWFpbEZyb20Y",
+          "AyABKAkSEAoITmFtZUZyb20YBCABKAkSDwoHRW1haWxUbxgFIAEoCRIOCgZO",
+          "YW1lVG8YBiABKAkSHgoWRW1haWxSZWNvcmRJZFJlbGF0ZWRUbxgHIAEoCRIc",
+          "CgZTdGF0dXMYCCABKA4yDC5FbWFpbFN0YXR1cxIZChFFeHRlcm5hbE1lc3Nh",
+          "Z2VJZBgJIAEoCRIWCg5FeHRlcm5hbFN0YXR1cxgKIAEoCRITCgtVcGRhdGVk",
+          "VGltZRgLIAEoCRILCgNVcmwYDCABKAkSDwoHU3ViamVjdBgNIAEoCSLFAQoK",
+          "QTRBTWVzc2FnZRIRCglNZXNzYWdlSWQYASABKAkSDwoHQ29udGVudBgCIAEo",
+          "CRIkCgtDb250ZW50VHlwZRgDIAEoDjIPLkE0QUNvbnRlbnRUeXBlEhMKC0Vt",
+          "YWlsU2VuZGVyGAcgASgJEgwKBERhdGUYCCABKAkSDwoHU3ViamVjdBgJIAEo",
+          "CRISCgpQcm9mZXNzaW9uGAogASgJEhAKCENhdGVnb3J5GAsgASgJEhMKC1N1",
+          "YkNhdGVnb3J5GAwgASgJKhsKDkE0QUNvbnRlbnRUeXBlEgkKBUVtYWlsEAAq",
+          "KgoNQTRBVXNlclN0YXR1cxIKCgZBY3RpdmUQABINCglTdXNwZW5kZWQQASox",
+          "Cg1BNEFBZG1pbkxldmVsEhEKDUFkbWluaXN0cmF0b3IQABINCglNb2RlcmF0",
+          "b3IQASoxCgtFbWFpbFN0YXR1cxILCgdDcmVhdGVkEAASCAoEU2VudBABEgsK",
+          "B1JlcGxpZWQQAmIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::EmailStatus), }, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AAuthenticationAccount), global::A4AAuthenticationAccount.Parser, new[]{ "Email", "Code1", "Code2", "Code3", "Code4", "IsAdmin", "IsExpert", "IsUser", "Name" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ACompany), global::A4ACompany.Parser, new[]{ "CompanyName", "Address1", "Address2", "Country", "Postcode", "Telephone", "Website", "MainColour", "SecondaryColour", "TertiaryColour", "Logo" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailService), global::A4AEmailService.Parser, new[]{ "ServiceName", "ApiUserName", "ApiPassword", "Uri", "Domain", "LastPollTime", "DelayMilliseconds" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailService), global::A4AEmailService.Parser, new[]{ "ServiceName", "ApiUserName", "ApiPassword", "Uri", "Domain", "LastPollTime", "DelayMilliseconds", "LookbackMilliseconds" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AAdministrator), global::A4AAdministrator.Parser, new[]{ "AdministratorName", "Email", "Level" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AUser), global::A4AUser.Parser, new[]{ "UserName", "Email", "Status" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AExpert), global::A4AExpert.Parser, new[]{ "ExpertName", "FirstName", "LastName", "Email", "Mobile", "CompanyName" }, null, null, null),
@@ -877,6 +878,7 @@ public sealed partial class A4AEmailService : pb::IMessage<A4AEmailService> {
     domain_ = other.domain_;
     lastPollTime_ = other.lastPollTime_;
     delayMilliseconds_ = other.delayMilliseconds_;
+    lookbackMilliseconds_ = other.lookbackMilliseconds_;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -961,6 +963,21 @@ public sealed partial class A4AEmailService : pb::IMessage<A4AEmailService> {
     }
   }
 
+  /// <summary>Field number for the "lookbackMilliseconds" field.</summary>
+  public const int LookbackMillisecondsFieldNumber = 8;
+  private long lookbackMilliseconds_;
+  /// <summary>
+  /// we look further back than our delay time
+  /// in case we miss events need to discard repeated
+  /// </summary>
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public long LookbackMilliseconds {
+    get { return lookbackMilliseconds_; }
+    set {
+      lookbackMilliseconds_ = value;
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as A4AEmailService);
@@ -981,6 +998,7 @@ public sealed partial class A4AEmailService : pb::IMessage<A4AEmailService> {
     if (Domain != other.Domain) return false;
     if (LastPollTime != other.LastPollTime) return false;
     if (DelayMilliseconds != other.DelayMilliseconds) return false;
+    if (LookbackMilliseconds != other.LookbackMilliseconds) return false;
     return true;
   }
 
@@ -994,6 +1012,7 @@ public sealed partial class A4AEmailService : pb::IMessage<A4AEmailService> {
     if (Domain.Length != 0) hash ^= Domain.GetHashCode();
     if (LastPollTime != 0L) hash ^= LastPollTime.GetHashCode();
     if (DelayMilliseconds != 0L) hash ^= DelayMilliseconds.GetHashCode();
+    if (LookbackMilliseconds != 0L) hash ^= LookbackMilliseconds.GetHashCode();
     return hash;
   }
 
@@ -1032,6 +1051,10 @@ public sealed partial class A4AEmailService : pb::IMessage<A4AEmailService> {
       output.WriteRawTag(56);
       output.WriteInt64(DelayMilliseconds);
     }
+    if (LookbackMilliseconds != 0L) {
+      output.WriteRawTag(64);
+      output.WriteInt64(LookbackMilliseconds);
+    }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1057,6 +1080,9 @@ public sealed partial class A4AEmailService : pb::IMessage<A4AEmailService> {
     }
     if (DelayMilliseconds != 0L) {
       size += 1 + pb::CodedOutputStream.ComputeInt64Size(DelayMilliseconds);
+    }
+    if (LookbackMilliseconds != 0L) {
+      size += 1 + pb::CodedOutputStream.ComputeInt64Size(LookbackMilliseconds);
     }
     return size;
   }
@@ -1086,6 +1112,9 @@ public sealed partial class A4AEmailService : pb::IMessage<A4AEmailService> {
     }
     if (other.DelayMilliseconds != 0L) {
       DelayMilliseconds = other.DelayMilliseconds;
+    }
+    if (other.LookbackMilliseconds != 0L) {
+      LookbackMilliseconds = other.LookbackMilliseconds;
     }
   }
 
@@ -1123,6 +1152,10 @@ public sealed partial class A4AEmailService : pb::IMessage<A4AEmailService> {
         }
         case 56: {
           DelayMilliseconds = input.ReadInt64();
+          break;
+        }
+        case 64: {
+          LookbackMilliseconds = input.ReadInt64();
           break;
         }
       }

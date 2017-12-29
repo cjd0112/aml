@@ -7,19 +7,19 @@ using Microsoft.AspNetCore.Http;
 
 namespace App4Answers.Models.A4Amodels.EmailManager
 {
-    public class A4AEmailRecordDetailViewModel : ViewModelBase<A4AEmailRecord>
+    public class A4AEmailRecordSummaryViewModel : ViewModelBase<A4AEmailRecord>
     {
-        public A4AEmailRecordDetailViewModel() : base(ModelNames.AdministrationNames.Message, ModelNames.Verb.List)
+        public A4AEmailRecordSummaryViewModel() : base(ModelNames.AdministrationNames.EmailRecord, ModelNames.Verb.List)
         {
 
         }
-        public A4AEmailRecordDetailViewModel(IFormCollection forms) : base(forms, ModelNames.AdministrationNames.Message,
+        public A4AEmailRecordSummaryViewModel(IFormCollection forms) : base(forms, ModelNames.AdministrationNames.EmailRecord,
             ModelNames.Verb.List)
         {
 
         }
 
-        public A4AEmailRecordDetailViewModel(A4AEmailRecord msg) : base(msg, ModelNames.AdministrationNames.Message,
+        public A4AEmailRecordSummaryViewModel(A4AEmailRecord msg) : base(msg, ModelNames.AdministrationNames.EmailRecord,
             ModelNames.Verb.List)
         {
 
@@ -32,8 +32,6 @@ namespace App4Answers.Models.A4Amodels.EmailManager
         public string MessageId { get; set; }
 
         public string NameFrom { get; set; }
-
-        public string Url { get; set; }
 
         public string NameTo { get; set; }
 

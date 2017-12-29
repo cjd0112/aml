@@ -60,6 +60,10 @@ message A4AEmailService
 	int64 lastPollTime = 6;
 
 	int64 delayMilliseconds = 7;
+
+	// we look further back than our delay time
+	// in case we miss events need to discard repeated
+	int64 lookbackMilliseconds = 8;
 	
 }
 

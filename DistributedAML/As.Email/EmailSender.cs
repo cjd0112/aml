@@ -77,13 +77,14 @@ namespace As.Email
             if (service.LastPollTime == 0)
                 service.LastPollTime = DateTime.Today.AddDays(-1).ToUniversalTime().ToBinary();
 
-            var begin = DateTime.FromBinary(service.LastPollTime).ToString("r");
+            var begin = DateTime.FromBinary(service.LastPollTime).AddMilliseconds(-service.LookbackMilliseconds).ToString("r");
             var end = DateTime.Now.AddMilliseconds(-DateTime.Now.Millisecond).ToUniversalTime().ToString("r");
 
             request.AddParameter("begin",begin );
             request.AddParameter("end", end);
+            request.AddParameter("event", "delivered OR stored");
 
-            service.LastPollTime = DateTime.Now.ToUniversalTime().ToBinary();
+            service.LastPollTime = DateTime.Now.AddMilliseconds(-DateTime.Now.Millisecond).ToUniversalTime().ToBinary();
 
             var result = client.Execute(request);
 
