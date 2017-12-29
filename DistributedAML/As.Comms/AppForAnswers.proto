@@ -4,6 +4,22 @@ enum A4AContentType
 {
 	Email=0;
 }
+
+message A4AAuthenticationAccount
+{
+	string Email =1;
+	int32 Code1 = 2;
+	int32 Code2 = 3;
+	int32 Code3 = 4;
+	int32 Code4 = 5;
+
+	bool IsAdmin = 6;
+	bool IsExpert = 7;
+	bool IsUser = 8;
+
+	string Name = 9;
+}
+
 message A4ACompany
 {
 	// this is the party identifier
@@ -12,7 +28,6 @@ message A4ACompany
 	string Address2 = 11;
 	string Country = 12;
 	string Postcode = 13;
-	string Email = 14;
 	string Telephone = 15;
 	string Website=16;
 	string MainColour=17;
@@ -34,10 +49,24 @@ enum A4AAdminLevel
 	Moderator=1;
 }
 
+message A4AEmailService
+{
+	string ServiceName = 1;
+	string ApiUserName= 2;
+	string ApiPassword = 3;
+	string Uri = 4;
+	string Domain = 5;
+
+	int64 lastPollTime = 6;
+
+	int64 delayMilliseconds = 7;
+	
+}
+
 message A4AAdministrator
 {
-	string Email = 1;
-	string Name = 2;
+	string AdministratorName = 1;
+	string Email = 2;
 	A4AAdminLevel Level =3;
 }
 
@@ -51,11 +80,10 @@ message A4AUser
 
 message A4AExpert
 {	
-	string ExpertName=4;
+	string ExpertName=1;
 	string FirstName=2;
 	string LastName=3;
-	string AliasEmail=5;
-	string RealEmail=6;
+	string Email = 4;
 	string Mobile=7;
 	string CompanyName = 8;
 }
@@ -88,16 +116,58 @@ message A4ASubCategory
 	string Profession = 3;
 }
 
+enum EmailStatus
+{
+	Created = 0;
+	Sent = 1;
+	Replied = 2;
+}
+
+message A4AEmailRecord
+{
+	string EmailRecordId = 1;
+	string MessageId = 2;
+	string EmailFrom = 3;
+	string NameFrom = 4;
+	string EmailTo = 5;
+
+	string NameTo = 6;
+
+	string EmailRecordIdRelatedTo = 7;
+
+	EmailStatus Status = 8;
+
+	string ExternalMessageId = 9;
+
+	string ExternalStatus = 10;
+
+	string UpdatedTime = 11;
+
+	string Url = 12;
+
+	string Subject = 13;
+}
+
 message A4AMessage
 {
 	string MessageId=1;
 
 	string Content=2;
-	A4AContentType ContentType=3;
 
-	string A4ASubCategory = 4;
+	A4AContentType ContentType=3;
 	
-	string UserName = 6;
+	string EmailSender = 7;
+
+	string Date = 8;
+
+	string Subject = 9;
+
+	string Profession = 10;
+
+	string Category = 11;
+
+	string SubCategory = 12;
+
 }
 
 

@@ -26,7 +26,7 @@ namespace CommsConsole
                     var f = new FileInfo(c);
                     var parameters = $"--csharp_out=../As.Comms --proto_path=../As.Comms {f.Name}";
                     Console.WriteLine($"running 'protoc.exe {parameters}'");
-                    System.Diagnostics.Process.Start("protoc.exe", parameters);
+                    System.Diagnostics.Process.Start("protoc", parameters);
                 }
 
                 // find the comms types

@@ -14,8 +14,16 @@ namespace As.A4ACore
         T GetObjectByPrimaryKey<T>(string id);
         T SaveObject<T>(T party);
         void DeleteObject<T>(string id);
+        int Count<T>();
 
         IEnumerable<(ForeignKey foreignKey, IEnumerable<string> values)> GetPossibleForeignKeys<T>();
+
+
+        (A4AUser user,IEnumerable<A4AExpert> experts) GetUserAndExpertsForMessage(A4AMessage msg);
+
+        A4AEmailRecord UpdateEmailRecordStatus(string externalMessageId, string status);
+
+        (A4AUser user, A4AExpert expert) GetUserAndExpertForReply(string fromEmail, string toEmail);
 
     }
 }

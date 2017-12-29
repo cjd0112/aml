@@ -33,13 +33,14 @@ namespace As.GraphDB.Sql
 
         public void VerifyForeignKeysFromOtherTables(IEnumerable<SqlitePropertiesAndCommands> alltables)
         {
-            foreach (var c in alltables.Where(x => x != this))
+            foreach (var c in alltables)
             {
                 foreach (var g in typeContainer.Properties)
                 {
-                    if (c.GetPrimaryKeyProperty().Name == g.Name)
+                    // our primary key cannot be foreign key
+                    if (!g.IsPrimaryKey && g.Name.StartsWith(c.GetPrimaryKeyProperty().Name))
                     {
-                        g.foreignKey = new ForeignKey {FieldName = g.Name, TableName = c.tableName};
+                        g.foreignKey = new ForeignKey {ChildFieldName = g.Name, ParentTableName = c.tableName,ChildTableName = tableName,ParentFieldName = c.GetPrimaryKeyProperty().Name};
                     }
                 }
             }
@@ -99,6 +100,13 @@ namespace As.GraphDB.Sql
             return $"update {tableName} set {columnName}=\"{value}\"";
         }
 
+        public string UpdateColumnValuesCommandNumeric(String columnName, Int32 value)
+        {
+            return $"update {tableName} set {columnName}={value}";
+        }
+
+
+
         public string UpdateColumnValuesCommandForId(String columnName)
         {
             return $"update {tableName} set {columnName}=$value where {GetPrimaryKeyProperty().Name}=$primaryKey";
@@ -150,7 +158,7 @@ namespace As.GraphDB.Sql
 
         public String DeleteCommand(string id)
         {
-            return $"delete from {tableName} where {GetPrimaryKeyProperty()} like '{id}'";
+            return $"delete from {tableName} where {GetPrimaryKeyProperty().Name} like '{id}'";
         }
 
         public String SelectCommand()
@@ -213,7 +221,7 @@ namespace As.GraphDB.Sql
                     if (c.foreignKey == null)
                         b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)},");
                     else
-                        b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)} REFERENCES {c.foreignKey.TableName}({c.foreignKey.FieldName}),");
+                        b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)} REFERENCES {c.foreignKey.ParentTableName}({c.foreignKey.ParentFieldName}),");
                 }
             }
 
@@ -225,7 +233,7 @@ namespace As.GraphDB.Sql
             return b.ToString();
         }
 
-        static String ConvertPropertyType(Type t)
+        public static String ConvertPropertyType(Type t)
         {
             if (t == typeof(String))
                 return "text";

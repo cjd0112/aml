@@ -19,6 +19,22 @@ namespace As.GraphDB.Sql
 
         }
 
+        private Func<int, String> autoPrimaryKey;
+
+        public SqlTableWithPrimaryKey SetAutoPrimaryKey(Func<int,string> autoPrimaryKey)
+        {
+            this.autoPrimaryKey = autoPrimaryKey;
+            return this;
+        }
+
+        private bool convertEmptyForeignKeysToNull;
+
+        public SqlTableWithPrimaryKey ConvertEmptyForeignKeysToNull()
+        {
+            this.convertEmptyForeignKeysToNull = true;
+            return this;
+        }
+
         public SqlitePropertiesAndCommands PropertiesAndCommands => propertiesAndCommands;
 
         public int GetNextId(SqliteConnection conn)
@@ -52,6 +68,17 @@ namespace As.GraphDB.Sql
             }
         }
 
+        public int GetCount(SqliteConnection conn)
+        {
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = $"SELECT count(*) from {TableName};";
+
+                var foo = cmd.ExecuteScalar();
+
+                return Convert.ToInt32(foo);
+            }
+        }
 
         public  int CreateTable(SqliteConnection conn)
         {
@@ -78,21 +105,45 @@ namespace As.GraphDB.Sql
 
             foreach (var c in propertiesAndCommands.SqlFields())
             {
-                if (!columns.Contains((c.pi.Name, "text")))
-                {
-                    using (var cmd = conn.CreateCommand())
+                if (!columns.Any(x=>x.Item1 == c.pi.Name))
+                { 
+                    if (SqlitePropertiesAndCommands.ConvertPropertyType(c.PropertyType) == "text")
                     {
-                        L.Trace($"Adding new column - {c.pi.Name} to table {propertiesAndCommands.tableName}");
-                        cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.pi.Name, ColumnType.String);
-                        cmd.ExecuteNonQuery();
-                    }
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            L.Trace($"Adding new column - {c.pi.Name} to table {propertiesAndCommands.tableName}");
+                            cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.pi.Name, ColumnType.String);
+                            cmd.ExecuteNonQuery();
+                        }
 
-                    using (var cmd = conn.CreateCommand())
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            L.Trace($"Updating value of {c.pi.Name} in table {propertiesAndCommands.tableName}");
+                            string value = c.pi.PropertyType.IsEnum ? Enum.GetNames(c.pi.PropertyType)[0] : "";
+                            cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandStr(c.pi.Name, value);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    else if (SqlitePropertiesAndCommands.ConvertPropertyType(c.PropertyType) == "numeric")
                     {
-                        L.Trace($"Updating value of {c.pi.Name} in table {propertiesAndCommands.tableName}");
-                        string value = c.pi.PropertyType.IsEnum ? Enum.GetNames(c.pi.PropertyType)[0] : "";
-                        cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandStr(c.pi.Name, value);
-                        cmd.ExecuteNonQuery();
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            L.Trace($"Adding new column - {c.pi.Name} to table {propertiesAndCommands.tableName}");
+                            cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.pi.Name, ColumnType.Numeric);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            L.Trace($"Updating value of {c.pi.Name} in table {propertiesAndCommands.tableName}");
+                            cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandNumeric(c.pi.Name, 0);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                    }
+                    else
+                    {
+                        throw new Exception($"Unexpected proeprty type to create new Sqlite column: {c.PropertyType} - name of field - {c.Name}");
                     }
 
                 }
@@ -117,17 +168,42 @@ namespace As.GraphDB.Sql
                         foreach (var g in propertiesAndCommands.SqlFields())
                         {
                             // get new id on primary key unless we are replacing
-                            if (g.IsPrimaryKey && !orReplace)
+                            if (g.IsPrimaryKey)
                             {
-                                g.SetValue(c, GetNextId(connection));
+                                var pk = (string)g.GetValue(c);
+                                if (String.IsNullOrEmpty(pk))
+                                {
+                                    if (autoPrimaryKey == null)
+                                        g.SetValue(c, TableName + GetNextId(connection).ToString());
+                                    else
+                                        g.SetValue(c, autoPrimaryKey(GetNextId(connection)));
+
+                                }
+                                else
+                                {
+                                    g.SetValue(c, pk);
+                                }
                             }
+
+
                             if (g.pi.PropertyType.IsEnum)
                             {
                                 cmd.Parameters.AddWithValue(g.pi.Name, g.getter(c).ToString());
                             }
                             else
                             {
-                                cmd.Parameters.AddWithValue(g.pi.Name, g.getter(c));
+                                // the protobuf libraries do not allow setting NULL values on strings - so we have to set direct in SQL code
+                                var q = g.getter(c);
+
+                                if (g.foreignKey != null && convertEmptyForeignKeysToNull && q is string && (string) q== "")
+                                {
+                                    cmd.Parameters.AddWithValue(g.pi.Name, DBNull.Value);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue(g.pi.Name, q);
+                                }
+
                             }
                         }
 
@@ -139,6 +215,7 @@ namespace As.GraphDB.Sql
                         catch (Exception e)
                         {
                             L.Trace(e.Message);
+                            L.Trace(cmd.CommandText);
                         }
 
                         if (cnt % 100000 == 0)
@@ -156,35 +233,67 @@ namespace As.GraphDB.Sql
             return cnt;
         }
 
-      
 
-        public  IEnumerable<DataRecordHelper<T>> SelectData<T>(SqliteConnection connection,String whereClause,Range range,Sort sort)
+        public T SelectOne<T>(SqliteConnection connection, string propertyName, Object value,bool assertEmpty=true,bool assertMultiple=true)
         {
-            using (var txn = connection.BeginTransaction())
+            using (var queryCmd = connection.CreateCommand())
             {
-                string selectCommand;
-                if (String.IsNullOrEmpty(whereClause))
-                    selectCommand = $"{propertiesAndCommands.SelectCommand()} where {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+                if (value is string || value is Enum)
+                    queryCmd.CommandText =
+                        $"select * from {propertiesAndCommands.tableName} where {propertyName} = '{value.ToString()}'";
                 else
-                    selectCommand = $"{propertiesAndCommands.SelectCommand()} where {whereClause} and {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+                    queryCmd.CommandText =
+                        $"select * from {propertiesAndCommands.tableName} where {propertyName} = {value}";
 
-                using (var queryCmd = connection.CreateCommand())
+                using (var data = queryCmd.ExecuteReader())
                 {
-                    queryCmd.CommandText = selectCommand;
-
-                    using (var data = queryCmd.ExecuteReader())
+                    var p = new DataRecordHelper<T>(propertiesAndCommands, data);
+                    if (data.Read())
                     {
-                        var p = new DataRecordHelper<T>(propertiesAndCommands,data);
+                        var obj = p.GetObject();
 
-                        while (data.Read())
-                        {
-                            yield return p.IncrementCount(); 
-                        }
+                        if (data.Read() && assertMultiple)
+                            throw new Exception(
+                                $"{propertiesAndCommands.tableName} has more than one entry where {propertyName} equals {value}");
+
+                        return obj;
                     }
-
+                    else
+                    {
+                        if (assertEmpty)
+                            throw new Exception(
+                                $"{propertiesAndCommands.tableName} does not contain entry where {propertyName} equals {value}");
+                        return default(T);
+                    }
                 }
-                txn.Commit();
-                
+            }
+
+        }
+
+
+
+        public  IEnumerable<DataRecordHelper<T>> SelectData<T>(SqliteConnection connection,String whereClause,Range range=null,Sort sort=null)
+        {
+            string selectCommand;
+            if (String.IsNullOrEmpty(whereClause))
+                selectCommand = $"{propertiesAndCommands.SelectCommand()} where {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+            else
+                selectCommand = $"{propertiesAndCommands.SelectCommand()} where {whereClause} and {propertiesAndCommands.RangeClause(range)} {propertiesAndCommands.SortClause(sort)};";
+
+            using (var queryCmd = connection.CreateCommand())
+            {
+                queryCmd.CommandText = selectCommand;
+
+                using (var data = queryCmd.ExecuteReader())
+                {
+                    var p = new DataRecordHelper<T>(propertiesAndCommands,data);
+
+                    while (data.Read())
+                    {
+                        yield return p.IncrementCount(); 
+                    }
+                }
+
             }
         }
 
@@ -222,26 +331,22 @@ namespace As.GraphDB.Sql
 
         public  T SelectDataByPrimaryKey<T>(SqliteConnection connection, String primaryKey)
         {
-            using (var txn = connection.BeginTransaction())
+            string selectCommand = $"{propertiesAndCommands.SelectCommandByPrimaryKey(primaryKey)}";
+            using (var queryCmd = connection.CreateCommand())
             {
-                string selectCommand = $"{propertiesAndCommands.SelectCommandByPrimaryKey(primaryKey)}";
-                using (var queryCmd = connection.CreateCommand())
+                queryCmd.CommandText = selectCommand;
+
+                using (var data = queryCmd.ExecuteReader())
                 {
-                    queryCmd.CommandText = selectCommand;
+                    var p = new DataRecordHelper<T>(propertiesAndCommands, data);
 
-                    using (var data = queryCmd.ExecuteReader())
+                    if (data.Read())
                     {
-                        var p = new DataRecordHelper<T>(propertiesAndCommands, data);
-
-                        if (data.Read())
-                        {
-                            var z = new DataRecordHelper<T>(propertiesAndCommands, data);
-                            return z.GetObject();
-                        }
+                        var z = new DataRecordHelper<T>(propertiesAndCommands, data);
+                        return z.GetObject();
                     }
-
                 }
-                txn.Commit();
+
             }
             return default(T);
         }

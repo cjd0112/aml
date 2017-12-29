@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "GenericView";
+    
+}
+
+@using System.Linq
+@using App4Answers.Models.A4Amodels
+@using App4Answers.Models.A4Amodels.Base
+@model App4Answers.Models.A4Amodels.Base.ViewModelListBase
+
+<div class="row" style="height:20px"></div>    
+
+<div class="col-sm-1">
+    
+</div>
+
+<div class="col-sm-10" style="color:black" >
+    <table class="table">
+        <thead class="thead-inverse" >
+        <tr>
+            @foreach (var c in Model.GetColumns().Where(x=>x.Display()))
+            {
+                <th class="well well-sm a4aheader">
+                    @c.DisplayName()
+                </th>
+
+            }
+            <th class="well well-sm a4aheader"></th>
+            <th class="well well-sm a4aheader"></th>
+
+        </thead>
+
+        <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                @foreach (var g in Model.GetColumns().Where(x=>x.Display()))
+                {
+                    <td class="well well-sm a4ainput-sm">
+                        @c.GetValue(g.Name)
+                    </td>
+                }
+                <td class="well well-sm a4ainput-sm" style="text-align: center">
+                    <a style="padding-top:3px" asp-action="Administration" asp-route-objecttype="@Model.AdministrationNames" asp-route-verb="@ModelNames.Verb.Edit" asp-route-itemid ="@c.GetPrimaryKey()"><i style="font-size: 12px" class="glyphicon glyphicon-pencil"></i></a>
+                </td>
+                <td class="well well-sm" style="text-align: center">
+                    <a style="padding-top:3px" asp-action="Administration" asp-route-objecttype="@Model.AdministrationNames" asp-route-verb="@ModelNames.Verb.Delete" asp-route-itemid="@c.GetPrimaryKey()"><i style="font-size: 12px;  " class="glyphicon glyphicon-remove"></i></a>
+                </td>
+
+            </tr>
+        }
+            
+            
+        <tr>
+            <td class="well well-sm a4ainput-sm" >
+                <a asp-action="Administration" asp-route-objecttype="@Model.AdministrationNames" asp-route-verb="@ModelNames.Verb.New" style="padding-top: 2px;"><i style="font-size: 12px; color: blue" class="glyphicon glyphicon-pencil"></i>New @ViewData["administrationNames"]</a>
+            </td>
+            <td colspan="@Model.GetColumns().Count(x=>x.Display()) + 1">
+                
+            </td>
+        </tr>
+
+        </tbody>
+
+    </table>
+</div>
+
+<div class="col-sm-1">
+
+</div>

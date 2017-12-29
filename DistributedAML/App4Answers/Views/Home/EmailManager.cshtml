@@ -1,0 +1,86 @@
+﻿@using System
+@using App4Answers.Models.A4Amodels
+@using App4Answers.Models.A4Amodels.Base
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Email Manager";
+    ViewData["RenderExpert"] = false;
+    ViewData["Background"] = "/images/darkblue.png";
+    ViewData["RenderAppStore"] = false;
+    Layout = "_Layout";
+}
+
+
+<div class="row">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-1">
+    </div>
+
+    <div class="col-sm-6" style="text-align:left;">
+        <a asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.New"><span style="color:white;font-size:20pt;" class="glyphicon-envelope" /></a>
+    </div>
+
+
+
+    <div class="col-sm-3" style="text-align:right">
+        <span style="color:white;">Email - Manager - @HttpContextAccessor.HttpContext.Session.GetString("User") - Role - @HttpContextAccessor.HttpContext.Session.GetString("Role")</span>
+    </div>
+
+    <div class="col-sm-1">
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-sm-1">
+
+    </div>
+
+    <div class="col-sm-1" style="color: white; padding-right: 0px; margin-right: 0px" align="left">
+        <div class="container-fluid" style="padding-top:23px">
+            <ul class="nav  nav-stacked">
+                <li class="a4amenu"><a class="a4amenu" asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.List" asp-route-listtype="@ModelNames.EmailList.Inbox">Inbox</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.List" asp-route-listtype="@ModelNames.EmailList.Sent">Sent</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.List" asp-route-listtype="@ModelNames.EmailList.Drafts">Drafts</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.List" asp-route-listtype="@ModelNames.EmailList.Trash">Trash</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.List" asp-route-listtype="@ModelNames.EmailList.Logs">Logs</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-sm-9" style="height:650px; background-color:gray; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px;" align="left">
+        @if (Model is ViewModelListBase)
+        {
+            @Html.Partial("PartialView/ViewModelListViewerSmall");
+
+        }
+        else if (Model is ViewModelBase)
+        {
+            @Html.Partial("PartialView/ViewModelEditor");
+
+        }
+        else if (Model is string)
+        {
+            // empty default 
+        }
+        else
+        {
+            throw new Exception($"Unexpected ViewModel type - {Model.GetType().Name}");
+        }
+    </div>
+
+    <div class="col-sm-1">
+
+    </div>
+
+
+
+</div>
+

@@ -20,43 +20,62 @@ public static partial class AppForAnswersReflection {
   static AppForAnswersReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChNBcHBGb3JBbnN3ZXJzLnByb3RvIu4BCgpBNEFDb21wYW55EhMKC0NvbXBh",
-          "bnlOYW1lGAEgASgJEhAKCEFkZHJlc3MxGAogASgJEhAKCEFkZHJlc3MyGAsg",
-          "ASgJEg8KB0NvdW50cnkYDCABKAkSEAoIUG9zdGNvZGUYDSABKAkSDQoFRW1h",
-          "aWwYDiABKAkSEQoJVGVsZXBob25lGA8gASgJEg8KB1dlYnNpdGUYECABKAkS",
-          "EgoKTWFpbkNvbG91chgRIAEoCRIXCg9TZWNvbmRhcnlDb2xvdXIYEiABKAkS",
-          "FgoOVGVydGlhcnlDb2xvdXIYEyABKAkSDAoETG9nbxgUIAEoCSJOChBBNEFB",
-          "ZG1pbmlzdHJhdG9yEg0KBUVtYWlsGAEgASgJEgwKBE5hbWUYAiABKAkSHQoF",
-          "TGV2ZWwYAyABKA4yDi5BNEFBZG1pbkxldmVsIkoKB0E0QVVzZXISEAoIVXNl",
-          "ck5hbWUYASABKAkSDQoFRW1haWwYAiABKAkSHgoGU3RhdHVzGAMgASgOMg4u",
-          "QTRBVXNlclN0YXR1cyKQAQoJQTRBRXhwZXJ0EhIKCkV4cGVydE5hbWUYBCAB",
-          "KAkSEQoJRmlyc3ROYW1lGAIgASgJEhAKCExhc3ROYW1lGAMgASgJEhIKCkFs",
-          "aWFzRW1haWwYBSABKAkSEQoJUmVhbEVtYWlsGAYgASgJEg4KBk1vYmlsZRgH",
-          "IAEoCRITCgtDb21wYW55TmFtZRgIIAEoCSJ2Cg9BNEFTdWJzY3JpcHRpb24S",
-          "FAoMU3Vic2NyaXB0aW9uGAEgASgJEhIKClByb2Zlc3Npb24YAiABKAkSEAoI",
-          "Q2F0ZWdvcnkYAyABKAkSEwoLU3ViQ2F0ZWdvcnkYBCABKAkSEgoKRXhwZXJ0",
-          "TmFtZRgFIAEoCSIjCg1BNEFQcm9mZXNzaW9uEhIKClByb2Zlc3Npb24YASAB",
-          "KAkiMwoLQTRBQ2F0ZWdvcnkSEAoIQ2F0ZWdvcnkYASABKAkSEgoKUHJvZmVz",
-          "c2lvbhgCIAEoCSJLCg5BNEFTdWJDYXRlZ29yeRITCgtTdWJDYXRlZ29yeRgB",
-          "IAEoCRIQCghDYXRlZ29yeRgCIAEoCRISCgpQcm9mZXNzaW9uGAMgASgJIoAB",
-          "CgpBNEFNZXNzYWdlEhEKCU1lc3NhZ2VJZBgBIAEoCRIPCgdDb250ZW50GAIg",
-          "ASgJEiQKC0NvbnRlbnRUeXBlGAMgASgOMg8uQTRBQ29udGVudFR5cGUSFgoO",
-          "QTRBU3ViQ2F0ZWdvcnkYBCABKAkSEAoIVXNlck5hbWUYBiABKAkqGwoOQTRB",
-          "Q29udGVudFR5cGUSCQoFRW1haWwQACoqCg1BNEFVc2VyU3RhdHVzEgoKBkFj",
-          "dGl2ZRAAEg0KCVN1c3BlbmRlZBABKjEKDUE0QUFkbWluTGV2ZWwSEQoNQWRt",
-          "aW5pc3RyYXRvchAAEg0KCU1vZGVyYXRvchABYgZwcm90bzM="));
+          "ChNBcHBGb3JBbnN3ZXJzLnByb3RvIqYBChhBNEFBdXRoZW50aWNhdGlvbkFj",
+          "Y291bnQSDQoFRW1haWwYASABKAkSDQoFQ29kZTEYAiABKAUSDQoFQ29kZTIY",
+          "AyABKAUSDQoFQ29kZTMYBCABKAUSDQoFQ29kZTQYBSABKAUSDwoHSXNBZG1p",
+          "bhgGIAEoCBIQCghJc0V4cGVydBgHIAEoCBIOCgZJc1VzZXIYCCABKAgSDAoE",
+          "TmFtZRgJIAEoCSLfAQoKQTRBQ29tcGFueRITCgtDb21wYW55TmFtZRgBIAEo",
+          "CRIQCghBZGRyZXNzMRgKIAEoCRIQCghBZGRyZXNzMhgLIAEoCRIPCgdDb3Vu",
+          "dHJ5GAwgASgJEhAKCFBvc3Rjb2RlGA0gASgJEhEKCVRlbGVwaG9uZRgPIAEo",
+          "CRIPCgdXZWJzaXRlGBAgASgJEhIKCk1haW5Db2xvdXIYESABKAkSFwoPU2Vj",
+          "b25kYXJ5Q29sb3VyGBIgASgJEhYKDlRlcnRpYXJ5Q29sb3VyGBMgASgJEgwK",
+          "BExvZ28YFCABKAkingEKD0E0QUVtYWlsU2VydmljZRITCgtTZXJ2aWNlTmFt",
+          "ZRgBIAEoCRITCgtBcGlVc2VyTmFtZRgCIAEoCRITCgtBcGlQYXNzd29yZBgD",
+          "IAEoCRILCgNVcmkYBCABKAkSDgoGRG9tYWluGAUgASgJEhQKDGxhc3RQb2xs",
+          "VGltZRgGIAEoAxIZChFkZWxheU1pbGxpc2Vjb25kcxgHIAEoAyJbChBBNEFB",
+          "ZG1pbmlzdHJhdG9yEhkKEUFkbWluaXN0cmF0b3JOYW1lGAEgASgJEg0KBUVt",
+          "YWlsGAIgASgJEh0KBUxldmVsGAMgASgOMg4uQTRBQWRtaW5MZXZlbCJKCgdB",
+          "NEFVc2VyEhAKCFVzZXJOYW1lGAEgASgJEg0KBUVtYWlsGAIgASgJEh4KBlN0",
+          "YXR1cxgDIAEoDjIOLkE0QVVzZXJTdGF0dXMieAoJQTRBRXhwZXJ0EhIKCkV4",
+          "cGVydE5hbWUYASABKAkSEQoJRmlyc3ROYW1lGAIgASgJEhAKCExhc3ROYW1l",
+          "GAMgASgJEg0KBUVtYWlsGAQgASgJEg4KBk1vYmlsZRgHIAEoCRITCgtDb21w",
+          "YW55TmFtZRgIIAEoCSJ2Cg9BNEFTdWJzY3JpcHRpb24SFAoMU3Vic2NyaXB0",
+          "aW9uGAEgASgJEhIKClByb2Zlc3Npb24YAiABKAkSEAoIQ2F0ZWdvcnkYAyAB",
+          "KAkSEwoLU3ViQ2F0ZWdvcnkYBCABKAkSEgoKRXhwZXJ0TmFtZRgFIAEoCSIj",
+          "Cg1BNEFQcm9mZXNzaW9uEhIKClByb2Zlc3Npb24YASABKAkiMwoLQTRBQ2F0",
+          "ZWdvcnkSEAoIQ2F0ZWdvcnkYASABKAkSEgoKUHJvZmVzc2lvbhgCIAEoCSJL",
+          "Cg5BNEFTdWJDYXRlZ29yeRITCgtTdWJDYXRlZ29yeRgBIAEoCRIQCghDYXRl",
+          "Z29yeRgCIAEoCRISCgpQcm9mZXNzaW9uGAMgASgJIqQCCg5BNEFFbWFpbFJl",
+          "Y29yZBIVCg1FbWFpbFJlY29yZElkGAEgASgJEhEKCU1lc3NhZ2VJZBgCIAEo",
+          "CRIRCglFbWFpbEZyb20YAyABKAkSEAoITmFtZUZyb20YBCABKAkSDwoHRW1h",
+          "aWxUbxgFIAEoCRIOCgZOYW1lVG8YBiABKAkSHgoWRW1haWxSZWNvcmRJZFJl",
+          "bGF0ZWRUbxgHIAEoCRIcCgZTdGF0dXMYCCABKA4yDC5FbWFpbFN0YXR1cxIZ",
+          "ChFFeHRlcm5hbE1lc3NhZ2VJZBgJIAEoCRIWCg5FeHRlcm5hbFN0YXR1cxgK",
+          "IAEoCRITCgtVcGRhdGVkVGltZRgLIAEoCRILCgNVcmwYDCABKAkSDwoHU3Vi",
+          "amVjdBgNIAEoCSLFAQoKQTRBTWVzc2FnZRIRCglNZXNzYWdlSWQYASABKAkS",
+          "DwoHQ29udGVudBgCIAEoCRIkCgtDb250ZW50VHlwZRgDIAEoDjIPLkE0QUNv",
+          "bnRlbnRUeXBlEhMKC0VtYWlsU2VuZGVyGAcgASgJEgwKBERhdGUYCCABKAkS",
+          "DwoHU3ViamVjdBgJIAEoCRISCgpQcm9mZXNzaW9uGAogASgJEhAKCENhdGVn",
+          "b3J5GAsgASgJEhMKC1N1YkNhdGVnb3J5GAwgASgJKhsKDkE0QUNvbnRlbnRU",
+          "eXBlEgkKBUVtYWlsEAAqKgoNQTRBVXNlclN0YXR1cxIKCgZBY3RpdmUQABIN",
+          "CglTdXNwZW5kZWQQASoxCg1BNEFBZG1pbkxldmVsEhEKDUFkbWluaXN0cmF0",
+          "b3IQABINCglNb2RlcmF0b3IQASoxCgtFbWFpbFN0YXR1cxILCgdDcmVhdGVk",
+          "EAASCAoEU2VudBABEgsKB1JlcGxpZWQQAmIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
-        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), }, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4ACompany), global::A4ACompany.Parser, new[]{ "CompanyName", "Address1", "Address2", "Country", "Postcode", "Email", "Telephone", "Website", "MainColour", "SecondaryColour", "TertiaryColour", "Logo" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AAdministrator), global::A4AAdministrator.Parser, new[]{ "Email", "Name", "Level" }, null, null, null),
+        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::EmailStatus), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AAuthenticationAccount), global::A4AAuthenticationAccount.Parser, new[]{ "Email", "Code1", "Code2", "Code3", "Code4", "IsAdmin", "IsExpert", "IsUser", "Name" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4ACompany), global::A4ACompany.Parser, new[]{ "CompanyName", "Address1", "Address2", "Country", "Postcode", "Telephone", "Website", "MainColour", "SecondaryColour", "TertiaryColour", "Logo" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailService), global::A4AEmailService.Parser, new[]{ "ServiceName", "ApiUserName", "ApiPassword", "Uri", "Domain", "LastPollTime", "DelayMilliseconds" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AAdministrator), global::A4AAdministrator.Parser, new[]{ "AdministratorName", "Email", "Level" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AUser), global::A4AUser.Parser, new[]{ "UserName", "Email", "Status" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AExpert), global::A4AExpert.Parser, new[]{ "ExpertName", "FirstName", "LastName", "AliasEmail", "RealEmail", "Mobile", "CompanyName" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AExpert), global::A4AExpert.Parser, new[]{ "ExpertName", "FirstName", "LastName", "Email", "Mobile", "CompanyName" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ASubscription), global::A4ASubscription.Parser, new[]{ "Subscription", "Profession", "Category", "SubCategory", "ExpertName" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AProfession), global::A4AProfession.Parser, new[]{ "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ACategory), global::A4ACategory.Parser, new[]{ "Category", "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ASubCategory), global::A4ASubCategory.Parser, new[]{ "SubCategory", "Category", "Profession" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "MessageId", "Content", "ContentType", "A4ASubCategory", "UserName" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailRecord), global::A4AEmailRecord.Parser, new[]{ "EmailRecordId", "MessageId", "EmailFrom", "NameFrom", "EmailTo", "NameTo", "EmailRecordIdRelatedTo", "Status", "ExternalMessageId", "ExternalStatus", "UpdatedTime", "Url", "Subject" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "MessageId", "Content", "ContentType", "EmailSender", "Date", "Subject", "Profession", "Category", "SubCategory" }, null, null, null)
         }));
   }
   #endregion
@@ -77,9 +96,356 @@ public enum A4AAdminLevel {
   [pbr::OriginalName("Moderator")] Moderator = 1,
 }
 
+public enum EmailStatus {
+  [pbr::OriginalName("Created")] Created = 0,
+  [pbr::OriginalName("Sent")] Sent = 1,
+  [pbr::OriginalName("Replied")] Replied = 2,
+}
+
 #endregion
 
 #region Messages
+public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthenticationAccount> {
+  private static readonly pb::MessageParser<A4AAuthenticationAccount> _parser = new pb::MessageParser<A4AAuthenticationAccount>(() => new A4AAuthenticationAccount());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<A4AAuthenticationAccount> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[0]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4AAuthenticationAccount() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4AAuthenticationAccount(A4AAuthenticationAccount other) : this() {
+    email_ = other.email_;
+    code1_ = other.code1_;
+    code2_ = other.code2_;
+    code3_ = other.code3_;
+    code4_ = other.code4_;
+    isAdmin_ = other.isAdmin_;
+    isExpert_ = other.isExpert_;
+    isUser_ = other.isUser_;
+    name_ = other.name_;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4AAuthenticationAccount Clone() {
+    return new A4AAuthenticationAccount(this);
+  }
+
+  /// <summary>Field number for the "Email" field.</summary>
+  public const int EmailFieldNumber = 1;
+  private string email_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Email {
+    get { return email_; }
+    set {
+      email_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Code1" field.</summary>
+  public const int Code1FieldNumber = 2;
+  private int code1_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Code1 {
+    get { return code1_; }
+    set {
+      code1_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "Code2" field.</summary>
+  public const int Code2FieldNumber = 3;
+  private int code2_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Code2 {
+    get { return code2_; }
+    set {
+      code2_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "Code3" field.</summary>
+  public const int Code3FieldNumber = 4;
+  private int code3_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Code3 {
+    get { return code3_; }
+    set {
+      code3_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "Code4" field.</summary>
+  public const int Code4FieldNumber = 5;
+  private int code4_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Code4 {
+    get { return code4_; }
+    set {
+      code4_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "IsAdmin" field.</summary>
+  public const int IsAdminFieldNumber = 6;
+  private bool isAdmin_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool IsAdmin {
+    get { return isAdmin_; }
+    set {
+      isAdmin_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "IsExpert" field.</summary>
+  public const int IsExpertFieldNumber = 7;
+  private bool isExpert_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool IsExpert {
+    get { return isExpert_; }
+    set {
+      isExpert_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "IsUser" field.</summary>
+  public const int IsUserFieldNumber = 8;
+  private bool isUser_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool IsUser {
+    get { return isUser_; }
+    set {
+      isUser_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "Name" field.</summary>
+  public const int NameFieldNumber = 9;
+  private string name_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Name {
+    get { return name_; }
+    set {
+      name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as A4AAuthenticationAccount);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(A4AAuthenticationAccount other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (Email != other.Email) return false;
+    if (Code1 != other.Code1) return false;
+    if (Code2 != other.Code2) return false;
+    if (Code3 != other.Code3) return false;
+    if (Code4 != other.Code4) return false;
+    if (IsAdmin != other.IsAdmin) return false;
+    if (IsExpert != other.IsExpert) return false;
+    if (IsUser != other.IsUser) return false;
+    if (Name != other.Name) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (Email.Length != 0) hash ^= Email.GetHashCode();
+    if (Code1 != 0) hash ^= Code1.GetHashCode();
+    if (Code2 != 0) hash ^= Code2.GetHashCode();
+    if (Code3 != 0) hash ^= Code3.GetHashCode();
+    if (Code4 != 0) hash ^= Code4.GetHashCode();
+    if (IsAdmin != false) hash ^= IsAdmin.GetHashCode();
+    if (IsExpert != false) hash ^= IsExpert.GetHashCode();
+    if (IsUser != false) hash ^= IsUser.GetHashCode();
+    if (Name.Length != 0) hash ^= Name.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (Email.Length != 0) {
+      output.WriteRawTag(10);
+      output.WriteString(Email);
+    }
+    if (Code1 != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(Code1);
+    }
+    if (Code2 != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(Code2);
+    }
+    if (Code3 != 0) {
+      output.WriteRawTag(32);
+      output.WriteInt32(Code3);
+    }
+    if (Code4 != 0) {
+      output.WriteRawTag(40);
+      output.WriteInt32(Code4);
+    }
+    if (IsAdmin != false) {
+      output.WriteRawTag(48);
+      output.WriteBool(IsAdmin);
+    }
+    if (IsExpert != false) {
+      output.WriteRawTag(56);
+      output.WriteBool(IsExpert);
+    }
+    if (IsUser != false) {
+      output.WriteRawTag(64);
+      output.WriteBool(IsUser);
+    }
+    if (Name.Length != 0) {
+      output.WriteRawTag(74);
+      output.WriteString(Name);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (Email.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Email);
+    }
+    if (Code1 != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Code1);
+    }
+    if (Code2 != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Code2);
+    }
+    if (Code3 != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Code3);
+    }
+    if (Code4 != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Code4);
+    }
+    if (IsAdmin != false) {
+      size += 1 + 1;
+    }
+    if (IsExpert != false) {
+      size += 1 + 1;
+    }
+    if (IsUser != false) {
+      size += 1 + 1;
+    }
+    if (Name.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(A4AAuthenticationAccount other) {
+    if (other == null) {
+      return;
+    }
+    if (other.Email.Length != 0) {
+      Email = other.Email;
+    }
+    if (other.Code1 != 0) {
+      Code1 = other.Code1;
+    }
+    if (other.Code2 != 0) {
+      Code2 = other.Code2;
+    }
+    if (other.Code3 != 0) {
+      Code3 = other.Code3;
+    }
+    if (other.Code4 != 0) {
+      Code4 = other.Code4;
+    }
+    if (other.IsAdmin != false) {
+      IsAdmin = other.IsAdmin;
+    }
+    if (other.IsExpert != false) {
+      IsExpert = other.IsExpert;
+    }
+    if (other.IsUser != false) {
+      IsUser = other.IsUser;
+    }
+    if (other.Name.Length != 0) {
+      Name = other.Name;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 10: {
+          Email = input.ReadString();
+          break;
+        }
+        case 16: {
+          Code1 = input.ReadInt32();
+          break;
+        }
+        case 24: {
+          Code2 = input.ReadInt32();
+          break;
+        }
+        case 32: {
+          Code3 = input.ReadInt32();
+          break;
+        }
+        case 40: {
+          Code4 = input.ReadInt32();
+          break;
+        }
+        case 48: {
+          IsAdmin = input.ReadBool();
+          break;
+        }
+        case 56: {
+          IsExpert = input.ReadBool();
+          break;
+        }
+        case 64: {
+          IsUser = input.ReadBool();
+          break;
+        }
+        case 74: {
+          Name = input.ReadString();
+          break;
+        }
+      }
+    }
+  }
+
+}
+
 public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
   private static readonly pb::MessageParser<A4ACompany> _parser = new pb::MessageParser<A4ACompany>(() => new A4ACompany());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -87,7 +453,7 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[0]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[1]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -109,7 +475,6 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
     address2_ = other.address2_;
     country_ = other.country_;
     postcode_ = other.postcode_;
-    email_ = other.email_;
     telephone_ = other.telephone_;
     website_ = other.website_;
     mainColour_ = other.mainColour_;
@@ -178,17 +543,6 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
     get { return postcode_; }
     set {
       postcode_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
-  }
-
-  /// <summary>Field number for the "Email" field.</summary>
-  public const int EmailFieldNumber = 14;
-  private string email_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string Email {
-    get { return email_; }
-    set {
-      email_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
@@ -276,7 +630,6 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
     if (Address2 != other.Address2) return false;
     if (Country != other.Country) return false;
     if (Postcode != other.Postcode) return false;
-    if (Email != other.Email) return false;
     if (Telephone != other.Telephone) return false;
     if (Website != other.Website) return false;
     if (MainColour != other.MainColour) return false;
@@ -294,7 +647,6 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
     if (Address2.Length != 0) hash ^= Address2.GetHashCode();
     if (Country.Length != 0) hash ^= Country.GetHashCode();
     if (Postcode.Length != 0) hash ^= Postcode.GetHashCode();
-    if (Email.Length != 0) hash ^= Email.GetHashCode();
     if (Telephone.Length != 0) hash ^= Telephone.GetHashCode();
     if (Website.Length != 0) hash ^= Website.GetHashCode();
     if (MainColour.Length != 0) hash ^= MainColour.GetHashCode();
@@ -330,10 +682,6 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
     if (Postcode.Length != 0) {
       output.WriteRawTag(106);
       output.WriteString(Postcode);
-    }
-    if (Email.Length != 0) {
-      output.WriteRawTag(114);
-      output.WriteString(Email);
     }
     if (Telephone.Length != 0) {
       output.WriteRawTag(122);
@@ -379,9 +727,6 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
     if (Postcode.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Postcode);
     }
-    if (Email.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Email);
-    }
     if (Telephone.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Telephone);
     }
@@ -422,9 +767,6 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
     }
     if (other.Postcode.Length != 0) {
       Postcode = other.Postcode;
-    }
-    if (other.Email.Length != 0) {
-      Email = other.Email;
     }
     if (other.Telephone.Length != 0) {
       Telephone = other.Telephone;
@@ -474,10 +816,6 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
           Postcode = input.ReadString();
           break;
         }
-        case 114: {
-          Email = input.ReadString();
-          break;
-        }
         case 122: {
           Telephone = input.ReadString();
           break;
@@ -508,6 +846,291 @@ public sealed partial class A4ACompany : pb::IMessage<A4ACompany> {
 
 }
 
+public sealed partial class A4AEmailService : pb::IMessage<A4AEmailService> {
+  private static readonly pb::MessageParser<A4AEmailService> _parser = new pb::MessageParser<A4AEmailService>(() => new A4AEmailService());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<A4AEmailService> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[2]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4AEmailService() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4AEmailService(A4AEmailService other) : this() {
+    serviceName_ = other.serviceName_;
+    apiUserName_ = other.apiUserName_;
+    apiPassword_ = other.apiPassword_;
+    uri_ = other.uri_;
+    domain_ = other.domain_;
+    lastPollTime_ = other.lastPollTime_;
+    delayMilliseconds_ = other.delayMilliseconds_;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4AEmailService Clone() {
+    return new A4AEmailService(this);
+  }
+
+  /// <summary>Field number for the "ServiceName" field.</summary>
+  public const int ServiceNameFieldNumber = 1;
+  private string serviceName_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string ServiceName {
+    get { return serviceName_; }
+    set {
+      serviceName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "ApiUserName" field.</summary>
+  public const int ApiUserNameFieldNumber = 2;
+  private string apiUserName_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string ApiUserName {
+    get { return apiUserName_; }
+    set {
+      apiUserName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "ApiPassword" field.</summary>
+  public const int ApiPasswordFieldNumber = 3;
+  private string apiPassword_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string ApiPassword {
+    get { return apiPassword_; }
+    set {
+      apiPassword_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Uri" field.</summary>
+  public const int UriFieldNumber = 4;
+  private string uri_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Uri {
+    get { return uri_; }
+    set {
+      uri_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Domain" field.</summary>
+  public const int DomainFieldNumber = 5;
+  private string domain_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Domain {
+    get { return domain_; }
+    set {
+      domain_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "lastPollTime" field.</summary>
+  public const int LastPollTimeFieldNumber = 6;
+  private long lastPollTime_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public long LastPollTime {
+    get { return lastPollTime_; }
+    set {
+      lastPollTime_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "delayMilliseconds" field.</summary>
+  public const int DelayMillisecondsFieldNumber = 7;
+  private long delayMilliseconds_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public long DelayMilliseconds {
+    get { return delayMilliseconds_; }
+    set {
+      delayMilliseconds_ = value;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as A4AEmailService);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(A4AEmailService other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (ServiceName != other.ServiceName) return false;
+    if (ApiUserName != other.ApiUserName) return false;
+    if (ApiPassword != other.ApiPassword) return false;
+    if (Uri != other.Uri) return false;
+    if (Domain != other.Domain) return false;
+    if (LastPollTime != other.LastPollTime) return false;
+    if (DelayMilliseconds != other.DelayMilliseconds) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (ServiceName.Length != 0) hash ^= ServiceName.GetHashCode();
+    if (ApiUserName.Length != 0) hash ^= ApiUserName.GetHashCode();
+    if (ApiPassword.Length != 0) hash ^= ApiPassword.GetHashCode();
+    if (Uri.Length != 0) hash ^= Uri.GetHashCode();
+    if (Domain.Length != 0) hash ^= Domain.GetHashCode();
+    if (LastPollTime != 0L) hash ^= LastPollTime.GetHashCode();
+    if (DelayMilliseconds != 0L) hash ^= DelayMilliseconds.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (ServiceName.Length != 0) {
+      output.WriteRawTag(10);
+      output.WriteString(ServiceName);
+    }
+    if (ApiUserName.Length != 0) {
+      output.WriteRawTag(18);
+      output.WriteString(ApiUserName);
+    }
+    if (ApiPassword.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(ApiPassword);
+    }
+    if (Uri.Length != 0) {
+      output.WriteRawTag(34);
+      output.WriteString(Uri);
+    }
+    if (Domain.Length != 0) {
+      output.WriteRawTag(42);
+      output.WriteString(Domain);
+    }
+    if (LastPollTime != 0L) {
+      output.WriteRawTag(48);
+      output.WriteInt64(LastPollTime);
+    }
+    if (DelayMilliseconds != 0L) {
+      output.WriteRawTag(56);
+      output.WriteInt64(DelayMilliseconds);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (ServiceName.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(ServiceName);
+    }
+    if (ApiUserName.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(ApiUserName);
+    }
+    if (ApiPassword.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(ApiPassword);
+    }
+    if (Uri.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Uri);
+    }
+    if (Domain.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Domain);
+    }
+    if (LastPollTime != 0L) {
+      size += 1 + pb::CodedOutputStream.ComputeInt64Size(LastPollTime);
+    }
+    if (DelayMilliseconds != 0L) {
+      size += 1 + pb::CodedOutputStream.ComputeInt64Size(DelayMilliseconds);
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(A4AEmailService other) {
+    if (other == null) {
+      return;
+    }
+    if (other.ServiceName.Length != 0) {
+      ServiceName = other.ServiceName;
+    }
+    if (other.ApiUserName.Length != 0) {
+      ApiUserName = other.ApiUserName;
+    }
+    if (other.ApiPassword.Length != 0) {
+      ApiPassword = other.ApiPassword;
+    }
+    if (other.Uri.Length != 0) {
+      Uri = other.Uri;
+    }
+    if (other.Domain.Length != 0) {
+      Domain = other.Domain;
+    }
+    if (other.LastPollTime != 0L) {
+      LastPollTime = other.LastPollTime;
+    }
+    if (other.DelayMilliseconds != 0L) {
+      DelayMilliseconds = other.DelayMilliseconds;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 10: {
+          ServiceName = input.ReadString();
+          break;
+        }
+        case 18: {
+          ApiUserName = input.ReadString();
+          break;
+        }
+        case 26: {
+          ApiPassword = input.ReadString();
+          break;
+        }
+        case 34: {
+          Uri = input.ReadString();
+          break;
+        }
+        case 42: {
+          Domain = input.ReadString();
+          break;
+        }
+        case 48: {
+          LastPollTime = input.ReadInt64();
+          break;
+        }
+        case 56: {
+          DelayMilliseconds = input.ReadInt64();
+          break;
+        }
+      }
+    }
+  }
+
+}
+
 public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
   private static readonly pb::MessageParser<A4AAdministrator> _parser = new pb::MessageParser<A4AAdministrator>(() => new A4AAdministrator());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -515,7 +1138,7 @@ public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[1]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[3]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -532,8 +1155,8 @@ public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public A4AAdministrator(A4AAdministrator other) : this() {
+    administratorName_ = other.administratorName_;
     email_ = other.email_;
-    name_ = other.name_;
     level_ = other.level_;
   }
 
@@ -542,25 +1165,25 @@ public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
     return new A4AAdministrator(this);
   }
 
+  /// <summary>Field number for the "AdministratorName" field.</summary>
+  public const int AdministratorNameFieldNumber = 1;
+  private string administratorName_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string AdministratorName {
+    get { return administratorName_; }
+    set {
+      administratorName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
   /// <summary>Field number for the "Email" field.</summary>
-  public const int EmailFieldNumber = 1;
+  public const int EmailFieldNumber = 2;
   private string email_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string Email {
     get { return email_; }
     set {
       email_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
-  }
-
-  /// <summary>Field number for the "Name" field.</summary>
-  public const int NameFieldNumber = 2;
-  private string name_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string Name {
-    get { return name_; }
-    set {
-      name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
@@ -588,8 +1211,8 @@ public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
     if (ReferenceEquals(other, this)) {
       return true;
     }
+    if (AdministratorName != other.AdministratorName) return false;
     if (Email != other.Email) return false;
-    if (Name != other.Name) return false;
     if (Level != other.Level) return false;
     return true;
   }
@@ -597,8 +1220,8 @@ public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override int GetHashCode() {
     int hash = 1;
+    if (AdministratorName.Length != 0) hash ^= AdministratorName.GetHashCode();
     if (Email.Length != 0) hash ^= Email.GetHashCode();
-    if (Name.Length != 0) hash ^= Name.GetHashCode();
     if (Level != 0) hash ^= Level.GetHashCode();
     return hash;
   }
@@ -610,13 +1233,13 @@ public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public void WriteTo(pb::CodedOutputStream output) {
-    if (Email.Length != 0) {
+    if (AdministratorName.Length != 0) {
       output.WriteRawTag(10);
-      output.WriteString(Email);
+      output.WriteString(AdministratorName);
     }
-    if (Name.Length != 0) {
+    if (Email.Length != 0) {
       output.WriteRawTag(18);
-      output.WriteString(Name);
+      output.WriteString(Email);
     }
     if (Level != 0) {
       output.WriteRawTag(24);
@@ -627,11 +1250,11 @@ public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int CalculateSize() {
     int size = 0;
+    if (AdministratorName.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(AdministratorName);
+    }
     if (Email.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Email);
-    }
-    if (Name.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
     }
     if (Level != 0) {
       size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Level);
@@ -644,11 +1267,11 @@ public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
     if (other == null) {
       return;
     }
+    if (other.AdministratorName.Length != 0) {
+      AdministratorName = other.AdministratorName;
+    }
     if (other.Email.Length != 0) {
       Email = other.Email;
-    }
-    if (other.Name.Length != 0) {
-      Name = other.Name;
     }
     if (other.Level != 0) {
       Level = other.Level;
@@ -664,11 +1287,11 @@ public sealed partial class A4AAdministrator : pb::IMessage<A4AAdministrator> {
           input.SkipLastField();
           break;
         case 10: {
-          Email = input.ReadString();
+          AdministratorName = input.ReadString();
           break;
         }
         case 18: {
-          Name = input.ReadString();
+          Email = input.ReadString();
           break;
         }
         case 24: {
@@ -688,7 +1311,7 @@ public sealed partial class A4AUser : pb::IMessage<A4AUser> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[2]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[4]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -861,7 +1484,7 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[3]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[5]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -881,8 +1504,7 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     expertName_ = other.expertName_;
     firstName_ = other.firstName_;
     lastName_ = other.lastName_;
-    aliasEmail_ = other.aliasEmail_;
-    realEmail_ = other.realEmail_;
+    email_ = other.email_;
     mobile_ = other.mobile_;
     companyName_ = other.companyName_;
   }
@@ -893,7 +1515,7 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
   }
 
   /// <summary>Field number for the "ExpertName" field.</summary>
-  public const int ExpertNameFieldNumber = 4;
+  public const int ExpertNameFieldNumber = 1;
   private string expertName_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string ExpertName {
@@ -925,25 +1547,14 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     }
   }
 
-  /// <summary>Field number for the "AliasEmail" field.</summary>
-  public const int AliasEmailFieldNumber = 5;
-  private string aliasEmail_ = "";
+  /// <summary>Field number for the "Email" field.</summary>
+  public const int EmailFieldNumber = 4;
+  private string email_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string AliasEmail {
-    get { return aliasEmail_; }
+  public string Email {
+    get { return email_; }
     set {
-      aliasEmail_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
-  }
-
-  /// <summary>Field number for the "RealEmail" field.</summary>
-  public const int RealEmailFieldNumber = 6;
-  private string realEmail_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string RealEmail {
-    get { return realEmail_; }
-    set {
-      realEmail_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      email_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
@@ -985,8 +1596,7 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     if (ExpertName != other.ExpertName) return false;
     if (FirstName != other.FirstName) return false;
     if (LastName != other.LastName) return false;
-    if (AliasEmail != other.AliasEmail) return false;
-    if (RealEmail != other.RealEmail) return false;
+    if (Email != other.Email) return false;
     if (Mobile != other.Mobile) return false;
     if (CompanyName != other.CompanyName) return false;
     return true;
@@ -998,8 +1608,7 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     if (ExpertName.Length != 0) hash ^= ExpertName.GetHashCode();
     if (FirstName.Length != 0) hash ^= FirstName.GetHashCode();
     if (LastName.Length != 0) hash ^= LastName.GetHashCode();
-    if (AliasEmail.Length != 0) hash ^= AliasEmail.GetHashCode();
-    if (RealEmail.Length != 0) hash ^= RealEmail.GetHashCode();
+    if (Email.Length != 0) hash ^= Email.GetHashCode();
     if (Mobile.Length != 0) hash ^= Mobile.GetHashCode();
     if (CompanyName.Length != 0) hash ^= CompanyName.GetHashCode();
     return hash;
@@ -1012,6 +1621,10 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public void WriteTo(pb::CodedOutputStream output) {
+    if (ExpertName.Length != 0) {
+      output.WriteRawTag(10);
+      output.WriteString(ExpertName);
+    }
     if (FirstName.Length != 0) {
       output.WriteRawTag(18);
       output.WriteString(FirstName);
@@ -1020,17 +1633,9 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
       output.WriteRawTag(26);
       output.WriteString(LastName);
     }
-    if (ExpertName.Length != 0) {
+    if (Email.Length != 0) {
       output.WriteRawTag(34);
-      output.WriteString(ExpertName);
-    }
-    if (AliasEmail.Length != 0) {
-      output.WriteRawTag(42);
-      output.WriteString(AliasEmail);
-    }
-    if (RealEmail.Length != 0) {
-      output.WriteRawTag(50);
-      output.WriteString(RealEmail);
+      output.WriteString(Email);
     }
     if (Mobile.Length != 0) {
       output.WriteRawTag(58);
@@ -1054,11 +1659,8 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     if (LastName.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(LastName);
     }
-    if (AliasEmail.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(AliasEmail);
-    }
-    if (RealEmail.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(RealEmail);
+    if (Email.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Email);
     }
     if (Mobile.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Mobile);
@@ -1083,11 +1685,8 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     if (other.LastName.Length != 0) {
       LastName = other.LastName;
     }
-    if (other.AliasEmail.Length != 0) {
-      AliasEmail = other.AliasEmail;
-    }
-    if (other.RealEmail.Length != 0) {
-      RealEmail = other.RealEmail;
+    if (other.Email.Length != 0) {
+      Email = other.Email;
     }
     if (other.Mobile.Length != 0) {
       Mobile = other.Mobile;
@@ -1105,6 +1704,10 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
         default:
           input.SkipLastField();
           break;
+        case 10: {
+          ExpertName = input.ReadString();
+          break;
+        }
         case 18: {
           FirstName = input.ReadString();
           break;
@@ -1114,15 +1717,7 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
           break;
         }
         case 34: {
-          ExpertName = input.ReadString();
-          break;
-        }
-        case 42: {
-          AliasEmail = input.ReadString();
-          break;
-        }
-        case 50: {
-          RealEmail = input.ReadString();
+          Email = input.ReadString();
           break;
         }
         case 58: {
@@ -1146,7 +1741,7 @@ public sealed partial class A4ASubscription : pb::IMessage<A4ASubscription> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[4]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[6]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1375,7 +1970,7 @@ public sealed partial class A4AProfession : pb::IMessage<A4AProfession> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[5]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[7]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1492,7 +2087,7 @@ public sealed partial class A4ACategory : pb::IMessage<A4ACategory> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[6]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[8]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1637,7 +2232,7 @@ public sealed partial class A4ASubCategory : pb::IMessage<A4ASubCategory> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[7]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[9]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1803,6 +2398,459 @@ public sealed partial class A4ASubCategory : pb::IMessage<A4ASubCategory> {
 
 }
 
+public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
+  private static readonly pb::MessageParser<A4AEmailRecord> _parser = new pb::MessageParser<A4AEmailRecord>(() => new A4AEmailRecord());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<A4AEmailRecord> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[10]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4AEmailRecord() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4AEmailRecord(A4AEmailRecord other) : this() {
+    emailRecordId_ = other.emailRecordId_;
+    messageId_ = other.messageId_;
+    emailFrom_ = other.emailFrom_;
+    nameFrom_ = other.nameFrom_;
+    emailTo_ = other.emailTo_;
+    nameTo_ = other.nameTo_;
+    emailRecordIdRelatedTo_ = other.emailRecordIdRelatedTo_;
+    status_ = other.status_;
+    externalMessageId_ = other.externalMessageId_;
+    externalStatus_ = other.externalStatus_;
+    updatedTime_ = other.updatedTime_;
+    url_ = other.url_;
+    subject_ = other.subject_;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4AEmailRecord Clone() {
+    return new A4AEmailRecord(this);
+  }
+
+  /// <summary>Field number for the "EmailRecordId" field.</summary>
+  public const int EmailRecordIdFieldNumber = 1;
+  private string emailRecordId_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string EmailRecordId {
+    get { return emailRecordId_; }
+    set {
+      emailRecordId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "MessageId" field.</summary>
+  public const int MessageIdFieldNumber = 2;
+  private string messageId_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string MessageId {
+    get { return messageId_; }
+    set {
+      messageId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "EmailFrom" field.</summary>
+  public const int EmailFromFieldNumber = 3;
+  private string emailFrom_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string EmailFrom {
+    get { return emailFrom_; }
+    set {
+      emailFrom_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "NameFrom" field.</summary>
+  public const int NameFromFieldNumber = 4;
+  private string nameFrom_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string NameFrom {
+    get { return nameFrom_; }
+    set {
+      nameFrom_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "EmailTo" field.</summary>
+  public const int EmailToFieldNumber = 5;
+  private string emailTo_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string EmailTo {
+    get { return emailTo_; }
+    set {
+      emailTo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "NameTo" field.</summary>
+  public const int NameToFieldNumber = 6;
+  private string nameTo_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string NameTo {
+    get { return nameTo_; }
+    set {
+      nameTo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "EmailRecordIdRelatedTo" field.</summary>
+  public const int EmailRecordIdRelatedToFieldNumber = 7;
+  private string emailRecordIdRelatedTo_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string EmailRecordIdRelatedTo {
+    get { return emailRecordIdRelatedTo_; }
+    set {
+      emailRecordIdRelatedTo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Status" field.</summary>
+  public const int StatusFieldNumber = 8;
+  private global::EmailStatus status_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::EmailStatus Status {
+    get { return status_; }
+    set {
+      status_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "ExternalMessageId" field.</summary>
+  public const int ExternalMessageIdFieldNumber = 9;
+  private string externalMessageId_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string ExternalMessageId {
+    get { return externalMessageId_; }
+    set {
+      externalMessageId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "ExternalStatus" field.</summary>
+  public const int ExternalStatusFieldNumber = 10;
+  private string externalStatus_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string ExternalStatus {
+    get { return externalStatus_; }
+    set {
+      externalStatus_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "UpdatedTime" field.</summary>
+  public const int UpdatedTimeFieldNumber = 11;
+  private string updatedTime_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string UpdatedTime {
+    get { return updatedTime_; }
+    set {
+      updatedTime_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Url" field.</summary>
+  public const int UrlFieldNumber = 12;
+  private string url_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Url {
+    get { return url_; }
+    set {
+      url_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Subject" field.</summary>
+  public const int SubjectFieldNumber = 13;
+  private string subject_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Subject {
+    get { return subject_; }
+    set {
+      subject_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as A4AEmailRecord);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(A4AEmailRecord other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (EmailRecordId != other.EmailRecordId) return false;
+    if (MessageId != other.MessageId) return false;
+    if (EmailFrom != other.EmailFrom) return false;
+    if (NameFrom != other.NameFrom) return false;
+    if (EmailTo != other.EmailTo) return false;
+    if (NameTo != other.NameTo) return false;
+    if (EmailRecordIdRelatedTo != other.EmailRecordIdRelatedTo) return false;
+    if (Status != other.Status) return false;
+    if (ExternalMessageId != other.ExternalMessageId) return false;
+    if (ExternalStatus != other.ExternalStatus) return false;
+    if (UpdatedTime != other.UpdatedTime) return false;
+    if (Url != other.Url) return false;
+    if (Subject != other.Subject) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (EmailRecordId.Length != 0) hash ^= EmailRecordId.GetHashCode();
+    if (MessageId.Length != 0) hash ^= MessageId.GetHashCode();
+    if (EmailFrom.Length != 0) hash ^= EmailFrom.GetHashCode();
+    if (NameFrom.Length != 0) hash ^= NameFrom.GetHashCode();
+    if (EmailTo.Length != 0) hash ^= EmailTo.GetHashCode();
+    if (NameTo.Length != 0) hash ^= NameTo.GetHashCode();
+    if (EmailRecordIdRelatedTo.Length != 0) hash ^= EmailRecordIdRelatedTo.GetHashCode();
+    if (Status != 0) hash ^= Status.GetHashCode();
+    if (ExternalMessageId.Length != 0) hash ^= ExternalMessageId.GetHashCode();
+    if (ExternalStatus.Length != 0) hash ^= ExternalStatus.GetHashCode();
+    if (UpdatedTime.Length != 0) hash ^= UpdatedTime.GetHashCode();
+    if (Url.Length != 0) hash ^= Url.GetHashCode();
+    if (Subject.Length != 0) hash ^= Subject.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (EmailRecordId.Length != 0) {
+      output.WriteRawTag(10);
+      output.WriteString(EmailRecordId);
+    }
+    if (MessageId.Length != 0) {
+      output.WriteRawTag(18);
+      output.WriteString(MessageId);
+    }
+    if (EmailFrom.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(EmailFrom);
+    }
+    if (NameFrom.Length != 0) {
+      output.WriteRawTag(34);
+      output.WriteString(NameFrom);
+    }
+    if (EmailTo.Length != 0) {
+      output.WriteRawTag(42);
+      output.WriteString(EmailTo);
+    }
+    if (NameTo.Length != 0) {
+      output.WriteRawTag(50);
+      output.WriteString(NameTo);
+    }
+    if (EmailRecordIdRelatedTo.Length != 0) {
+      output.WriteRawTag(58);
+      output.WriteString(EmailRecordIdRelatedTo);
+    }
+    if (Status != 0) {
+      output.WriteRawTag(64);
+      output.WriteEnum((int) Status);
+    }
+    if (ExternalMessageId.Length != 0) {
+      output.WriteRawTag(74);
+      output.WriteString(ExternalMessageId);
+    }
+    if (ExternalStatus.Length != 0) {
+      output.WriteRawTag(82);
+      output.WriteString(ExternalStatus);
+    }
+    if (UpdatedTime.Length != 0) {
+      output.WriteRawTag(90);
+      output.WriteString(UpdatedTime);
+    }
+    if (Url.Length != 0) {
+      output.WriteRawTag(98);
+      output.WriteString(Url);
+    }
+    if (Subject.Length != 0) {
+      output.WriteRawTag(106);
+      output.WriteString(Subject);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (EmailRecordId.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(EmailRecordId);
+    }
+    if (MessageId.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(MessageId);
+    }
+    if (EmailFrom.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(EmailFrom);
+    }
+    if (NameFrom.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(NameFrom);
+    }
+    if (EmailTo.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(EmailTo);
+    }
+    if (NameTo.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(NameTo);
+    }
+    if (EmailRecordIdRelatedTo.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(EmailRecordIdRelatedTo);
+    }
+    if (Status != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Status);
+    }
+    if (ExternalMessageId.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(ExternalMessageId);
+    }
+    if (ExternalStatus.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(ExternalStatus);
+    }
+    if (UpdatedTime.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(UpdatedTime);
+    }
+    if (Url.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
+    }
+    if (Subject.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Subject);
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(A4AEmailRecord other) {
+    if (other == null) {
+      return;
+    }
+    if (other.EmailRecordId.Length != 0) {
+      EmailRecordId = other.EmailRecordId;
+    }
+    if (other.MessageId.Length != 0) {
+      MessageId = other.MessageId;
+    }
+    if (other.EmailFrom.Length != 0) {
+      EmailFrom = other.EmailFrom;
+    }
+    if (other.NameFrom.Length != 0) {
+      NameFrom = other.NameFrom;
+    }
+    if (other.EmailTo.Length != 0) {
+      EmailTo = other.EmailTo;
+    }
+    if (other.NameTo.Length != 0) {
+      NameTo = other.NameTo;
+    }
+    if (other.EmailRecordIdRelatedTo.Length != 0) {
+      EmailRecordIdRelatedTo = other.EmailRecordIdRelatedTo;
+    }
+    if (other.Status != 0) {
+      Status = other.Status;
+    }
+    if (other.ExternalMessageId.Length != 0) {
+      ExternalMessageId = other.ExternalMessageId;
+    }
+    if (other.ExternalStatus.Length != 0) {
+      ExternalStatus = other.ExternalStatus;
+    }
+    if (other.UpdatedTime.Length != 0) {
+      UpdatedTime = other.UpdatedTime;
+    }
+    if (other.Url.Length != 0) {
+      Url = other.Url;
+    }
+    if (other.Subject.Length != 0) {
+      Subject = other.Subject;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 10: {
+          EmailRecordId = input.ReadString();
+          break;
+        }
+        case 18: {
+          MessageId = input.ReadString();
+          break;
+        }
+        case 26: {
+          EmailFrom = input.ReadString();
+          break;
+        }
+        case 34: {
+          NameFrom = input.ReadString();
+          break;
+        }
+        case 42: {
+          EmailTo = input.ReadString();
+          break;
+        }
+        case 50: {
+          NameTo = input.ReadString();
+          break;
+        }
+        case 58: {
+          EmailRecordIdRelatedTo = input.ReadString();
+          break;
+        }
+        case 64: {
+          status_ = (global::EmailStatus) input.ReadEnum();
+          break;
+        }
+        case 74: {
+          ExternalMessageId = input.ReadString();
+          break;
+        }
+        case 82: {
+          ExternalStatus = input.ReadString();
+          break;
+        }
+        case 90: {
+          UpdatedTime = input.ReadString();
+          break;
+        }
+        case 98: {
+          Url = input.ReadString();
+          break;
+        }
+        case 106: {
+          Subject = input.ReadString();
+          break;
+        }
+      }
+    }
+  }
+
+}
+
 public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
   private static readonly pb::MessageParser<A4AMessage> _parser = new pb::MessageParser<A4AMessage>(() => new A4AMessage());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1810,7 +2858,7 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[8]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[11]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1830,8 +2878,12 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     messageId_ = other.messageId_;
     content_ = other.content_;
     contentType_ = other.contentType_;
-    a4ASubCategory_ = other.a4ASubCategory_;
-    userName_ = other.userName_;
+    emailSender_ = other.emailSender_;
+    date_ = other.date_;
+    subject_ = other.subject_;
+    profession_ = other.profession_;
+    category_ = other.category_;
+    subCategory_ = other.subCategory_;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1872,25 +2924,69 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     }
   }
 
-  /// <summary>Field number for the "A4ASubCategory" field.</summary>
-  public const int A4ASubCategoryFieldNumber = 4;
-  private string a4ASubCategory_ = "";
+  /// <summary>Field number for the "EmailSender" field.</summary>
+  public const int EmailSenderFieldNumber = 7;
+  private string emailSender_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string A4ASubCategory {
-    get { return a4ASubCategory_; }
+  public string EmailSender {
+    get { return emailSender_; }
     set {
-      a4ASubCategory_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      emailSender_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
-  /// <summary>Field number for the "UserName" field.</summary>
-  public const int UserNameFieldNumber = 6;
-  private string userName_ = "";
+  /// <summary>Field number for the "Date" field.</summary>
+  public const int DateFieldNumber = 8;
+  private string date_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string UserName {
-    get { return userName_; }
+  public string Date {
+    get { return date_; }
     set {
-      userName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      date_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Subject" field.</summary>
+  public const int SubjectFieldNumber = 9;
+  private string subject_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Subject {
+    get { return subject_; }
+    set {
+      subject_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Profession" field.</summary>
+  public const int ProfessionFieldNumber = 10;
+  private string profession_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Profession {
+    get { return profession_; }
+    set {
+      profession_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Category" field.</summary>
+  public const int CategoryFieldNumber = 11;
+  private string category_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Category {
+    get { return category_; }
+    set {
+      category_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "SubCategory" field.</summary>
+  public const int SubCategoryFieldNumber = 12;
+  private string subCategory_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string SubCategory {
+    get { return subCategory_; }
+    set {
+      subCategory_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
@@ -1910,8 +3006,12 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (MessageId != other.MessageId) return false;
     if (Content != other.Content) return false;
     if (ContentType != other.ContentType) return false;
-    if (A4ASubCategory != other.A4ASubCategory) return false;
-    if (UserName != other.UserName) return false;
+    if (EmailSender != other.EmailSender) return false;
+    if (Date != other.Date) return false;
+    if (Subject != other.Subject) return false;
+    if (Profession != other.Profession) return false;
+    if (Category != other.Category) return false;
+    if (SubCategory != other.SubCategory) return false;
     return true;
   }
 
@@ -1921,8 +3021,12 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (MessageId.Length != 0) hash ^= MessageId.GetHashCode();
     if (Content.Length != 0) hash ^= Content.GetHashCode();
     if (ContentType != 0) hash ^= ContentType.GetHashCode();
-    if (A4ASubCategory.Length != 0) hash ^= A4ASubCategory.GetHashCode();
-    if (UserName.Length != 0) hash ^= UserName.GetHashCode();
+    if (EmailSender.Length != 0) hash ^= EmailSender.GetHashCode();
+    if (Date.Length != 0) hash ^= Date.GetHashCode();
+    if (Subject.Length != 0) hash ^= Subject.GetHashCode();
+    if (Profession.Length != 0) hash ^= Profession.GetHashCode();
+    if (Category.Length != 0) hash ^= Category.GetHashCode();
+    if (SubCategory.Length != 0) hash ^= SubCategory.GetHashCode();
     return hash;
   }
 
@@ -1945,13 +3049,29 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
       output.WriteRawTag(24);
       output.WriteEnum((int) ContentType);
     }
-    if (A4ASubCategory.Length != 0) {
-      output.WriteRawTag(34);
-      output.WriteString(A4ASubCategory);
+    if (EmailSender.Length != 0) {
+      output.WriteRawTag(58);
+      output.WriteString(EmailSender);
     }
-    if (UserName.Length != 0) {
-      output.WriteRawTag(50);
-      output.WriteString(UserName);
+    if (Date.Length != 0) {
+      output.WriteRawTag(66);
+      output.WriteString(Date);
+    }
+    if (Subject.Length != 0) {
+      output.WriteRawTag(74);
+      output.WriteString(Subject);
+    }
+    if (Profession.Length != 0) {
+      output.WriteRawTag(82);
+      output.WriteString(Profession);
+    }
+    if (Category.Length != 0) {
+      output.WriteRawTag(90);
+      output.WriteString(Category);
+    }
+    if (SubCategory.Length != 0) {
+      output.WriteRawTag(98);
+      output.WriteString(SubCategory);
     }
   }
 
@@ -1967,11 +3087,23 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (ContentType != 0) {
       size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ContentType);
     }
-    if (A4ASubCategory.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(A4ASubCategory);
+    if (EmailSender.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(EmailSender);
     }
-    if (UserName.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(UserName);
+    if (Date.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Date);
+    }
+    if (Subject.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Subject);
+    }
+    if (Profession.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Profession);
+    }
+    if (Category.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Category);
+    }
+    if (SubCategory.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(SubCategory);
     }
     return size;
   }
@@ -1990,11 +3122,23 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (other.ContentType != 0) {
       ContentType = other.ContentType;
     }
-    if (other.A4ASubCategory.Length != 0) {
-      A4ASubCategory = other.A4ASubCategory;
+    if (other.EmailSender.Length != 0) {
+      EmailSender = other.EmailSender;
     }
-    if (other.UserName.Length != 0) {
-      UserName = other.UserName;
+    if (other.Date.Length != 0) {
+      Date = other.Date;
+    }
+    if (other.Subject.Length != 0) {
+      Subject = other.Subject;
+    }
+    if (other.Profession.Length != 0) {
+      Profession = other.Profession;
+    }
+    if (other.Category.Length != 0) {
+      Category = other.Category;
+    }
+    if (other.SubCategory.Length != 0) {
+      SubCategory = other.SubCategory;
     }
   }
 
@@ -2018,12 +3162,28 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
           contentType_ = (global::A4AContentType) input.ReadEnum();
           break;
         }
-        case 34: {
-          A4ASubCategory = input.ReadString();
+        case 58: {
+          EmailSender = input.ReadString();
           break;
         }
-        case 50: {
-          UserName = input.ReadString();
+        case 66: {
+          Date = input.ReadString();
+          break;
+        }
+        case 74: {
+          Subject = input.ReadString();
+          break;
+        }
+        case 82: {
+          Profession = input.ReadString();
+          break;
+        }
+        case 90: {
+          Category = input.ReadString();
+          break;
+        }
+        case 98: {
+          SubCategory = input.ReadString();
           break;
         }
       }

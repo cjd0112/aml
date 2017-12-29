@@ -1,77 +1,97 @@
 ﻿@{
-    ViewData["Title"] = "Contact";
-   
+    ViewData["Title"] = "App For Answers - Login";
+
 }
 
+@using App4Answers.Models.A4Amodels
+@using App4Answers.Models.A4Amodels.Login
+@using As.Shared;
+
+@model App4Answers.Models.A4Amodels.Login.A4ALoginViewModel
 
 <div class="row" style="height:250px">
-    
+
 </div>
-        
+
 <div class="row">
-    <form asp-action="Administration" asp-route-objecttype="Company">
-    <div class="col-sm-4"></div>
+    
+        <div class="col-sm-4">
 
-    <div class="col-sm-4">
-        <div class="row">
-            <div class="col-sm-2">
+        </div>
+        <div class="col-sm-4" >
+            @if (Model.Authenticated != A4ALoginViewModel.AuthenticationResult.None)
+            {
+                <h3 style="color:white;">@Model.Authenticated.ToString().ConvertCamelCase()</h3>
+            }
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+</div>
+
+<div class="row">
+    <form asp-action="Index"  >
+        <div class="col-sm-4"></div>
+
+        <div class="col-sm-4">
+            <div class="row">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-lg" name="Email" placeholder="Email Address" />
+                </div>
+                <div class="col-sm-2">
+
+                </div>
 
             </div>
-            <div class="col-sm-8">
-                <input type="text" class="form-control input-lg" id="user" placeholder="Email Address"/>
+            <div class="row">
+                <div class="col-sm-12" style="color: white">
+                    <h5>Enter 4-digit pin</h5>
+                </div>
             </div>
-            <div class="col-sm-2">
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-2" style="color: white">
+                    <input type="text" name="Code1" class="form-control input-lg" />
+                </div>
+                <div class="col-xs-2" style="color: white">
+                    <input type="text" name="Code2" class="form-control input-lg" />
+                </div>
 
+                <div class="col-xs-2" style="color: white">
+                    <input type="text" name="Code3" class="form-control input-lg" />
+                </div>
+
+                <div class="col-xs-2" style="color: white">
+                    <input type="text" name="Code4" class="form-control input-lg" />
+                </div>
+                <div class="col-xs-2"></div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12" style="color: white; height: 20px">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-8" style="color: white">
+                    <input type="submit" class="form-control input-lg" value="Login" />
+                </div>
+                <div class="col-sm-2">
+
+                </div>
             </div>
 
         </div>
-        <div class="row">
-            <div class="col-sm-12" style="color: white">
-                <h5>Enter 4-digit pin</h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"></div>
-            <div class="col-xs-2" style="color: white">
-                <input type="text" class="form-control input-lg"/>
-            </div>
-            <div class="col-xs-2" style="color: white">
-                <input type="text" class="form-control input-lg"/>
-            </div>
 
-            <div class="col-xs-2" style="color: white">
-                <input type="text" class="form-control input-lg"/>
-            </div>
+        <div class="col-sm-4"></div>
 
-            <div class="col-xs-2" style="color: white">
-                <input type="text" class="form-control input-lg"/>
-            </div>
-            <div class="col-xs-2"></div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12" style="color: white; height: 20px">
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-2">
-
-            </div>
-            <div class="col-sm-8" style="color: white">
-                <input type="submit" class="form-control input-lg" value="Login"/>
-            </div>
-            <div class="col-sm-2">
-
-            </div>
-        </div>
-
-    </div>
-
-    <div class="col-sm-4"></div>
-        
     </form>
 </div>
-    

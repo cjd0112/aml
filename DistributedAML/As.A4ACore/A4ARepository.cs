@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using As.GraphDB;
@@ -38,6 +39,9 @@ namespace As.A4ACore
             {
                 tables[type] =
                     new SqlTableWithPrimaryKey(new SqlitePropertiesAndCommands(TypeContainer.GetTypeContainer(type)));
+
+                if (type == typeof(A4AEmailRecord))
+                    tables[type].ConvertEmptyForeignKeysToNull();
             }
             conn = new SqlConnection(connectionString);
 
@@ -47,6 +51,10 @@ namespace As.A4ACore
             {
                 foreach (var c in tables.Keys)
                 {
+                    if (c == typeof(A4AEmailRecord))
+                    {
+
+                    }
                     tables[c].PropertiesAndCommands
                         .VerifyForeignKeysFromOtherTables(tables.Values.Select(x => x.PropertiesAndCommands));
 
@@ -112,6 +120,12 @@ namespace As.A4ACore
             using (var connection = conn.ConnectionFk())
             {
                 var sqlTable = tables[typeof(T)];
+
+                var existing = sqlTable.SelectDataByPrimaryKey<T>(connection, primaryKey);
+
+                if (existing == null)
+                    throw new Exception($"Delete failed - Entry in table {sqlTable.TableName} with primaryKey: '{primaryKey}'  on column {sqlTable.PropertiesAndCommands.GetPrimaryKeyProperty().Name} is not found");
+
                 sqlTable.Delete<T>(connection, primaryKey);
             }
         }
@@ -145,13 +159,79 @@ namespace As.A4ACore
                     .Where(x => x.foreignKey != null)
                     .Select(x => x.foreignKey))
                 {
-                    var table = tables[A4ATypes.First(x => x.Name == c.TableName)];
+                    var table = tables[A4ATypes.First(x => x.Name == c.ParentTableName)];
 
                     yield return (c, table.SelectPrimaryKeyValues(connection).ToArray());
                 }
             }
         }
 
+        public (A4AUser user,IEnumerable<A4AExpert> experts) GetUserAndExpertsForMessage(A4AMessage msg)
+        {
+            A4AUser user = null;
+            List<A4AExpert> experts = new List<A4AExpert>();
+            using (var connection = conn.Connection())
+            {
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText =
+                        $"select C.* from A4ASubscription as A inner join A4AMessage as B inner join A4AExpert as C on A.Profession == B.Profession and C.ExpertName == A.ExpertName and A.Category == B.Category and A.SubCategory == B.SubCategory and B.MessageId = '{msg.MessageId}';";
+                    using (var data = cmd.ExecuteReader())
+                    {
+                        var p = new DataRecordHelper<A4AExpert>(tables[typeof(A4AExpert)].PropertiesAndCommands, data);
 
+                        while (data.Read())
+                        {
+                            experts.Add(p.GetObject());
+                        }
+                    }
+                }
+
+                var userTable = tables[typeof(A4AUser)];
+                user = userTable.SelectOne<A4AUser>(connection, "Email", msg.EmailSender);
+            }
+
+            return (user,experts);
+        }
+
+        public int Count<T>()
+        {
+            using (var connection = conn.Connection())
+            {
+                var sqlTable = tables[typeof(T)];
+                return sqlTable.GetCount(connection);
+            }
+        }
+
+        public A4AEmailRecord UpdateEmailRecordStatus(string externalMessageId, string status)
+        {
+            using (var connection = conn.Connection())
+            {
+                var sqlTable = tables[typeof(A4AEmailRecord)];
+                var z = sqlTable.SelectOne<A4AEmailRecord>(connection, "externalMessageId",externalMessageId);
+                z.ExternalStatus = status;
+                z.UpdatedTime = DateTime.Now.ToUniversalTime().ToString("r");
+
+                sqlTable.InsertOrReplace(connection, new[] {z}, true);
+
+                return z;
+            }
+        }
+
+        public (A4AUser user, A4AExpert expert) GetUserAndExpertForReply(string userName, string expertEmail)
+        {
+            using (var connection = conn.Connection())
+            {
+                var userTable = tables[typeof(A4AUser)];
+
+                var expertTable = tables[typeof(A4AExpert)];
+
+                var user = userTable.SelectOne<A4AUser>(connection, "UserName", userName);
+
+                var expert = expertTable.SelectOne<A4AExpert>(connection, "Email", expertEmail);
+
+                return (user, expert);
+            }
+        }
     }
 }

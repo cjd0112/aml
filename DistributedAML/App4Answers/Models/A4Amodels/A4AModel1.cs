@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using App4Answers.Models.A4Amodels.Administration;
+using App4Answers.Models.A4Amodels.Base;
+using App4Answers.Models.A4Amodels.EmailManager;
+using App4Answers.Models.A4Amodels.Login;
 using As.A4ACore;
+using As.Email;
 using As.GraphDB.Sql;
+using As.Logger;
+using As.Shared;
 using Microsoft.AspNetCore.Http;
 
 namespace App4Answers.Models.A4Amodels
@@ -11,19 +18,74 @@ namespace App4Answers.Models.A4Amodels
     {
         public A4ARepository Repository { get; private set; }
 
-        public ObjectTypesAndVerbs.ObjectType ObjectType { get; set; }
-        public ObjectTypesAndVerbs.Verb Verb { get; set; }
-
-        public A4AModel1(A4ARepository repository)
+        public ModelNames.AdministrationNames AdministrationNames { get; set; }
+        public ModelNames.Verb Verb { get; set; }
+        private HttpContextAccessor accessor;
+        private IEmailSender sender;
+        public A4AModel1(A4ARepository repository,HttpContextAccessor accessor,IEmailSender sender )
         {
             this.Repository = repository;
+            this.accessor = accessor;
+            this.sender = sender;
+
         }
+
+        public A4AEmailService GetEmailDefinition()
+        {
+            var emailService = Repository.GetObjectByPrimaryKey<A4AEmailService>("mailgun");
+            if (emailService == null)
+                throw new Exception(
+                    "Could not load email service settings from database - looking for 'mailgun' entry in 'A4AEmailService' table");
+
+            return emailService;
+        }
+
+        public void SaveEmailDefinition(A4AEmailService service)
+        {
+            Repository.SaveObject(service);
+        }
+
+        private String GetUser()
+        {
+            return accessor.HttpContext.Session.GetString(ModelNames.SessionStrings.User.ToString());
+        }
+
+        private ModelNames.Role GetRole()
+        {
+            return (ModelNames.Role) Enum.Parse(typeof(ModelNames.Role),accessor.HttpContext.Session.GetString(ModelNames.SessionStrings.Role.ToString()));
+
+        }
+
+        public A4ALoginViewModel Login(A4ALoginViewModel vm)
+        {
+            var aa = Repository.GetObjectByPrimaryKey<A4AAuthenticationAccount>(vm.Email);
+            if (aa == null)
+            {
+                // account does not exist
+                vm.Authenticated = A4ALoginViewModel.AuthenticationResult.UserNotFound;
+            }
+            else
+            {
+                vm.AuthenticationAccount = aa;
+
+                if (vm.Code1 == aa.Code1 && vm.Code2 == aa.Code2 && vm.Code3 == aa.Code3 && vm.Code4 == aa.Code4)
+                {
+                    vm.Authenticated = A4ALoginViewModel.AuthenticationResult.Authenticated;
+                }
+                else
+                {
+                    vm.Authenticated = A4ALoginViewModel.AuthenticationResult.PasswordInvalid;
+                }
+            }
+            return vm;
+        }
+
         #region COMPANY
 
 
         public A4ACompanyDetailViewModel NewCompany()
         {
-            return new A4ACompanyDetailViewModel(new A4ACompany(), ObjectTypesAndVerbs.Verb.New)
+            return new A4ACompanyDetailViewModel(new A4ACompany(), ModelNames.Verb.New)
                 .AddForeignKeys<A4ACompanyDetailViewModel>(Repository.GetPossibleForeignKeys<A4ACompany>());
         }
 
@@ -31,13 +93,15 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4ACompanySummaryViewModel), Repository
                 .QueryObjects<A4ACompany>($"", new Range(), new Sort())
-                .Select(x => new A4ACompanySummaryViewModel(x,ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Company,ObjectTypesAndVerbs.Verb.List);
+                .Select(x => new A4ACompanySummaryViewModel(x,ModelNames.Verb.List)),
+                ModelNames.AdministrationNames.Company,ModelNames.Verb.List);
         }
 
         public A4ACompanyDetailViewModel EditCompany(string id)
         {
-            return new A4ACompanyDetailViewModel(Repository.GetObjectByPrimaryKey<A4ACompany>(id),ObjectTypesAndVerbs.Verb.Edit);
+            return new A4ACompanyDetailViewModel(Repository.GetObjectByPrimaryKey<A4ACompany>(id),
+                    ModelNames.Verb.Edit)
+                .AddForeignKeys<A4ACompanyDetailViewModel>(Repository.GetPossibleForeignKeys<A4ACompany>());
         }
 
         public ViewModelListBase SaveCompany(IFormCollection form)
@@ -46,9 +110,10 @@ namespace App4Answers.Models.A4Amodels
             return ListCompany();
         }
 
-        public void DeleteCompany(String id)
+        public ViewModelListBase DeleteCompany(String id)
         {
             Repository.DeleteObject<A4ACompany>(id);
+            return ListCompany();
         }
         #endregion
 
@@ -57,13 +122,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4AExpertSummaryViewModel), Repository
                     .QueryObjects<A4AExpert>($"", new Range(), new Sort())
-                    .Select(x => new A4AExpertSummaryViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Expert, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4AExpertSummaryViewModel(x, ModelNames.Verb.List)),
+                ModelNames.AdministrationNames.Expert, ModelNames.Verb.List);
         }
 
         public A4AExpertDetailViewModel NewExpert()
         {
-            return new A4AExpertDetailViewModel(new A4AExpert(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4AExpertDetailViewModel>(
+            return new A4AExpertDetailViewModel(new A4AExpert(), ModelNames.Verb.New).AddForeignKeys<A4AExpertDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4AExpert>());
         }
 
@@ -71,7 +136,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4AExpertDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4AExpert>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ModelNames.Verb.Edit)
                 .AddForeignKeys<A4AExpertDetailViewModel>(Repository.GetPossibleForeignKeys<A4AExpert>());
         }
 
@@ -82,9 +147,10 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        public void DeleteExpert(String id)
+        public ViewModelListBase DeleteExpert(String id)
         {
             Repository.DeleteObject<A4AExpert>(id);
+            return ListExpert();
         }
         #endregion EXPERT
 
@@ -94,13 +160,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4AProfessionDetailViewModel), Repository
                     .QueryObjects<A4AProfession>($"", new Range(), new Sort())
-                    .Select(x => new A4AProfessionDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Profession, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4AProfessionDetailViewModel(x, ModelNames.Verb.List)),
+                ModelNames.AdministrationNames.Profession, ModelNames.Verb.List);
         }
 
         public A4AProfessionDetailViewModel NewProfession()
         {
-            return new A4AProfessionDetailViewModel(new A4AProfession(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4AProfessionDetailViewModel>(
+            return new A4AProfessionDetailViewModel(new A4AProfession(), ModelNames.Verb.New).AddForeignKeys<A4AProfessionDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4AProfession>());
         }
 
@@ -108,7 +174,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4AProfessionDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4AProfession>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ModelNames.Verb.Edit)
                 .AddForeignKeys<A4AProfessionDetailViewModel>(Repository.GetPossibleForeignKeys<A4AProfession>());
         }
 
@@ -119,9 +185,10 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        public void DeleteProfession(String id)
+        public ViewModelListBase DeleteProfession(String id)
         {
             Repository.DeleteObject<A4AProfession>(id);
+            return ListProfession();
         }
         #endregion PROFESSION
 
@@ -131,13 +198,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4ACategoryDetailViewModel), Repository
                     .QueryObjects<A4ACategory>($"", new Range(), new Sort())
-                    .Select(x => new A4ACategoryDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Category, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4ACategoryDetailViewModel(x, ModelNames.Verb.List)),
+                ModelNames.AdministrationNames.Category, ModelNames.Verb.List);
         }
 
         public A4ACategoryDetailViewModel NewCategory()
         {
-            return new A4ACategoryDetailViewModel(new A4ACategory(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4ACategoryDetailViewModel>(
+            return new A4ACategoryDetailViewModel(new A4ACategory(), ModelNames.Verb.New).AddForeignKeys<A4ACategoryDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4ACategory>());
         }
 
@@ -145,7 +212,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4ACategoryDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4ACategory>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ModelNames.Verb.Edit)
                 .AddForeignKeys<A4ACategoryDetailViewModel>(Repository.GetPossibleForeignKeys<A4ACategory>());
         }
 
@@ -156,9 +223,10 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        public void DeleteCategory(String id)
+        public ViewModelListBase DeleteCategory(String id)
         {
             Repository.DeleteObject<A4ACategory>(id);
+            return ListCategory();
         }
         #endregion CATEGORY 
 
@@ -167,13 +235,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4ASubCategoryDetailViewModel), Repository
                     .QueryObjects<A4ASubCategory>($"", new Range(), new Sort())
-                    .Select(x => new A4ASubCategoryDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.SubCategory, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4ASubCategoryDetailViewModel(x, ModelNames.Verb.List)),
+                ModelNames.AdministrationNames.SubCategory, ModelNames.Verb.List);
         }
 
         public A4ASubCategoryDetailViewModel NewSubCategory()
         {
-            return new A4ASubCategoryDetailViewModel(new A4ASubCategory(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4ASubCategoryDetailViewModel>(
+            return new A4ASubCategoryDetailViewModel(new A4ASubCategory(), ModelNames.Verb.New).AddForeignKeys<A4ASubCategoryDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4ASubCategory>());
         }
 
@@ -181,7 +249,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4ASubCategoryDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4ASubCategory>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ModelNames.Verb.Edit)
                 .AddForeignKeys<A4ASubCategoryDetailViewModel>(Repository.GetPossibleForeignKeys<A4ASubCategory>());
         }
 
@@ -192,9 +260,10 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        public void DeleteSubCategory(String id)
+        public ViewModelListBase DeleteSubCategory(String id)
         {
             Repository.DeleteObject<A4ASubCategory>(id);
+            return ListSubCategory();
         }
         #endregion SUBCATEGORY 
 
@@ -203,13 +272,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4ASubscriptionDetailViewModel), Repository
                     .QueryObjects<A4ASubscription>($"", new Range(), new Sort())
-                    .Select(x => new A4ASubscriptionDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Subscription, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4ASubscriptionDetailViewModel(x, ModelNames.Verb.List)),
+                ModelNames.AdministrationNames.Subscription, ModelNames.Verb.List);
         }
 
         public A4ASubscriptionDetailViewModel NewSubscription()
         {
-            return new A4ASubscriptionDetailViewModel(new A4ASubscription(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4ASubscriptionDetailViewModel>(
+            return new A4ASubscriptionDetailViewModel(new A4ASubscription(), ModelNames.Verb.New).AddForeignKeys<A4ASubscriptionDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4ASubscription>());
         }
 
@@ -217,7 +286,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4ASubscriptionDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4ASubscription>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ModelNames.Verb.Edit)
                 .AddForeignKeys<A4ASubscriptionDetailViewModel>(Repository.GetPossibleForeignKeys<A4ASubscription>());
         }
 
@@ -228,9 +297,10 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        public void DeleteSubscription(String id)
+        public ViewModelListBase DeleteSubscription(String id)
         {
-            Repository.DeleteObject<A4ASubCategory>(id);
+            Repository.DeleteObject<A4ASubscription>(id);
+            return ListSubscription();
         }
         #endregion SUBCATEGORY 
 
@@ -239,13 +309,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4AAdministratorDetailViewModel), Repository
                     .QueryObjects<A4AAdministrator>($"", new Range(), new Sort())
-                    .Select(x => new A4AAdministratorDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.Administrator, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4AAdministratorDetailViewModel(x, ModelNames.Verb.List)),
+                ModelNames.AdministrationNames.Administrator, ModelNames.Verb.List);
         }
 
         public A4AAdministratorDetailViewModel NewAdministrator()
         {
-            return new A4AAdministratorDetailViewModel(new A4AAdministrator(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4AAdministratorDetailViewModel>(
+            return new A4AAdministratorDetailViewModel(new A4AAdministrator(), ModelNames.Verb.New).AddForeignKeys<A4AAdministratorDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4AAdministrator>());
         }
 
@@ -253,7 +323,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4AAdministratorDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4AAdministrator>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ModelNames.Verb.Edit)
                 .AddForeignKeys<A4AAdministratorDetailViewModel>(Repository.GetPossibleForeignKeys<A4AAdministrator>());
         }
 
@@ -264,9 +334,10 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        public void DeleteAdministrator(String id)
+        public ViewModelListBase DeleteAdministrator(String id)
         {
-            Repository.DeleteObject<A4ASubCategory>(id);
+            Repository.DeleteObject<A4AAdministrator>(id);
+            return ListAdministrator();
         }
         #endregion ADMINISTRATORS 
 
@@ -275,13 +346,13 @@ namespace App4Answers.Models.A4Amodels
         {
             return new ViewModelListBase(typeof(A4AUserDetailViewModel), Repository
                     .QueryObjects<A4AUser>($"", new Range(), new Sort())
-                    .Select(x => new A4AUserDetailViewModel(x, ObjectTypesAndVerbs.Verb.List)),
-                ObjectTypesAndVerbs.ObjectType.User, ObjectTypesAndVerbs.Verb.List);
+                    .Select(x => new A4AUserDetailViewModel(x, ModelNames.Verb.List)),
+                ModelNames.AdministrationNames.User, ModelNames.Verb.List);
         }
 
         public A4AUserDetailViewModel NewUser()
         {
-            return new A4AUserDetailViewModel(new A4AUser(), ObjectTypesAndVerbs.Verb.New).AddForeignKeys<A4AUserDetailViewModel>(
+            return new A4AUserDetailViewModel(new A4AUser(), ModelNames.Verb.New).AddForeignKeys<A4AUserDetailViewModel>(
                 Repository.GetPossibleForeignKeys<A4AUser>());
         }
 
@@ -289,7 +360,7 @@ namespace App4Answers.Models.A4Amodels
         {
             return new A4AUserDetailViewModel(
                     Repository.GetObjectByPrimaryKey<A4AUser>(id),
-                    ObjectTypesAndVerbs.Verb.Edit)
+                    ModelNames.Verb.Edit)
                 .AddForeignKeys<A4AUserDetailViewModel>(Repository.GetPossibleForeignKeys<A4AUser>());
         }
 
@@ -300,11 +371,135 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        public void DeleteUser(String id)
+        public ViewModelListBase DeleteUser(String id)
         {
-            Repository.DeleteObject<A4ASubCategory>(id);
+            Repository.DeleteObject<A4AUser>(id);
+            return ListUser();
         }
         #endregion USERS 
+
+
+    
+
+
+        #region MESSAGES
+        public ViewModelListBase ListMessage(ModelNames.EmailList listType)
+        {
+            if (listType == ModelNames.EmailList.Logs)
+            {
+                return new ViewModelListBase(typeof(A4AEmailRecordDetailViewModel), Repository
+                        .QueryObjects<A4AEmailRecord>($"", new Range(), new Sort())
+                        .Select(x => new A4AEmailRecordDetailViewModel(x)),
+                    ModelNames.AdministrationNames.EmailRecord, ModelNames.Verb.List);
+            }
+            else
+            {
+                return new ViewModelListBase(typeof(A4AMessageSummaryViewModel), Repository
+                        .QueryObjects<A4AMessage>($"", new Range(), new Sort())
+                        .Select(x => new A4AMessageSummaryViewModel(x)),
+                    ModelNames.AdministrationNames.Message, ModelNames.Verb.List);
+
+            }
+        }
+
+        public A4AMessageDetailViewModel NewMessage()
+        {
+            return new A4AMessageDetailViewModel(new A4AMessage()).AddForeignKeys<A4AMessageDetailViewModel>(
+                Repository.GetPossibleForeignKeys<A4AMessage>());
+        }
+
+        public A4AMessageDetailViewModel EditMessage(string id)
+        {
+            return new A4AMessageDetailViewModel(
+                Repository.GetObjectByPrimaryKey<A4AMessage>(id));
+        }
+
+        public ViewModelListBase SaveMessage(IFormCollection form)
+        {
+            var mail = Repository.SaveObject(new A4AMessageDetailViewModel(form).ModelClassFromViewModel());
+
+            var userAndExperts = Repository.GetUserAndExpertsForMessage(mail);
+
+            foreach (var record in sender.SendMail(GetEmailDefinition(),mail, userAndExperts.user, userAndExperts.experts))
+            {
+                var newEmailRecord = Repository.AddObject(record);
+            }
+
+            return ListMessage(ModelNames.EmailList.Inbox);
+
+        }
+
+        public ViewModelListBase DeleteMessage(String id)
+        {
+            Repository.DeleteObject<A4AMessage>(id);
+            return ListMessage(ModelNames.EmailList.Inbox);
+        }
+        #endregion USERS 
+
+
+        public void PollEmailState()
+        {
+            var emailDefinition = GetEmailDefinition();
+
+            var emailEvents = sender.GetNextMailEvents(emailDefinition);
+
+            SaveEmailDefinition(emailDefinition);
+
+            foreach (var c in emailEvents.items)
+            {
+                if (c.message.headers.from.Contains(emailDefinition.Domain))
+                {
+                    if (c.eventType == EventTypes.delivered)
+                    {
+                        try
+                        {
+                            var emailRecord =
+                                Repository.UpdateEmailRecordStatus(c.message.headers.messageid, c.eventType.ToString());
+
+                            L.Trace($"Updated email record - {emailRecord.ToJSonString()}");
+                        }
+                        catch (Exception e)
+                        {
+                            L.Trace($"An exception - {e.Message} - occured processign email event - {c.ToJSonString()}");
+                        }
+                    }
+                }
+                else
+                {
+                    // a message to us - a reply - figure out who it is from and to
+                    try
+                    {
+                        var fromEmailAndUser = c.message.headers.from.ParseLongEmailString();
+                        var toEmailAndUser = c.message.headers.to.ParseLongEmailString();
+
+                        var correspondents =
+                            Repository.GetUserAndExpertForReply(toEmailAndUser.user, fromEmailAndUser.email);
+
+                        var emailRecord = new A4AEmailRecord
+                        {
+                            EmailFrom = correspondents.expert.Email,
+                            EmailTo = correspondents.user.Email,
+                            NameFrom = correspondents.expert.ExpertName,
+                            NameTo = correspondents.user.UserName,
+                            ExternalMessageId = c.message.headers.messageid,
+                            ExternalStatus = c.eventType.ToString(),
+                            Url = c.storage.url,
+                            Subject = c.message.headers.subject
+                        };
+
+                        Repository.AddObject(emailRecord);
+
+                    }
+                    catch (Exception e)
+                    {
+                        L.Trace($"An exception - {e.Message} - occured processign email event - {c.ToJSonString()}");
+                    }
+
+                }
+            }
+
+        }
+
 
         public GraphResponse RunQuery(GraphQuery query)
         {

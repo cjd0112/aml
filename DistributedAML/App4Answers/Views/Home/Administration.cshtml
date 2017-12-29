@@ -1,4 +1,7 @@
-﻿@using App4Answers.Models.A4Amodels
+﻿@using System
+@using App4Answers.Models.A4Amodels
+@using App4Answers.Models.A4Amodels.Base
+@using Microsoft.AspNetCore.Mvc.Rendering
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 
 @{
@@ -21,26 +24,26 @@
 
 </div>
 
-    <div class="col-sm-2" style="color: white; padding-right: 0px; margin-right: 0px" align="left">
-        <div class="container" style="padding-top:23px">
+    <div class="col-sm-1" style="color: white; padding-right: 0px; margin-right: 0px" align="left">
+        <div class="container-fluid" style="padding-top:23px">
             <ul class="nav  nav-stacked">
                 <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="Dashboard">Dashboard</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Expert" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Experts</a>                
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Profession" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Professions</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Category" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Categories</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.SubCategory" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Subcategories</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.User" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Users</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Administrator" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Administrators</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ModelNames.AdministrationNames.Expert" asp-route-verb="@ModelNames.Verb.List">Experts</a>                
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ModelNames.AdministrationNames.Profession" asp-route-verb="@ModelNames.Verb.List">Professions</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ModelNames.AdministrationNames.Category" asp-route-verb="@ModelNames.Verb.List">Categories</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ModelNames.AdministrationNames.SubCategory" asp-route-verb="@ModelNames.Verb.List">Subcategories</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ModelNames.AdministrationNames.User" asp-route-verb="@ModelNames.Verb.List">Users</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ModelNames.AdministrationNames.Administrator" asp-route-verb="@ModelNames.Verb.List">Administrators</a></li>
                 <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="GroupContact">Group Contact</a></li>
                 <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="Messages">Messages</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Company" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Companies</a></li>
-                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ObjectTypesAndVerbs.ObjectType.Subscription" asp-route-verb="@ObjectTypesAndVerbs.Verb.List">Subscriptions</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ModelNames.AdministrationNames.Company" asp-route-verb="@ModelNames.Verb.List">Companies</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="Administration" asp-route-objecttype="@ModelNames.AdministrationNames.Subscription" asp-route-verb="@ModelNames.Verb.List">Subscriptions</a></li>
 
             </ul>
         </div>
     </div>
 
-    <div class="col-sm-8" style="color: white; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px;" align="left">
+    <div class="col-sm-9" style="color: white; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px;" align="left">
         <div style="background-color: white; height: 700px; margin-left: 0px; padding-top: 0px; padding-left: 0px; vertical-align: top; margin-top: 0px">
             @if (Model is ViewModelListBase)
             {
