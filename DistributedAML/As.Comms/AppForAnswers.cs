@@ -39,29 +39,30 @@ public static partial class AppForAnswersReflection {
           "YW1lGAEgASgJEg0KBUVtYWlsGAIgASgJEh4KBlN0YXR1cxgDIAEoDjIOLkE0",
           "QVVzZXJTdGF0dXMieAoJQTRBRXhwZXJ0EhIKCkV4cGVydE5hbWUYASABKAkS",
           "EQoJRmlyc3ROYW1lGAIgASgJEhAKCExhc3ROYW1lGAMgASgJEg0KBUVtYWls",
-          "GAQgASgJEg4KBk1vYmlsZRgHIAEoCRITCgtDb21wYW55TmFtZRgIIAEoCSJ2",
-          "Cg9BNEFTdWJzY3JpcHRpb24SFAoMU3Vic2NyaXB0aW9uGAEgASgJEhIKClBy",
-          "b2Zlc3Npb24YAiABKAkSEAoIQ2F0ZWdvcnkYAyABKAkSEwoLU3ViQ2F0ZWdv",
-          "cnkYBCABKAkSEgoKRXhwZXJ0TmFtZRgFIAEoCSIjCg1BNEFQcm9mZXNzaW9u",
-          "EhIKClByb2Zlc3Npb24YASABKAkiMwoLQTRBQ2F0ZWdvcnkSEAoIQ2F0ZWdv",
-          "cnkYASABKAkSEgoKUHJvZmVzc2lvbhgCIAEoCSJLCg5BNEFTdWJDYXRlZ29y",
-          "eRITCgtTdWJDYXRlZ29yeRgBIAEoCRIQCghDYXRlZ29yeRgCIAEoCRISCgpQ",
-          "cm9mZXNzaW9uGAMgASgJIqQCCg5BNEFFbWFpbFJlY29yZBIVCg1FbWFpbFJl",
-          "Y29yZElkGAEgASgJEhEKCU1lc3NhZ2VJZBgCIAEoCRIRCglFbWFpbEZyb20Y",
-          "AyABKAkSEAoITmFtZUZyb20YBCABKAkSDwoHRW1haWxUbxgFIAEoCRIOCgZO",
-          "YW1lVG8YBiABKAkSHgoWRW1haWxSZWNvcmRJZFJlbGF0ZWRUbxgHIAEoCRIc",
-          "CgZTdGF0dXMYCCABKA4yDC5FbWFpbFN0YXR1cxIZChFFeHRlcm5hbE1lc3Nh",
-          "Z2VJZBgJIAEoCRIWCg5FeHRlcm5hbFN0YXR1cxgKIAEoCRITCgtVcGRhdGVk",
-          "VGltZRgLIAEoCRILCgNVcmwYDCABKAkSDwoHU3ViamVjdBgNIAEoCSLFAQoK",
-          "QTRBTWVzc2FnZRIRCglNZXNzYWdlSWQYASABKAkSDwoHQ29udGVudBgCIAEo",
-          "CRIkCgtDb250ZW50VHlwZRgDIAEoDjIPLkE0QUNvbnRlbnRUeXBlEhMKC0Vt",
-          "YWlsU2VuZGVyGAcgASgJEgwKBERhdGUYCCABKAkSDwoHU3ViamVjdBgJIAEo",
-          "CRISCgpQcm9mZXNzaW9uGAogASgJEhAKCENhdGVnb3J5GAsgASgJEhMKC1N1",
-          "YkNhdGVnb3J5GAwgASgJKhsKDkE0QUNvbnRlbnRUeXBlEgkKBUVtYWlsEAAq",
-          "KgoNQTRBVXNlclN0YXR1cxIKCgZBY3RpdmUQABINCglTdXNwZW5kZWQQASox",
-          "Cg1BNEFBZG1pbkxldmVsEhEKDUFkbWluaXN0cmF0b3IQABINCglNb2RlcmF0",
-          "b3IQASoxCgtFbWFpbFN0YXR1cxILCgdDcmVhdGVkEAASCAoEU2VudBABEgsK",
-          "B1JlcGxpZWQQAmIGcHJvdG8z"));
+          "GAQgASgJEg4KBk1vYmlsZRgHIAEoCRITCgtDb21wYW55TmFtZRgIIAEoCSKI",
+          "AQoPQTRBU3Vic2NyaXB0aW9uEhQKDFN1YnNjcmlwdGlvbhgBIAEoCRISCgpQ",
+          "cm9mZXNzaW9uGAIgASgJEhAKCENhdGVnb3J5GAMgASgJEhMKC1N1YkNhdGVn",
+          "b3J5GAQgASgJEhAKCExvY2F0aW9uGAUgASgJEhIKCkV4cGVydE5hbWUYBiAB",
+          "KAkiIwoNQTRBUHJvZmVzc2lvbhISCgpQcm9mZXNzaW9uGAEgASgJIjMKC0E0",
+          "QUNhdGVnb3J5EhAKCENhdGVnb3J5GAEgASgJEhIKClByb2Zlc3Npb24YAiAB",
+          "KAkiSwoOQTRBU3ViQ2F0ZWdvcnkSEwoLU3ViQ2F0ZWdvcnkYASABKAkSEAoI",
+          "Q2F0ZWdvcnkYAiABKAkSEgoKUHJvZmVzc2lvbhgDIAEoCSJaCgtBNEFMb2Nh",
+          "dGlvbhIQCghMb2NhdGlvbhgBIAEoCRITCgtTdWJDYXRlZ29yeRgCIAEoCRIQ",
+          "CghDYXRlZ29yeRgDIAEoCRISCgpQcm9mZXNzaW9uGAQgASgJIqQCCg5BNEFF",
+          "bWFpbFJlY29yZBIVCg1FbWFpbFJlY29yZElkGAEgASgJEhEKCU1lc3NhZ2VJ",
+          "ZBgCIAEoCRIRCglFbWFpbEZyb20YAyABKAkSEAoITmFtZUZyb20YBCABKAkS",
+          "DwoHRW1haWxUbxgFIAEoCRIOCgZOYW1lVG8YBiABKAkSHgoWRW1haWxSZWNv",
+          "cmRJZFJlbGF0ZWRUbxgHIAEoCRIcCgZTdGF0dXMYCCABKA4yDC5FbWFpbFN0",
+          "YXR1cxIZChFFeHRlcm5hbE1lc3NhZ2VJZBgJIAEoCRIWCg5FeHRlcm5hbFN0",
+          "YXR1cxgKIAEoCRITCgtVcGRhdGVkVGltZRgLIAEoCRILCgNVcmwYDCABKAkS",
+          "DwoHU3ViamVjdBgNIAEoCSKZAQoKQTRBTWVzc2FnZRIRCglNZXNzYWdlSWQY",
+          "ASABKAkSDwoHQ29udGVudBgCIAEoCRIkCgtDb250ZW50VHlwZRgDIAEoDjIP",
+          "LkE0QUNvbnRlbnRUeXBlEhMKC0VtYWlsU2VuZGVyGAcgASgJEgwKBERhdGUY",
+          "CCABKAkSDwoHU3ViamVjdBgJIAEoCRINCgVUb3BpYxgKIAEoCSobCg5BNEFD",
+          "b250ZW50VHlwZRIJCgVFbWFpbBAAKioKDUE0QVVzZXJTdGF0dXMSCgoGQWN0",
+          "aXZlEAASDQoJU3VzcGVuZGVkEAEqMQoNQTRBQWRtaW5MZXZlbBIRCg1BZG1p",
+          "bmlzdHJhdG9yEAASDQoJTW9kZXJhdG9yEAEqMQoLRW1haWxTdGF0dXMSCwoH",
+          "Q3JlYXRlZBAAEggKBFNlbnQQARILCgdSZXBsaWVkEAJiBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::EmailStatus), }, new pbr::GeneratedClrTypeInfo[] {
@@ -71,12 +72,13 @@ public static partial class AppForAnswersReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AAdministrator), global::A4AAdministrator.Parser, new[]{ "AdministratorName", "Email", "Level" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AUser), global::A4AUser.Parser, new[]{ "UserName", "Email", "Status" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AExpert), global::A4AExpert.Parser, new[]{ "ExpertName", "FirstName", "LastName", "Email", "Mobile", "CompanyName" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4ASubscription), global::A4ASubscription.Parser, new[]{ "Subscription", "Profession", "Category", "SubCategory", "ExpertName" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4ASubscription), global::A4ASubscription.Parser, new[]{ "Subscription", "Profession", "Category", "SubCategory", "Location", "ExpertName" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AProfession), global::A4AProfession.Parser, new[]{ "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ACategory), global::A4ACategory.Parser, new[]{ "Category", "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ASubCategory), global::A4ASubCategory.Parser, new[]{ "SubCategory", "Category", "Profession" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4ALocation), global::A4ALocation.Parser, new[]{ "Location", "SubCategory", "Category", "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailRecord), global::A4AEmailRecord.Parser, new[]{ "EmailRecordId", "MessageId", "EmailFrom", "NameFrom", "EmailTo", "NameTo", "EmailRecordIdRelatedTo", "Status", "ExternalMessageId", "ExternalStatus", "UpdatedTime", "Url", "Subject" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "MessageId", "Content", "ContentType", "EmailSender", "Date", "Subject", "Profession", "Category", "SubCategory" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "MessageId", "Content", "ContentType", "EmailSender", "Date", "Subject", "Topic" }, null, null, null)
         }));
   }
   #endregion
@@ -1795,6 +1797,7 @@ public sealed partial class A4ASubscription : pb::IMessage<A4ASubscription> {
     profession_ = other.profession_;
     category_ = other.category_;
     subCategory_ = other.subCategory_;
+    location_ = other.location_;
     expertName_ = other.expertName_;
   }
 
@@ -1847,8 +1850,19 @@ public sealed partial class A4ASubscription : pb::IMessage<A4ASubscription> {
     }
   }
 
+  /// <summary>Field number for the "Location" field.</summary>
+  public const int LocationFieldNumber = 5;
+  private string location_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Location {
+    get { return location_; }
+    set {
+      location_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
   /// <summary>Field number for the "ExpertName" field.</summary>
-  public const int ExpertNameFieldNumber = 5;
+  public const int ExpertNameFieldNumber = 6;
   private string expertName_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string ExpertName {
@@ -1875,6 +1889,7 @@ public sealed partial class A4ASubscription : pb::IMessage<A4ASubscription> {
     if (Profession != other.Profession) return false;
     if (Category != other.Category) return false;
     if (SubCategory != other.SubCategory) return false;
+    if (Location != other.Location) return false;
     if (ExpertName != other.ExpertName) return false;
     return true;
   }
@@ -1886,6 +1901,7 @@ public sealed partial class A4ASubscription : pb::IMessage<A4ASubscription> {
     if (Profession.Length != 0) hash ^= Profession.GetHashCode();
     if (Category.Length != 0) hash ^= Category.GetHashCode();
     if (SubCategory.Length != 0) hash ^= SubCategory.GetHashCode();
+    if (Location.Length != 0) hash ^= Location.GetHashCode();
     if (ExpertName.Length != 0) hash ^= ExpertName.GetHashCode();
     return hash;
   }
@@ -1913,8 +1929,12 @@ public sealed partial class A4ASubscription : pb::IMessage<A4ASubscription> {
       output.WriteRawTag(34);
       output.WriteString(SubCategory);
     }
-    if (ExpertName.Length != 0) {
+    if (Location.Length != 0) {
       output.WriteRawTag(42);
+      output.WriteString(Location);
+    }
+    if (ExpertName.Length != 0) {
+      output.WriteRawTag(50);
       output.WriteString(ExpertName);
     }
   }
@@ -1933,6 +1953,9 @@ public sealed partial class A4ASubscription : pb::IMessage<A4ASubscription> {
     }
     if (SubCategory.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(SubCategory);
+    }
+    if (Location.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Location);
     }
     if (ExpertName.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(ExpertName);
@@ -1956,6 +1979,9 @@ public sealed partial class A4ASubscription : pb::IMessage<A4ASubscription> {
     }
     if (other.SubCategory.Length != 0) {
       SubCategory = other.SubCategory;
+    }
+    if (other.Location.Length != 0) {
+      Location = other.Location;
     }
     if (other.ExpertName.Length != 0) {
       ExpertName = other.ExpertName;
@@ -1987,6 +2013,10 @@ public sealed partial class A4ASubscription : pb::IMessage<A4ASubscription> {
           break;
         }
         case 42: {
+          Location = input.ReadString();
+          break;
+        }
+        case 50: {
           ExpertName = input.ReadString();
           break;
         }
@@ -2431,6 +2461,207 @@ public sealed partial class A4ASubCategory : pb::IMessage<A4ASubCategory> {
 
 }
 
+public sealed partial class A4ALocation : pb::IMessage<A4ALocation> {
+  private static readonly pb::MessageParser<A4ALocation> _parser = new pb::MessageParser<A4ALocation>(() => new A4ALocation());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<A4ALocation> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[10]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4ALocation() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4ALocation(A4ALocation other) : this() {
+    location_ = other.location_;
+    subCategory_ = other.subCategory_;
+    category_ = other.category_;
+    profession_ = other.profession_;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public A4ALocation Clone() {
+    return new A4ALocation(this);
+  }
+
+  /// <summary>Field number for the "Location" field.</summary>
+  public const int LocationFieldNumber = 1;
+  private string location_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Location {
+    get { return location_; }
+    set {
+      location_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "SubCategory" field.</summary>
+  public const int SubCategoryFieldNumber = 2;
+  private string subCategory_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string SubCategory {
+    get { return subCategory_; }
+    set {
+      subCategory_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Category" field.</summary>
+  public const int CategoryFieldNumber = 3;
+  private string category_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Category {
+    get { return category_; }
+    set {
+      category_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Profession" field.</summary>
+  public const int ProfessionFieldNumber = 4;
+  private string profession_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Profession {
+    get { return profession_; }
+    set {
+      profession_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as A4ALocation);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(A4ALocation other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (Location != other.Location) return false;
+    if (SubCategory != other.SubCategory) return false;
+    if (Category != other.Category) return false;
+    if (Profession != other.Profession) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (Location.Length != 0) hash ^= Location.GetHashCode();
+    if (SubCategory.Length != 0) hash ^= SubCategory.GetHashCode();
+    if (Category.Length != 0) hash ^= Category.GetHashCode();
+    if (Profession.Length != 0) hash ^= Profession.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (Location.Length != 0) {
+      output.WriteRawTag(10);
+      output.WriteString(Location);
+    }
+    if (SubCategory.Length != 0) {
+      output.WriteRawTag(18);
+      output.WriteString(SubCategory);
+    }
+    if (Category.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(Category);
+    }
+    if (Profession.Length != 0) {
+      output.WriteRawTag(34);
+      output.WriteString(Profession);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (Location.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Location);
+    }
+    if (SubCategory.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(SubCategory);
+    }
+    if (Category.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Category);
+    }
+    if (Profession.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Profession);
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(A4ALocation other) {
+    if (other == null) {
+      return;
+    }
+    if (other.Location.Length != 0) {
+      Location = other.Location;
+    }
+    if (other.SubCategory.Length != 0) {
+      SubCategory = other.SubCategory;
+    }
+    if (other.Category.Length != 0) {
+      Category = other.Category;
+    }
+    if (other.Profession.Length != 0) {
+      Profession = other.Profession;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 10: {
+          Location = input.ReadString();
+          break;
+        }
+        case 18: {
+          SubCategory = input.ReadString();
+          break;
+        }
+        case 26: {
+          Category = input.ReadString();
+          break;
+        }
+        case 34: {
+          Profession = input.ReadString();
+          break;
+        }
+      }
+    }
+  }
+
+}
+
 public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
   private static readonly pb::MessageParser<A4AEmailRecord> _parser = new pb::MessageParser<A4AEmailRecord>(() => new A4AEmailRecord());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2438,7 +2669,7 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[10]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[11]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2891,7 +3122,7 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[11]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[12]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2914,9 +3145,7 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     emailSender_ = other.emailSender_;
     date_ = other.date_;
     subject_ = other.subject_;
-    profession_ = other.profession_;
-    category_ = other.category_;
-    subCategory_ = other.subCategory_;
+    topic_ = other.topic_;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2990,36 +3219,14 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     }
   }
 
-  /// <summary>Field number for the "Profession" field.</summary>
-  public const int ProfessionFieldNumber = 10;
-  private string profession_ = "";
+  /// <summary>Field number for the "Topic" field.</summary>
+  public const int TopicFieldNumber = 10;
+  private string topic_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string Profession {
-    get { return profession_; }
+  public string Topic {
+    get { return topic_; }
     set {
-      profession_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
-  }
-
-  /// <summary>Field number for the "Category" field.</summary>
-  public const int CategoryFieldNumber = 11;
-  private string category_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string Category {
-    get { return category_; }
-    set {
-      category_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
-  }
-
-  /// <summary>Field number for the "SubCategory" field.</summary>
-  public const int SubCategoryFieldNumber = 12;
-  private string subCategory_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string SubCategory {
-    get { return subCategory_; }
-    set {
-      subCategory_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      topic_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
@@ -3042,9 +3249,7 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (EmailSender != other.EmailSender) return false;
     if (Date != other.Date) return false;
     if (Subject != other.Subject) return false;
-    if (Profession != other.Profession) return false;
-    if (Category != other.Category) return false;
-    if (SubCategory != other.SubCategory) return false;
+    if (Topic != other.Topic) return false;
     return true;
   }
 
@@ -3057,9 +3262,7 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (EmailSender.Length != 0) hash ^= EmailSender.GetHashCode();
     if (Date.Length != 0) hash ^= Date.GetHashCode();
     if (Subject.Length != 0) hash ^= Subject.GetHashCode();
-    if (Profession.Length != 0) hash ^= Profession.GetHashCode();
-    if (Category.Length != 0) hash ^= Category.GetHashCode();
-    if (SubCategory.Length != 0) hash ^= SubCategory.GetHashCode();
+    if (Topic.Length != 0) hash ^= Topic.GetHashCode();
     return hash;
   }
 
@@ -3094,17 +3297,9 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
       output.WriteRawTag(74);
       output.WriteString(Subject);
     }
-    if (Profession.Length != 0) {
+    if (Topic.Length != 0) {
       output.WriteRawTag(82);
-      output.WriteString(Profession);
-    }
-    if (Category.Length != 0) {
-      output.WriteRawTag(90);
-      output.WriteString(Category);
-    }
-    if (SubCategory.Length != 0) {
-      output.WriteRawTag(98);
-      output.WriteString(SubCategory);
+      output.WriteString(Topic);
     }
   }
 
@@ -3129,14 +3324,8 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (Subject.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Subject);
     }
-    if (Profession.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Profession);
-    }
-    if (Category.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Category);
-    }
-    if (SubCategory.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(SubCategory);
+    if (Topic.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Topic);
     }
     return size;
   }
@@ -3164,14 +3353,8 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (other.Subject.Length != 0) {
       Subject = other.Subject;
     }
-    if (other.Profession.Length != 0) {
-      Profession = other.Profession;
-    }
-    if (other.Category.Length != 0) {
-      Category = other.Category;
-    }
-    if (other.SubCategory.Length != 0) {
-      SubCategory = other.SubCategory;
+    if (other.Topic.Length != 0) {
+      Topic = other.Topic;
     }
   }
 
@@ -3208,15 +3391,7 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
           break;
         }
         case 82: {
-          Profession = input.ReadString();
-          break;
-        }
-        case 90: {
-          Category = input.ReadString();
-          break;
-        }
-        case 98: {
-          SubCategory = input.ReadString();
+          Topic = input.ReadString();
           break;
         }
       }

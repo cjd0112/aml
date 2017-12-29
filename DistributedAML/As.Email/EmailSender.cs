@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.ServiceModel.Description;
 using Newtonsoft.Json;
@@ -27,9 +28,9 @@ namespace As.Email
                 RestRequest request = new RestRequest();
                 request.AddParameter("domain", service.Domain, ParameterType.UrlSegment);
                 request.Resource = "{domain}/messages";
-                request.AddParameter("from", $"{source.UserName} <{source.UserName}@{service.Domain}>");
-                request.AddParameter("to", $"{c.ExpertName} <{c.Email}>");
-                request.AddParameter("subject", msg.Subject);
+                request.AddParameter("from", $"App4Answers <{source.UserName}@{service.Domain}>");
+                request.AddParameter("to", $"{c.FirstName} {c.LastName} <{c.Email}>");
+                request.AddParameter("subject", $"A4A Question on '{msg.Topic}'");
                 request.AddParameter("text", msg.Content);
                 request.Method = Method.POST;
                 var result  = client.Execute(request);
@@ -48,7 +49,7 @@ namespace As.Email
                     Status = EmailStatus.Created,
                     ExternalMessageId = json.id,
                     ExternalStatus = json.message,
-                    Subject = msg.Subject
+                    Subject = request.Parameters.First(x=>x.Name == "subject").Value.ToString()
                 };
 
                 if (record.ExternalMessageId.StartsWith("<") && record.ExternalMessageId.EndsWith(">"))

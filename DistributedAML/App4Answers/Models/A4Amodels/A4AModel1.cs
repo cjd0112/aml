@@ -267,6 +267,45 @@ namespace App4Answers.Models.A4Amodels
         }
         #endregion SUBCATEGORY 
 
+        #region Location
+        public ViewModelListBase ListLocation()
+        {
+            return new ViewModelListBase(typeof(A4ALocationDetailViewModel), Repository
+                    .QueryObjects<A4ALocation>($"", new Range(), new Sort())
+                    .Select(x => new A4ALocationDetailViewModel(x, ModelNames.Verb.List)),
+                ModelNames.AdministrationNames.Location, ModelNames.Verb.List);
+        }
+
+        public A4ALocationDetailViewModel NewLocation()
+        {
+            return new A4ALocationDetailViewModel(new A4ALocation(), ModelNames.Verb.New).AddForeignKeys<A4ALocationDetailViewModel>(
+                Repository.GetPossibleForeignKeys<A4ALocation>());
+        }
+
+        public A4ALocationDetailViewModel EditLocation(string id)
+        {
+            return new A4ALocationDetailViewModel(
+                    Repository.GetObjectByPrimaryKey<A4ALocation>(id),
+                    ModelNames.Verb.Edit)
+                .AddForeignKeys<A4ALocationDetailViewModel>(Repository.GetPossibleForeignKeys<A4ALocation>());
+        }
+
+        public ViewModelListBase SaveLocation(IFormCollection form)
+        {
+            var Location = Repository.SaveObject(new A4ALocationDetailViewModel(form).ModelClassFromViewModel());
+            return ListLocation();
+
+        }
+
+        public ViewModelListBase DeleteLocation(String id)
+        {
+            Repository.DeleteObject<A4ALocation>(id);
+            return ListLocation();
+        }
+        #endregion Location 
+
+
+
         #region SUBSCRIPTION
         public ViewModelListBase ListSubscription()
         {
@@ -408,7 +447,8 @@ namespace App4Answers.Models.A4Amodels
         public A4AMessageDetailViewModel EditMessage(string id)
         {
             return new A4AMessageDetailViewModel(
-                Repository.GetObjectByPrimaryKey<A4AMessage>(id));
+                    Repository.GetObjectByPrimaryKey<A4AMessage>(id))
+                .AddForeignKeys<A4AMessageDetailViewModel>(Repository.GetPossibleForeignKeys<A4AMessage>());
         }
 
         public ViewModelListBase SaveMessage(IFormCollection form)
@@ -505,7 +545,7 @@ namespace App4Answers.Models.A4Amodels
                         var toEmailAndUser = c.message.headers.to.ParseLongEmailString();
 
                         var correspondents =
-                            Repository.GetUserAndExpertForReply(toEmailAndUser.user, fromEmailAndUser.email);
+                            Repository.GetUserAndExpertForReply(toEmailAndUser.userPrefix, $"{fromEmailAndUser.userPrefix}@{fromEmailAndUser.domain}");
 
                         var emailRecord = new A4AEmailRecord
                         {

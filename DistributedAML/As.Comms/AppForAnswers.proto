@@ -98,7 +98,8 @@ message A4ASubscription
 	string Profession = 2;
 	string Category=3;
 	string SubCategory = 4;
-	string ExpertName = 5;
+	string Location = 5;
+	string ExpertName = 6;
 
 }
 
@@ -118,6 +119,15 @@ message A4ASubCategory
 	string SubCategory = 1;
 	string Category = 2;
 	string Profession = 3;
+}
+
+message A4ALocation
+{
+	string Location=1;
+	string SubCategory=2;
+	string Category=3;
+	string Profession = 4;
+
 }
 
 enum EmailStatus
@@ -161,16 +171,12 @@ message A4AMessage
 	A4AContentType ContentType=3;
 	
 	string EmailSender = 7;
-
+	
 	string Date = 8;
 
 	string Subject = 9;
 
-	string Profession = 10;
-
-	string Category = 11;
-
-	string SubCategory = 12;
+	string Topic = 10;
 
 }
 

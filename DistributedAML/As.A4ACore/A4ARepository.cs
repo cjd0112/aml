@@ -166,6 +166,17 @@ namespace As.A4ACore
             }
         }
 
+
+        private (string profession, string category, string subcategory, string location) ParseTopic(string topic)
+        {
+            var z = topic.Split(new char[] {'/'},StringSplitOptions.RemoveEmptyEntries);
+            if (z.Length != 4)
+                throw new Exception(
+                    $"Invalid topic expression - {topic} expecting /profession/category/subcategory/location");
+
+            return (z[0], z[1], z[2], z[3]);
+        }
+
         public (A4AUser user,IEnumerable<A4AExpert> experts) GetUserAndExpertsForMessage(A4AMessage msg)
         {
             A4AUser user = null;
@@ -174,8 +185,11 @@ namespace As.A4ACore
             {
                 using (var cmd = connection.CreateCommand())
                 {
+                    var foo = ParseTopic(msg.Topic);
                     cmd.CommandText =
-                        $"select C.* from A4ASubscription as A inner join A4AMessage as B inner join A4AExpert as C on A.Profession == B.Profession and C.ExpertName == A.ExpertName and A.Category == B.Category and A.SubCategory == B.SubCategory and B.MessageId = '{msg.MessageId}';";
+                        $"select B.* from A4ASubscription as A inner join A4AExpert as B where A.Profession like '{foo.profession}' and B.ExpertName == A.ExpertName and A.Category like '{foo.category}' and A.SubCategory like '{foo.subcategory}' and A.Location like '{foo.location}';";
+
+                    L.Trace($"selecting experts for message - {cmd.CommandText}");
                     using (var data = cmd.ExecuteReader())
                     {
                         var p = new DataRecordHelper<A4AExpert>(tables[typeof(A4AExpert)].PropertiesAndCommands, data);
@@ -185,6 +199,11 @@ namespace As.A4ACore
                             experts.Add(p.GetObject());
                         }
                     }
+                }
+
+                if (experts.Count == 0)
+                {
+                    throw new Exception($"message Topic - {msg.Topic} - did not select any experts ... ");
                 }
 
                 var userTable = tables[typeof(A4AUser)];

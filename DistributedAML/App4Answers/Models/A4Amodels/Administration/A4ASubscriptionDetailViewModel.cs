@@ -31,6 +31,8 @@ namespace App4Answers.Models.A4Amodels.Administration
 
         public String SubCategory { get; set; }
 
+        public String Location { get; set; }
+
 
         public String ExpertName { get; set; }
 

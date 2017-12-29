@@ -31,11 +31,7 @@ namespace App4Answers.Models.A4Amodels.EmailManager
 
         public string Date { get; set; }
 
-        public string Profession { get; set; }
-
-        public string Category { get; set; }
-
-        public string SubCategory { get; set; }
+        public string Topic { get; set; }
 
     }
 }

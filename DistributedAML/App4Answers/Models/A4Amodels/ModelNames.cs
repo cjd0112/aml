@@ -15,6 +15,7 @@ namespace App4Answers.Models.A4Amodels
             Profession,
             Category,
             SubCategory,
+            Location,
             Subscription,
             User,
             Administrator,
