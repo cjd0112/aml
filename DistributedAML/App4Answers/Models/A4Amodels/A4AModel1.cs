@@ -378,13 +378,28 @@ namespace App4Answers.Models.A4Amodels
         }
         #endregion USERS 
 
+
+    
+
+
         #region MESSAGES
         public ViewModelListBase ListMessage(ModelNames.EmailList listType)
         {
-            return new ViewModelListBase(typeof(A4AMessageSummaryViewModel), Repository
-                    .QueryObjects<A4AMessage>($"", new Range(), new Sort())
-                    .Select(x => new A4AMessageSummaryViewModel(x)),
-                ModelNames.AdministrationNames.Message, ModelNames.Verb.List);
+            if (listType == ModelNames.EmailList.Logs)
+            {
+                return new ViewModelListBase(typeof(A4AEmailRecordDetailViewModel), Repository
+                        .QueryObjects<A4AEmailRecord>($"", new Range(), new Sort())
+                        .Select(x => new A4AEmailRecordDetailViewModel(x)),
+                    ModelNames.AdministrationNames.EmailRecord, ModelNames.Verb.List);
+            }
+            else
+            {
+                return new ViewModelListBase(typeof(A4AMessageSummaryViewModel), Repository
+                        .QueryObjects<A4AMessage>($"", new Range(), new Sort())
+                        .Select(x => new A4AMessageSummaryViewModel(x)),
+                    ModelNames.AdministrationNames.Message, ModelNames.Verb.List);
+
+            }
         }
 
         public A4AMessageDetailViewModel NewMessage()
@@ -436,15 +451,50 @@ namespace App4Answers.Models.A4Amodels
                 {
                     if (c.eventType == EventTypes.delivered)
                     {
-                        var emailRecord =
-                            Repository.UpdateEmailRecordStatus(c.message.headers.messageid, c.eventType.ToString());
+                        try
+                        {
+                            var emailRecord =
+                                Repository.UpdateEmailRecordStatus(c.message.headers.messageid, c.eventType.ToString());
 
-                        L.Trace($"Updated email record - {emailRecord.ToJSonString()}");
+                            L.Trace($"Updated email record - {emailRecord.ToJSonString()}");
+                        }
+                        catch (Exception e)
+                        {
+                            L.Trace($"An exception - {e.Message} - occured processign email event - {c.ToJSonString()}");
+                        }
                     }
                 }
                 else
                 {
-                    //ProcessNotificationToUs(c);
+                    // a message to us - a reply - figure out who it is from and to
+                    try
+                    {
+                        var fromEmailAndUser = c.message.headers.from.ParseLongEmailString();
+                        var toEmailAndUser = c.message.headers.to.ParseLongEmailString();
+
+                        var correspondents =
+                            Repository.GetUserAndExpertForReply(toEmailAndUser.user, fromEmailAndUser.email);
+
+                        var emailRecord = new A4AEmailRecord
+                        {
+                            EmailFrom = correspondents.expert.Email,
+                            EmailTo = correspondents.user.Email,
+                            NameFrom = correspondents.expert.ExpertName,
+                            NameTo = correspondents.user.UserName,
+                            ExternalMessageId = c.message.headers.messageid,
+                            ExternalStatus = c.eventType.ToString(),
+                            Url = c.storage.url,
+                            Subject = c.message.headers.subject
+                        };
+
+                        Repository.AddObject(emailRecord);
+
+                    }
+                    catch (Exception e)
+                    {
+                        L.Trace($"An exception - {e.Message} - occured processign email event - {c.ToJSonString()}");
+                    }
+
                 }
             }
 

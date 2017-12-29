@@ -218,5 +218,20 @@ namespace As.A4ACore
             }
         }
 
+        public (A4AUser user, A4AExpert expert) GetUserAndExpertForReply(string userName, string expertEmail)
+        {
+            using (var connection = conn.Connection())
+            {
+                var userTable = tables[typeof(A4AUser)];
+
+                var expertTable = tables[typeof(A4AExpert)];
+
+                var user = userTable.SelectOne<A4AUser>(connection, "UserName", userName);
+
+                var expert = expertTable.SelectOne<A4AExpert>(connection, "Email", expertEmail);
+
+                return (user, expert);
+            }
+        }
     }
 }

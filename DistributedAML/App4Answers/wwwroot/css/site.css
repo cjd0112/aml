@@ -19,6 +19,12 @@
     padding-top: 5px;
 }
 
+.a4ainput-sm {
+    padding-top: 2px;
+    font-size: 10pt;
+}
+
+
 .thead-inverse th {
     color: #fff;
     background-color: #565969;

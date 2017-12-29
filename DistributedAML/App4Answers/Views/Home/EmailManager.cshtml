@@ -49,6 +49,7 @@
                 <li class="a4amenu"><a class="a4amenu" asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.List" asp-route-listtype="@ModelNames.EmailList.Sent">Sent</a></li>
                 <li class="a4amenu"><a class="a4amenu" asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.List" asp-route-listtype="@ModelNames.EmailList.Drafts">Drafts</a></li>
                 <li class="a4amenu"><a class="a4amenu" asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.List" asp-route-listtype="@ModelNames.EmailList.Trash">Trash</a></li>
+                <li class="a4amenu"><a class="a4amenu" asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.List" asp-route-listtype="@ModelNames.EmailList.Logs">Logs</a></li>
 
             </ul>
         </div>
@@ -57,7 +58,7 @@
     <div class="col-sm-9" style="height:650px; background-color:gray; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px;" align="left">
         @if (Model is ViewModelListBase)
         {
-            @Html.Partial("PartialView/ViewModelListViewer");
+            @Html.Partial("PartialView/ViewModelListViewerSmall");
 
         }
         else if (Model is ViewModelBase)

@@ -143,9 +143,9 @@ namespace App4Answers
 
             if (emailService != null)
             {
-                var span = new TimeSpan(0, 0, 0, 0, (int) emailService.DelayMilliseconds);
 
-                timer = new Timer(myCallback, null, span, span);
+                period  = new TimeSpan(0, 0, 0, 0, (int) emailService.DelayMilliseconds);
+                timer = new Timer(myCallback, null, period, disablePolling);
 
             }
             else
@@ -165,11 +165,14 @@ namespace App4Answers
 
         private Timer timer = null;
         private Container container = null;
+        private TimeSpan  period;
+        private TimeSpan disablePolling = new TimeSpan(0,0,0,0,-1);
 
         void myCallback(Object o)
         {
             var myModel = container.GetInstance<A4AModel1>();
             myModel.PollEmailState();
+            timer = new Timer(myCallback,null,period,disablePolling);
 
         }
     }

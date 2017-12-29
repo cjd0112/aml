@@ -27,10 +27,8 @@ namespace As.Email
                 RestRequest request = new RestRequest();
                 request.AddParameter("domain", service.Domain, ParameterType.UrlSegment);
                 request.Resource = "{domain}/messages";
-                //request.AddParameter("from", $"{source.UserName} <{source.Email}>");
-                request.AddParameter("from", "Joe Bloggs <Joe.Bloggs@mg.alphaaml.com>");
-                //                request.AddParameter("to", $"{c.ExpertName} <{c.Email}>");
-                request.AddParameter("to", "Colin <colin.dick@alphastorm.co.uk>");
+                request.AddParameter("from", $"{source.UserName} <{source.UserName}@{service.Domain}>");
+                request.AddParameter("to", $"{c.ExpertName} <{c.Email}>");
                 request.AddParameter("subject", msg.Subject);
                 request.AddParameter("text", msg.Content);
                 request.Method = Method.POST;
@@ -44,11 +42,18 @@ namespace As.Email
                 {
                     MessageId = msg.MessageId,
                     EmailFrom = source.Email,
+                    NameFrom = source.UserName,
                     EmailTo = c.Email,
+                    NameTo =    c.ExpertName,
                     Status = EmailStatus.Created,
                     ExternalMessageId = json.id,
-                    ExternalStatus = json.message
+                    ExternalStatus = json.message,
+                    Subject = msg.Subject
                 };
+
+                if (record.ExternalMessageId.StartsWith("<") && record.ExternalMessageId.EndsWith(">"))
+                    record.ExternalMessageId =
+                        record.ExternalMessageId.Substring(1, record.ExternalMessageId.Length - 2);
                 yield return record;
 
             }
@@ -70,11 +75,13 @@ namespace As.Email
 
             // just look back one day for now. 
             if (service.LastPollTime == 0)
-                service.LastPollTime = DateTime.Now.AddDays(-1).ToUniversalTime().ToBinary();
+                service.LastPollTime = DateTime.Today.AddDays(-1).ToUniversalTime().ToBinary();
 
-            request.AddParameter("begin", DateTime.FromBinary(service.LastPollTime).ToString("r"));
-            request.AddParameter("end", DateTime.Now.ToUniversalTime().ToString("r"));
-            request.AddParameter("event", "delivered");
+            var begin = DateTime.FromBinary(service.LastPollTime).ToString("r");
+            var end = DateTime.Now.AddMilliseconds(-DateTime.Now.Millisecond).ToUniversalTime().ToString("r");
+
+            request.AddParameter("begin",begin );
+            request.AddParameter("end", end);
 
             service.LastPollTime = DateTime.Now.ToUniversalTime().ToBinary();
 

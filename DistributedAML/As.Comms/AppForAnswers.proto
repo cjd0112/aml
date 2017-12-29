@@ -16,7 +16,10 @@ message A4AAuthenticationAccount
 	bool IsAdmin = 6;
 	bool IsExpert = 7;
 	bool IsUser = 8;
+
+	string Name = 9;
 }
+
 message A4ACompany
 {
 	// this is the party identifier
@@ -125,17 +128,24 @@ message A4AEmailRecord
 	string EmailRecordId = 1;
 	string MessageId = 2;
 	string EmailFrom = 3;
-	string EmailTo = 4;
+	string NameFrom = 4;
+	string EmailTo = 5;
 
-	string EmailRecordIdRelatedTo = 5;
+	string NameTo = 6;
 
-	EmailStatus Status = 6;
+	string EmailRecordIdRelatedTo = 7;
 
-	string ExternalMessageId = 7;
+	EmailStatus Status = 8;
 
-	string ExternalStatus = 8;
+	string ExternalMessageId = 9;
 
-	string UpdatedTime = 10;
+	string ExternalStatus = 10;
+
+	string UpdatedTime = 11;
+
+	string Url = 12;
+
+	string Subject = 13;
 }
 
 message A4AMessage

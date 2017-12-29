@@ -18,7 +18,8 @@ namespace App4Answers.Models.A4Amodels
             Subscription,
             User,
             Administrator,
-            Message
+            Message,
+            EmailRecord
         }
 
         public enum Verb
@@ -44,7 +45,8 @@ namespace App4Answers.Models.A4Amodels
             Inbox,
             Sent,
             Drafts,
-            Trash            
+            Trash,
+            Logs
         }
 
         public enum SessionStrings
