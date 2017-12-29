@@ -22,8 +22,9 @@ namespace App4Answers.Models.A4Amodels
 
 
         public A4ACompanyDetailViewModel NewCompany()
-        {           
-            return new A4ACompanyDetailViewModel(new A4ACompany(),ObjectTypesAndVerbs.Verb.New);
+        {
+            return new A4ACompanyDetailViewModel(new A4ACompany(), ObjectTypesAndVerbs.Verb.New)
+                .AddForeignKeys<A4ACompanyDetailViewModel>(Repository.GetPossibleForeignKeys<A4ACompany>());
         }
 
         public ViewModelListBase ListCompany()
