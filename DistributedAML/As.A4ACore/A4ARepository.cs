@@ -29,6 +29,12 @@ namespace As.A4ACore
 
         Dictionary<Type, SqlTableWithPrimaryKey> tables = new Dictionary<Type, SqlTableWithPrimaryKey>();
 
+        SqlTableWithPrimaryKey GetTable<T>()
+        {
+            return tables[typeof(T)];
+        }
+
+     
         private SqlConnection conn;
 
         public A4ARepository(String connectionString)
@@ -250,7 +256,26 @@ namespace As.A4ACore
 
         public Mailbox GetMailbox(MailboxRequest request)
         {
-            return null;
+            var mb = new Mailbox();
+            using (var connection = conn.Connection())
+            {
+                var emailRecords = tables[typeof(A4AEmailRecord)];
+                if (request.MailboxType == A4AMailboxType.Inbox)
+                {
+                    if (request.UserType == A4AUserType.User)
+                    {
+                        mb.Count = GetTable<A4AEmailRecord>().GetCount(connection,new SqlPredicate("NameTo", request.Owner),
+                            new SqlPredicate("ExternalStatus", "delivered"));
+
+                        foreach (var c in new SqlInnerJoin<A4AEmailRecord, A4AMessage>((x) =>
+                                tables[x].PropertiesAndCommands)
+                            .JoinT1Predicate(connection, "MessageId", new SqlPredicate("NameTo", request.Owner),new SqlPredicate("ExternalStatus","delivered")))
+                        {
+
+                        }
+                    }
+                }
+            }
         }
 
     }

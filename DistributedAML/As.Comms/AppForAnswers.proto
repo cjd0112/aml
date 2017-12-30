@@ -210,7 +210,6 @@ message Mailbox
 	int32 Start = 2;
 	int32 PageSize=3;
 	repeated Message Messages = 4;
-	repeated A4AUser Users = 5;
 }
 
 message MailboxRequest
