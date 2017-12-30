@@ -6,20 +6,16 @@ namespace App4Answers.Models.A4Amodels.Administration
 {
     public class A4ASubscriptionDetailViewModel : ViewModelBase<A4ASubscription>
     {
-        public A4ASubscriptionDetailViewModel() : base(ModelNames.AdministrationNames.Subscription, ModelNames.Verb.None)
+        public A4ASubscriptionDetailViewModel() 
         {
 
         }
 
-        public A4ASubscriptionDetailViewModel(ModelNames.Verb verb = ModelNames.Verb.None) :base(ModelNames.AdministrationNames.Subscription,verb)
+        public A4ASubscriptionDetailViewModel(A4ASubscription modelSource) :base(modelSource)
         {
         }
 
-        public A4ASubscriptionDetailViewModel(A4ASubscription modelSource,ModelNames.Verb verb = ModelNames.Verb.None) :base(modelSource,ModelNames.AdministrationNames.Subscription,verb)
-        {
-        }
-
-        public A4ASubscriptionDetailViewModel(IFormCollection form, ModelNames.Verb verb = ModelNames.Verb.None) :base(form, ModelNames.AdministrationNames.Subscription, verb)
+        public A4ASubscriptionDetailViewModel(IFormCollection form) :base(form)
         {
         }
 

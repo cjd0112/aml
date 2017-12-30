@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using App4Answers.Models;
 using App4Answers.Models.A4Amodels;
+using App4Answers.Models.A4Amodels.Base;
 using App4Answers.Models.A4Amodels.Login;
 using As.Comms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using As.Email;
+using As.Shared;
 
 namespace App4Answers.Controllers
 {
@@ -43,21 +45,19 @@ namespace App4Answers.Controllers
             var thisLogin = model.Login(login);
             if (thisLogin.Authenticated == A4ALoginViewModel.AuthenticationResult.Authenticated)
             {
-                HttpContext.Session.SetString(ModelNames.SessionStrings.User.ToString(), thisLogin.Email);
-                if (thisLogin.AuthenticationAccount.IsAdmin)
+                HttpContext.Session.SetString(ModelNames.SessionStrings.UserEmail.ToString(), thisLogin.AuthenticationAccount.Email);
+                HttpContext.Session.SetString(ModelNames.SessionStrings.UserType.ToString(),thisLogin.AuthenticationAccount.UserType.ToString());
+                if (thisLogin.AuthenticationAccount.UserType == A4AUserType.Admin)
                 {
-                    HttpContext.Session.SetString(ModelNames.SessionStrings.Role.ToString(), ModelNames.Role.Administrator.ToString());
-                    return RedirectToAction(nameof(Administration), new { objecttype = ModelNames.AdministrationNames.Company, verb = ModelNames.Verb.List });
+                    return RedirectToAction(nameof(Administration), new { objecttype = ModelNames.ObjectTypes.Company, verb = ModelNames.Verb.List });
                 }
-                else if (thisLogin.AuthenticationAccount.IsExpert)
+                else if (thisLogin.AuthenticationAccount.UserType == A4AUserType.Expert)
                 {
-                    HttpContext.Session.SetString(ModelNames.SessionStrings.Role.ToString(), ModelNames.Role.Expert.ToString());
-                    return RedirectToAction(nameof(EmailManager),new {verb=ModelNames.Verb.List,listtype= ModelNames.EmailList.Inbox});
+                    return RedirectToAction(nameof(EmailManager),new {verb=ModelNames.Verb.List,listtype= A4AMailboxType.Inbox});
                 }
-                else if (thisLogin.AuthenticationAccount.IsUser)
+                else if (thisLogin.AuthenticationAccount.UserType == A4AUserType.User)
                 {
-                    HttpContext.Session.SetString(ModelNames.SessionStrings.Role.ToString(), ModelNames.Role.User.ToString());
-                    return RedirectToAction(nameof(EmailManager), new { verb = ModelNames.Verb.List, listtype = ModelNames.EmailList.Inbox });
+                    return RedirectToAction(nameof(EmailManager), new { verb = ModelNames.Verb.List, listtype = A4AMailboxType.Inbox });
                 }
 
 
@@ -109,7 +109,7 @@ namespace App4Answers.Controllers
 
         }
 
-        Object GetAdministrationViewModel(string objecttype, string verb, string itemid, IFormCollection formCollection,ModelNames.EmailList listType)
+        Object GetAdministrationViewModel(string objecttype, string verb, string itemid, IFormCollection formCollection,A4AMailboxType listType)
         {
             Object viewModel = "";
             if (objecttype != "" && !String.IsNullOrEmpty(verb))
@@ -127,7 +127,7 @@ namespace App4Answers.Controllers
                         viewModel = mi.Invoke(model, new[] { Request.Form });
                     else if (mi.GetParameters()[0].ParameterType == typeof(string))
                         viewModel = mi.Invoke(model, new[] { itemid});
-                    else if (mi.GetParameters()[0].ParameterType == typeof(ModelNames.EmailList))
+                    else if (mi.GetParameters()[0].ParameterType == typeof(A4AMailboxType))
                         viewModel = mi.Invoke(model, new[] {(object) listType});
                     else
                         throw new Exception(
@@ -139,7 +139,16 @@ namespace App4Answers.Controllers
                         $"Method - {verb}{objecttype} takes more than one parameters - we are currently only able to deal with one... ");
                 }
 
+                var vm = viewModel as IViewModel;
+                if (vm != null)
+                {
+                    vm.Verb = verb.ParseEnum<ModelNames.Verb>();
+                    vm.ObjectTypes = objecttype.ParseEnum<ModelNames.ObjectTypes>();
+                }
+
+
             }
+
             return viewModel;
         }
 
@@ -152,7 +161,13 @@ namespace App4Answers.Controllers
                 itemid = itemid ?? "";
 
 
-                Object viewModel = GetAdministrationViewModel(objecttype, verb, itemid, Request.HasFormContentType? Request.Form:null,ModelNames.EmailList.None);
+                Object viewModel = GetAdministrationViewModel(objecttype, verb, itemid, Request.HasFormContentType? Request.Form:null, A4AMailboxType.None);
+
+                var vm = viewModel as IViewModel;
+                if (vm != null)
+                {
+                    vm.ActionNames = ModelNames.ActionNames.Administration;
+                }
                 return View(viewModel);
 
             }
@@ -168,14 +183,21 @@ namespace App4Answers.Controllers
 
         
 
-        public IActionResult EmailManager(string verb,string itemid,ModelNames.EmailList listtype)
+        public IActionResult EmailManager(string objecttype,string verb,string itemid, A4AMailboxType listtype)
         {
             try
             {
+                objecttype = objecttype ?? "";
                 verb = verb ?? "";
                 itemid = itemid ?? "";
 
-                Object viewModel = GetAdministrationViewModel(ModelNames.AdministrationNames.Message.ToString(), verb, itemid, Request.HasFormContentType ? Request.Form : null,listtype);
+                Object viewModel = GetAdministrationViewModel(objecttype, verb, itemid, Request.HasFormContentType ? Request.Form : null,listtype);
+
+                var vm = viewModel as IViewModel;
+                if (vm != null)
+                {
+                    vm.ActionNames = ModelNames.ActionNames.EmailManager;
+                }
                 return View(viewModel);
 
             }

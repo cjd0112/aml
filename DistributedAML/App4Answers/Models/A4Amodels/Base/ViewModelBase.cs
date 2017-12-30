@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace App4Answers.Models.A4Amodels.Base
 {
-    public class ViewModelBase
+    public class ViewModelBase : IViewModel
     {
         protected ViewModelBase()
         {
@@ -23,10 +23,6 @@ namespace App4Answers.Models.A4Amodels.Base
         }
 
         protected TypeContainer typeContainer;
-
-        public ModelNames.AdministrationNames AdministrationNames;
-
-        public ModelNames.Verb Verb;
 
         protected TypeContainer modelTypeContainer;
 
@@ -78,15 +74,19 @@ namespace App4Answers.Models.A4Amodels.Base
             return (T)this;
         }
 
+      
+
+
+        public ModelNames.ObjectTypes ObjectTypes { get; set; }
+        public ModelNames.Verb Verb { get; set; }
+        public ModelNames.ActionNames ActionNames { get; set; }
     }
 
     public class ViewModelBase<T> : ViewModelBase
     {
 
-        protected ViewModelBase(ModelNames.AdministrationNames administrationNames,ModelNames.Verb verb)
+        protected ViewModelBase()
         {
-            AdministrationNames = administrationNames;
-            Verb = verb;
             modelTypeContainer = TypeContainer.GetTypeContainer(typeof(T));
 
             // figure out our primary key based on model PK
@@ -106,7 +106,7 @@ namespace App4Answers.Models.A4Amodels.Base
 
         }
 
-        protected ViewModelBase(T modelSource, ModelNames.AdministrationNames administrationNames, ModelNames.Verb verb) :this(administrationNames,verb)
+        protected ViewModelBase(T modelSource) :this()
         {
             var tc = TypeContainer.GetTypeContainer(typeof(T));
             foreach (var c in typeContainer.Properties)
@@ -119,7 +119,7 @@ namespace App4Answers.Models.A4Amodels.Base
             }
         }
 
-        protected ViewModelBase(IFormCollection form, ModelNames.AdministrationNames administrationNames, ModelNames.Verb verb) : this(administrationNames,verb)
+        protected ViewModelBase(IFormCollection form) : this()
         {
             foreach (var c in typeContainer.Properties)
             {

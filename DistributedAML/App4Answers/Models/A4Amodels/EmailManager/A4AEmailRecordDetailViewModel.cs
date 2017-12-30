@@ -9,18 +9,16 @@ namespace App4Answers.Models.A4Amodels.EmailManager
 {
     public class A4AEmailRecordDetailViewModel : ViewModelBase<A4AEmailRecord>
     {
-        public A4AEmailRecordDetailViewModel() : base(ModelNames.AdministrationNames.Message, ModelNames.Verb.List)
+        public A4AEmailRecordDetailViewModel() 
         {
 
         }
-        public A4AEmailRecordDetailViewModel(IFormCollection forms) : base(forms, ModelNames.AdministrationNames.Message,
-            ModelNames.Verb.List)
+        public A4AEmailRecordDetailViewModel(IFormCollection forms) : base(forms)
         {
 
         }
 
-        public A4AEmailRecordDetailViewModel(A4AEmailRecord msg) : base(msg, ModelNames.AdministrationNames.Message,
-            ModelNames.Verb.List)
+        public A4AEmailRecordDetailViewModel(A4AEmailRecord msg) : base(msg)
         {
 
         }

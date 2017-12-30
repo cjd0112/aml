@@ -7,6 +7,10 @@ namespace As.Shared
 {
     public static class StringHelper
     {
+        public static T ParseEnum<T>(this string foo)
+        {
+            return (T) Enum.Parse(typeof(T), foo);
+        }
         public static String ConvertCamelCase(this string foo)
         {
             StringBuilder b = new StringBuilder();

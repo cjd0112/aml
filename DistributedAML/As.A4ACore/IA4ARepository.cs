@@ -10,7 +10,7 @@ namespace As.A4ACore
         GraphResponse RunQuery(GraphQuery query);
 
         T AddObject<T>(T party);
-        IEnumerable<T> QueryObjects<T>(string query,Range r,Sort s);
+        IEnumerable<T> QueryObjects<T>(string query="",Range r=null,Sort s=null);
         T GetObjectByPrimaryKey<T>(string id);
         T SaveObject<T>(T party);
         void DeleteObject<T>(string id);
@@ -24,6 +24,9 @@ namespace As.A4ACore
         A4AEmailRecord UpdateEmailRecordStatus(string externalMessageId, string status);
 
         (A4AUser user, A4AExpert expert) GetUserAndExpertForReply(string fromEmail, string toEmail);
+
+
+        Mailbox GetMailbox(MailboxRequest request);
 
     }
 }

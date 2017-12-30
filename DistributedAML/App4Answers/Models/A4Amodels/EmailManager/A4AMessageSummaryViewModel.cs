@@ -8,19 +8,17 @@ namespace App4Answers.Models.A4Amodels.EmailManager
 {
     public class A4AMessageSummaryViewModel : ViewModelBase<A4AMessage>
     {
-        public A4AMessageSummaryViewModel() : base(ModelNames.AdministrationNames.Message, ModelNames.Verb.List)
+        public A4AMessageSummaryViewModel() 
         {
 
         }
 
-        public A4AMessageSummaryViewModel(A4AMessage msg) : base(msg, ModelNames.AdministrationNames.Message,
-            ModelNames.Verb.List)
+        public A4AMessageSummaryViewModel(A4AMessage msg) : base(msg)
         {
 
         }
 
-        public A4AMessageSummaryViewModel(Microsoft.AspNetCore.Http.IFormCollection form) : base(form, ModelNames.AdministrationNames.Message,
-            ModelNames.Verb.List)
+        public A4AMessageSummaryViewModel(Microsoft.AspNetCore.Http.IFormCollection form) : base(form)
         {
 
         }

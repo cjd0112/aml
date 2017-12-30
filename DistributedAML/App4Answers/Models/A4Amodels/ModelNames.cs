@@ -7,7 +7,14 @@ namespace App4Answers.Models.A4Amodels
 {
     public class ModelNames
     {
-        public enum AdministrationNames
+        public enum ActionNames
+        {
+            None,
+            Administration,
+            EmailManager
+            
+        }
+        public enum ObjectTypes
         {
             None,
             Company,
@@ -32,28 +39,10 @@ namespace App4Answers.Models.A4Amodels
             Delete,
             Save,
         }
-
-        public enum Role
-        {
-            Administrator,
-            Expert,
-            User
-        }
-
-        public enum EmailList
-        {
-            None,
-            Inbox,
-            Sent,
-            Drafts,
-            Trash,
-            Logs
-        }
-
         public enum SessionStrings
         {
-            User,
-            Role
+            UserEmail,
+            UserType
         }
 
         public enum ItemStrings

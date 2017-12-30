@@ -20,53 +20,65 @@ public static partial class AppForAnswersReflection {
   static AppForAnswersReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChNBcHBGb3JBbnN3ZXJzLnByb3RvIqYBChhBNEFBdXRoZW50aWNhdGlvbkFj",
+          "ChNBcHBGb3JBbnN3ZXJzLnByb3RvIpMBChhBNEFBdXRoZW50aWNhdGlvbkFj",
           "Y291bnQSDQoFRW1haWwYASABKAkSDQoFQ29kZTEYAiABKAUSDQoFQ29kZTIY",
-          "AyABKAUSDQoFQ29kZTMYBCABKAUSDQoFQ29kZTQYBSABKAUSDwoHSXNBZG1p",
-          "bhgGIAEoCBIQCghJc0V4cGVydBgHIAEoCBIOCgZJc1VzZXIYCCABKAgSDAoE",
-          "TmFtZRgJIAEoCSLfAQoKQTRBQ29tcGFueRITCgtDb21wYW55TmFtZRgBIAEo",
-          "CRIQCghBZGRyZXNzMRgKIAEoCRIQCghBZGRyZXNzMhgLIAEoCRIPCgdDb3Vu",
-          "dHJ5GAwgASgJEhAKCFBvc3Rjb2RlGA0gASgJEhEKCVRlbGVwaG9uZRgPIAEo",
-          "CRIPCgdXZWJzaXRlGBAgASgJEhIKCk1haW5Db2xvdXIYESABKAkSFwoPU2Vj",
-          "b25kYXJ5Q29sb3VyGBIgASgJEhYKDlRlcnRpYXJ5Q29sb3VyGBMgASgJEgwK",
-          "BExvZ28YFCABKAkivAEKD0E0QUVtYWlsU2VydmljZRITCgtTZXJ2aWNlTmFt",
-          "ZRgBIAEoCRITCgtBcGlVc2VyTmFtZRgCIAEoCRITCgtBcGlQYXNzd29yZBgD",
-          "IAEoCRILCgNVcmkYBCABKAkSDgoGRG9tYWluGAUgASgJEhQKDGxhc3RQb2xs",
-          "VGltZRgGIAEoAxIZChFkZWxheU1pbGxpc2Vjb25kcxgHIAEoAxIcChRsb29r",
-          "YmFja01pbGxpc2Vjb25kcxgIIAEoAyJbChBBNEFBZG1pbmlzdHJhdG9yEhkK",
-          "EUFkbWluaXN0cmF0b3JOYW1lGAEgASgJEg0KBUVtYWlsGAIgASgJEh0KBUxl",
-          "dmVsGAMgASgOMg4uQTRBQWRtaW5MZXZlbCJKCgdBNEFVc2VyEhAKCFVzZXJO",
-          "YW1lGAEgASgJEg0KBUVtYWlsGAIgASgJEh4KBlN0YXR1cxgDIAEoDjIOLkE0",
-          "QVVzZXJTdGF0dXMieAoJQTRBRXhwZXJ0EhIKCkV4cGVydE5hbWUYASABKAkS",
-          "EQoJRmlyc3ROYW1lGAIgASgJEhAKCExhc3ROYW1lGAMgASgJEg0KBUVtYWls",
-          "GAQgASgJEg4KBk1vYmlsZRgHIAEoCRITCgtDb21wYW55TmFtZRgIIAEoCSKI",
-          "AQoPQTRBU3Vic2NyaXB0aW9uEhQKDFN1YnNjcmlwdGlvbhgBIAEoCRISCgpQ",
-          "cm9mZXNzaW9uGAIgASgJEhAKCENhdGVnb3J5GAMgASgJEhMKC1N1YkNhdGVn",
-          "b3J5GAQgASgJEhAKCExvY2F0aW9uGAUgASgJEhIKCkV4cGVydE5hbWUYBiAB",
-          "KAkiIwoNQTRBUHJvZmVzc2lvbhISCgpQcm9mZXNzaW9uGAEgASgJIjMKC0E0",
-          "QUNhdGVnb3J5EhAKCENhdGVnb3J5GAEgASgJEhIKClByb2Zlc3Npb24YAiAB",
-          "KAkiSwoOQTRBU3ViQ2F0ZWdvcnkSEwoLU3ViQ2F0ZWdvcnkYASABKAkSEAoI",
-          "Q2F0ZWdvcnkYAiABKAkSEgoKUHJvZmVzc2lvbhgDIAEoCSJaCgtBNEFMb2Nh",
-          "dGlvbhIQCghMb2NhdGlvbhgBIAEoCRITCgtTdWJDYXRlZ29yeRgCIAEoCRIQ",
-          "CghDYXRlZ29yeRgDIAEoCRISCgpQcm9mZXNzaW9uGAQgASgJIqQCCg5BNEFF",
-          "bWFpbFJlY29yZBIVCg1FbWFpbFJlY29yZElkGAEgASgJEhEKCU1lc3NhZ2VJ",
-          "ZBgCIAEoCRIRCglFbWFpbEZyb20YAyABKAkSEAoITmFtZUZyb20YBCABKAkS",
-          "DwoHRW1haWxUbxgFIAEoCRIOCgZOYW1lVG8YBiABKAkSHgoWRW1haWxSZWNv",
-          "cmRJZFJlbGF0ZWRUbxgHIAEoCRIcCgZTdGF0dXMYCCABKA4yDC5FbWFpbFN0",
-          "YXR1cxIZChFFeHRlcm5hbE1lc3NhZ2VJZBgJIAEoCRIWCg5FeHRlcm5hbFN0",
-          "YXR1cxgKIAEoCRITCgtVcGRhdGVkVGltZRgLIAEoCRILCgNVcmwYDCABKAkS",
-          "DwoHU3ViamVjdBgNIAEoCSKZAQoKQTRBTWVzc2FnZRIRCglNZXNzYWdlSWQY",
-          "ASABKAkSDwoHQ29udGVudBgCIAEoCRIkCgtDb250ZW50VHlwZRgDIAEoDjIP",
-          "LkE0QUNvbnRlbnRUeXBlEhMKC0VtYWlsU2VuZGVyGAcgASgJEgwKBERhdGUY",
-          "CCABKAkSDwoHU3ViamVjdBgJIAEoCRINCgVUb3BpYxgKIAEoCSobCg5BNEFD",
-          "b250ZW50VHlwZRIJCgVFbWFpbBAAKioKDUE0QVVzZXJTdGF0dXMSCgoGQWN0",
-          "aXZlEAASDQoJU3VzcGVuZGVkEAEqMQoNQTRBQWRtaW5MZXZlbBIRCg1BZG1p",
-          "bmlzdHJhdG9yEAASDQoJTW9kZXJhdG9yEAEqMQoLRW1haWxTdGF0dXMSCwoH",
-          "Q3JlYXRlZBAAEggKBFNlbnQQARILCgdSZXBsaWVkEAJiBnByb3RvMw=="));
+          "AyABKAUSDQoFQ29kZTMYBCABKAUSDQoFQ29kZTQYBSABKAUSHgoIVXNlclR5",
+          "cGUYByABKA4yDC5BNEFVc2VyVHlwZRIMCgROYW1lGAkgASgJIt8BCgpBNEFD",
+          "b21wYW55EhMKC0NvbXBhbnlOYW1lGAEgASgJEhAKCEFkZHJlc3MxGAogASgJ",
+          "EhAKCEFkZHJlc3MyGAsgASgJEg8KB0NvdW50cnkYDCABKAkSEAoIUG9zdGNv",
+          "ZGUYDSABKAkSEQoJVGVsZXBob25lGA8gASgJEg8KB1dlYnNpdGUYECABKAkS",
+          "EgoKTWFpbkNvbG91chgRIAEoCRIXCg9TZWNvbmRhcnlDb2xvdXIYEiABKAkS",
+          "FgoOVGVydGlhcnlDb2xvdXIYEyABKAkSDAoETG9nbxgUIAEoCSK8AQoPQTRB",
+          "RW1haWxTZXJ2aWNlEhMKC1NlcnZpY2VOYW1lGAEgASgJEhMKC0FwaVVzZXJO",
+          "YW1lGAIgASgJEhMKC0FwaVBhc3N3b3JkGAMgASgJEgsKA1VyaRgEIAEoCRIO",
+          "CgZEb21haW4YBSABKAkSFAoMbGFzdFBvbGxUaW1lGAYgASgDEhkKEWRlbGF5",
+          "TWlsbGlzZWNvbmRzGAcgASgDEhwKFGxvb2tiYWNrTWlsbGlzZWNvbmRzGAgg",
+          "ASgDIlsKEEE0QUFkbWluaXN0cmF0b3ISGQoRQWRtaW5pc3RyYXRvck5hbWUY",
+          "ASABKAkSDQoFRW1haWwYAiABKAkSHQoFTGV2ZWwYAyABKA4yDi5BNEFBZG1p",
+          "bkxldmVsIkoKB0E0QVVzZXISEAoIVXNlck5hbWUYASABKAkSDQoFRW1haWwY",
+          "AiABKAkSHgoGU3RhdHVzGAMgASgOMg4uQTRBVXNlclN0YXR1cyJ4CglBNEFF",
+          "eHBlcnQSEgoKRXhwZXJ0TmFtZRgBIAEoCRIRCglGaXJzdE5hbWUYAiABKAkS",
+          "EAoITGFzdE5hbWUYAyABKAkSDQoFRW1haWwYBCABKAkSDgoGTW9iaWxlGAcg",
+          "ASgJEhMKC0NvbXBhbnlOYW1lGAggASgJIogBCg9BNEFTdWJzY3JpcHRpb24S",
+          "FAoMU3Vic2NyaXB0aW9uGAEgASgJEhIKClByb2Zlc3Npb24YAiABKAkSEAoI",
+          "Q2F0ZWdvcnkYAyABKAkSEwoLU3ViQ2F0ZWdvcnkYBCABKAkSEAoITG9jYXRp",
+          "b24YBSABKAkSEgoKRXhwZXJ0TmFtZRgGIAEoCSIjCg1BNEFQcm9mZXNzaW9u",
+          "EhIKClByb2Zlc3Npb24YASABKAkiMwoLQTRBQ2F0ZWdvcnkSEAoIQ2F0ZWdv",
+          "cnkYASABKAkSEgoKUHJvZmVzc2lvbhgCIAEoCSJLCg5BNEFTdWJDYXRlZ29y",
+          "eRITCgtTdWJDYXRlZ29yeRgBIAEoCRIQCghDYXRlZ29yeRgCIAEoCRISCgpQ",
+          "cm9mZXNzaW9uGAMgASgJIloKC0E0QUxvY2F0aW9uEhAKCExvY2F0aW9uGAEg",
+          "ASgJEhMKC1N1YkNhdGVnb3J5GAIgASgJEhAKCENhdGVnb3J5GAMgASgJEhIK",
+          "ClByb2Zlc3Npb24YBCABKAkipAIKDkE0QUVtYWlsUmVjb3JkEhUKDUVtYWls",
+          "UmVjb3JkSWQYASABKAkSEQoJTWVzc2FnZUlkGAIgASgJEhEKCUVtYWlsRnJv",
+          "bRgDIAEoCRIQCghOYW1lRnJvbRgEIAEoCRIPCgdFbWFpbFRvGAUgASgJEg4K",
+          "Bk5hbWVUbxgGIAEoCRIeChZFbWFpbFJlY29yZElkUmVsYXRlZFRvGAcgASgJ",
+          "EhwKBlN0YXR1cxgIIAEoDjIMLkVtYWlsU3RhdHVzEhkKEUV4dGVybmFsTWVz",
+          "c2FnZUlkGAkgASgJEhYKDkV4dGVybmFsU3RhdHVzGAogASgJEhMKC1VwZGF0",
+          "ZWRUaW1lGAsgASgJEgsKA1VybBgMIAEoCRIPCgdTdWJqZWN0GA0gASgJIpkB",
+          "CgpBNEFNZXNzYWdlEhEKCU1lc3NhZ2VJZBgBIAEoCRIPCgdDb250ZW50GAIg",
+          "ASgJEiQKC0NvbnRlbnRUeXBlGAMgASgOMg8uQTRBQ29udGVudFR5cGUSEwoL",
+          "RW1haWxTZW5kZXIYByABKAkSDAoERGF0ZRgIIAEoCRIPCgdTdWJqZWN0GAkg",
+          "ASgJEg0KBVRvcGljGAogASgJIp4BCgdNZXNzYWdlEhwKB21lc3NhZ2UYASAB",
+          "KAsyCy5BNEFNZXNzYWdlEhcKBXVzZXJzGAIgAygLMgguQTRBVXNlchIbCgdl",
+          "eHBlcnRzGAMgAygLMgouQTRBRXhwZXJ0EiEKBmFkbWlucxgEIAMoCzIRLkE0",
+          "QUFkbWluaXN0cmF0b3ISHAoHY29tcGFueRgFIAMoCzILLkE0QUNvbXBhbnki",
+          "bgoHTWFpbGJveBINCgVDb3VudBgBIAEoBRINCgVTdGFydBgCIAEoBRIQCghQ",
+          "YWdlU2l6ZRgDIAEoBRIaCghNZXNzYWdlcxgEIAMoCzIILk1lc3NhZ2USFwoF",
+          "VXNlcnMYBSADKAsyCC5BNEFVc2VyIo0BCg5NYWlsYm94UmVxdWVzdBIUCgxT",
+          "dGFydE1lc3NhZ2UYASABKAUSEAoIUGFnZVNpemUYAiABKAUSDQoFT3duZXIY",
+          "AyABKAkSHgoIVXNlclR5cGUYBCABKA4yDC5BNEFVc2VyVHlwZRIkCgtNYWls",
+          "Ym94VHlwZRgFIAEoDjIPLkE0QU1haWxib3hUeXBlKhsKDkE0QUNvbnRlbnRU",
+          "eXBlEgkKBUVtYWlsEAAqLgoLQTRBVXNlclR5cGUSCQoFQWRtaW4QABIICgRV",
+          "c2VyEAESCgoGRXhwZXJ0EAIqRQoOQTRBTWFpbGJveFR5cGUSCAoETm9uZRAA",
+          "EgkKBUluYm94EAESCAoEU2VudBACEgkKBVRyYXNoEAMSCQoFRHJhZnQQBCoq",
+          "Cg1BNEFVc2VyU3RhdHVzEgoKBkFjdGl2ZRAAEg0KCVN1c3BlbmRlZBABKjEK",
+          "DUE0QUFkbWluTGV2ZWwSEQoNQWRtaW5pc3RyYXRvchAAEg0KCU1vZGVyYXRv",
+          "chABKjUKC0VtYWlsU3RhdHVzEgsKB0NyZWF0ZWQQABIMCghTZW50TWFpbBAB",
+          "EgsKB1JlcGxpZWQQAmIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
-        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::EmailStatus), }, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AAuthenticationAccount), global::A4AAuthenticationAccount.Parser, new[]{ "Email", "Code1", "Code2", "Code3", "Code4", "IsAdmin", "IsExpert", "IsUser", "Name" }, null, null, null),
+        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4AUserType), typeof(global::A4AMailboxType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::EmailStatus), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AAuthenticationAccount), global::A4AAuthenticationAccount.Parser, new[]{ "Email", "Code1", "Code2", "Code3", "Code4", "UserType", "Name" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ACompany), global::A4ACompany.Parser, new[]{ "CompanyName", "Address1", "Address2", "Country", "Postcode", "Telephone", "Website", "MainColour", "SecondaryColour", "TertiaryColour", "Logo" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailService), global::A4AEmailService.Parser, new[]{ "ServiceName", "ApiUserName", "ApiPassword", "Uri", "Domain", "LastPollTime", "DelayMilliseconds", "LookbackMilliseconds" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AAdministrator), global::A4AAdministrator.Parser, new[]{ "AdministratorName", "Email", "Level" }, null, null, null),
@@ -78,7 +90,10 @@ public static partial class AppForAnswersReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ASubCategory), global::A4ASubCategory.Parser, new[]{ "SubCategory", "Category", "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ALocation), global::A4ALocation.Parser, new[]{ "Location", "SubCategory", "Category", "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailRecord), global::A4AEmailRecord.Parser, new[]{ "EmailRecordId", "MessageId", "EmailFrom", "NameFrom", "EmailTo", "NameTo", "EmailRecordIdRelatedTo", "Status", "ExternalMessageId", "ExternalStatus", "UpdatedTime", "Url", "Subject" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "MessageId", "Content", "ContentType", "EmailSender", "Date", "Subject", "Topic" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "MessageId", "Content", "ContentType", "EmailSender", "Date", "Subject", "Topic" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::Message), global::Message.Parser, new[]{ "Message_", "Users", "Experts", "Admins", "Company" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::Mailbox), global::Mailbox.Parser, new[]{ "Count", "Start", "PageSize", "Messages", "Users" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::MailboxRequest), global::MailboxRequest.Parser, new[]{ "StartMessage", "PageSize", "Owner", "UserType", "MailboxType" }, null, null, null)
         }));
   }
   #endregion
@@ -87,6 +102,20 @@ public static partial class AppForAnswersReflection {
 #region Enums
 public enum A4AContentType {
   [pbr::OriginalName("Email")] Email = 0,
+}
+
+public enum A4AUserType {
+  [pbr::OriginalName("Admin")] Admin = 0,
+  [pbr::OriginalName("User")] User = 1,
+  [pbr::OriginalName("Expert")] Expert = 2,
+}
+
+public enum A4AMailboxType {
+  [pbr::OriginalName("None")] None = 0,
+  [pbr::OriginalName("Inbox")] Inbox = 1,
+  [pbr::OriginalName("Sent")] Sent = 2,
+  [pbr::OriginalName("Trash")] Trash = 3,
+  [pbr::OriginalName("Draft")] Draft = 4,
 }
 
 public enum A4AUserStatus {
@@ -101,7 +130,7 @@ public enum A4AAdminLevel {
 
 public enum EmailStatus {
   [pbr::OriginalName("Created")] Created = 0,
-  [pbr::OriginalName("Sent")] Sent = 1,
+  [pbr::OriginalName("SentMail")] SentMail = 1,
   [pbr::OriginalName("Replied")] Replied = 2,
 }
 
@@ -137,9 +166,7 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
     code2_ = other.code2_;
     code3_ = other.code3_;
     code4_ = other.code4_;
-    isAdmin_ = other.isAdmin_;
-    isExpert_ = other.isExpert_;
-    isUser_ = other.isUser_;
+    userType_ = other.userType_;
     name_ = other.name_;
   }
 
@@ -203,36 +230,14 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
     }
   }
 
-  /// <summary>Field number for the "IsAdmin" field.</summary>
-  public const int IsAdminFieldNumber = 6;
-  private bool isAdmin_;
+  /// <summary>Field number for the "UserType" field.</summary>
+  public const int UserTypeFieldNumber = 7;
+  private global::A4AUserType userType_ = 0;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public bool IsAdmin {
-    get { return isAdmin_; }
+  public global::A4AUserType UserType {
+    get { return userType_; }
     set {
-      isAdmin_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "IsExpert" field.</summary>
-  public const int IsExpertFieldNumber = 7;
-  private bool isExpert_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public bool IsExpert {
-    get { return isExpert_; }
-    set {
-      isExpert_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "IsUser" field.</summary>
-  public const int IsUserFieldNumber = 8;
-  private bool isUser_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public bool IsUser {
-    get { return isUser_; }
-    set {
-      isUser_ = value;
+      userType_ = value;
     }
   }
 
@@ -265,9 +270,7 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
     if (Code2 != other.Code2) return false;
     if (Code3 != other.Code3) return false;
     if (Code4 != other.Code4) return false;
-    if (IsAdmin != other.IsAdmin) return false;
-    if (IsExpert != other.IsExpert) return false;
-    if (IsUser != other.IsUser) return false;
+    if (UserType != other.UserType) return false;
     if (Name != other.Name) return false;
     return true;
   }
@@ -280,9 +283,7 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
     if (Code2 != 0) hash ^= Code2.GetHashCode();
     if (Code3 != 0) hash ^= Code3.GetHashCode();
     if (Code4 != 0) hash ^= Code4.GetHashCode();
-    if (IsAdmin != false) hash ^= IsAdmin.GetHashCode();
-    if (IsExpert != false) hash ^= IsExpert.GetHashCode();
-    if (IsUser != false) hash ^= IsUser.GetHashCode();
+    if (UserType != 0) hash ^= UserType.GetHashCode();
     if (Name.Length != 0) hash ^= Name.GetHashCode();
     return hash;
   }
@@ -314,17 +315,9 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
       output.WriteRawTag(40);
       output.WriteInt32(Code4);
     }
-    if (IsAdmin != false) {
-      output.WriteRawTag(48);
-      output.WriteBool(IsAdmin);
-    }
-    if (IsExpert != false) {
+    if (UserType != 0) {
       output.WriteRawTag(56);
-      output.WriteBool(IsExpert);
-    }
-    if (IsUser != false) {
-      output.WriteRawTag(64);
-      output.WriteBool(IsUser);
+      output.WriteEnum((int) UserType);
     }
     if (Name.Length != 0) {
       output.WriteRawTag(74);
@@ -350,14 +343,8 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
     if (Code4 != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(Code4);
     }
-    if (IsAdmin != false) {
-      size += 1 + 1;
-    }
-    if (IsExpert != false) {
-      size += 1 + 1;
-    }
-    if (IsUser != false) {
-      size += 1 + 1;
+    if (UserType != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) UserType);
     }
     if (Name.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -385,14 +372,8 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
     if (other.Code4 != 0) {
       Code4 = other.Code4;
     }
-    if (other.IsAdmin != false) {
-      IsAdmin = other.IsAdmin;
-    }
-    if (other.IsExpert != false) {
-      IsExpert = other.IsExpert;
-    }
-    if (other.IsUser != false) {
-      IsUser = other.IsUser;
+    if (other.UserType != 0) {
+      UserType = other.UserType;
     }
     if (other.Name.Length != 0) {
       Name = other.Name;
@@ -427,16 +408,8 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
           Code4 = input.ReadInt32();
           break;
         }
-        case 48: {
-          IsAdmin = input.ReadBool();
-          break;
-        }
         case 56: {
-          IsExpert = input.ReadBool();
-          break;
-        }
-        case 64: {
-          IsUser = input.ReadBool();
+          userType_ = (global::A4AUserType) input.ReadEnum();
           break;
         }
         case 74: {
@@ -3392,6 +3365,651 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
         }
         case 82: {
           Topic = input.ReadString();
+          break;
+        }
+      }
+    }
+  }
+
+}
+
+public sealed partial class Message : pb::IMessage<Message> {
+  private static readonly pb::MessageParser<Message> _parser = new pb::MessageParser<Message>(() => new Message());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<Message> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[13]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public Message() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public Message(Message other) : this() {
+    Message_ = other.message_ != null ? other.Message_.Clone() : null;
+    users_ = other.users_.Clone();
+    experts_ = other.experts_.Clone();
+    admins_ = other.admins_.Clone();
+    company_ = other.company_.Clone();
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public Message Clone() {
+    return new Message(this);
+  }
+
+  /// <summary>Field number for the "message" field.</summary>
+  public const int Message_FieldNumber = 1;
+  private global::A4AMessage message_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::A4AMessage Message_ {
+    get { return message_; }
+    set {
+      message_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "users" field.</summary>
+  public const int UsersFieldNumber = 2;
+  private static readonly pb::FieldCodec<global::A4AUser> _repeated_users_codec
+      = pb::FieldCodec.ForMessage(18, global::A4AUser.Parser);
+  private readonly pbc::RepeatedField<global::A4AUser> users_ = new pbc::RepeatedField<global::A4AUser>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::A4AUser> Users {
+    get { return users_; }
+  }
+
+  /// <summary>Field number for the "experts" field.</summary>
+  public const int ExpertsFieldNumber = 3;
+  private static readonly pb::FieldCodec<global::A4AExpert> _repeated_experts_codec
+      = pb::FieldCodec.ForMessage(26, global::A4AExpert.Parser);
+  private readonly pbc::RepeatedField<global::A4AExpert> experts_ = new pbc::RepeatedField<global::A4AExpert>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::A4AExpert> Experts {
+    get { return experts_; }
+  }
+
+  /// <summary>Field number for the "admins" field.</summary>
+  public const int AdminsFieldNumber = 4;
+  private static readonly pb::FieldCodec<global::A4AAdministrator> _repeated_admins_codec
+      = pb::FieldCodec.ForMessage(34, global::A4AAdministrator.Parser);
+  private readonly pbc::RepeatedField<global::A4AAdministrator> admins_ = new pbc::RepeatedField<global::A4AAdministrator>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::A4AAdministrator> Admins {
+    get { return admins_; }
+  }
+
+  /// <summary>Field number for the "company" field.</summary>
+  public const int CompanyFieldNumber = 5;
+  private static readonly pb::FieldCodec<global::A4ACompany> _repeated_company_codec
+      = pb::FieldCodec.ForMessage(42, global::A4ACompany.Parser);
+  private readonly pbc::RepeatedField<global::A4ACompany> company_ = new pbc::RepeatedField<global::A4ACompany>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::A4ACompany> Company {
+    get { return company_; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as Message);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(Message other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (!object.Equals(Message_, other.Message_)) return false;
+    if(!users_.Equals(other.users_)) return false;
+    if(!experts_.Equals(other.experts_)) return false;
+    if(!admins_.Equals(other.admins_)) return false;
+    if(!company_.Equals(other.company_)) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (message_ != null) hash ^= Message_.GetHashCode();
+    hash ^= users_.GetHashCode();
+    hash ^= experts_.GetHashCode();
+    hash ^= admins_.GetHashCode();
+    hash ^= company_.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (message_ != null) {
+      output.WriteRawTag(10);
+      output.WriteMessage(Message_);
+    }
+    users_.WriteTo(output, _repeated_users_codec);
+    experts_.WriteTo(output, _repeated_experts_codec);
+    admins_.WriteTo(output, _repeated_admins_codec);
+    company_.WriteTo(output, _repeated_company_codec);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (message_ != null) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Message_);
+    }
+    size += users_.CalculateSize(_repeated_users_codec);
+    size += experts_.CalculateSize(_repeated_experts_codec);
+    size += admins_.CalculateSize(_repeated_admins_codec);
+    size += company_.CalculateSize(_repeated_company_codec);
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(Message other) {
+    if (other == null) {
+      return;
+    }
+    if (other.message_ != null) {
+      if (message_ == null) {
+        message_ = new global::A4AMessage();
+      }
+      Message_.MergeFrom(other.Message_);
+    }
+    users_.Add(other.users_);
+    experts_.Add(other.experts_);
+    admins_.Add(other.admins_);
+    company_.Add(other.company_);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 10: {
+          if (message_ == null) {
+            message_ = new global::A4AMessage();
+          }
+          input.ReadMessage(message_);
+          break;
+        }
+        case 18: {
+          users_.AddEntriesFrom(input, _repeated_users_codec);
+          break;
+        }
+        case 26: {
+          experts_.AddEntriesFrom(input, _repeated_experts_codec);
+          break;
+        }
+        case 34: {
+          admins_.AddEntriesFrom(input, _repeated_admins_codec);
+          break;
+        }
+        case 42: {
+          company_.AddEntriesFrom(input, _repeated_company_codec);
+          break;
+        }
+      }
+    }
+  }
+
+}
+
+public sealed partial class Mailbox : pb::IMessage<Mailbox> {
+  private static readonly pb::MessageParser<Mailbox> _parser = new pb::MessageParser<Mailbox>(() => new Mailbox());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<Mailbox> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[14]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public Mailbox() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public Mailbox(Mailbox other) : this() {
+    count_ = other.count_;
+    start_ = other.start_;
+    pageSize_ = other.pageSize_;
+    messages_ = other.messages_.Clone();
+    users_ = other.users_.Clone();
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public Mailbox Clone() {
+    return new Mailbox(this);
+  }
+
+  /// <summary>Field number for the "Count" field.</summary>
+  public const int CountFieldNumber = 1;
+  private int count_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Count {
+    get { return count_; }
+    set {
+      count_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "Start" field.</summary>
+  public const int StartFieldNumber = 2;
+  private int start_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Start {
+    get { return start_; }
+    set {
+      start_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "PageSize" field.</summary>
+  public const int PageSizeFieldNumber = 3;
+  private int pageSize_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int PageSize {
+    get { return pageSize_; }
+    set {
+      pageSize_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "Messages" field.</summary>
+  public const int MessagesFieldNumber = 4;
+  private static readonly pb::FieldCodec<global::Message> _repeated_messages_codec
+      = pb::FieldCodec.ForMessage(34, global::Message.Parser);
+  private readonly pbc::RepeatedField<global::Message> messages_ = new pbc::RepeatedField<global::Message>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::Message> Messages {
+    get { return messages_; }
+  }
+
+  /// <summary>Field number for the "Users" field.</summary>
+  public const int UsersFieldNumber = 5;
+  private static readonly pb::FieldCodec<global::A4AUser> _repeated_users_codec
+      = pb::FieldCodec.ForMessage(42, global::A4AUser.Parser);
+  private readonly pbc::RepeatedField<global::A4AUser> users_ = new pbc::RepeatedField<global::A4AUser>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::A4AUser> Users {
+    get { return users_; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as Mailbox);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(Mailbox other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (Count != other.Count) return false;
+    if (Start != other.Start) return false;
+    if (PageSize != other.PageSize) return false;
+    if(!messages_.Equals(other.messages_)) return false;
+    if(!users_.Equals(other.users_)) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (Count != 0) hash ^= Count.GetHashCode();
+    if (Start != 0) hash ^= Start.GetHashCode();
+    if (PageSize != 0) hash ^= PageSize.GetHashCode();
+    hash ^= messages_.GetHashCode();
+    hash ^= users_.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (Count != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(Count);
+    }
+    if (Start != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(Start);
+    }
+    if (PageSize != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(PageSize);
+    }
+    messages_.WriteTo(output, _repeated_messages_codec);
+    users_.WriteTo(output, _repeated_users_codec);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (Count != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Count);
+    }
+    if (Start != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Start);
+    }
+    if (PageSize != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(PageSize);
+    }
+    size += messages_.CalculateSize(_repeated_messages_codec);
+    size += users_.CalculateSize(_repeated_users_codec);
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(Mailbox other) {
+    if (other == null) {
+      return;
+    }
+    if (other.Count != 0) {
+      Count = other.Count;
+    }
+    if (other.Start != 0) {
+      Start = other.Start;
+    }
+    if (other.PageSize != 0) {
+      PageSize = other.PageSize;
+    }
+    messages_.Add(other.messages_);
+    users_.Add(other.users_);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 8: {
+          Count = input.ReadInt32();
+          break;
+        }
+        case 16: {
+          Start = input.ReadInt32();
+          break;
+        }
+        case 24: {
+          PageSize = input.ReadInt32();
+          break;
+        }
+        case 34: {
+          messages_.AddEntriesFrom(input, _repeated_messages_codec);
+          break;
+        }
+        case 42: {
+          users_.AddEntriesFrom(input, _repeated_users_codec);
+          break;
+        }
+      }
+    }
+  }
+
+}
+
+public sealed partial class MailboxRequest : pb::IMessage<MailboxRequest> {
+  private static readonly pb::MessageParser<MailboxRequest> _parser = new pb::MessageParser<MailboxRequest>(() => new MailboxRequest());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<MailboxRequest> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[15]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public MailboxRequest() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public MailboxRequest(MailboxRequest other) : this() {
+    startMessage_ = other.startMessage_;
+    pageSize_ = other.pageSize_;
+    owner_ = other.owner_;
+    userType_ = other.userType_;
+    mailboxType_ = other.mailboxType_;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public MailboxRequest Clone() {
+    return new MailboxRequest(this);
+  }
+
+  /// <summary>Field number for the "StartMessage" field.</summary>
+  public const int StartMessageFieldNumber = 1;
+  private int startMessage_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int StartMessage {
+    get { return startMessage_; }
+    set {
+      startMessage_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "PageSize" field.</summary>
+  public const int PageSizeFieldNumber = 2;
+  private int pageSize_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int PageSize {
+    get { return pageSize_; }
+    set {
+      pageSize_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "Owner" field.</summary>
+  public const int OwnerFieldNumber = 3;
+  private string owner_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Owner {
+    get { return owner_; }
+    set {
+      owner_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "UserType" field.</summary>
+  public const int UserTypeFieldNumber = 4;
+  private global::A4AUserType userType_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::A4AUserType UserType {
+    get { return userType_; }
+    set {
+      userType_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "MailboxType" field.</summary>
+  public const int MailboxTypeFieldNumber = 5;
+  private global::A4AMailboxType mailboxType_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::A4AMailboxType MailboxType {
+    get { return mailboxType_; }
+    set {
+      mailboxType_ = value;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as MailboxRequest);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(MailboxRequest other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (StartMessage != other.StartMessage) return false;
+    if (PageSize != other.PageSize) return false;
+    if (Owner != other.Owner) return false;
+    if (UserType != other.UserType) return false;
+    if (MailboxType != other.MailboxType) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (StartMessage != 0) hash ^= StartMessage.GetHashCode();
+    if (PageSize != 0) hash ^= PageSize.GetHashCode();
+    if (Owner.Length != 0) hash ^= Owner.GetHashCode();
+    if (UserType != 0) hash ^= UserType.GetHashCode();
+    if (MailboxType != 0) hash ^= MailboxType.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (StartMessage != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(StartMessage);
+    }
+    if (PageSize != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(PageSize);
+    }
+    if (Owner.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(Owner);
+    }
+    if (UserType != 0) {
+      output.WriteRawTag(32);
+      output.WriteEnum((int) UserType);
+    }
+    if (MailboxType != 0) {
+      output.WriteRawTag(40);
+      output.WriteEnum((int) MailboxType);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (StartMessage != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(StartMessage);
+    }
+    if (PageSize != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(PageSize);
+    }
+    if (Owner.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Owner);
+    }
+    if (UserType != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) UserType);
+    }
+    if (MailboxType != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) MailboxType);
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(MailboxRequest other) {
+    if (other == null) {
+      return;
+    }
+    if (other.StartMessage != 0) {
+      StartMessage = other.StartMessage;
+    }
+    if (other.PageSize != 0) {
+      PageSize = other.PageSize;
+    }
+    if (other.Owner.Length != 0) {
+      Owner = other.Owner;
+    }
+    if (other.UserType != 0) {
+      UserType = other.UserType;
+    }
+    if (other.MailboxType != 0) {
+      MailboxType = other.MailboxType;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 8: {
+          StartMessage = input.ReadInt32();
+          break;
+        }
+        case 16: {
+          PageSize = input.ReadInt32();
+          break;
+        }
+        case 26: {
+          Owner = input.ReadString();
+          break;
+        }
+        case 32: {
+          userType_ = (global::A4AUserType) input.ReadEnum();
+          break;
+        }
+        case 40: {
+          mailboxType_ = (global::A4AMailboxType) input.ReadEnum();
           break;
         }
       }

@@ -10,7 +10,7 @@
 @model App4Answers.Models.A4Amodels.Base.ViewModelBase
     
     
-<form asp-action="Administration" asp-route-objecttype="@Model.AdministrationNames" asp-route-verb="@ModelNames.Verb.Save" asp-route-itemid="@Model.GetPrimaryKey()" >
+<form asp-action="@Model.ActionNames" asp-route-objecttype="@Model.ObjectTypes" asp-route-verb="@ModelNames.Verb.Save" asp-route-itemid="@Model.GetPrimaryKey()" >
 <div class="row" style="height:20px"></div>    
 
 

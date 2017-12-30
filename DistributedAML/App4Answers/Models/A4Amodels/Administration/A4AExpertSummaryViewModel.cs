@@ -8,20 +8,16 @@ namespace App4Answers.Models.A4Amodels.Administration
    
     public class A4AExpertSummaryViewModel : ViewModelBase<A4AExpert>
     {
-        public A4AExpertSummaryViewModel() : base(ModelNames.AdministrationNames.Expert, ModelNames.Verb.None)
+        public A4AExpertSummaryViewModel()
         {
 
         }
 
-        public A4AExpertSummaryViewModel(ModelNames.Verb verb = ModelNames.Verb.None) :base(ModelNames.AdministrationNames.Expert,verb)
+        public A4AExpertSummaryViewModel(A4AExpert modelSource) :base(modelSource)
         {
         }
 
-        public A4AExpertSummaryViewModel(A4AExpert modelSource, ModelNames.Verb verb) :base(modelSource,ModelNames.AdministrationNames.Expert,verb)
-        {
-        }
-
-        public A4AExpertSummaryViewModel(IFormCollection form,ModelNames.Verb verb) :base(form,ModelNames.AdministrationNames.Expert,verb)
+        public A4AExpertSummaryViewModel(IFormCollection form) :base(form)
         {
         }
 

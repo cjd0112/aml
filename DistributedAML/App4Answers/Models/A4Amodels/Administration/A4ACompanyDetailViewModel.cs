@@ -6,20 +6,17 @@ namespace App4Answers.Models.A4Amodels.Administration
 {
     public class A4ACompanyDetailViewModel : ViewModelBase<A4ACompany>
     {
-        public A4ACompanyDetailViewModel() : base(ModelNames.AdministrationNames.Company, ModelNames.Verb.None)
+        public A4ACompanyDetailViewModel() 
         {
 
         }
 
-        public A4ACompanyDetailViewModel(ModelNames.Verb verb = ModelNames.Verb.None) :base(ModelNames.AdministrationNames.Company,verb)
+      
+        public A4ACompanyDetailViewModel(A4ACompany modelSource) :base(modelSource)
         {
         }
 
-        public A4ACompanyDetailViewModel(A4ACompany modelSource,ModelNames.Verb verb = ModelNames.Verb.None) :base(modelSource,ModelNames.AdministrationNames.Company,verb)
-        {
-        }
-
-        public A4ACompanyDetailViewModel(IFormCollection form, ModelNames.Verb verb = ModelNames.Verb.None) :base(form, ModelNames.AdministrationNames.Company, verb)
+        public A4ACompanyDetailViewModel(IFormCollection form) :base(form)
         {
         }
 

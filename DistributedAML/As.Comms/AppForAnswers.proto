@@ -5,17 +5,32 @@ enum A4AContentType
 	Email=0;
 }
 
+enum A4AUserType
+{
+	Admin=0;
+	User=1;
+	Expert=2;
+}
+
+enum A4AMailboxType
+{
+	None=0;
+	Inbox=1;
+	Sent=2;
+	Trash=3;
+	Draft=4;
+}
+
 message A4AAuthenticationAccount
 {
 	string Email =1;
+
 	int32 Code1 = 2;
 	int32 Code2 = 3;
 	int32 Code3 = 4;
 	int32 Code4 = 5;
 
-	bool IsAdmin = 6;
-	bool IsExpert = 7;
-	bool IsUser = 8;
+	A4AUserType UserType = 7;
 
 	string Name = 9;
 }
@@ -133,7 +148,7 @@ message A4ALocation
 enum EmailStatus
 {
 	Created = 0;
-	Sent = 1;
+	SentMail = 1;
 	Replied = 2;
 }
 
@@ -178,6 +193,33 @@ message A4AMessage
 
 	string Topic = 10;
 
+}
+
+message Message
+{
+	A4AMessage message = 1;
+	repeated A4AUser users = 2;
+	repeated A4AExpert experts = 3;
+	repeated A4AAdministrator admins = 4;
+	repeated A4ACompany company = 5;
+}
+
+message Mailbox
+{
+	int32 Count = 1;
+	int32 Start = 2;
+	int32 PageSize=3;
+	repeated Message Messages = 4;
+	repeated A4AUser Users = 5;
+}
+
+message MailboxRequest
+{
+	int32 StartMessage = 1;
+	int32 PageSize=2;
+	string Owner = 3;
+	A4AUserType UserType = 4;
+	A4AMailboxType MailboxType=5;
 }
 
 

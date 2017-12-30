@@ -6,20 +6,16 @@ namespace App4Answers.Models.A4Amodels.Administration
 {
     public class A4ALocationDetailViewModel : ViewModelBase<A4ALocation>
     {
-        public A4ALocationDetailViewModel() : base(ModelNames.AdministrationNames.Location, ModelNames.Verb.None)
+        public A4ALocationDetailViewModel() 
         {
 
         }
 
-        public A4ALocationDetailViewModel(ModelNames.Verb verb = ModelNames.Verb.None) :base(ModelNames.AdministrationNames.Location,verb)
+        public A4ALocationDetailViewModel(A4ALocation modelSource) :base(modelSource)
         {
         }
 
-        public A4ALocationDetailViewModel(A4ALocation modelSource,ModelNames.Verb verb = ModelNames.Verb.None) :base(modelSource,ModelNames.AdministrationNames.Location,verb)
-        {
-        }
-
-        public A4ALocationDetailViewModel(IFormCollection form, ModelNames.Verb verb = ModelNames.Verb.None) :base(form, ModelNames.AdministrationNames.Location, verb)
+        public A4ALocationDetailViewModel(IFormCollection form) :base(form)
         {
         }
 

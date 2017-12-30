@@ -30,7 +30,7 @@ namespace As.Email
                 request.Resource = "{domain}/messages";
                 request.AddParameter("from", $"App4Answers <{source.UserName}@{service.Domain}>");
                 request.AddParameter("to", $"{c.FirstName} {c.LastName} <{c.Email}>");
-                request.AddParameter("subject", $"A4A Question on '{msg.Topic}'");
+                request.AddParameter("subject", msg.Subject);
                 request.AddParameter("text", msg.Content);
                 request.Method = Method.POST;
                 var result  = client.Execute(request);

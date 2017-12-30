@@ -9,18 +9,16 @@ namespace App4Answers.Models.A4Amodels.EmailManager
 {
     public class A4AEmailRecordSummaryViewModel : ViewModelBase<A4AEmailRecord>
     {
-        public A4AEmailRecordSummaryViewModel() : base(ModelNames.AdministrationNames.EmailRecord, ModelNames.Verb.List)
+        public A4AEmailRecordSummaryViewModel() 
         {
 
         }
-        public A4AEmailRecordSummaryViewModel(IFormCollection forms) : base(forms, ModelNames.AdministrationNames.EmailRecord,
-            ModelNames.Verb.List)
+        public A4AEmailRecordSummaryViewModel(IFormCollection forms) : base(forms)
         {
 
         }
 
-        public A4AEmailRecordSummaryViewModel(A4AEmailRecord msg) : base(msg, ModelNames.AdministrationNames.EmailRecord,
-            ModelNames.Verb.List)
+        public A4AEmailRecordSummaryViewModel(A4AEmailRecord msg) : base(msg)
         {
 
         }
@@ -36,8 +34,6 @@ namespace App4Answers.Models.A4Amodels.EmailManager
         public string NameTo { get; set; }
 
         public string Status { get; set; }
-
-        public string ExternalMessageId { get; set; }
 
         public string ExternalStatus { get; set; }
 

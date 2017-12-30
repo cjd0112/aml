@@ -140,7 +140,7 @@ namespace As.A4ACore
             }
         }
 
-        public IEnumerable<T> QueryObjects<T>(String whereClause, Range range, Sort sort)
+        public IEnumerable<T> QueryObjects<T>(String whereClause="", Range range=null, Sort sort=null)
         {
             using (var connection = conn.Connection())
             {
@@ -201,11 +201,6 @@ namespace As.A4ACore
                     }
                 }
 
-                if (experts.Count == 0)
-                {
-                    throw new Exception($"message Topic - {msg.Topic} - did not select any experts ... ");
-                }
-
                 var userTable = tables[typeof(A4AUser)];
                 user = userTable.SelectOne<A4AUser>(connection, "Email", msg.EmailSender);
             }
@@ -252,5 +247,11 @@ namespace As.A4ACore
                 return (user, expert);
             }
         }
+
+        public Mailbox GetMailbox(MailboxRequest request)
+        {
+            return null;
+        }
+
     }
 }
