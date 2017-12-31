@@ -5,11 +5,12 @@ enum A4AContentType
 	Email=0;
 }
 
-enum A4AUserType
+enum A4APartyType
 {
 	Admin=0;
 	User=1;
 	Expert=2;
+	Company=3;
 }
 
 enum A4AMailboxType
@@ -30,7 +31,7 @@ message A4AAuthenticationAccount
 	int32 Code3 = 4;
 	int32 Code4 = 5;
 
-	A4AUserType UserType = 7;
+	A4APartyType UserType = 7;
 
 	string Name = 9;
 }
@@ -105,8 +106,6 @@ message A4AExpert
 	string Email = 4;
 	string Mobile=7;
 	string CompanyName = 8;
-
-	A4ACompany Company = 9;
 }
 
 message A4ASubscription
@@ -197,15 +196,17 @@ message A4AMessage
 
 }
 
-message AggregateUser
+message AggregateParty
 {
 	string Email = 1;
 	string Name = 2;
+	A4APartyType PartyType = 3;
 	oneof Party
 	{
-		A4AExpert expert = 3;
-		A4AUser user = 4;
-		A4AAdministrator admin = 5;
+		A4AExpert expert = 4;
+		A4AUser user = 5;
+		A4AAdministrator admin = 6;
+		A4ACompany company=7;
 	}
 }
 
@@ -230,7 +231,7 @@ message MailboxView
 	MailboxRequest request = 2;
 
 	repeated AggregateMessage Messages = 4;
-	repeated AggregateUser Users = 5;
+	repeated AggregateParty Parties = 5;
 
 
 }
@@ -240,7 +241,7 @@ message MailboxRequest
 	int32 Start= 1;
 	int32 PageSize=2;
 	string Owner = 3;
-	A4AUserType UserType = 4;
+	A4APartyType UserType = 4;
 	A4AMailboxType MailboxType=5;
 }
 

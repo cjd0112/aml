@@ -26,7 +26,7 @@ namespace App4Answers.Extensions
 
 
             foreach (var tc in TypeContainer.Initialize(Assembly.GetAssembly(typeof(A4ACategory)).GetTypes()
-                .Where(predicate: x => x.Name.StartsWith("A4A") && x.IsClass && typeof(IMessage).IsAssignableFrom(x))))
+                .Where(predicate: x => x.IsClass && typeof(IMessage).IsAssignableFrom(x))))
             {
                 
                     tc

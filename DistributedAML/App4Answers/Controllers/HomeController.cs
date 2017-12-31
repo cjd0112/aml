@@ -47,15 +47,15 @@ namespace App4Answers.Controllers
             {
                 HttpContext.Session.SetString(ModelNames.SessionStrings.UserEmail.ToString(), thisLogin.AuthenticationAccount.Email);
                 HttpContext.Session.SetString(ModelNames.SessionStrings.UserType.ToString(),thisLogin.AuthenticationAccount.UserType.ToString());
-                if (thisLogin.AuthenticationAccount.UserType == A4AUserType.Admin)
+                if (thisLogin.AuthenticationAccount.UserType == A4APartyType.Admin)
                 {
                     return RedirectToAction(nameof(Administration), new { objecttype = ModelNames.ObjectTypes.Company, verb = ModelNames.Verb.List });
                 }
-                else if (thisLogin.AuthenticationAccount.UserType == A4AUserType.Expert)
+                else if (thisLogin.AuthenticationAccount.UserType == A4APartyType.Expert)
                 {
                     return RedirectToAction(nameof(EmailManager),new {verb=ModelNames.Verb.List,listtype= A4AMailboxType.Inbox});
                 }
-                else if (thisLogin.AuthenticationAccount.UserType == A4AUserType.User)
+                else if (thisLogin.AuthenticationAccount.UserType == A4APartyType.User)
                 {
                     return RedirectToAction(nameof(EmailManager), new { verb = ModelNames.Verb.List, listtype = A4AMailboxType.Inbox });
                 }

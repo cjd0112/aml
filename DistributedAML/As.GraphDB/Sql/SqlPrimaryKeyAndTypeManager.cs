@@ -31,7 +31,7 @@ namespace As.GraphDB.Sql
         {
             foreach (var c in typeMap.Keys)
             {
-                if (c.StartsWith(id))
+                if (id.StartsWith(c))
                     return typeMap[c].Item1;
             }
             throw new Exception($"Type for id - {id} not found.");
@@ -41,7 +41,7 @@ namespace As.GraphDB.Sql
         {
             foreach (var c in typeMap.Keys)
             {
-                if (c.StartsWith(id))
+                if (id.StartsWith(c))
                     return (T)(object) (typeMap[c].Item2);
             }
             throw new Exception($"Type for id - {id} not found.");

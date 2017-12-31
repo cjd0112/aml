@@ -29,7 +29,7 @@ namespace App4Answers
                     Code2 = 2,
                     Code3 = 3,
                     Code4 = 4,
-                    UserType = A4AUserType.Expert,
+                    UserType = A4APartyType.Expert,
                     Name="EXPERT_0000"
                 },
                 new A4AAuthenticationAccount
@@ -39,7 +39,7 @@ namespace App4Answers
                     Code2 = 2,
                     Code3 = 3,
                     Code4 = 4,
-                    UserType = A4AUserType.User,
+                    UserType = A4APartyType.User,
                     Name="USER_0000"
 
                 },
@@ -50,7 +50,7 @@ namespace App4Answers
                     Code2 = 2,
                     Code3 = 3,
                     Code4 = 4,
-                    UserType = A4AUserType.Admin,
+                    UserType = A4APartyType.Admin,
                     Name="ADMIN_0000"
 
                 }

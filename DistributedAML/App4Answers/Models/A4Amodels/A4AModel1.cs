@@ -50,9 +50,9 @@ namespace App4Answers.Models.A4Amodels
             return accessor.HttpContext.Session.GetString(ModelNames.SessionStrings.UserEmail.ToString());
         }
 
-        private A4AUserType GetUserType()
+        private A4APartyType GetUserType()
         {
-            return (A4AUserType) Enum.Parse(typeof(A4AUserType),accessor.HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString()));
+            return (A4APartyType) Enum.Parse(typeof(A4APartyType),accessor.HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString()));
 
         }
 
@@ -408,11 +408,21 @@ namespace App4Answers.Models.A4Amodels
 
         
         #region MESSAGES
-        public ViewModelListBase ListMessage(A4AMailboxType listType)
+
+        public A4AMailBoxViewModel ListMessage(A4AMailboxType listType)
         {
-            return new ViewModelListBase(typeof(A4AMessageSummaryViewModel), Repository
-                    .QueryObjects<A4AMessage>()
-                    .Select(x => new A4AMessageSummaryViewModel(x)));
+            return new A4AMailBoxViewModel(Repository.GetMailbox(new MailboxRequest
+            {
+                MailboxType = listType,
+                Owner = GetUserName(),
+                PageSize = 10,
+                Start = 0,
+                UserType = GetUserType()
+            }));
+
+            //    return new ViewModelListBase(typeof(A4AMessageSummaryViewModel), Repository
+            //   .QueryObjects<A4AMessage>()
+            //   .Select(x => new A4AMessageSummaryViewModel(x)));
         }
 
         public A4AMessageDetailViewModel NewMessage()
@@ -430,7 +440,7 @@ namespace App4Answers.Models.A4Amodels
 
         //$"A4A Question on '{msg.Topic}'
 
-        public ViewModelListBase SaveMessage(IFormCollection form)
+        public A4AMailBoxViewModel SaveMessage(IFormCollection form)
         {
             var mail = new A4AMessageDetailViewModel(form).ModelClassFromViewModel();
 
@@ -454,7 +464,7 @@ namespace App4Answers.Models.A4Amodels
 
         }
 
-        public ViewModelListBase DeleteMessage(String id)
+        public A4AMailBoxViewModel DeleteMessage(String id)
         {
             Repository.DeleteObject<A4AMessage>(id);
             return ListMessage(A4AMailboxType.Inbox);

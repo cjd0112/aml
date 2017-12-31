@@ -1,6 +1,7 @@
 ﻿@using System
 @using App4Answers.Models.A4Amodels
 @using App4Answers.Models.A4Amodels.Base
+@using App4Answers.Models.A4Amodels.EmailManager
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @using Microsoft.AspNetCore.Http;
@@ -66,13 +67,18 @@
             @Html.Partial("PartialView/ViewModelEditor");
 
         }
+        else if (Model is A4AMailBoxViewModel)
+        {
+            @Html.Partial("PartialView/ViewModelMailBoxViewer");
+
+        }
         else if (Model is string)
         {
-            // empty default 
+        // empty default
         }
         else
         {
-            throw new Exception($"Unexpected ViewModel type - {Model.GetType().Name}");
+        throw new Exception($"Unexpected ViewModel type - {Model.GetType().Name}");
         }
     </div>
 

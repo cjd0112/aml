@@ -35,11 +35,23 @@ namespace As.A4ACore
             return tables[typeof(T)];
         }
 
+        SqlTableWithPrimaryKey GetTable(Type t)
+        {
+            return tables[t];
+        }
+
         SqlitePropertiesAndCommands GetPropertiesAndCommands<T>()
         {
             if (typeof(T) == typeof(AggregateMessage))
                 return aggregateMessage;
             return GetTable<T>().PropertiesAndCommands;
+        }
+
+        SqlitePropertiesAndCommands GetPropertiesAndCommands(Type t)
+        {
+            if (t == typeof(AggregateMessage))
+                return aggregateMessage;
+            return GetTable(t).PropertiesAndCommands;
         }
 
         private SqlitePropertiesAndCommands aggregateMessage;
@@ -63,9 +75,9 @@ namespace As.A4ACore
 
             }
 
-            primaryKeyAndTypeManager.AddPrimaryKeyPrefixAndEnum(typeof(A4AExpert), "EXP", A4AUserType.Expert);
-            primaryKeyAndTypeManager.AddPrimaryKeyPrefixAndEnum(typeof(A4AUser), "USR", A4AUserType.User);
-            primaryKeyAndTypeManager.AddPrimaryKeyPrefixAndEnum(typeof(A4AExpert), "Admin", A4AUserType.Admin);
+            primaryKeyAndTypeManager.AddPrimaryKeyPrefixAndEnum(typeof(A4AExpert), "EXPERT", A4APartyType.Expert)
+                .AddPrimaryKeyPrefixAndEnum(typeof(A4AUser), "USER", A4APartyType.User)
+                .AddPrimaryKeyPrefixAndEnum(typeof(A4AExpert), "ADMIN", A4APartyType.Admin);
 
             tables[typeof(A4AExpert)]
                 .SetAutoPrimaryKey((i) => primaryKeyAndTypeManager.GenerateId(typeof(A4AExpert), i));
@@ -75,6 +87,7 @@ namespace As.A4ACore
 
             tables[typeof(A4AAdministrator)]
                 .SetAutoPrimaryKey((i) => primaryKeyAndTypeManager.GenerateId(typeof(A4AAdministrator), i));
+
 
             aggregateMessage = new SqlitePropertiesAndCommands(TypeContainer.GetTypeContainer(typeof(AggregateMessage)));
 
@@ -86,10 +99,6 @@ namespace As.A4ACore
             {
                 foreach (var c in tables.Keys)
                 {
-                    if (c == typeof(A4AEmailRecord))
-                    {
-
-                    }
                     tables[c].PropertiesAndCommands
                         .VerifyForeignKeysFromOtherTables(tables.Values.Select(x => x.PropertiesAndCommands));
 
@@ -105,19 +114,19 @@ namespace As.A4ACore
             }
         }
 
-        A4AUserType UserEnumTypeFromId(string id)
+        A4APartyType GetUserEnumTypeFromId(string id)
         {
-            return primaryKeyAndTypeManager.GetEnumFromId<A4AUserType>(id);
+            return primaryKeyAndTypeManager.GetEnumFromId<A4APartyType>(id);
         }
 
-        Type UserTypeFromId(string id)
+        Type GetUserTypeFromId(string id)
         {
             return primaryKeyAndTypeManager.GetTypeFromId(id);
         }
 
-        SqlTableWithPrimaryKey TableFromId(string id)
+        SqlTableWithPrimaryKey GetTableFromId(string id)
         {
-            return tables[UserTypeFromId(id)];
+            return tables[GetUserTypeFromId(id)];
         }
 
 
@@ -299,10 +308,15 @@ namespace As.A4ACore
             }
         }
 
-        AggregateUser GetAggregateUser(SqliteConnection conn,string name)
+        AggregateParty GetAggregateParty(SqliteConnection conn,string name,string email)
         {
-            var ret = new AggregateUser {Name = name};
-            var t = TableFromId(name).SelectDataByPrimaryKey(conn, name);
+            var ret = new AggregateParty
+            {
+                Name = name,
+                Email = email,
+                PartyType = GetUserEnumTypeFromId(name)
+            };
+            var t = GetTableFromId(name).SelectDataByPrimaryKey(conn, name);
             switch (t)
             {
                 case A4AUser user:
@@ -314,10 +328,44 @@ namespace As.A4ACore
                 case A4AAdministrator admin:
                     ret.Admin = admin;
                     break;
+                case A4ACompany company:
+                    ret.Company = company;
+                    break;
                 default:
                     throw new Exception($"Unexpected user type from name - {name}");
             }
             return ret;
+        }
+
+        AggregateParty GetAggregatePartyFromCompany(SqliteConnection conn, string name)
+        {
+            var ret = new AggregateParty { Name = name,PartyType = A4APartyType.Company };
+            ret.Company= (A4ACompany)tables[typeof(A4ACompany)].SelectDataByPrimaryKey(conn,name);
+            return ret;
+        }
+
+
+        (string nameToOrFrom, string externalStatus) GetSearchParameters(A4AMailboxType mailboxType,A4APartyType party)
+        {
+            if (mailboxType == A4AMailboxType.Inbox && party == A4APartyType.Expert)
+            {
+                return ("NameTo", "delivered");
+            }
+            else if (mailboxType == A4AMailboxType.Inbox && party == A4APartyType.User)
+            {
+                return ("NameTo", "stored");
+            }
+            else if (mailboxType == A4AMailboxType.Sent && party == A4APartyType.Expert)
+            {
+                return ("NameFrom", "stored");
+            }
+            else if (mailboxType == A4AMailboxType.Sent && party == A4APartyType.User)
+            {
+                return ("NameFrom", "delivered");
+            }
+
+            throw new Exception($"Unexpected mailboxtype and party - {mailboxType} - {party}");
+
         }
 
         public MailboxView GetMailbox(MailboxRequest request)
@@ -328,26 +376,31 @@ namespace As.A4ACore
             {
                 bool userProcessed(string n)
                 {
-                    return mb.Users.Any(x => x.Name == n);
+                    return mb.Parties.Any(x => x.Name == n);
                 }
 
                 var emailRecords = tables[typeof(A4AEmailRecord)];
-                if (request.MailboxType == A4AMailboxType.Inbox)
+
+                (var nameToOrFrom, var externalStatus) = GetSearchParameters(request.MailboxType, request.UserType);
+                mb.Count = GetTable<A4AEmailRecord>().GetCount(connection,new SqlPredicate(nameToOrFrom, request.Owner),
+                    new SqlPredicate("ExternalStatus", externalStatus));
+
+                foreach (var c in new SqlInnerJoin<AggregateMessage, A4AEmailRecord, A4AMessage>(GetPropertiesAndCommands)
+                    .JoinT1Predicate(connection, "MessageId", new SqlPredicate(nameToOrFrom, request.Owner), new SqlPredicate("ExternalStatus", externalStatus)))
                 {
-                    if (request.UserType == A4AUserType.User)
+                    mb.Messages.Add(c);
+
+                    if (!userProcessed(c.NameFrom))
                     {
-                        mb.Count = GetTable<A4AEmailRecord>().GetCount(connection,new SqlPredicate("NameTo", request.Owner),
-                            new SqlPredicate("ExternalStatus", "stored"));
+                        var party = GetAggregateParty(connection, c.NameFrom, c.EmailFrom);
+                        mb.Parties.Add(party);
 
-                        foreach (var c in new SqlInnerJoin<AggregateMessage,A4AEmailRecord, A4AMessage>((x) =>
-                                tables[x].PropertiesAndCommands)
-                            .JoinT1Predicate(connection, "MessageId", new SqlPredicate("NameTo", request.Owner),new SqlPredicate("ExternalStatus","stored")))
+                        if (GetUserTypeFromId(c.NameFrom) == typeof(A4AExpert))
                         {
-                            mb.Messages.Add(c);
-
-                            if (!userProcessed(c.NameFrom))
+                            if (!userProcessed(party.Expert.CompanyName))
                             {
-                                mb.Users.Add(GetAggregateUser(connection,c.NameFrom));
+                                var company = GetAggregatePartyFromCompany(connection, party.Expert.CompanyName);
+                                mb.Parties.Add(company);
                             }
                         }
                     }

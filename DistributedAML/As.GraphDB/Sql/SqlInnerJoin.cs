@@ -45,10 +45,8 @@ namespace As.GraphDB.Sql
         {
             if (t1Predicates.Any())
             {
-                StringBuilder foo = new StringBuilder();
                 foreach (var c in t1Predicates)
                 {
-
                     PropertyContainer pc = tc.GetProperty(c.propertyName);
                     if (pc == null)
                         throw new Exception($"Could not find property - {c.propertyName} on type - {t1.tableName} for join operation");
@@ -58,10 +56,9 @@ namespace As.GraphDB.Sql
                             $"Currently join only works on strings ... - {c.propertyName} - {t1.tableName}");
                     // assume string for now ... 
                     if (tc == t1.typeContainer)
-                        foo.Append($" A.{c.propertyName} = '{c.propertyValue.ToString()} ");
+                        yield return $" A.{c.propertyName} = '{c.propertyValue.ToString()}' ";
                     else
-                        foo.Append($" B.{c.propertyName} = '{c.propertyValue.ToString()} ");
-                    yield return foo.ToString();
+                        yield return $" B.{c.propertyName} = '{c.propertyValue.ToString()}' ";
                 }
             }
         }

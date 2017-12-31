@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "GenericView";
+    
+}
+
+@using System.Linq
+@using App4Answers.Models.A4Amodels
+@using App4Answers.Models.A4Amodels.Base
+@model App4Answers.Models.A4Amodels.EmailManager.A4AMailBoxViewModel
+
+
+<div class="col-sm-12" style="color: black; padding-left: 0px; padding-top: 0px; margin-top: 0px; margin-right: 0px; padding-right: 0px">
+    @foreach (var c in Model.ViewModel.Messages)
+    {
+        <div>
+            @c.Subject
+        </div>
+    }
+</div>
+

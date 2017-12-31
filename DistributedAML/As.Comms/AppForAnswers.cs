@@ -20,75 +20,76 @@ public static partial class AppForAnswersReflection {
   static AppForAnswersReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChNBcHBGb3JBbnN3ZXJzLnByb3RvIpMBChhBNEFBdXRoZW50aWNhdGlvbkFj",
+          "ChNBcHBGb3JBbnN3ZXJzLnByb3RvIpQBChhBNEFBdXRoZW50aWNhdGlvbkFj",
           "Y291bnQSDQoFRW1haWwYASABKAkSDQoFQ29kZTEYAiABKAUSDQoFQ29kZTIY",
-          "AyABKAUSDQoFQ29kZTMYBCABKAUSDQoFQ29kZTQYBSABKAUSHgoIVXNlclR5",
-          "cGUYByABKA4yDC5BNEFVc2VyVHlwZRIMCgROYW1lGAkgASgJIt8BCgpBNEFD",
-          "b21wYW55EhMKC0NvbXBhbnlOYW1lGAEgASgJEhAKCEFkZHJlc3MxGAogASgJ",
-          "EhAKCEFkZHJlc3MyGAsgASgJEg8KB0NvdW50cnkYDCABKAkSEAoIUG9zdGNv",
-          "ZGUYDSABKAkSEQoJVGVsZXBob25lGA8gASgJEg8KB1dlYnNpdGUYECABKAkS",
-          "EgoKTWFpbkNvbG91chgRIAEoCRIXCg9TZWNvbmRhcnlDb2xvdXIYEiABKAkS",
-          "FgoOVGVydGlhcnlDb2xvdXIYEyABKAkSDAoETG9nbxgUIAEoCSK8AQoPQTRB",
-          "RW1haWxTZXJ2aWNlEhMKC1NlcnZpY2VOYW1lGAEgASgJEhMKC0FwaVVzZXJO",
-          "YW1lGAIgASgJEhMKC0FwaVBhc3N3b3JkGAMgASgJEgsKA1VyaRgEIAEoCRIO",
-          "CgZEb21haW4YBSABKAkSFAoMbGFzdFBvbGxUaW1lGAYgASgDEhkKEWRlbGF5",
-          "TWlsbGlzZWNvbmRzGAcgASgDEhwKFGxvb2tiYWNrTWlsbGlzZWNvbmRzGAgg",
-          "ASgDIlsKEEE0QUFkbWluaXN0cmF0b3ISGQoRQWRtaW5pc3RyYXRvck5hbWUY",
-          "ASABKAkSDQoFRW1haWwYAiABKAkSHQoFTGV2ZWwYAyABKA4yDi5BNEFBZG1p",
-          "bkxldmVsIkoKB0E0QVVzZXISEAoIVXNlck5hbWUYASABKAkSDQoFRW1haWwY",
-          "AiABKAkSHgoGU3RhdHVzGAMgASgOMg4uQTRBVXNlclN0YXR1cyKWAQoJQTRB",
+          "AyABKAUSDQoFQ29kZTMYBCABKAUSDQoFQ29kZTQYBSABKAUSHwoIVXNlclR5",
+          "cGUYByABKA4yDS5BNEFQYXJ0eVR5cGUSDAoETmFtZRgJIAEoCSLfAQoKQTRB",
+          "Q29tcGFueRITCgtDb21wYW55TmFtZRgBIAEoCRIQCghBZGRyZXNzMRgKIAEo",
+          "CRIQCghBZGRyZXNzMhgLIAEoCRIPCgdDb3VudHJ5GAwgASgJEhAKCFBvc3Rj",
+          "b2RlGA0gASgJEhEKCVRlbGVwaG9uZRgPIAEoCRIPCgdXZWJzaXRlGBAgASgJ",
+          "EhIKCk1haW5Db2xvdXIYESABKAkSFwoPU2Vjb25kYXJ5Q29sb3VyGBIgASgJ",
+          "EhYKDlRlcnRpYXJ5Q29sb3VyGBMgASgJEgwKBExvZ28YFCABKAkivAEKD0E0",
+          "QUVtYWlsU2VydmljZRITCgtTZXJ2aWNlTmFtZRgBIAEoCRITCgtBcGlVc2Vy",
+          "TmFtZRgCIAEoCRITCgtBcGlQYXNzd29yZBgDIAEoCRILCgNVcmkYBCABKAkS",
+          "DgoGRG9tYWluGAUgASgJEhQKDGxhc3RQb2xsVGltZRgGIAEoAxIZChFkZWxh",
+          "eU1pbGxpc2Vjb25kcxgHIAEoAxIcChRsb29rYmFja01pbGxpc2Vjb25kcxgI",
+          "IAEoAyJbChBBNEFBZG1pbmlzdHJhdG9yEhkKEUFkbWluaXN0cmF0b3JOYW1l",
+          "GAEgASgJEg0KBUVtYWlsGAIgASgJEh0KBUxldmVsGAMgASgOMg4uQTRBQWRt",
+          "aW5MZXZlbCJKCgdBNEFVc2VyEhAKCFVzZXJOYW1lGAEgASgJEg0KBUVtYWls",
+          "GAIgASgJEh4KBlN0YXR1cxgDIAEoDjIOLkE0QVVzZXJTdGF0dXMieAoJQTRB",
           "RXhwZXJ0EhIKCkV4cGVydE5hbWUYASABKAkSEQoJRmlyc3ROYW1lGAIgASgJ",
           "EhAKCExhc3ROYW1lGAMgASgJEg0KBUVtYWlsGAQgASgJEg4KBk1vYmlsZRgH",
-          "IAEoCRITCgtDb21wYW55TmFtZRgIIAEoCRIcCgdDb21wYW55GAkgASgLMgsu",
-          "QTRBQ29tcGFueSKIAQoPQTRBU3Vic2NyaXB0aW9uEhQKDFN1YnNjcmlwdGlv",
-          "bhgBIAEoCRISCgpQcm9mZXNzaW9uGAIgASgJEhAKCENhdGVnb3J5GAMgASgJ",
-          "EhMKC1N1YkNhdGVnb3J5GAQgASgJEhAKCExvY2F0aW9uGAUgASgJEhIKCkV4",
-          "cGVydE5hbWUYBiABKAkiIwoNQTRBUHJvZmVzc2lvbhISCgpQcm9mZXNzaW9u",
-          "GAEgASgJIjMKC0E0QUNhdGVnb3J5EhAKCENhdGVnb3J5GAEgASgJEhIKClBy",
-          "b2Zlc3Npb24YAiABKAkiSwoOQTRBU3ViQ2F0ZWdvcnkSEwoLU3ViQ2F0ZWdv",
-          "cnkYASABKAkSEAoIQ2F0ZWdvcnkYAiABKAkSEgoKUHJvZmVzc2lvbhgDIAEo",
-          "CSJaCgtBNEFMb2NhdGlvbhIQCghMb2NhdGlvbhgBIAEoCRITCgtTdWJDYXRl",
-          "Z29yeRgCIAEoCRIQCghDYXRlZ29yeRgDIAEoCRISCgpQcm9mZXNzaW9uGAQg",
-          "ASgJIqQCCg5BNEFFbWFpbFJlY29yZBIVCg1FbWFpbFJlY29yZElkGAEgASgJ",
-          "EhEKCU1lc3NhZ2VJZBgCIAEoCRIRCglFbWFpbEZyb20YAyABKAkSEAoITmFt",
-          "ZUZyb20YBCABKAkSDwoHRW1haWxUbxgFIAEoCRIOCgZOYW1lVG8YBiABKAkS",
-          "HgoWRW1haWxSZWNvcmRJZFJlbGF0ZWRUbxgHIAEoCRIcCgZTdGF0dXMYCCAB",
-          "KA4yDC5FbWFpbFN0YXR1cxIZChFFeHRlcm5hbE1lc3NhZ2VJZBgJIAEoCRIW",
-          "Cg5FeHRlcm5hbFN0YXR1cxgKIAEoCRITCgtVcGRhdGVkVGltZRgLIAEoCRIL",
-          "CgNVcmwYDCABKAkSDwoHU3ViamVjdBgNIAEoCSKZAQoKQTRBTWVzc2FnZRIR",
-          "CglNZXNzYWdlSWQYASABKAkSDwoHQ29udGVudBgCIAEoCRIkCgtDb250ZW50",
-          "VHlwZRgDIAEoDjIPLkE0QUNvbnRlbnRUeXBlEhMKC0VtYWlsU2VuZGVyGAcg",
-          "ASgJEgwKBERhdGUYCCABKAkSDwoHU3ViamVjdBgJIAEoCRINCgVUb3BpYxgK",
-          "IAEoCSKRAQoNQWdncmVnYXRlVXNlchINCgVFbWFpbBgBIAEoCRIMCgROYW1l",
-          "GAIgASgJEhwKBmV4cGVydBgDIAEoCzIKLkE0QUV4cGVydEgAEhgKBHVzZXIY",
-          "BCABKAsyCC5BNEFVc2VySAASIgoFYWRtaW4YBSABKAsyES5BNEFBZG1pbmlz",
-          "dHJhdG9ySABCBwoFUGFydHkisQEKEEFnZ3JlZ2F0ZU1lc3NhZ2USEAoITmFt",
-          "ZUZyb20YASABKAkSDgoGTmFtZVRvGAIgASgJEhEKCUVtYWlsRnJvbRgDIAEo",
-          "CRIPCgdFbWFpbFRvGAQgASgJEhMKC1VwZGF0ZWRUaW1lGAUgASgJEg8KB1N1",
-          "YmplY3QYBiABKAkSEQoJTWVzc2FnZUlkGAcgASgJEg8KB0NvbnRlbnQYCCAB",
-          "KAkSDQoFVG9waWMYCSABKAkiggEKC01haWxib3hWaWV3Eg0KBUNvdW50GAEg",
-          "ASgFEiAKB3JlcXVlc3QYAiABKAsyDy5NYWlsYm94UmVxdWVzdBIjCghNZXNz",
-          "YWdlcxgEIAMoCzIRLkFnZ3JlZ2F0ZU1lc3NhZ2USHQoFVXNlcnMYBSADKAsy",
-          "Di5BZ2dyZWdhdGVVc2VyIoYBCg5NYWlsYm94UmVxdWVzdBINCgVTdGFydBgB",
-          "IAEoBRIQCghQYWdlU2l6ZRgCIAEoBRINCgVPd25lchgDIAEoCRIeCghVc2Vy",
-          "VHlwZRgEIAEoDjIMLkE0QVVzZXJUeXBlEiQKC01haWxib3hUeXBlGAUgASgO",
-          "Mg8uQTRBTWFpbGJveFR5cGUqGwoOQTRBQ29udGVudFR5cGUSCQoFRW1haWwQ",
-          "ACouCgtBNEFVc2VyVHlwZRIJCgVBZG1pbhAAEggKBFVzZXIQARIKCgZFeHBl",
-          "cnQQAipFCg5BNEFNYWlsYm94VHlwZRIICgROb25lEAASCQoFSW5ib3gQARII",
-          "CgRTZW50EAISCQoFVHJhc2gQAxIJCgVEcmFmdBAEKioKDUE0QVVzZXJTdGF0",
-          "dXMSCgoGQWN0aXZlEAASDQoJU3VzcGVuZGVkEAEqMQoNQTRBQWRtaW5MZXZl",
-          "bBIRCg1BZG1pbmlzdHJhdG9yEAASDQoJTW9kZXJhdG9yEAEqNQoLRW1haWxT",
-          "dGF0dXMSCwoHQ3JlYXRlZBAAEgwKCFNlbnRNYWlsEAESCwoHUmVwbGllZBAC",
-          "YgZwcm90bzM="));
+          "IAEoCRITCgtDb21wYW55TmFtZRgIIAEoCSKIAQoPQTRBU3Vic2NyaXB0aW9u",
+          "EhQKDFN1YnNjcmlwdGlvbhgBIAEoCRISCgpQcm9mZXNzaW9uGAIgASgJEhAK",
+          "CENhdGVnb3J5GAMgASgJEhMKC1N1YkNhdGVnb3J5GAQgASgJEhAKCExvY2F0",
+          "aW9uGAUgASgJEhIKCkV4cGVydE5hbWUYBiABKAkiIwoNQTRBUHJvZmVzc2lv",
+          "bhISCgpQcm9mZXNzaW9uGAEgASgJIjMKC0E0QUNhdGVnb3J5EhAKCENhdGVn",
+          "b3J5GAEgASgJEhIKClByb2Zlc3Npb24YAiABKAkiSwoOQTRBU3ViQ2F0ZWdv",
+          "cnkSEwoLU3ViQ2F0ZWdvcnkYASABKAkSEAoIQ2F0ZWdvcnkYAiABKAkSEgoK",
+          "UHJvZmVzc2lvbhgDIAEoCSJaCgtBNEFMb2NhdGlvbhIQCghMb2NhdGlvbhgB",
+          "IAEoCRITCgtTdWJDYXRlZ29yeRgCIAEoCRIQCghDYXRlZ29yeRgDIAEoCRIS",
+          "CgpQcm9mZXNzaW9uGAQgASgJIqQCCg5BNEFFbWFpbFJlY29yZBIVCg1FbWFp",
+          "bFJlY29yZElkGAEgASgJEhEKCU1lc3NhZ2VJZBgCIAEoCRIRCglFbWFpbEZy",
+          "b20YAyABKAkSEAoITmFtZUZyb20YBCABKAkSDwoHRW1haWxUbxgFIAEoCRIO",
+          "CgZOYW1lVG8YBiABKAkSHgoWRW1haWxSZWNvcmRJZFJlbGF0ZWRUbxgHIAEo",
+          "CRIcCgZTdGF0dXMYCCABKA4yDC5FbWFpbFN0YXR1cxIZChFFeHRlcm5hbE1l",
+          "c3NhZ2VJZBgJIAEoCRIWCg5FeHRlcm5hbFN0YXR1cxgKIAEoCRITCgtVcGRh",
+          "dGVkVGltZRgLIAEoCRILCgNVcmwYDCABKAkSDwoHU3ViamVjdBgNIAEoCSKZ",
+          "AQoKQTRBTWVzc2FnZRIRCglNZXNzYWdlSWQYASABKAkSDwoHQ29udGVudBgC",
+          "IAEoCRIkCgtDb250ZW50VHlwZRgDIAEoDjIPLkE0QUNvbnRlbnRUeXBlEhMK",
+          "C0VtYWlsU2VuZGVyGAcgASgJEgwKBERhdGUYCCABKAkSDwoHU3ViamVjdBgJ",
+          "IAEoCRINCgVUb3BpYxgKIAEoCSLUAQoOQWdncmVnYXRlUGFydHkSDQoFRW1h",
+          "aWwYASABKAkSDAoETmFtZRgCIAEoCRIgCglQYXJ0eVR5cGUYAyABKA4yDS5B",
+          "NEFQYXJ0eVR5cGUSHAoGZXhwZXJ0GAQgASgLMgouQTRBRXhwZXJ0SAASGAoE",
+          "dXNlchgFIAEoCzIILkE0QVVzZXJIABIiCgVhZG1pbhgGIAEoCzIRLkE0QUFk",
+          "bWluaXN0cmF0b3JIABIeCgdjb21wYW55GAcgASgLMgsuQTRBQ29tcGFueUgA",
+          "QgcKBVBhcnR5IrEBChBBZ2dyZWdhdGVNZXNzYWdlEhAKCE5hbWVGcm9tGAEg",
+          "ASgJEg4KBk5hbWVUbxgCIAEoCRIRCglFbWFpbEZyb20YAyABKAkSDwoHRW1h",
+          "aWxUbxgEIAEoCRITCgtVcGRhdGVkVGltZRgFIAEoCRIPCgdTdWJqZWN0GAYg",
+          "ASgJEhEKCU1lc3NhZ2VJZBgHIAEoCRIPCgdDb250ZW50GAggASgJEg0KBVRv",
+          "cGljGAkgASgJIoUBCgtNYWlsYm94VmlldxINCgVDb3VudBgBIAEoBRIgCgdy",
+          "ZXF1ZXN0GAIgASgLMg8uTWFpbGJveFJlcXVlc3QSIwoITWVzc2FnZXMYBCAD",
+          "KAsyES5BZ2dyZWdhdGVNZXNzYWdlEiAKB1BhcnRpZXMYBSADKAsyDy5BZ2dy",
+          "ZWdhdGVQYXJ0eSKHAQoOTWFpbGJveFJlcXVlc3QSDQoFU3RhcnQYASABKAUS",
+          "EAoIUGFnZVNpemUYAiABKAUSDQoFT3duZXIYAyABKAkSHwoIVXNlclR5cGUY",
+          "BCABKA4yDS5BNEFQYXJ0eVR5cGUSJAoLTWFpbGJveFR5cGUYBSABKA4yDy5B",
+          "NEFNYWlsYm94VHlwZSobCg5BNEFDb250ZW50VHlwZRIJCgVFbWFpbBAAKjwK",
+          "DEE0QVBhcnR5VHlwZRIJCgVBZG1pbhAAEggKBFVzZXIQARIKCgZFeHBlcnQQ",
+          "AhILCgdDb21wYW55EAMqRQoOQTRBTWFpbGJveFR5cGUSCAoETm9uZRAAEgkK",
+          "BUluYm94EAESCAoEU2VudBACEgkKBVRyYXNoEAMSCQoFRHJhZnQQBCoqCg1B",
+          "NEFVc2VyU3RhdHVzEgoKBkFjdGl2ZRAAEg0KCVN1c3BlbmRlZBABKjEKDUE0",
+          "QUFkbWluTGV2ZWwSEQoNQWRtaW5pc3RyYXRvchAAEg0KCU1vZGVyYXRvchAB",
+          "KjUKC0VtYWlsU3RhdHVzEgsKB0NyZWF0ZWQQABIMCghTZW50TWFpbBABEgsK",
+          "B1JlcGxpZWQQAmIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
-        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4AUserType), typeof(global::A4AMailboxType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::EmailStatus), }, new pbr::GeneratedClrTypeInfo[] {
+        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4APartyType), typeof(global::A4AMailboxType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::EmailStatus), }, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AAuthenticationAccount), global::A4AAuthenticationAccount.Parser, new[]{ "Email", "Code1", "Code2", "Code3", "Code4", "UserType", "Name" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ACompany), global::A4ACompany.Parser, new[]{ "CompanyName", "Address1", "Address2", "Country", "Postcode", "Telephone", "Website", "MainColour", "SecondaryColour", "TertiaryColour", "Logo" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailService), global::A4AEmailService.Parser, new[]{ "ServiceName", "ApiUserName", "ApiPassword", "Uri", "Domain", "LastPollTime", "DelayMilliseconds", "LookbackMilliseconds" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AAdministrator), global::A4AAdministrator.Parser, new[]{ "AdministratorName", "Email", "Level" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AUser), global::A4AUser.Parser, new[]{ "UserName", "Email", "Status" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AExpert), global::A4AExpert.Parser, new[]{ "ExpertName", "FirstName", "LastName", "Email", "Mobile", "CompanyName", "Company" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AExpert), global::A4AExpert.Parser, new[]{ "ExpertName", "FirstName", "LastName", "Email", "Mobile", "CompanyName" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ASubscription), global::A4ASubscription.Parser, new[]{ "Subscription", "Profession", "Category", "SubCategory", "Location", "ExpertName" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AProfession), global::A4AProfession.Parser, new[]{ "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ACategory), global::A4ACategory.Parser, new[]{ "Category", "Profession" }, null, null, null),
@@ -96,9 +97,9 @@ public static partial class AppForAnswersReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ALocation), global::A4ALocation.Parser, new[]{ "Location", "SubCategory", "Category", "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailRecord), global::A4AEmailRecord.Parser, new[]{ "EmailRecordId", "MessageId", "EmailFrom", "NameFrom", "EmailTo", "NameTo", "EmailRecordIdRelatedTo", "Status", "ExternalMessageId", "ExternalStatus", "UpdatedTime", "Url", "Subject" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "MessageId", "Content", "ContentType", "EmailSender", "Date", "Subject", "Topic" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::AggregateUser), global::AggregateUser.Parser, new[]{ "Email", "Name", "Expert", "User", "Admin" }, new[]{ "Party" }, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::AggregateParty), global::AggregateParty.Parser, new[]{ "Email", "Name", "PartyType", "Expert", "User", "Admin", "Company" }, new[]{ "Party" }, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::AggregateMessage), global::AggregateMessage.Parser, new[]{ "NameFrom", "NameTo", "EmailFrom", "EmailTo", "UpdatedTime", "Subject", "MessageId", "Content", "Topic" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::MailboxView), global::MailboxView.Parser, new[]{ "Count", "Request", "Messages", "Users" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::MailboxView), global::MailboxView.Parser, new[]{ "Count", "Request", "Messages", "Parties" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::MailboxRequest), global::MailboxRequest.Parser, new[]{ "Start", "PageSize", "Owner", "UserType", "MailboxType" }, null, null, null)
         }));
   }
@@ -110,10 +111,11 @@ public enum A4AContentType {
   [pbr::OriginalName("Email")] Email = 0,
 }
 
-public enum A4AUserType {
+public enum A4APartyType {
   [pbr::OriginalName("Admin")] Admin = 0,
   [pbr::OriginalName("User")] User = 1,
   [pbr::OriginalName("Expert")] Expert = 2,
+  [pbr::OriginalName("Company")] Company = 3,
 }
 
 public enum A4AMailboxType {
@@ -238,9 +240,9 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
 
   /// <summary>Field number for the "UserType" field.</summary>
   public const int UserTypeFieldNumber = 7;
-  private global::A4AUserType userType_ = 0;
+  private global::A4APartyType userType_ = 0;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public global::A4AUserType UserType {
+  public global::A4APartyType UserType {
     get { return userType_; }
     set {
       userType_ = value;
@@ -415,7 +417,7 @@ public sealed partial class A4AAuthenticationAccount : pb::IMessage<A4AAuthentic
           break;
         }
         case 56: {
-          userType_ = (global::A4AUserType) input.ReadEnum();
+          userType_ = (global::A4APartyType) input.ReadEnum();
           break;
         }
         case 74: {
@@ -1521,7 +1523,6 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     email_ = other.email_;
     mobile_ = other.mobile_;
     companyName_ = other.companyName_;
-    Company = other.company_ != null ? other.Company.Clone() : null;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1595,17 +1596,6 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     }
   }
 
-  /// <summary>Field number for the "Company" field.</summary>
-  public const int CompanyFieldNumber = 9;
-  private global::A4ACompany company_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public global::A4ACompany Company {
-    get { return company_; }
-    set {
-      company_ = value;
-    }
-  }
-
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as A4AExpert);
@@ -1625,7 +1615,6 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     if (Email != other.Email) return false;
     if (Mobile != other.Mobile) return false;
     if (CompanyName != other.CompanyName) return false;
-    if (!object.Equals(Company, other.Company)) return false;
     return true;
   }
 
@@ -1638,7 +1627,6 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     if (Email.Length != 0) hash ^= Email.GetHashCode();
     if (Mobile.Length != 0) hash ^= Mobile.GetHashCode();
     if (CompanyName.Length != 0) hash ^= CompanyName.GetHashCode();
-    if (company_ != null) hash ^= Company.GetHashCode();
     return hash;
   }
 
@@ -1673,10 +1661,6 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
       output.WriteRawTag(66);
       output.WriteString(CompanyName);
     }
-    if (company_ != null) {
-      output.WriteRawTag(74);
-      output.WriteMessage(Company);
-    }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1699,9 +1683,6 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     }
     if (CompanyName.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(CompanyName);
-    }
-    if (company_ != null) {
-      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Company);
     }
     return size;
   }
@@ -1728,12 +1709,6 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
     }
     if (other.CompanyName.Length != 0) {
       CompanyName = other.CompanyName;
-    }
-    if (other.company_ != null) {
-      if (company_ == null) {
-        company_ = new global::A4ACompany();
-      }
-      Company.MergeFrom(other.Company);
     }
   }
 
@@ -1767,13 +1742,6 @@ public sealed partial class A4AExpert : pb::IMessage<A4AExpert> {
         }
         case 66: {
           CompanyName = input.ReadString();
-          break;
-        }
-        case 74: {
-          if (company_ == null) {
-            company_ = new global::A4ACompany();
-          }
-          input.ReadMessage(company_);
           break;
         }
       }
@@ -3413,10 +3381,10 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
 
 }
 
-public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
-  private static readonly pb::MessageParser<AggregateUser> _parser = new pb::MessageParser<AggregateUser>(() => new AggregateUser());
+public sealed partial class AggregateParty : pb::IMessage<AggregateParty> {
+  private static readonly pb::MessageParser<AggregateParty> _parser = new pb::MessageParser<AggregateParty>(() => new AggregateParty());
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public static pb::MessageParser<AggregateUser> Parser { get { return _parser; } }
+  public static pb::MessageParser<AggregateParty> Parser { get { return _parser; } }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
@@ -3429,16 +3397,17 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public AggregateUser() {
+  public AggregateParty() {
     OnConstruction();
   }
 
   partial void OnConstruction();
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public AggregateUser(AggregateUser other) : this() {
+  public AggregateParty(AggregateParty other) : this() {
     email_ = other.email_;
     name_ = other.name_;
+    partyType_ = other.partyType_;
     switch (other.PartyCase) {
       case PartyOneofCase.Expert:
         Expert = other.Expert.Clone();
@@ -3449,13 +3418,16 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
       case PartyOneofCase.Admin:
         Admin = other.Admin.Clone();
         break;
+      case PartyOneofCase.Company:
+        Company = other.Company.Clone();
+        break;
     }
 
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public AggregateUser Clone() {
-    return new AggregateUser(this);
+  public AggregateParty Clone() {
+    return new AggregateParty(this);
   }
 
   /// <summary>Field number for the "Email" field.</summary>
@@ -3480,8 +3452,19 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
     }
   }
 
+  /// <summary>Field number for the "PartyType" field.</summary>
+  public const int PartyTypeFieldNumber = 3;
+  private global::A4APartyType partyType_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::A4APartyType PartyType {
+    get { return partyType_; }
+    set {
+      partyType_ = value;
+    }
+  }
+
   /// <summary>Field number for the "expert" field.</summary>
-  public const int ExpertFieldNumber = 3;
+  public const int ExpertFieldNumber = 4;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public global::A4AExpert Expert {
     get { return partyCase_ == PartyOneofCase.Expert ? (global::A4AExpert) party_ : null; }
@@ -3492,7 +3475,7 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
   }
 
   /// <summary>Field number for the "user" field.</summary>
-  public const int UserFieldNumber = 4;
+  public const int UserFieldNumber = 5;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public global::A4AUser User {
     get { return partyCase_ == PartyOneofCase.User ? (global::A4AUser) party_ : null; }
@@ -3503,7 +3486,7 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
   }
 
   /// <summary>Field number for the "admin" field.</summary>
-  public const int AdminFieldNumber = 5;
+  public const int AdminFieldNumber = 6;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public global::A4AAdministrator Admin {
     get { return partyCase_ == PartyOneofCase.Admin ? (global::A4AAdministrator) party_ : null; }
@@ -3513,13 +3496,25 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
     }
   }
 
+  /// <summary>Field number for the "company" field.</summary>
+  public const int CompanyFieldNumber = 7;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::A4ACompany Company {
+    get { return partyCase_ == PartyOneofCase.Company ? (global::A4ACompany) party_ : null; }
+    set {
+      party_ = value;
+      partyCase_ = value == null ? PartyOneofCase.None : PartyOneofCase.Company;
+    }
+  }
+
   private object party_;
   /// <summary>Enum of possible cases for the "Party" oneof.</summary>
   public enum PartyOneofCase {
     None = 0,
-    Expert = 3,
-    User = 4,
-    Admin = 5,
+    Expert = 4,
+    User = 5,
+    Admin = 6,
+    Company = 7,
   }
   private PartyOneofCase partyCase_ = PartyOneofCase.None;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3535,11 +3530,11 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
-    return Equals(other as AggregateUser);
+    return Equals(other as AggregateParty);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public bool Equals(AggregateUser other) {
+  public bool Equals(AggregateParty other) {
     if (ReferenceEquals(other, null)) {
       return false;
     }
@@ -3548,9 +3543,11 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
     }
     if (Email != other.Email) return false;
     if (Name != other.Name) return false;
+    if (PartyType != other.PartyType) return false;
     if (!object.Equals(Expert, other.Expert)) return false;
     if (!object.Equals(User, other.User)) return false;
     if (!object.Equals(Admin, other.Admin)) return false;
+    if (!object.Equals(Company, other.Company)) return false;
     if (PartyCase != other.PartyCase) return false;
     return true;
   }
@@ -3560,9 +3557,11 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
     int hash = 1;
     if (Email.Length != 0) hash ^= Email.GetHashCode();
     if (Name.Length != 0) hash ^= Name.GetHashCode();
+    if (PartyType != 0) hash ^= PartyType.GetHashCode();
     if (partyCase_ == PartyOneofCase.Expert) hash ^= Expert.GetHashCode();
     if (partyCase_ == PartyOneofCase.User) hash ^= User.GetHashCode();
     if (partyCase_ == PartyOneofCase.Admin) hash ^= Admin.GetHashCode();
+    if (partyCase_ == PartyOneofCase.Company) hash ^= Company.GetHashCode();
     hash ^= (int) partyCase_;
     return hash;
   }
@@ -3582,17 +3581,25 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
       output.WriteRawTag(18);
       output.WriteString(Name);
     }
+    if (PartyType != 0) {
+      output.WriteRawTag(24);
+      output.WriteEnum((int) PartyType);
+    }
     if (partyCase_ == PartyOneofCase.Expert) {
-      output.WriteRawTag(26);
+      output.WriteRawTag(34);
       output.WriteMessage(Expert);
     }
     if (partyCase_ == PartyOneofCase.User) {
-      output.WriteRawTag(34);
+      output.WriteRawTag(42);
       output.WriteMessage(User);
     }
     if (partyCase_ == PartyOneofCase.Admin) {
-      output.WriteRawTag(42);
+      output.WriteRawTag(50);
       output.WriteMessage(Admin);
+    }
+    if (partyCase_ == PartyOneofCase.Company) {
+      output.WriteRawTag(58);
+      output.WriteMessage(Company);
     }
   }
 
@@ -3605,6 +3612,9 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
     if (Name.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
     }
+    if (PartyType != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) PartyType);
+    }
     if (partyCase_ == PartyOneofCase.Expert) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(Expert);
     }
@@ -3614,11 +3624,14 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
     if (partyCase_ == PartyOneofCase.Admin) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(Admin);
     }
+    if (partyCase_ == PartyOneofCase.Company) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Company);
+    }
     return size;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public void MergeFrom(AggregateUser other) {
+  public void MergeFrom(AggregateParty other) {
     if (other == null) {
       return;
     }
@@ -3627,6 +3640,9 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
     }
     if (other.Name.Length != 0) {
       Name = other.Name;
+    }
+    if (other.PartyType != 0) {
+      PartyType = other.PartyType;
     }
     switch (other.PartyCase) {
       case PartyOneofCase.Expert:
@@ -3637,6 +3653,9 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
         break;
       case PartyOneofCase.Admin:
         Admin = other.Admin;
+        break;
+      case PartyOneofCase.Company:
+        Company = other.Company;
         break;
     }
 
@@ -3658,7 +3677,11 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
           Name = input.ReadString();
           break;
         }
-        case 26: {
+        case 24: {
+          partyType_ = (global::A4APartyType) input.ReadEnum();
+          break;
+        }
+        case 34: {
           global::A4AExpert subBuilder = new global::A4AExpert();
           if (partyCase_ == PartyOneofCase.Expert) {
             subBuilder.MergeFrom(Expert);
@@ -3667,7 +3690,7 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
           Expert = subBuilder;
           break;
         }
-        case 34: {
+        case 42: {
           global::A4AUser subBuilder = new global::A4AUser();
           if (partyCase_ == PartyOneofCase.User) {
             subBuilder.MergeFrom(User);
@@ -3676,13 +3699,22 @@ public sealed partial class AggregateUser : pb::IMessage<AggregateUser> {
           User = subBuilder;
           break;
         }
-        case 42: {
+        case 50: {
           global::A4AAdministrator subBuilder = new global::A4AAdministrator();
           if (partyCase_ == PartyOneofCase.Admin) {
             subBuilder.MergeFrom(Admin);
           }
           input.ReadMessage(subBuilder);
           Admin = subBuilder;
+          break;
+        }
+        case 58: {
+          global::A4ACompany subBuilder = new global::A4ACompany();
+          if (partyCase_ == PartyOneofCase.Company) {
+            subBuilder.MergeFrom(Company);
+          }
+          input.ReadMessage(subBuilder);
+          Company = subBuilder;
           break;
         }
       }
@@ -4059,7 +4091,7 @@ public sealed partial class MailboxView : pb::IMessage<MailboxView> {
     count_ = other.count_;
     Request = other.request_ != null ? other.Request.Clone() : null;
     messages_ = other.messages_.Clone();
-    users_ = other.users_.Clone();
+    parties_ = other.parties_.Clone();
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4099,14 +4131,14 @@ public sealed partial class MailboxView : pb::IMessage<MailboxView> {
     get { return messages_; }
   }
 
-  /// <summary>Field number for the "Users" field.</summary>
-  public const int UsersFieldNumber = 5;
-  private static readonly pb::FieldCodec<global::AggregateUser> _repeated_users_codec
-      = pb::FieldCodec.ForMessage(42, global::AggregateUser.Parser);
-  private readonly pbc::RepeatedField<global::AggregateUser> users_ = new pbc::RepeatedField<global::AggregateUser>();
+  /// <summary>Field number for the "Parties" field.</summary>
+  public const int PartiesFieldNumber = 5;
+  private static readonly pb::FieldCodec<global::AggregateParty> _repeated_parties_codec
+      = pb::FieldCodec.ForMessage(42, global::AggregateParty.Parser);
+  private readonly pbc::RepeatedField<global::AggregateParty> parties_ = new pbc::RepeatedField<global::AggregateParty>();
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public pbc::RepeatedField<global::AggregateUser> Users {
-    get { return users_; }
+  public pbc::RepeatedField<global::AggregateParty> Parties {
+    get { return parties_; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4125,7 +4157,7 @@ public sealed partial class MailboxView : pb::IMessage<MailboxView> {
     if (Count != other.Count) return false;
     if (!object.Equals(Request, other.Request)) return false;
     if(!messages_.Equals(other.messages_)) return false;
-    if(!users_.Equals(other.users_)) return false;
+    if(!parties_.Equals(other.parties_)) return false;
     return true;
   }
 
@@ -4135,7 +4167,7 @@ public sealed partial class MailboxView : pb::IMessage<MailboxView> {
     if (Count != 0) hash ^= Count.GetHashCode();
     if (request_ != null) hash ^= Request.GetHashCode();
     hash ^= messages_.GetHashCode();
-    hash ^= users_.GetHashCode();
+    hash ^= parties_.GetHashCode();
     return hash;
   }
 
@@ -4155,7 +4187,7 @@ public sealed partial class MailboxView : pb::IMessage<MailboxView> {
       output.WriteMessage(Request);
     }
     messages_.WriteTo(output, _repeated_messages_codec);
-    users_.WriteTo(output, _repeated_users_codec);
+    parties_.WriteTo(output, _repeated_parties_codec);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4168,7 +4200,7 @@ public sealed partial class MailboxView : pb::IMessage<MailboxView> {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(Request);
     }
     size += messages_.CalculateSize(_repeated_messages_codec);
-    size += users_.CalculateSize(_repeated_users_codec);
+    size += parties_.CalculateSize(_repeated_parties_codec);
     return size;
   }
 
@@ -4187,7 +4219,7 @@ public sealed partial class MailboxView : pb::IMessage<MailboxView> {
       Request.MergeFrom(other.Request);
     }
     messages_.Add(other.messages_);
-    users_.Add(other.users_);
+    parties_.Add(other.parties_);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4214,7 +4246,7 @@ public sealed partial class MailboxView : pb::IMessage<MailboxView> {
           break;
         }
         case 42: {
-          users_.AddEntriesFrom(input, _repeated_users_codec);
+          parties_.AddEntriesFrom(input, _repeated_parties_codec);
           break;
         }
       }
@@ -4294,9 +4326,9 @@ public sealed partial class MailboxRequest : pb::IMessage<MailboxRequest> {
 
   /// <summary>Field number for the "UserType" field.</summary>
   public const int UserTypeFieldNumber = 4;
-  private global::A4AUserType userType_ = 0;
+  private global::A4APartyType userType_ = 0;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public global::A4AUserType UserType {
+  public global::A4APartyType UserType {
     get { return userType_; }
     set {
       userType_ = value;
@@ -4439,7 +4471,7 @@ public sealed partial class MailboxRequest : pb::IMessage<MailboxRequest> {
           break;
         }
         case 32: {
-          userType_ = (global::A4AUserType) input.ReadEnum();
+          userType_ = (global::A4APartyType) input.ReadEnum();
           break;
         }
         case 40: {
