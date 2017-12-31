@@ -370,6 +370,29 @@ namespace As.GraphDB.Sql
 
         }
 
+        public Object SelectDataByPrimaryKey(SqliteConnection connection, String primaryKey)
+        {
+            string selectCommand = $"{propertiesAndCommands.SelectCommandByPrimaryKey(primaryKey)}";
+            using (var queryCmd = connection.CreateCommand())
+            {
+                queryCmd.CommandText = selectCommand;
+
+                using (var data = queryCmd.ExecuteReader())
+                {
+                    var p = new DataRecordHelper(propertiesAndCommands, data);
+
+                    if (data.Read())
+                    {
+                        var z = new DataRecordHelper(propertiesAndCommands, data);
+                        return z.GetObject();
+                    }
+                }
+
+            }
+
+            return null;
+        }
+
         public  T SelectDataByPrimaryKey<T>(SqliteConnection connection, String primaryKey)
         {
             string selectCommand = $"{propertiesAndCommands.SelectCommandByPrimaryKey(primaryKey)}";

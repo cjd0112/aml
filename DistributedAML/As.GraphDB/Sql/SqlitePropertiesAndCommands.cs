@@ -52,6 +52,24 @@ namespace As.GraphDB.Sql
 
         }
 
+        public Object CreateInstance()
+        {
+            return typeContainer.CreateInstance();
+
+        }
+
+        public Object CreateInstance(ISupportGetValue sv)
+        {
+            var t = typeContainer.CreateInstance();
+            foreach (var q in typeContainer.Properties)
+            {
+                q.SetValue(t, sv.GetValue(q.pi.Name));
+            }
+            return t;
+
+        }
+
+
         public T CreateInstance<T>(ISupportGetValue sv)
         {
             var t = CreateInstance<T>();

@@ -21,13 +21,15 @@ namespace As.GraphDB.Sql
         public Object propertyValue;
     }
 
-    public class SqlInnerJoin<T, Y>
+    public class SqlInnerJoin<A,T, Y>
     {
+        private SqlitePropertiesAndCommands a1;
         private SqlitePropertiesAndCommands t1;
         private SqlitePropertiesAndCommands t2;
 
         public SqlInnerJoin(Func<Type,SqlitePropertiesAndCommands> resolver)
         {
+            this.a1 = resolver(typeof(A));
             this.t1 = resolver(typeof(T));
             this.t2 = resolver(typeof(Y));
         }
@@ -36,7 +38,7 @@ namespace As.GraphDB.Sql
         String JoinClause(string t1JoinProperty, string t2JoinProperty)
         {
             return
-                $"select A.*, B.* from {t1.tableName} as A inner join {t2.tableName} as B on A.{t1JoinProperty} = B.{t2JoinProperty} ";
+                $"select * from {t1.tableName} as A inner join {t2.tableName} as B on A.{t1JoinProperty} = B.{t2JoinProperty} ";
         }
 
         IEnumerable<String> WhereClause(TypeContainer tc, IEnumerable<SqlPredicate> t1Predicates)
@@ -65,19 +67,19 @@ namespace As.GraphDB.Sql
         }
 
 
-        public IEnumerable<(T t1, Y t2)> JoinT1Predicate(SqliteConnection conn, string joinProperty, params SqlPredicate[] t1Predicate)
+        public IEnumerable<A> JoinT1Predicate(SqliteConnection conn, string joinProperty, params SqlPredicate[] t1Predicate)
         {
             return Join(conn, joinProperty, t1Predicate, new SqlPredicate[] { });
         }
 
-        public IEnumerable<(T t1, Y t2)> JoinT2Predicate(SqliteConnection conn, string joinProperty, params SqlPredicate[] t2Predicate)
+        public IEnumerable<A> JoinT2Predicate(SqliteConnection conn, string joinProperty, params SqlPredicate[] t2Predicate)
         {
             return Join(conn, joinProperty, new SqlPredicate[] { }, t2Predicate);
         }
 
 
 
-        public IEnumerable<(T t1, Y t2)> Join(SqliteConnection conn,string joinProperty, IEnumerable<SqlPredicate> t1Predicates,
+        public IEnumerable<A> Join(SqliteConnection conn,string joinProperty, IEnumerable<SqlPredicate> t1Predicates,
             IEnumerable<SqlPredicate> t2Predicates)
         {
             StringBuilder query = new StringBuilder();
@@ -117,9 +119,7 @@ namespace As.GraphDB.Sql
                 {
                     while (rdr.Read())
                     {
-                        var t1 = new DataRecordHelper<T>(this.t1, rdr).GetObject();
-                        var y1 = new DataRecordHelper<Y>(this.t2, rdr).GetObject();
-                        yield return (t1, y1);
+                        yield return new DataRecordHelper<A>(this.a1, rdr).GetObject();
                     }
                 }
             }

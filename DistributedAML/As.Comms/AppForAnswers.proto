@@ -105,6 +105,8 @@ message A4AExpert
 	string Email = 4;
 	string Mobile=7;
 	string CompanyName = 8;
+
+	A4ACompany Company = 9;
 }
 
 message A4ASubscription
@@ -195,26 +197,47 @@ message A4AMessage
 
 }
 
-message Message
+message AggregateUser
 {
-	A4AMessage message = 1;
-	repeated A4AUser users = 2;
-	repeated A4AExpert experts = 3;
-	repeated A4AAdministrator admins = 4;
-	repeated A4ACompany company = 5;
+	string Email = 1;
+	string Name = 2;
+	oneof Party
+	{
+		A4AExpert expert = 3;
+		A4AUser user = 4;
+		A4AAdministrator admin = 5;
+	}
 }
 
-message Mailbox
+
+message AggregateMessage
+{
+	string NameFrom = 1;
+	string NameTo = 2;
+	string EmailFrom=3;
+	string EmailTo = 4;
+	string UpdatedTime = 5;
+	string Subject = 6;
+	string MessageId = 7;
+	string Content = 8;
+	string Topic = 9;
+}
+
+message MailboxView
 {
 	int32 Count = 1;
-	int32 Start = 2;
-	int32 PageSize=3;
-	repeated Message Messages = 4;
+
+	MailboxRequest request = 2;
+
+	repeated AggregateMessage Messages = 4;
+	repeated AggregateUser Users = 5;
+
+
 }
 
 message MailboxRequest
 {
-	int32 StartMessage = 1;
+	int32 Start= 1;
 	int32 PageSize=2;
 	string Owner = 3;
 	A4AUserType UserType = 4;
