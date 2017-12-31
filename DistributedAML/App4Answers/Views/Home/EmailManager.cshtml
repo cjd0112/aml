@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @using Microsoft.AspNetCore.Http;
+@using System.Web;
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
@@ -74,11 +75,11 @@
         }
         else if (Model is string)
         {
-        // empty default
+            // empty default
         }
         else
         {
-        throw new Exception($"Unexpected ViewModel type - {Model.GetType().Name}");
+            throw new Exception($"Unexpected ViewModel type - {Model.GetType().Name}");
         }
     </div>
 
@@ -89,4 +90,29 @@
 
 
 </div>
+
+
+
+@section scripts{
+
+    <script language="javascript">
+        function onmousedown(args) {
+            var z = $("#locallistview").ejListView("getItemsCount");
+
+            alert(window.datasource3.length);
+        }
+
+        function onclick() {
+            alert("BLAH");
+        }
+
+
+        window.datasource2 = { 'blah': 'foobar' };
+
+        window.datasource3 = @Html.Raw(Json.Serialize(Model.ViewModel.Messages));
+
+
+    </script>
+
+}
 

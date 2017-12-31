@@ -11,11 +11,48 @@
 
 
 <div class="col-sm-12" style="color: black; padding-left: 0px; padding-top: 0px; margin-top: 0px; margin-right: 0px; padding-right: 0px">
-    @foreach (var c in Model.ViewModel.Messages)
-    {
-        <div>
-            @c.Subject
-        </div>
-    }
+
+    
+
+    <ej-splitter id="outterSplitter" is-responsive="true" height="650px" width="100%">
+        <e-split-panes>
+            <e-split-pane pane-size="30%">
+                <e-content-template>
+
+
+                     <ej-list-view id="locallistview"   mouse-down="onmousedown"show-header="false" style="width: 100%; height: 100%" datasource="@Model.ViewModel.Messages">
+                    <e-field-settings text="Subject"/>
+                    </ej-list-view>
+
+                </e-content-template>
+            </e-split-pane>
+            <e-split-pane >
+                <e-content-Template>
+                    @{
+                        List<String> toolsList = new List<string>() {"style", "lists", "doAction", "links", "images"};
+                        List<String> style = new List<string>() {"bold", "italic", "underline", "strikethrough"};
+                        List<String> lists = new List<string>() {"unorderedList", "orderedList"};
+                        List<String> doAction = new List<string>() {"undo", "redo"};
+                        List<String> links = new List<string>() {"createLink", "removeLink"};
+                        List<String> images = new List<string>() {"image"};
+                    }
+
+                    <ej-rte id="rteSample" tools-list="toolsList" width="100%" height="100%" >
+                        <e-tools styles="style" lists="lists" do-action="doAction" links="links" images="images"></e-tools>
+                        <e-content-template>
+                            <div id="editorContent">
+                                hello this is my content
+                            </div>
+
+                        </e-content-template>
+                    </ej-rte>
+                </e-content-Template>
+            </e-split-pane>
+        </e-split-panes>
+    </ej-splitter>
+
+
+
 </div>
+
 
