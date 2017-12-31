@@ -2,6 +2,7 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
+      "syncfusion-javascript":  "*",
     "bootstrap": "3.3.7",
     "jquery": "2.2.0",
     "jquery-validation": "1.14.0",

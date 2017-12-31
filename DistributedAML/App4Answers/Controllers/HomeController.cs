@@ -53,11 +53,11 @@ namespace App4Answers.Controllers
                 }
                 else if (thisLogin.AuthenticationAccount.UserType == A4APartyType.Expert)
                 {
-                    return RedirectToAction(nameof(EmailManager),new {verb=ModelNames.Verb.List,listtype= A4AMailboxType.Inbox});
+                    return RedirectToAction(nameof(EmailManager),new { objecttype = ModelNames.ObjectTypes.Message,verb = ModelNames.Verb.List,listtype= A4AMailboxType.Inbox});
                 }
                 else if (thisLogin.AuthenticationAccount.UserType == A4APartyType.User)
                 {
-                    return RedirectToAction(nameof(EmailManager), new { verb = ModelNames.Verb.List, listtype = A4AMailboxType.Inbox });
+                    return RedirectToAction(nameof(EmailManager), new {objecttype = ModelNames.ObjectTypes.Message, verb = ModelNames.Verb.List, listtype = A4AMailboxType.Inbox });
                 }
 
 
