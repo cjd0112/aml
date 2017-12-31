@@ -26,7 +26,7 @@ namespace As.A4ACore
         (A4AUser user, A4AExpert expert) GetUserAndExpertForReply(string fromEmail, string toEmail);
 
 
-        Mailbox GetMailbox(MailboxRequest request);
+        MailboxView GetMailbox(MailboxRequest request);
 
     }
 }

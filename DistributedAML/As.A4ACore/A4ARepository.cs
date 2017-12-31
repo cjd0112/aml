@@ -9,6 +9,7 @@ using As.GraphDB.Sql;
 using As.Logger;
 using As.Shared;
 using Google.Protobuf;
+using Microsoft.Data.Sqlite;
 
 namespace As.A4ACore
 {
@@ -29,7 +30,24 @@ namespace As.A4ACore
 
         Dictionary<Type, SqlTableWithPrimaryKey> tables = new Dictionary<Type, SqlTableWithPrimaryKey>();
 
+        SqlTableWithPrimaryKey GetTable<T>()
+        {
+            return tables[typeof(T)];
+        }
+
+        SqlitePropertiesAndCommands GetPropertiesAndCommands<T>()
+        {
+            if (typeof(T) == typeof(AggregateMessage))
+                return aggregateMessage;
+            return GetTable<T>().PropertiesAndCommands;
+        }
+
+        private SqlitePropertiesAndCommands aggregateMessage;
+
         private SqlConnection conn;
+
+
+        private SqlPrimaryKeyAndTypeManager primaryKeyAndTypeManager = new SqlPrimaryKeyAndTypeManager();
 
         public A4ARepository(String connectionString)
         {
@@ -42,7 +60,24 @@ namespace As.A4ACore
 
                 if (type == typeof(A4AEmailRecord))
                     tables[type].ConvertEmptyForeignKeysToNull();
+
             }
+
+            primaryKeyAndTypeManager.AddPrimaryKeyPrefixAndEnum(typeof(A4AExpert), "EXP", A4AUserType.Expert);
+            primaryKeyAndTypeManager.AddPrimaryKeyPrefixAndEnum(typeof(A4AUser), "USR", A4AUserType.User);
+            primaryKeyAndTypeManager.AddPrimaryKeyPrefixAndEnum(typeof(A4AExpert), "Admin", A4AUserType.Admin);
+
+            tables[typeof(A4AExpert)]
+                .SetAutoPrimaryKey((i) => primaryKeyAndTypeManager.GenerateId(typeof(A4AExpert), i));
+
+            tables[typeof(A4AUser)]
+                .SetAutoPrimaryKey((i) => primaryKeyAndTypeManager.GenerateId(typeof(A4AUser), i));
+
+            tables[typeof(A4AAdministrator)]
+                .SetAutoPrimaryKey((i) => primaryKeyAndTypeManager.GenerateId(typeof(A4AAdministrator), i));
+
+            aggregateMessage = new SqlitePropertiesAndCommands(TypeContainer.GetTypeContainer(typeof(AggregateMessage)));
+
             conn = new SqlConnection(connectionString);
 
             L.Trace($"Initializing Sql - connectionString is {connectionString}");
@@ -69,6 +104,22 @@ namespace As.A4ACore
                 }
             }
         }
+
+        A4AUserType UserEnumTypeFromId(string id)
+        {
+            return primaryKeyAndTypeManager.GetEnumFromId<A4AUserType>(id);
+        }
+
+        Type UserTypeFromId(string id)
+        {
+            return primaryKeyAndTypeManager.GetTypeFromId(id);
+        }
+
+        SqlTableWithPrimaryKey TableFromId(string id)
+        {
+            return tables[UserTypeFromId(id)];
+        }
+
 
         class GQ : IGraphQuery
         {
@@ -248,9 +299,61 @@ namespace As.A4ACore
             }
         }
 
-        public Mailbox GetMailbox(MailboxRequest request)
+        AggregateUser GetAggregateUser(SqliteConnection conn,string name)
         {
-            return null;
+            var ret = new AggregateUser {Name = name};
+            var t = TableFromId(name).SelectDataByPrimaryKey(conn, name);
+            switch (t)
+            {
+                case A4AUser user:
+                    ret.User = user;
+                    break;
+                case A4AExpert expert:
+                    ret.Expert = expert;
+                    break;
+                case A4AAdministrator admin:
+                    ret.Admin = admin;
+                    break;
+                default:
+                    throw new Exception($"Unexpected user type from name - {name}");
+            }
+            return ret;
+        }
+
+        public MailboxView GetMailbox(MailboxRequest request)
+        {
+            var mb = new MailboxView();
+            mb.Request = request;
+            using (var connection = conn.Connection())
+            {
+                bool userProcessed(string n)
+                {
+                    return mb.Users.Any(x => x.Name == n);
+                }
+
+                var emailRecords = tables[typeof(A4AEmailRecord)];
+                if (request.MailboxType == A4AMailboxType.Inbox)
+                {
+                    if (request.UserType == A4AUserType.User)
+                    {
+                        mb.Count = GetTable<A4AEmailRecord>().GetCount(connection,new SqlPredicate("NameTo", request.Owner),
+                            new SqlPredicate("ExternalStatus", "stored"));
+
+                        foreach (var c in new SqlInnerJoin<AggregateMessage,A4AEmailRecord, A4AMessage>((x) =>
+                                tables[x].PropertiesAndCommands)
+                            .JoinT1Predicate(connection, "MessageId", new SqlPredicate("NameTo", request.Owner),new SqlPredicate("ExternalStatus","stored")))
+                        {
+                            mb.Messages.Add(c);
+
+                            if (!userProcessed(c.NameFrom))
+                            {
+                                mb.Users.Add(GetAggregateUser(connection,c.NameFrom));
+                            }
+                        }
+                    }
+                }
+            }
+            return mb;
         }
 
     }

@@ -33,4 +33,34 @@ namespace As.GraphDB.Sql
         }
 
     }
+
+    public class DataRecordHelper : ISupportGetValue
+    {
+        public SqlitePropertiesAndCommands propertiesAndCommands { get; set; }
+        public IDataRecord Record { get; set; }
+        public int OrdinalInQuery { get; set; }
+
+        public DataRecordHelper(SqlitePropertiesAndCommands propertiesAndCommands, IDataRecord record)
+        {
+            this.propertiesAndCommands = propertiesAndCommands;
+            Record = record;
+        }
+
+
+        public Object GetObject()
+        {
+            return propertiesAndCommands.CreateInstance(this);
+        }
+        public Object GetValue(String field)
+        {
+            return Record[field];
+        }
+
+        public DataRecordHelper IncrementCount()
+        {
+            OrdinalInQuery++;
+            return this;
+        }
+
+    }
 }

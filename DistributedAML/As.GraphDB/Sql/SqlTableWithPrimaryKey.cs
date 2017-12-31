@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Tree.Xpath;
 using As.Logger;
@@ -80,7 +81,47 @@ namespace As.GraphDB.Sql
             }
         }
 
-        public  int CreateTable(SqliteConnection conn)
+        public int GetCount(SqliteConnection conn,string whereClause)
+        {
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = $"SELECT count(*) from {TableName} where {whereClause};";
+
+                var foo = cmd.ExecuteScalar();
+
+                return Convert.ToInt32(foo);
+            }
+        }
+
+        String whereClauseFromPredicate(SqlPredicate[] foo)
+        {
+            StringBuilder b = new StringBuilder();
+            foreach (var c in foo)
+            {
+                b.Append($"{c.propertyName} like '{c.propertyValue}'");
+                b.Append(" and ");
+            }
+
+            b.Remove(b.Length - " and ".Length, " and ".Length);
+            return b.ToString();
+        }
+
+
+        public int GetCount(SqliteConnection conn, params SqlPredicate[] p)
+        {
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = $"SELECT count(*) from {TableName} where {whereClauseFromPredicate(p)};";
+
+                var foo = cmd.ExecuteScalar();
+
+                return Convert.ToInt32(foo);
+            }
+        }
+
+
+
+        public int CreateTable(SqliteConnection conn)
         {
             return ExecuteCommandLog(conn, propertiesAndCommands.CreateTableCommand());
         }
@@ -327,6 +368,29 @@ namespace As.GraphDB.Sql
             }
             return 1;
 
+        }
+
+        public Object SelectDataByPrimaryKey(SqliteConnection connection, String primaryKey)
+        {
+            string selectCommand = $"{propertiesAndCommands.SelectCommandByPrimaryKey(primaryKey)}";
+            using (var queryCmd = connection.CreateCommand())
+            {
+                queryCmd.CommandText = selectCommand;
+
+                using (var data = queryCmd.ExecuteReader())
+                {
+                    var p = new DataRecordHelper(propertiesAndCommands, data);
+
+                    if (data.Read())
+                    {
+                        var z = new DataRecordHelper(propertiesAndCommands, data);
+                        return z.GetObject();
+                    }
+                }
+
+            }
+
+            return null;
         }
 
         public  T SelectDataByPrimaryKey<T>(SqliteConnection connection, String primaryKey)
