@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using StructureMap;
 using App4Answers.Models.A4Amodels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
+using Newtonsoft.Json.Serialization;
 
 namespace App4Answers
 {
@@ -64,7 +68,8 @@ namespace App4Answers
             services.AddMvc().AddControllersAsServices();
             
             services.AddMvc()
-                .AddSessionStateTempDataProvider();
+                .AddSessionStateTempDataProvider()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddSession();
 
@@ -112,6 +117,13 @@ namespace App4Answers
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
+
+                app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+                {
+                    FileProvider = new PhysicalFileProvider(
+                        Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
+                    RequestPath = new PathString("/wwwroot")
+                });
             }
             else
             {

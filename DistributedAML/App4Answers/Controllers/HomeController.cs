@@ -1,35 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Xml;
 using Microsoft.AspNetCore.Mvc;
 using App4Answers.Models;
 using App4Answers.Models.A4Amodels;
 using App4Answers.Models.A4Amodels.Base;
 using App4Answers.Models.A4Amodels.Login;
+using App4Answers.Models.Outlook;
 using As.Comms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using As.Email;
 using As.Shared;
+using Microsoft.AspNetCore.Hosting;
 
 namespace App4Answers.Controllers
 {
     public class HomeController : Controller
     {
         private A4AModel1 model;
-        public HomeController(A4AModel1 model)
+        private IHostingEnvironment env;
+
+        public HomeController(A4AModel1 model, IHostingEnvironment env)
         {
             this.model = model;
+            this.env = env;
         }
 
+       
+
+
+        
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Index()
         {
-            return View(new A4ALoginViewModel());
+          return View(new A4ALoginViewModel());
         }
 
         [HttpPost]
@@ -57,7 +68,9 @@ namespace App4Answers.Controllers
                 }
                 else if (thisLogin.AuthenticationAccount.UserType == A4APartyType.User)
                 {
-                    return RedirectToAction(nameof(EmailManager), new {objecttype = ModelNames.ObjectTypes.Message, verb = ModelNames.Verb.List, listtype = A4AMailboxType.Inbox });
+                    //return RedirectToAction(nameof(EmailManager), new {objecttype = ModelNames.ObjectTypes.Message, verb = ModelNames.Verb.List, listtype = A4AMailboxType.Inbox });
+                    return RedirectToAction(nameof(WebMail2),new {objecttype = ModelNames.ObjectTypes.Message});
+
                 }
 
 
@@ -107,6 +120,11 @@ namespace App4Answers.Controllers
 
             return View();
 
+        }
+
+        public IActionResult WebMail2(string objecttype)
+        {
+            return View();
         }
 
         Object GetAdministrationViewModel(string objecttype, string verb, string itemid, IFormCollection formCollection,A4AMailboxType listType)

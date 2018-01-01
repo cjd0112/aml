@@ -6,6 +6,7 @@
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @using Microsoft.AspNetCore.Http;
 @using System.Web;
+@using Newtonsoft.Json;
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
@@ -24,7 +25,7 @@
     </div>
 
     <div class="col-sm-6" style="text-align:left;">
-        <a asp-action="EmailManager" asp-route-verb="@ModelNames.Verb.New"><span style="color:white;font-size:20pt;" class="glyphicon-envelope" /></a>
+        <span  onclick="newMail();" style="cursor: pointer; color:white;font-size:20pt;" class="glyphicon-envelope" />
     </div>
 
 
@@ -96,21 +97,43 @@
 @section scripts{
 
     <script language="javascript">
+
+
+        $(function () {
+            $("#listview").ejListView({
+                mouseDown: function(args) {
+                    setEmailContent(window.dataSource.ViewModel.Messages[args.index]);
+                }
+            });
+
+
+
+        });
+
         function onmousedown(args) {
-            var z = $("#locallistview").ejListView("getItemsCount");
 
-            alert(window.datasource3.length);
+
+            //alert(JSON.stringify(args.model.dataSource[args.index]));
+            setEmailContent(args.model.dataSource[args.index]);
         }
 
-        function onclick() {
-            alert("BLAH");
+        function newMail() {
+
+            $("#rteSample").ejRTE({
+                showToolbar: true,                
+                allowEditing:true
+            });
+
+
+            setEmailContent({ Content: "<h3>type new question here</h3>" });
         }
 
+        function setEmailContent(model) {
 
-        window.datasource2 = { 'blah': 'foobar' };
+            $("#rteSample").ejRTE("setHtml", model.Content);
+        }
 
-        window.datasource3 = @Html.Raw(Json.Serialize(Model.ViewModel.Messages));
-
+        window.dataSource = @Html.Raw(JsonConvert.SerializeObject(Model));
 
     </script>
 

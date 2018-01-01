@@ -18,11 +18,23 @@
         <e-split-panes>
             <e-split-pane pane-size="30%">
                 <e-content-template>
+                    
+                    <div id="listview">
+                        <ul>
+                            @foreach (var c in Model.ViewModel.Messages)
+                            {
+                                <li data-ej-rendertemplate="true" data-ej-templateid="@c.MessageId"></li>
+                            }
+                        </ul>
+                    </div>
+                    @foreach (var c in Model.ViewModel.Messages)
+                    {
+                        <div id="@c.MessageId" style="padding:7px 7px 7px 7px;text-align:left">
+                            <span style="font-size:11pt">@c.Subject- @c.UpdatedTime</span>
+                        </div>
+                    }
+                    
 
-
-                     <ej-list-view id="locallistview"   mouse-down="onmousedown"show-header="false" style="width: 100%; height: 100%" datasource="@Model.ViewModel.Messages">
-                    <e-field-settings text="Subject"/>
-                    </ej-list-view>
 
                 </e-content-template>
             </e-split-pane>
@@ -37,12 +49,13 @@
                         List<String> images = new List<string>() {"image"};
                     }
 
-                    <ej-rte id="rteSample" tools-list="toolsList" width="100%" height="100%" >
+                    <ej-rte id="rteSample" show-toolbar="false" allow-editing="false" tools-list="toolsList" width="100%" height="100%" >
                         <e-tools styles="style" lists="lists" do-action="doAction" links="links" images="images"></e-tools>
                         <e-content-template>
-                            <div id="editorContent">
-                                hello this is my content
-                            </div>
+                            @if (Model.ViewModel.Messages.Any())
+                            {
+                                @Model.ViewModel.Messages[0].Content
+                            }
 
                         </e-content-template>
                     </ej-rte>
