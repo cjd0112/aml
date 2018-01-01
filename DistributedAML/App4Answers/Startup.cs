@@ -23,6 +23,7 @@ using StructureMap;
 using App4Answers.Models.A4Amodels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace App4Answers
@@ -69,7 +70,11 @@ namespace App4Answers
             
             services.AddMvc()
                 .AddSessionStateTempDataProvider()
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                });
 
             services.AddSession();
 

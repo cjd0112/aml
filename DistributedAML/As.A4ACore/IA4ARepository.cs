@@ -28,5 +28,11 @@ namespace As.A4ACore
 
         MailboxView GetMailbox(MailboxRequest request);
 
+        MailboxInfoResponse GetMailboxInfo(MailboxInfoRequest request);
+
+        SubscriptionResponse GetSubscriptionInfo(SubscriptionRequest request);
+
+
+
     }
 }

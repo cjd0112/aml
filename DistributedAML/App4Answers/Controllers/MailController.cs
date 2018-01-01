@@ -28,23 +28,46 @@ namespace App4Answers.Controllers
         }
 
         [AcceptVerbs("GET")]
-        public IActionResult LoadData2(A4AMailboxType mbType=A4AMailboxType.Inbox)
+        [Route("MailboxData")]
+        public IActionResult LoadData2(string userName="USER_0000",A4APartyType partyType = A4APartyType.User,A4AMailboxType mbType=A4AMailboxType.Inbox)
         {
-            var userName = HttpContext.Session.GetString(ModelNames.SessionStrings.UserName.ToString());
+            //var userName = HttpContext.Session.GetString(ModelNames.SessionStrings.UserName.ToString());
             var mb = new MailboxRequest
             {
                 Owner = userName,
                 MailboxType = mbType,
                 PageSize = 20,
                 Start = 0,
-                UserType =   HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString()).ParseEnum<A4APartyType>()
+                UserType =  partyType // HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString()).ParseEnum<A4APartyType>()
             };
             
             return new ObjectResult(rep.GetMailbox(mb));
         }
 
+        [Route("MailboxInfo")]
+        public IActionResult MailboxInfo(string userName)
+        {
+            var z = new MailboxInfoRequest
+            {
+                Owner = userName
+            };
 
-//        [AcceptVerbs("GET")]
+            var res = rep.GetMailboxInfo(z);
+
+            return new ObjectResult(res);
+
+        }
+
+        [Route("SubscriptionInfo")]
+        public IActionResult SubscriptionInfo()
+        {
+            var res = rep.GetSubscriptionInfo(new SubscriptionRequest());
+
+            return new ObjectResult(res);
+        }
+
+
+        //        [AcceptVerbs("GET")]
         public OutlookData LoadData()
         {
             XmlDocument doc = new XmlDocument();

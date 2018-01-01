@@ -8,6 +8,7 @@ using As.GraphDB;
 using As.GraphDB.Sql;
 using As.Logger;
 using As.Shared;
+using Fasterflect;
 using Google.Protobuf;
 using Microsoft.Data.Sqlite;
 
@@ -368,6 +369,157 @@ namespace As.A4ACore
 
         }
 
+        SubscriptionNode FindParent(SubscriptionNode current, A4ASubscriptionType t,string value)
+        {
+            if (((int) t) <= ((int) current.SubscriptionType))
+            {
+                return null;
+            }
+            else
+            {
+                if (current.SubscriptionType == t-1)
+                    return current;
+                else
+                {
+                    foreach (var c in current.Children)
+                    {
+                        var parent = FindParent(c, t, value);
+                        if (parent != null)
+                            return parent;
+                    }
+
+                    return null;
+                }
+            }           
+        }
+
+        SubscriptionNode MatchingSiblings(SubscriptionNode parent, A4ASubscriptionType t, string value)
+        {
+            foreach (var c in parent.Children)
+            {
+                if (c.Subscription == value)
+                    return c;
+                ;
+            }
+
+            return null;
+        }
+
+        SubscriptionNode AddChild(SubscriptionNode parent, A4ASubscriptionType t, string value)
+        {
+            var q = new SubscriptionNode
+            {
+                Subscription = value,
+                SubscriptionType = t
+            };
+            parent.Children.Add(q);
+            return q;
+        }
+
+        A4ASubscriptionType GetLowestLevel(A4ASubscription sub)
+        {
+            if (!String.IsNullOrEmpty(sub.Location))
+                return A4ASubscriptionType.Location;
+
+            if (!String.IsNullOrEmpty(sub.SubCategory))
+                return A4ASubscriptionType.SubCategory;
+
+            if (!String.IsNullOrEmpty(sub.Category))
+                return A4ASubscriptionType.Category;
+
+            if (!String.IsNullOrEmpty(sub.Profession))
+                return A4ASubscriptionType.Profession;
+
+            return A4ASubscriptionType.Empty;
+        }
+
+        private void AddEntryToTree(SqliteConnection connection,String expertName,SubscriptionNode root,A4ASubscriptionType type,string value,A4ASubscriptionType lowestLevel)
+        {
+            var parent = FindParent(root, type, value);
+            if (parent != null)
+            {
+                var matchingSiblings = MatchingSiblings(parent, type, value);
+                if (matchingSiblings != null)
+                {                    
+                    if (lowestLevel == type)
+                        matchingSiblings.Expert.Add(GetTable<A4AExpert>()
+                            .SelectDataByPrimaryKey<A4AExpert>(connection, expertName));
+                }
+                else
+                {
+                        var node = AddChild(parent, type, value);
+                        if (lowestLevel == type)
+                            node.Expert.Add(GetTable<A4AExpert>().SelectDataByPrimaryKey<A4AExpert>(connection, expertName));
+                }
+
+            }
+        }
+
+        public SubscriptionResponse GetSubscriptionInfo(SubscriptionRequest request)
+        {
+            var sr = new SubscriptionResponse();
+
+            using (var connection = conn.Connection())
+            {
+                sr.Root = new SubscriptionNode
+                {
+                    SubscriptionType = A4ASubscriptionType.Empty,
+                    Subscription = "Subscriptions"
+                };
+
+                foreach (var q in tables[typeof(A4ASubscription)].SelectData<A4ASubscription>(connection, "").Select(x => x.GetObject()))
+                {
+                    var lowestLevel = GetLowestLevel(q);
+
+                    AddEntryToTree(connection,q.ExpertName,sr.Root,A4ASubscriptionType.Profession,q.Profession,lowestLevel);
+                    AddEntryToTree(connection, q.ExpertName, sr.Root, A4ASubscriptionType.Category, q.Category, lowestLevel);
+                    AddEntryToTree(connection, q.ExpertName, sr.Root, A4ASubscriptionType.SubCategory, q.SubCategory, lowestLevel);
+                    AddEntryToTree(connection, q.ExpertName, sr.Root, A4ASubscriptionType.Location, q.Location, lowestLevel);
+
+
+                }
+
+                return sr;
+            }
+        }
+
+
+
+        public MailboxInfoResponse GetMailboxInfo(MailboxInfoRequest request)
+        {
+            var mir = new MailboxInfoResponse();
+
+            using (var connection = conn.Connection())
+            {
+                var owner = GetUserEnumTypeFromId(request.Owner);
+
+             
+
+                foreach (var c in new[] {A4AMailboxType.Inbox, A4AMailboxType.Sent})
+                {
+                    var search = GetSearchParameters(c, owner);
+
+                    mir.MailboxInfos.Add(new MailboxInfo
+                    {
+                        Owner = request.Owner,
+                        MailboxType = c,
+                        Count = GetTable<A4AEmailRecord>().GetCount(connection,new SqlPredicate(search.nameToOrFrom,request.Owner),new SqlPredicate("ExternalStatus",search.externalStatus)),
+                        Read = GetTable<A4AEmailRecord>().GetCount(connection, new SqlPredicate(search.nameToOrFrom, request.Owner), new SqlPredicate("ExternalStatus", search.externalStatus),new SqlPredicate("Read","True"))
+                    });
+                }
+
+                mir.Parties.Add(GetAggregateParty(connection, request.Owner, ""));
+                if (GetUserTypeFromId(request.Owner) == typeof(A4AExpert))
+                {
+                    var company = GetAggregatePartyFromCompany(connection, mir.Parties.Last().Expert.CompanyName);
+                    mir.Parties.Add(company);
+                }
+            }
+
+            return mir;
+        }
+
+
         public MailboxView GetMailbox(MailboxRequest request)
         {
             var mb = new MailboxView();
@@ -404,6 +556,20 @@ namespace As.A4ACore
                                 mb.Parties.Add(company);
                             }
                         }
+
+
+                        party = GetAggregateParty(connection, c.NameTo, c.EmailTo);
+
+                        mb.Parties.Add(party);
+
+                        if (GetUserTypeFromId(c.NameTo) == typeof(A4AExpert))
+                        {
+                            if (!userProcessed(party.Expert.CompanyName))
+                            {
+                                var company = GetAggregatePartyFromCompany(connection, party.Expert.CompanyName);
+                                mb.Parties.Add(company);
+                            }
+                        }                        
                     }
                 }
             }

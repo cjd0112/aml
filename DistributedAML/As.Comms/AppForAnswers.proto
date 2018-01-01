@@ -22,6 +22,16 @@ enum A4AMailboxType
 	Draft=4;
 }
 
+enum A4ASubscriptionType
+{
+	Empty = 0;
+	Profession = 1;
+	Category = 2;
+	SubCategory=3;
+	Location = 4;
+
+}
+
 message A4AAuthenticationAccount
 {
 	string Email =1;
@@ -176,6 +186,10 @@ message A4AEmailRecord
 	string Url = 12;
 
 	string Subject = 13;
+
+	bool Read = 14;
+
+	bool Deleted = 15;
 }
 
 message A4AMessage
@@ -231,12 +245,13 @@ message MailboxView
 {
 	int32 Count = 1;
 
-	MailboxRequest request = 2;
+	int32 Read = 2;
 
-    repeated AggregateMessages MailBoxes =3;
+	MailboxRequest request = 3;
+
+    repeated AggregateMessage Messages=4;
 
 	repeated AggregateParty Parties = 5;
-
 
 }
 
@@ -248,5 +263,43 @@ message MailboxRequest
 	A4APartyType UserType = 4;
 	A4AMailboxType MailboxType=5;
 }
+
+
+message SubscriptionRequest
+{
+}
+
+message SubscriptionNode
+{
+	string Subscription =1;
+	A4ASubscriptionType SubscriptionType = 2;
+	repeated A4AExpert expert = 3;
+	repeated SubscriptionNode Children = 4;
+}
+
+message SubscriptionResponse
+{
+	SubscriptionNode Root = 1;
+}
+
+message MailboxInfoRequest
+{
+	string Owner = 1;
+}
+
+message MailboxInfoResponse
+{
+	repeated MailboxInfo MailboxInfos = 1;
+	repeated AggregateParty Parties = 3;
+}
+	
+message MailboxInfo
+{
+	string Owner = 2;
+	A4AMailboxType MailboxType=3;
+	int32 Count = 4;
+	int32 Read = 5;
+}
+
 
 
