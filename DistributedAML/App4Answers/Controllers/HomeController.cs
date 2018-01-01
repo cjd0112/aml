@@ -58,6 +58,8 @@ namespace App4Answers.Controllers
             {
                 HttpContext.Session.SetString(ModelNames.SessionStrings.UserEmail.ToString(), thisLogin.AuthenticationAccount.Email);
                 HttpContext.Session.SetString(ModelNames.SessionStrings.UserType.ToString(),thisLogin.AuthenticationAccount.UserType.ToString());
+                HttpContext.Session.SetString(ModelNames.SessionStrings.UserName.ToString(), thisLogin.AuthenticationAccount.Name);
+
                 if (thisLogin.AuthenticationAccount.UserType == A4APartyType.Admin)
                 {
                     return RedirectToAction(nameof(Administration), new { objecttype = ModelNames.ObjectTypes.Company, verb = ModelNames.Verb.List });

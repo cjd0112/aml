@@ -76,6 +76,7 @@ namespace App4Answers.Models.A4Amodels
                 if (vm.Code1 == aa.Code1 && vm.Code2 == aa.Code2 && vm.Code3 == aa.Code3 && vm.Code4 == aa.Code4)
                 {
                     vm.Authenticated = A4ALoginViewModel.AuthenticationResult.Authenticated;
+                    vm.Name = aa.Name;
                 }
                 else
                 {

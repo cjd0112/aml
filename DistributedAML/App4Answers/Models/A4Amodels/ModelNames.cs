@@ -42,7 +42,8 @@ namespace App4Answers.Models.A4Amodels
         public enum SessionStrings
         {
             UserEmail,
-            UserType
+            UserType,
+            UserName
         }
 
         public enum ItemStrings

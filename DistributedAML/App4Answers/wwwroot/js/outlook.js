@@ -22,7 +22,7 @@ $.validator.setDefaults({
 
    //listview,treeview and menu loaded with outlook information
   var dataManger1 = ej.DataManager({
-      url: window["baseurl"] + "api/Mail", crossDomain: true
+      url: window["baseurl"] + "api/Mail?userId=USER_0000&mbType=Inbox", crossDomain: true,
     });
 	
   dataManger1.executeQuery(ej.Query()).done(function (e) {
@@ -228,8 +228,8 @@ function searchAutoOpen(args)
         $("#sub").text($(args.item).find(".subjectstyle").text());
         $("#date").text($(args.item).find(".designationstyle").text());
         $("#to").text($(args.item).find(".receiver").text());
-        $(args.item).find(".designationstyle").css({ "font-weight": "normal", "font-family": "Segoe UI", color: "#333" });
-        $(args.item).find(".subjectstyle").css({ "font-weight": "normal", "font-family": "Segoe UI", color: "#333" });
+        $(args.item).find(".designationstyle").css({ "font-weight": "normal", "font-family": "Helvetica, Segoe UI", color: "#333" });
+        $(args.item).find(".subjectstyle").css({ "font-weight": "normal", "font-family": "Helvetica, Segoe UI", color: "#333" });
         $("#mailarea").addClass("hidden");
         $("#menujson li:nth-child(n+2)").css("display", "inline-block");
     }

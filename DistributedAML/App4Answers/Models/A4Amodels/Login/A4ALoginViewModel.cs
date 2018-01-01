@@ -23,6 +23,8 @@ namespace App4Answers.Models.A4Amodels.Login
         public int Code4 { get; set; }
 
         public AuthenticationResult Authenticated { get; set; }
+        
+        public String Name { get; set; }
 
 
         public A4AAuthenticationAccount AuthenticationAccount { get; set; }

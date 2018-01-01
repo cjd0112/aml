@@ -1,6 +1,6 @@
 html, body {
     margin: 0;
-    font-family: 'Segoe UI';
+    font-family: 'Segoe UI',Verdana;
     background-color: #ffffff;
 }
 body {
@@ -376,7 +376,7 @@ top: 1px;
 }
 div#templatelist .markread .designationstyle, div#templatelist .markread .subjectstyle{
 	font-weight: normal;
-    font-family: "Segoe UI";
+    font-family: "Segoe UI",Helvetica;
     color: rgb(51, 51, 51);
 }
 .subjectstyle {
@@ -452,7 +452,7 @@ div#templatelist .markread .designationstyle, div#templatelist .markread .subjec
  }
  
  .e-list {
-	 font-family: "Segoe UI";
+	 font-family: "Segoe UI", Helvetica;
  }
  
  hr {

@@ -4,10 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
+using App4Answers.Models.A4Amodels;
 using App4Answers.Models.Outlook;
+using As.A4ACore;
+using As.Shared;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace App4Answers.Controllers
 {
@@ -16,13 +20,31 @@ namespace App4Answers.Controllers
     public class MailController : Controller
     {
         private IHostingEnvironment env;
-        public MailController(IHostingEnvironment env)
+        private IA4ARepository rep;
+        public MailController(IHostingEnvironment env,A4ARepository rep)
         {
             this.env = env;
+            this.rep = rep;
+        }
+
+        [AcceptVerbs("GET")]
+        public IActionResult LoadData2(A4AMailboxType mbType=A4AMailboxType.Inbox)
+        {
+            var userName = HttpContext.Session.GetString(ModelNames.SessionStrings.UserName.ToString());
+            var mb = new MailboxRequest
+            {
+                Owner = userName,
+                MailboxType = mbType,
+                PageSize = 20,
+                Start = 0,
+                UserType =   HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString()).ParseEnum<A4APartyType>()
+            };
+            
+            return new ObjectResult(rep.GetMailbox(mb));
         }
 
 
-        [AcceptVerbs("GET")]
+//        [AcceptVerbs("GET")]
         public OutlookData LoadData()
         {
             XmlDocument doc = new XmlDocument();

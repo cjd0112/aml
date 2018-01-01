@@ -222,7 +222,10 @@ message AggregateMessage
 	string MessageId = 7;
 	string Content = 8;
 	string Topic = 9;
+	
+	
 }
+
 
 message MailboxView
 {
@@ -230,7 +233,8 @@ message MailboxView
 
 	MailboxRequest request = 2;
 
-	repeated AggregateMessage Messages = 4;
+    repeated AggregateMessages MailBoxes =3;
+
 	repeated AggregateParty Parties = 5;
 
 

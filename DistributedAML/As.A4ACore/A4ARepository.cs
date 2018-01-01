@@ -371,6 +371,7 @@ namespace As.A4ACore
         public MailboxView GetMailbox(MailboxRequest request)
         {
             var mb = new MailboxView();
+            
             mb.Request = request;
             using (var connection = conn.Connection())
             {
