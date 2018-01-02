@@ -1,0 +1,23 @@
+﻿
+@{
+    Layout = "_LayoutDialog";
+}
+@model App4Answers.Models.A4Amodels.Topics.A4ASubscriptionResponseViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Topics</title>
+</head>
+<body>
+<div style="width: 250px;">
+   
+    <ej-tree-view id="treeview1" show-checkbox="true">
+        <e-tree-view-fields datasource="@ViewBag.datasource" id="Id" parent-id="Parent" text="Text" ></e-tree-view-fields>
+    </ej-tree-view>
+
+</div>
+</body>
+</html>

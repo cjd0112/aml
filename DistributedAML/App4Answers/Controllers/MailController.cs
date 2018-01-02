@@ -66,8 +66,48 @@ namespace App4Answers.Controllers
             return new ObjectResult(res);
         }
 
+        void AddNextNode(ref int cnt, int parentId,SubscriptionNode r,List<SubscriptionNode2> lst)
+        {
+            var foo = (new SubscriptionNode2
+            {
+                Id = cnt++,
+                Pid = parentId,
+                Name = r.Name,
+                Type = r.Type,
+            });
+            foo.Experts.AddRange(r.Experts);
+            lst.Add(foo);
+            foreach (var c in r.Children)
+            {
+                AddNextNode(ref cnt, foo.Id, c, lst);
+            }
+        }
 
-        //        [AcceptVerbs("GET")]
+
+        [Route("SubscriptionInfoFlat")]
+        public IActionResult SubscriptionInfoFlat()
+        {
+            var res = rep.GetSubscriptionInfo(new SubscriptionRequest());
+
+            var flat = new SubscriptionResponseFlat();
+
+            var q = new List<SubscriptionNode2>();
+
+            int cnt = 1;
+            AddNextNode(ref cnt,-1,res.Root,q);
+
+         
+            flat.Subscriptions.AddRange(q);
+
+            flat.Parties.AddRange(res.Parties);
+
+
+            return new ObjectResult(flat);
+        }
+
+
+        [AcceptVerbs("GET")]
+        [Route("LoadData")]
         public OutlookData LoadData()
         {
             XmlDocument doc = new XmlDocument();

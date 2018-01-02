@@ -14,7 +14,7 @@
 
     
 
-    <ej-splitter id="outterSplitter" is-responsive="true" height="650px" width="100%">
+    <ej-splitter id="outterSplitter" is-responsive="true" height="650px" width="100%" orientation="@Orientation.Horizontal">
         <e-split-panes>
             <e-split-pane pane-size="30%">
                 <e-content-template>
@@ -32,40 +32,58 @@
                         <div id="@c.MessageId" style="padding:7px 7px 7px 7px;text-align:left">
                             <span style="font-size:11pt">@c.Subject- @c.UpdatedTime</span>
                         </div>
-                    }
-                    
-
-
+                    }                    
                 </e-content-template>
             </e-split-pane>
             <e-split-pane >
-                <e-content-Template>
-                    @{
-                        List<String> toolsList = new List<string>() {"style", "lists", "doAction", "links", "images"};
-                        List<String> style = new List<string>() {"bold", "italic", "underline", "strikethrough"};
-                        List<String> lists = new List<string>() {"unorderedList", "orderedList"};
-                        List<String> doAction = new List<string>() {"undo", "redo"};
-                        List<String> links = new List<string>() {"createLink", "removeLink"};
-                        List<String> images = new List<string>() {"image"};
-                    }
+                <e-content-template>
+                    <div height="100%">
+                        <div id="topicBar" style="text-align: left; display: none;">
+                                <ej-Menu id="menujson">
 
-                    <ej-rte id="rteSample" show-toolbar="false" allow-editing="false" tools-list="toolsList" width="100%" height="100%" >
-                        <e-tools styles="style" lists="lists" do-action="doAction" links="links" images="images"></e-tools>
-                        <e-content-template>
-                            @if (Model.ViewModel.Messages.Any())
-                            {
-                                @Model.ViewModel.Messages[0].Content
+                                    <e-menu-fields dataSource="ViewBag.datasource" id="Id" text="Text" parent-id="Parent" has-child="HasChild" sprite-css-class="sprite"></e-menu-fields>
+
+                                </ej-Menu>
+
+
+                        </div>
+                        
+                        <div >
+
+
+                            @{
+
+                                List<String> toolsList = new List<string>() {"style", "lists", "doAction", "links", "images", "customTools"};
+                                List<String> style = new List<string>() {"bold", "italic", "underline", "strikethrough"};
+                                List<String> lists = new List<string>() {"unorderedList", "orderedList"};
+                                List<String> doAction = new List<string>() {"undo", "redo"};
+                                List<String> links = new List<string>() {"createLink", "removeLink"};
+                                List<String> images = new List<string>() {"image"};
                             }
 
-                        </e-content-template>
-                    </ej-rte>
-                </e-content-Template>
+                            <ej-rte show-context-menu="true" id="rteSample" show-toolbar="false" allow-editing="false" tools-list="toolsList" width="100%" height="600px">
+                                <e-tools styles="style" lists="lists" do-action="doAction" links="links" images="images">
+                                    <e-custom-tools>
+                                        <e-custom-tool name="send" toolTip="Select a Topic to send question" text="Send To ... (select a topic)" action="showDialog"/>
+
+                                    </e-custom-tools>
+                                </e-tools>
+                                <e-content-template>
+                                    @if (Model.ViewModel.Messages.Any())
+                                    {
+                                        @Model.ViewModel.Messages[0].Content
+                                    }
+
+                                </e-content-template>
+                            </ej-rte>
+                        </div>
+                    </div>
+                </e-content-template>
             </e-split-pane>
+         
         </e-split-panes>
     </ej-splitter>
-
-
-
+ 
 </div>
 
 

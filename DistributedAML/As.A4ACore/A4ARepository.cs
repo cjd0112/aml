@@ -371,13 +371,13 @@ namespace As.A4ACore
 
         SubscriptionNode FindParent(SubscriptionNode current, A4ASubscriptionType t,string value)
         {
-            if (((int) t) <= ((int) current.SubscriptionType))
+            if (((int) t) <= ((int) current.Type))
             {
                 return null;
             }
             else
             {
-                if (current.SubscriptionType == t-1)
+                if (current.Type == t-1)
                     return current;
                 else
                 {
@@ -397,7 +397,7 @@ namespace As.A4ACore
         {
             foreach (var c in parent.Children)
             {
-                if (c.Subscription == value)
+                if (c.Name == value)
                     return c;
                 ;
             }
@@ -409,8 +409,8 @@ namespace As.A4ACore
         {
             var q = new SubscriptionNode
             {
-                Subscription = value,
-                SubscriptionType = t
+                Name = value,
+                Type = t
             };
             parent.Children.Add(q);
             return q;
@@ -442,14 +442,13 @@ namespace As.A4ACore
                 if (matchingSiblings != null)
                 {                    
                     if (lowestLevel == type)
-                        matchingSiblings.Expert.Add(GetTable<A4AExpert>()
-                            .SelectDataByPrimaryKey<A4AExpert>(connection, expertName));
+                        matchingSiblings.Experts.Add(expertName);
                 }
                 else
                 {
                         var node = AddChild(parent, type, value);
                         if (lowestLevel == type)
-                            node.Expert.Add(GetTable<A4AExpert>().SelectDataByPrimaryKey<A4AExpert>(connection, expertName));
+                            node.Experts.Add( expertName);
                 }
 
             }
@@ -463,20 +462,42 @@ namespace As.A4ACore
             {
                 sr.Root = new SubscriptionNode
                 {
-                    SubscriptionType = A4ASubscriptionType.Empty,
-                    Subscription = "Subscriptions"
+                    Name="Subscriptions",
+                    Type=A4ASubscriptionType.Empty
                 };
+
+                List<string> expertNames = new List<string>();
 
                 foreach (var q in tables[typeof(A4ASubscription)].SelectData<A4ASubscription>(connection, "").Select(x => x.GetObject()))
                 {
                     var lowestLevel = GetLowestLevel(q);
 
                     AddEntryToTree(connection,q.ExpertName,sr.Root,A4ASubscriptionType.Profession,q.Profession,lowestLevel);
-                    AddEntryToTree(connection, q.ExpertName, sr.Root, A4ASubscriptionType.Category, q.Category, lowestLevel);
-                    AddEntryToTree(connection, q.ExpertName, sr.Root, A4ASubscriptionType.SubCategory, q.SubCategory, lowestLevel);
-                    AddEntryToTree(connection, q.ExpertName, sr.Root, A4ASubscriptionType.Location, q.Location, lowestLevel);
+                    if (!String.IsNullOrEmpty(q.Category))
+                    {
+                        AddEntryToTree(connection, q.ExpertName, sr.Root, A4ASubscriptionType.Category, q.Category,
+                            lowestLevel);
 
+                        if (!String.IsNullOrEmpty(q.SubCategory))
+                        {
+                            AddEntryToTree(connection, q.ExpertName, sr.Root, A4ASubscriptionType.SubCategory,
+                                q.SubCategory, lowestLevel);
 
+                            if (!String.IsNullOrEmpty(q.Location))
+                            {
+                                AddEntryToTree(connection, q.ExpertName, sr.Root, A4ASubscriptionType.Location, q.Location, lowestLevel);
+                            }
+                        }
+                    }
+                    if (expertNames.Contains(q.ExpertName) == false)
+                        expertNames.Add(q.ExpertName);
+                }
+
+                foreach (var c in expertNames)
+                {
+
+                    sr.Parties.Add(GetTable<A4AExpert>()
+                        .SelectDataByPrimaryKey<A4AExpert>(connection, c));
                 }
 
                 return sr;

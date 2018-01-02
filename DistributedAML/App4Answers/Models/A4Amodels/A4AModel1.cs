@@ -5,6 +5,7 @@ using App4Answers.Models.A4Amodels.Administration;
 using App4Answers.Models.A4Amodels.Base;
 using App4Answers.Models.A4Amodels.EmailManager;
 using App4Answers.Models.A4Amodels.Login;
+using App4Answers.Models.A4Amodels.Topics;
 using As.A4ACore;
 using As.Email;
 using As.GraphDB.Sql;
@@ -54,6 +55,11 @@ namespace App4Answers.Models.A4Amodels
         {
             return (A4APartyType) Enum.Parse(typeof(A4APartyType),accessor.HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString()));
 
+        }
+
+        public A4ASubscriptionResponseViewModel GetTopicView()
+        {
+            return new A4ASubscriptionResponseViewModel(Repository.GetSubscriptionInfo(new SubscriptionRequest()));
         }
 
         private String GetUserName()

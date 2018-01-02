@@ -17,9 +17,12 @@
     <script src="/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="/lib/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
     <script src="/lib/jsrender/jsrender.min.js"></script>
+    <script src="/lib/underscore/underscore-min.js"></script>
     <script src="/lib/syncfusion-javascript/scripts/ej/web/ej.web.all.min.js"></script>
     <script src="/js/properties.js"></script>
     <script src="/js/outlook.js"></script>
+    <script src="/js/SubscriptionView.js"></script>
+
 </head>
 <body>
 @RenderBody()
@@ -52,7 +55,9 @@
                             <li><a href="#">Empty folder</a></li>
                             <li><a href="#">Mark all as read</a></li>
                         </ul>
+                      
                     </div>
+                 
                 </div>
             </div>
             <div style="position: absolute; top: 0px; right: auto; bottom: 0px; left: 214px; height: auto; width: 4px;">
@@ -152,11 +157,19 @@
                     </form>
                 </div>
             </div>
+            <script id="subscriptionTemplate" type="text/x-jsrender">
+                    {{if HasChild}}
+                    <div style="color:red;">{{>Name}}ddddddd</div>
+                    {{else}}
+                    <div class="treeitem" style="color:red;float:left;margin-right: 8px;">{{>Name}}</div>
+                    {{/if}}
+                </script>
+
             <script id="treeTemplate" type="text/x-jsrender">
                     {{if HasChild}}
-                    <div>{{>Name}}</div>
+                    <div >{{>Name}}</div>
                     {{else}}
-                    <div class="treeitem" style="float:left;margin-right: 8px;">{{>Name}}</div>
+                    <div class="treeitem" style="float:left;margin-right: 8px;">{{>Name}}xxxxxxx</div>
                     <div id="count" class="count" style="height: 20px;width: 100%;">{{>Count}}</div>
                     {{/if}}
                 </script>

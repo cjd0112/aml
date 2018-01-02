@@ -70,8 +70,8 @@ namespace App4Answers.Controllers
                 }
                 else if (thisLogin.AuthenticationAccount.UserType == A4APartyType.User)
                 {
-                    //return RedirectToAction(nameof(EmailManager), new {objecttype = ModelNames.ObjectTypes.Message, verb = ModelNames.Verb.List, listtype = A4AMailboxType.Inbox });
-                    return RedirectToAction(nameof(WebMail2),new {objecttype = ModelNames.ObjectTypes.Message});
+                    return RedirectToAction(nameof(EmailManager), new {objecttype = ModelNames.ObjectTypes.Message, verb = ModelNames.Verb.List, listtype = A4AMailboxType.Inbox });
+                    //return RedirectToAction(nameof(WebMail2),new {objecttype = ModelNames.ObjectTypes.Message});
 
                 }
 
@@ -122,6 +122,13 @@ namespace App4Answers.Controllers
 
             return View();
 
+        }
+
+        public IActionResult Topics()
+        {
+            var model = this.model.GetTopicView();
+            ViewBag.datasource = model.LoadData;
+            return View(model);
         }
 
         public IActionResult WebMail2(string objecttype)
@@ -218,6 +225,8 @@ namespace App4Answers.Controllers
                 {
                     vm.ActionNames = ModelNames.ActionNames.EmailManager;
                 }
+                var model = this.model.GetTopicView();
+                ViewBag.datasource = model.LoadData;
                 return View(viewModel);
 
             }

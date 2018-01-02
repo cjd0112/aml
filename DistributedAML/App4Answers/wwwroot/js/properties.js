@@ -33,7 +33,7 @@ window.isMac = function () {
     return (/(ipad|iphone|ipod touch)/i).test(navigator.userAgent.toLowerCase()) && !(/trident|windows phone/i.test(navigator.userAgent.toLowerCase()));
 }
 //window.baseurl = "http://localhost:16043/";
-window.baseurl = "http://localhost:5000/";
+window.baseurl = "http://localhost:5012/";
 
 (function ($, ej, undefined) {
 

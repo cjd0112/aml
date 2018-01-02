@@ -74,26 +74,31 @@ public static partial class AppForAnswersReflection {
           "ZWdhdGVQYXJ0eSKHAQoOTWFpbGJveFJlcXVlc3QSDQoFU3RhcnQYASABKAUS",
           "EAoIUGFnZVNpemUYAiABKAUSDQoFT3duZXIYAyABKAkSHwoIVXNlclR5cGUY",
           "BCABKA4yDS5BNEFQYXJ0eVR5cGUSJAoLTWFpbGJveFR5cGUYBSABKA4yDy5B",
-          "NEFNYWlsYm94VHlwZSIVChNTdWJzY3JpcHRpb25SZXF1ZXN0IpkBChBTdWJz",
-          "Y3JpcHRpb25Ob2RlEhQKDFN1YnNjcmlwdGlvbhgBIAEoCRIuChBTdWJzY3Jp",
-          "cHRpb25UeXBlGAIgASgOMhQuQTRBU3Vic2NyaXB0aW9uVHlwZRIaCgZleHBl",
-          "cnQYAyADKAsyCi5BNEFFeHBlcnQSIwoIQ2hpbGRyZW4YBCADKAsyES5TdWJz",
-          "Y3JpcHRpb25Ob2RlIjcKFFN1YnNjcmlwdGlvblJlc3BvbnNlEh8KBFJvb3QY",
-          "ASABKAsyES5TdWJzY3JpcHRpb25Ob2RlIiMKEk1haWxib3hJbmZvUmVxdWVz",
-          "dBINCgVPd25lchgBIAEoCSJbChNNYWlsYm94SW5mb1Jlc3BvbnNlEiIKDE1h",
-          "aWxib3hJbmZvcxgBIAMoCzIMLk1haWxib3hJbmZvEiAKB1BhcnRpZXMYAyAD",
-          "KAsyDy5BZ2dyZWdhdGVQYXJ0eSJfCgtNYWlsYm94SW5mbxINCgVPd25lchgC",
-          "IAEoCRIkCgtNYWlsYm94VHlwZRgDIAEoDjIPLkE0QU1haWxib3hUeXBlEg0K",
-          "BUNvdW50GAQgASgFEgwKBFJlYWQYBSABKAUqGwoOQTRBQ29udGVudFR5cGUS",
-          "CQoFRW1haWwQACo8CgxBNEFQYXJ0eVR5cGUSCQoFQWRtaW4QABIICgRVc2Vy",
-          "EAESCgoGRXhwZXJ0EAISCwoHQ29tcGFueRADKkUKDkE0QU1haWxib3hUeXBl",
-          "EggKBE5vbmUQABIJCgVJbmJveBABEggKBFNlbnQQAhIJCgVUcmFzaBADEgkK",
-          "BURyYWZ0EAQqXQoTQTRBU3Vic2NyaXB0aW9uVHlwZRIJCgVFbXB0eRAAEg4K",
-          "ClByb2Zlc3Npb24QARIMCghDYXRlZ29yeRACEg8KC1N1YkNhdGVnb3J5EAMS",
-          "DAoITG9jYXRpb24QBCoqCg1BNEFVc2VyU3RhdHVzEgoKBkFjdGl2ZRAAEg0K",
-          "CVN1c3BlbmRlZBABKjEKDUE0QUFkbWluTGV2ZWwSEQoNQWRtaW5pc3RyYXRv",
-          "chAAEg0KCU1vZGVyYXRvchABKjUKC0VtYWlsU3RhdHVzEgsKB0NyZWF0ZWQQ",
-          "ABIMCghTZW50TWFpbBABEgsKB1JlcGxpZWQQAmIGcHJvdG8z"));
+          "NEFNYWlsYm94VHlwZSIVChNTdWJzY3JpcHRpb25SZXF1ZXN0InoKEFN1YnNj",
+          "cmlwdGlvbk5vZGUSDAoETmFtZRgDIAEoCRIiCgRUeXBlGAQgASgOMhQuQTRB",
+          "U3Vic2NyaXB0aW9uVHlwZRIPCgdFeHBlcnRzGAUgAygJEiMKCENoaWxkcmVu",
+          "GAYgAygLMhEuU3Vic2NyaXB0aW9uTm9kZSJvChFTdWJzY3JpcHRpb25Ob2Rl",
+          "MhIKCgJpZBgBIAEoBRILCgNwaWQYAiABKAUSDAoETmFtZRgDIAEoCRIiCgRU",
+          "eXBlGAQgASgOMhQuQTRBU3Vic2NyaXB0aW9uVHlwZRIPCgdFeHBlcnRzGAUg",
+          "AygJIlQKFFN1YnNjcmlwdGlvblJlc3BvbnNlEh8KBFJvb3QYASABKAsyES5T",
+          "dWJzY3JpcHRpb25Ob2RlEhsKB1BhcnRpZXMYBiADKAsyCi5BNEFFeHBlcnQi",
+          "YgoYU3Vic2NyaXB0aW9uUmVzcG9uc2VGbGF0EikKDVN1YnNjcmlwdGlvbnMY",
+          "ASADKAsyEi5TdWJzY3JpcHRpb25Ob2RlMhIbCgdQYXJ0aWVzGAYgAygLMgou",
+          "QTRBRXhwZXJ0IiMKEk1haWxib3hJbmZvUmVxdWVzdBINCgVPd25lchgBIAEo",
+          "CSJbChNNYWlsYm94SW5mb1Jlc3BvbnNlEiIKDE1haWxib3hJbmZvcxgBIAMo",
+          "CzIMLk1haWxib3hJbmZvEiAKB1BhcnRpZXMYAyADKAsyDy5BZ2dyZWdhdGVQ",
+          "YXJ0eSJfCgtNYWlsYm94SW5mbxINCgVPd25lchgCIAEoCRIkCgtNYWlsYm94",
+          "VHlwZRgDIAEoDjIPLkE0QU1haWxib3hUeXBlEg0KBUNvdW50GAQgASgFEgwK",
+          "BFJlYWQYBSABKAUqGwoOQTRBQ29udGVudFR5cGUSCQoFRW1haWwQACo8CgxB",
+          "NEFQYXJ0eVR5cGUSCQoFQWRtaW4QABIICgRVc2VyEAESCgoGRXhwZXJ0EAIS",
+          "CwoHQ29tcGFueRADKkUKDkE0QU1haWxib3hUeXBlEggKBE5vbmUQABIJCgVJ",
+          "bmJveBABEggKBFNlbnQQAhIJCgVUcmFzaBADEgkKBURyYWZ0EAQqagoTQTRB",
+          "U3Vic2NyaXB0aW9uVHlwZRIJCgVFbXB0eRAAEg4KClByb2Zlc3Npb24QARIM",
+          "CghDYXRlZ29yeRACEg8KC1N1YkNhdGVnb3J5EAMSDAoITG9jYXRpb24QBBIL",
+          "CgdFeHBlcnQyEAUqKgoNQTRBVXNlclN0YXR1cxIKCgZBY3RpdmUQABINCglT",
+          "dXNwZW5kZWQQASoxCg1BNEFBZG1pbkxldmVsEhEKDUFkbWluaXN0cmF0b3IQ",
+          "ABINCglNb2RlcmF0b3IQASo1CgtFbWFpbFN0YXR1cxILCgdDcmVhdGVkEAAS",
+          "DAoIU2VudE1haWwQARILCgdSZXBsaWVkEAJiBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4APartyType), typeof(global::A4AMailboxType), typeof(global::A4ASubscriptionType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::EmailStatus), }, new pbr::GeneratedClrTypeInfo[] {
@@ -115,8 +120,10 @@ public static partial class AppForAnswersReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::MailboxView), global::MailboxView.Parser, new[]{ "Count", "Read", "Request", "Messages", "Parties" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::MailboxRequest), global::MailboxRequest.Parser, new[]{ "Start", "PageSize", "Owner", "UserType", "MailboxType" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::SubscriptionRequest), global::SubscriptionRequest.Parser, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::SubscriptionNode), global::SubscriptionNode.Parser, new[]{ "Subscription", "SubscriptionType", "Expert", "Children" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::SubscriptionResponse), global::SubscriptionResponse.Parser, new[]{ "Root" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::SubscriptionNode), global::SubscriptionNode.Parser, new[]{ "Name", "Type", "Experts", "Children" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::SubscriptionNode2), global::SubscriptionNode2.Parser, new[]{ "Id", "Pid", "Name", "Type", "Experts" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::SubscriptionResponse), global::SubscriptionResponse.Parser, new[]{ "Root", "Parties" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::SubscriptionResponseFlat), global::SubscriptionResponseFlat.Parser, new[]{ "Subscriptions", "Parties" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::MailboxInfoRequest), global::MailboxInfoRequest.Parser, new[]{ "Owner" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::MailboxInfoResponse), global::MailboxInfoResponse.Parser, new[]{ "MailboxInfos", "Parties" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::MailboxInfo), global::MailboxInfo.Parser, new[]{ "Owner", "MailboxType", "Count", "Read" }, null, null, null)
@@ -151,6 +158,7 @@ public enum A4ASubscriptionType {
   [pbr::OriginalName("Category")] Category = 2,
   [pbr::OriginalName("SubCategory")] SubCategory = 3,
   [pbr::OriginalName("Location")] Location = 4,
+  [pbr::OriginalName("Expert2")] Expert2 = 5,
 }
 
 public enum A4AUserStatus {
@@ -4708,9 +4716,9 @@ public sealed partial class SubscriptionNode : pb::IMessage<SubscriptionNode> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public SubscriptionNode(SubscriptionNode other) : this() {
-    subscription_ = other.subscription_;
-    subscriptionType_ = other.subscriptionType_;
-    expert_ = other.expert_.Clone();
+    name_ = other.name_;
+    type_ = other.type_;
+    experts_ = other.experts_.Clone();
     children_ = other.children_.Clone();
   }
 
@@ -4719,42 +4727,42 @@ public sealed partial class SubscriptionNode : pb::IMessage<SubscriptionNode> {
     return new SubscriptionNode(this);
   }
 
-  /// <summary>Field number for the "Subscription" field.</summary>
-  public const int SubscriptionFieldNumber = 1;
-  private string subscription_ = "";
+  /// <summary>Field number for the "Name" field.</summary>
+  public const int NameFieldNumber = 3;
+  private string name_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string Subscription {
-    get { return subscription_; }
+  public string Name {
+    get { return name_; }
     set {
-      subscription_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
-  /// <summary>Field number for the "SubscriptionType" field.</summary>
-  public const int SubscriptionTypeFieldNumber = 2;
-  private global::A4ASubscriptionType subscriptionType_ = 0;
+  /// <summary>Field number for the "Type" field.</summary>
+  public const int TypeFieldNumber = 4;
+  private global::A4ASubscriptionType type_ = 0;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public global::A4ASubscriptionType SubscriptionType {
-    get { return subscriptionType_; }
+  public global::A4ASubscriptionType Type {
+    get { return type_; }
     set {
-      subscriptionType_ = value;
+      type_ = value;
     }
   }
 
-  /// <summary>Field number for the "expert" field.</summary>
-  public const int ExpertFieldNumber = 3;
-  private static readonly pb::FieldCodec<global::A4AExpert> _repeated_expert_codec
-      = pb::FieldCodec.ForMessage(26, global::A4AExpert.Parser);
-  private readonly pbc::RepeatedField<global::A4AExpert> expert_ = new pbc::RepeatedField<global::A4AExpert>();
+  /// <summary>Field number for the "Experts" field.</summary>
+  public const int ExpertsFieldNumber = 5;
+  private static readonly pb::FieldCodec<string> _repeated_experts_codec
+      = pb::FieldCodec.ForString(42);
+  private readonly pbc::RepeatedField<string> experts_ = new pbc::RepeatedField<string>();
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public pbc::RepeatedField<global::A4AExpert> Expert {
-    get { return expert_; }
+  public pbc::RepeatedField<string> Experts {
+    get { return experts_; }
   }
 
   /// <summary>Field number for the "Children" field.</summary>
-  public const int ChildrenFieldNumber = 4;
+  public const int ChildrenFieldNumber = 6;
   private static readonly pb::FieldCodec<global::SubscriptionNode> _repeated_children_codec
-      = pb::FieldCodec.ForMessage(34, global::SubscriptionNode.Parser);
+      = pb::FieldCodec.ForMessage(50, global::SubscriptionNode.Parser);
   private readonly pbc::RepeatedField<global::SubscriptionNode> children_ = new pbc::RepeatedField<global::SubscriptionNode>();
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public pbc::RepeatedField<global::SubscriptionNode> Children {
@@ -4774,9 +4782,9 @@ public sealed partial class SubscriptionNode : pb::IMessage<SubscriptionNode> {
     if (ReferenceEquals(other, this)) {
       return true;
     }
-    if (Subscription != other.Subscription) return false;
-    if (SubscriptionType != other.SubscriptionType) return false;
-    if(!expert_.Equals(other.expert_)) return false;
+    if (Name != other.Name) return false;
+    if (Type != other.Type) return false;
+    if(!experts_.Equals(other.experts_)) return false;
     if(!children_.Equals(other.children_)) return false;
     return true;
   }
@@ -4784,9 +4792,9 @@ public sealed partial class SubscriptionNode : pb::IMessage<SubscriptionNode> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override int GetHashCode() {
     int hash = 1;
-    if (Subscription.Length != 0) hash ^= Subscription.GetHashCode();
-    if (SubscriptionType != 0) hash ^= SubscriptionType.GetHashCode();
-    hash ^= expert_.GetHashCode();
+    if (Name.Length != 0) hash ^= Name.GetHashCode();
+    if (Type != 0) hash ^= Type.GetHashCode();
+    hash ^= experts_.GetHashCode();
     hash ^= children_.GetHashCode();
     return hash;
   }
@@ -4798,28 +4806,28 @@ public sealed partial class SubscriptionNode : pb::IMessage<SubscriptionNode> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public void WriteTo(pb::CodedOutputStream output) {
-    if (Subscription.Length != 0) {
-      output.WriteRawTag(10);
-      output.WriteString(Subscription);
+    if (Name.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(Name);
     }
-    if (SubscriptionType != 0) {
-      output.WriteRawTag(16);
-      output.WriteEnum((int) SubscriptionType);
+    if (Type != 0) {
+      output.WriteRawTag(32);
+      output.WriteEnum((int) Type);
     }
-    expert_.WriteTo(output, _repeated_expert_codec);
+    experts_.WriteTo(output, _repeated_experts_codec);
     children_.WriteTo(output, _repeated_children_codec);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int CalculateSize() {
     int size = 0;
-    if (Subscription.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Subscription);
+    if (Name.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
     }
-    if (SubscriptionType != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) SubscriptionType);
+    if (Type != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
     }
-    size += expert_.CalculateSize(_repeated_expert_codec);
+    size += experts_.CalculateSize(_repeated_experts_codec);
     size += children_.CalculateSize(_repeated_children_codec);
     return size;
   }
@@ -4829,13 +4837,13 @@ public sealed partial class SubscriptionNode : pb::IMessage<SubscriptionNode> {
     if (other == null) {
       return;
     }
-    if (other.Subscription.Length != 0) {
-      Subscription = other.Subscription;
+    if (other.Name.Length != 0) {
+      Name = other.Name;
     }
-    if (other.SubscriptionType != 0) {
-      SubscriptionType = other.SubscriptionType;
+    if (other.Type != 0) {
+      Type = other.Type;
     }
-    expert_.Add(other.expert_);
+    experts_.Add(other.experts_);
     children_.Add(other.children_);
   }
 
@@ -4847,20 +4855,241 @@ public sealed partial class SubscriptionNode : pb::IMessage<SubscriptionNode> {
         default:
           input.SkipLastField();
           break;
-        case 10: {
-          Subscription = input.ReadString();
+        case 26: {
+          Name = input.ReadString();
+          break;
+        }
+        case 32: {
+          type_ = (global::A4ASubscriptionType) input.ReadEnum();
+          break;
+        }
+        case 42: {
+          experts_.AddEntriesFrom(input, _repeated_experts_codec);
+          break;
+        }
+        case 50: {
+          children_.AddEntriesFrom(input, _repeated_children_codec);
+          break;
+        }
+      }
+    }
+  }
+
+}
+
+public sealed partial class SubscriptionNode2 : pb::IMessage<SubscriptionNode2> {
+  private static readonly pb::MessageParser<SubscriptionNode2> _parser = new pb::MessageParser<SubscriptionNode2>(() => new SubscriptionNode2());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<SubscriptionNode2> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[19]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public SubscriptionNode2() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public SubscriptionNode2(SubscriptionNode2 other) : this() {
+    id_ = other.id_;
+    pid_ = other.pid_;
+    name_ = other.name_;
+    type_ = other.type_;
+    experts_ = other.experts_.Clone();
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public SubscriptionNode2 Clone() {
+    return new SubscriptionNode2(this);
+  }
+
+  /// <summary>Field number for the "id" field.</summary>
+  public const int IdFieldNumber = 1;
+  private int id_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Id {
+    get { return id_; }
+    set {
+      id_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "pid" field.</summary>
+  public const int PidFieldNumber = 2;
+  private int pid_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Pid {
+    get { return pid_; }
+    set {
+      pid_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "Name" field.</summary>
+  public const int NameFieldNumber = 3;
+  private string name_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Name {
+    get { return name_; }
+    set {
+      name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "Type" field.</summary>
+  public const int TypeFieldNumber = 4;
+  private global::A4ASubscriptionType type_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::A4ASubscriptionType Type {
+    get { return type_; }
+    set {
+      type_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "Experts" field.</summary>
+  public const int ExpertsFieldNumber = 5;
+  private static readonly pb::FieldCodec<string> _repeated_experts_codec
+      = pb::FieldCodec.ForString(42);
+  private readonly pbc::RepeatedField<string> experts_ = new pbc::RepeatedField<string>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<string> Experts {
+    get { return experts_; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as SubscriptionNode2);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(SubscriptionNode2 other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (Id != other.Id) return false;
+    if (Pid != other.Pid) return false;
+    if (Name != other.Name) return false;
+    if (Type != other.Type) return false;
+    if(!experts_.Equals(other.experts_)) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (Id != 0) hash ^= Id.GetHashCode();
+    if (Pid != 0) hash ^= Pid.GetHashCode();
+    if (Name.Length != 0) hash ^= Name.GetHashCode();
+    if (Type != 0) hash ^= Type.GetHashCode();
+    hash ^= experts_.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (Id != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(Id);
+    }
+    if (Pid != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(Pid);
+    }
+    if (Name.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(Name);
+    }
+    if (Type != 0) {
+      output.WriteRawTag(32);
+      output.WriteEnum((int) Type);
+    }
+    experts_.WriteTo(output, _repeated_experts_codec);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (Id != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+    }
+    if (Pid != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Pid);
+    }
+    if (Name.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+    }
+    if (Type != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
+    }
+    size += experts_.CalculateSize(_repeated_experts_codec);
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(SubscriptionNode2 other) {
+    if (other == null) {
+      return;
+    }
+    if (other.Id != 0) {
+      Id = other.Id;
+    }
+    if (other.Pid != 0) {
+      Pid = other.Pid;
+    }
+    if (other.Name.Length != 0) {
+      Name = other.Name;
+    }
+    if (other.Type != 0) {
+      Type = other.Type;
+    }
+    experts_.Add(other.experts_);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 8: {
+          Id = input.ReadInt32();
           break;
         }
         case 16: {
-          subscriptionType_ = (global::A4ASubscriptionType) input.ReadEnum();
+          Pid = input.ReadInt32();
           break;
         }
         case 26: {
-          expert_.AddEntriesFrom(input, _repeated_expert_codec);
+          Name = input.ReadString();
           break;
         }
-        case 34: {
-          children_.AddEntriesFrom(input, _repeated_children_codec);
+        case 32: {
+          type_ = (global::A4ASubscriptionType) input.ReadEnum();
+          break;
+        }
+        case 42: {
+          experts_.AddEntriesFrom(input, _repeated_experts_codec);
           break;
         }
       }
@@ -4876,7 +5105,7 @@ public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResp
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[19]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[20]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4894,6 +5123,7 @@ public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResp
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public SubscriptionResponse(SubscriptionResponse other) : this() {
     Root = other.root_ != null ? other.Root.Clone() : null;
+    parties_ = other.parties_.Clone();
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4912,6 +5142,16 @@ public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResp
     }
   }
 
+  /// <summary>Field number for the "Parties" field.</summary>
+  public const int PartiesFieldNumber = 6;
+  private static readonly pb::FieldCodec<global::A4AExpert> _repeated_parties_codec
+      = pb::FieldCodec.ForMessage(50, global::A4AExpert.Parser);
+  private readonly pbc::RepeatedField<global::A4AExpert> parties_ = new pbc::RepeatedField<global::A4AExpert>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::A4AExpert> Parties {
+    get { return parties_; }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as SubscriptionResponse);
@@ -4926,6 +5166,7 @@ public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResp
       return true;
     }
     if (!object.Equals(Root, other.Root)) return false;
+    if(!parties_.Equals(other.parties_)) return false;
     return true;
   }
 
@@ -4933,6 +5174,7 @@ public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResp
   public override int GetHashCode() {
     int hash = 1;
     if (root_ != null) hash ^= Root.GetHashCode();
+    hash ^= parties_.GetHashCode();
     return hash;
   }
 
@@ -4947,6 +5189,7 @@ public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResp
       output.WriteRawTag(10);
       output.WriteMessage(Root);
     }
+    parties_.WriteTo(output, _repeated_parties_codec);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4955,6 +5198,7 @@ public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResp
     if (root_ != null) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(Root);
     }
+    size += parties_.CalculateSize(_repeated_parties_codec);
     return size;
   }
 
@@ -4969,6 +5213,7 @@ public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResp
       }
       Root.MergeFrom(other.Root);
     }
+    parties_.Add(other.parties_);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4986,6 +5231,139 @@ public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResp
           input.ReadMessage(root_);
           break;
         }
+        case 50: {
+          parties_.AddEntriesFrom(input, _repeated_parties_codec);
+          break;
+        }
+      }
+    }
+  }
+
+}
+
+public sealed partial class SubscriptionResponseFlat : pb::IMessage<SubscriptionResponseFlat> {
+  private static readonly pb::MessageParser<SubscriptionResponseFlat> _parser = new pb::MessageParser<SubscriptionResponseFlat>(() => new SubscriptionResponseFlat());
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<SubscriptionResponseFlat> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[21]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public SubscriptionResponseFlat() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public SubscriptionResponseFlat(SubscriptionResponseFlat other) : this() {
+    subscriptions_ = other.subscriptions_.Clone();
+    parties_ = other.parties_.Clone();
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public SubscriptionResponseFlat Clone() {
+    return new SubscriptionResponseFlat(this);
+  }
+
+  /// <summary>Field number for the "Subscriptions" field.</summary>
+  public const int SubscriptionsFieldNumber = 1;
+  private static readonly pb::FieldCodec<global::SubscriptionNode2> _repeated_subscriptions_codec
+      = pb::FieldCodec.ForMessage(10, global::SubscriptionNode2.Parser);
+  private readonly pbc::RepeatedField<global::SubscriptionNode2> subscriptions_ = new pbc::RepeatedField<global::SubscriptionNode2>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::SubscriptionNode2> Subscriptions {
+    get { return subscriptions_; }
+  }
+
+  /// <summary>Field number for the "Parties" field.</summary>
+  public const int PartiesFieldNumber = 6;
+  private static readonly pb::FieldCodec<global::A4AExpert> _repeated_parties_codec
+      = pb::FieldCodec.ForMessage(50, global::A4AExpert.Parser);
+  private readonly pbc::RepeatedField<global::A4AExpert> parties_ = new pbc::RepeatedField<global::A4AExpert>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::A4AExpert> Parties {
+    get { return parties_; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as SubscriptionResponseFlat);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(SubscriptionResponseFlat other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if(!subscriptions_.Equals(other.subscriptions_)) return false;
+    if(!parties_.Equals(other.parties_)) return false;
+    return true;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    hash ^= subscriptions_.GetHashCode();
+    hash ^= parties_.GetHashCode();
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    subscriptions_.WriteTo(output, _repeated_subscriptions_codec);
+    parties_.WriteTo(output, _repeated_parties_codec);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    size += subscriptions_.CalculateSize(_repeated_subscriptions_codec);
+    size += parties_.CalculateSize(_repeated_parties_codec);
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(SubscriptionResponseFlat other) {
+    if (other == null) {
+      return;
+    }
+    subscriptions_.Add(other.subscriptions_);
+    parties_.Add(other.parties_);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          input.SkipLastField();
+          break;
+        case 10: {
+          subscriptions_.AddEntriesFrom(input, _repeated_subscriptions_codec);
+          break;
+        }
+        case 50: {
+          parties_.AddEntriesFrom(input, _repeated_parties_codec);
+          break;
+        }
       }
     }
   }
@@ -4999,7 +5377,7 @@ public sealed partial class MailboxInfoRequest : pb::IMessage<MailboxInfoRequest
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[20]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[22]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5116,7 +5494,7 @@ public sealed partial class MailboxInfoResponse : pb::IMessage<MailboxInfoRespon
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[21]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[23]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5245,7 +5623,7 @@ public sealed partial class MailboxInfo : pb::IMessage<MailboxInfo> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[22]; }
+    get { return global::AppForAnswersReflection.Descriptor.MessageTypes[24]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

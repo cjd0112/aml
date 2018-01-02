@@ -25,13 +25,13 @@
     </div>
 
     <div class="col-sm-6" style="text-align:left;">
-        <span  onclick="newMail();" style="cursor: pointer; color:white;font-size:20pt;" class="glyphicon-envelope" />
+        <span  onclick="newMail();" style="cursor: pointer; color:whitesmoke;font-size:26pt;" class="glyphicon-envelope" />
     </div>
 
 
 
     <div class="col-sm-3" style="text-align:right">
-        <span style="color:white;">Email - Manager - @HttpContextAccessor.HttpContext.Session.GetString(ModelNames.SessionStrings.UserEmail.ToString()) - Role - @HttpContextAccessor.HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString())</span>
+        <span style="color:whitesmoke;">Email - Manager - @HttpContextAccessor.HttpContext.Session.GetString(ModelNames.SessionStrings.UserEmail.ToString()) - Role - @HttpContextAccessor.HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString())</span>
     </div>
 
     <div class="col-sm-1">
@@ -98,17 +98,55 @@
 
     <script language="javascript">
 
+        function showDialog() {
 
-        $(function () {
+            alert($("#send").parent()
+                .html("<button disabled='true' class='btn btn-alert'>Select a Topic to Send ...</button>"));
+
+
+        }
+
+        function getParent(n, arr) {
+            var nodes = _.where(arr, { Id: Number(n.Parent) });
+            if (_.size(nodes) === 1) {
+                return nodes[0];
+            }
+            return null;
+
+        }
+
+        function getParentString(n, arr) {
+            var parent = getParent(n, arr);
+            if (parent != null)
+                return getParentString(parent, arr).concat("/",n.Text);
+            else
+                return n.Text;
+        }
+
+
+        $(function() {
             $("#listview").ejListView({
                 mouseDown: function(args) {
                     setEmailContent(window.dataSource.ViewModel.Messages[args.index]);
                 }
             });
 
+            $("#menujson").ejMenu({
+                click: function (args) {
+                    var model = _.where(args.model.fields.dataSource, { Id: Number(args.element.id) });
+                    if (model[0].HasChild === false) {
+
+                        var str = getParentString(model[0], args.model.fields.dataSource, "");
+
+                        $("#send").prop('disabled',false);
+                        $("#send").empty().append("Send to: ".concat(str));
+                    }
+                }
+            });
 
 
         });
+
 
         function onmousedown(args) {
 
@@ -119,18 +157,27 @@
 
         function newMail() {
 
+
             $("#rteSample").ejRTE({
-                showToolbar: true,                
-                allowEditing:true
+                showToolbar: true,
+                allowEditing: true
             });
+
+            $("#send").parent().empty().append("<button id='send' disabled='true' class='btn btn-primary'>Select a Topic to enable 'send' ...</button>");
 
 
             setEmailContent({ Content: "<h3>type new question here</h3>" });
+
+            $("#topicBar").show();
         }
 
         function setEmailContent(model) {
 
             $("#rteSample").ejRTE("setHtml", model.Content);
+        }
+
+        function onDialogClose(args) {
+            //$("#btnOpen").show();
         }
 
         window.dataSource = @Html.Raw(JsonConvert.SerializeObject(Model));
