@@ -98,10 +98,10 @@
 
     <script language="javascript">
 
+       
+
         function showDialog() {
 
-            alert($("#send").parent()
-                .html("<button disabled='true' class='btn btn-alert'>Select a Topic to Send ...</button>"));
 
 
         }
@@ -118,9 +118,9 @@
         function getParentString(n, arr) {
             var parent = getParent(n, arr);
             if (parent != null)
-                return getParentString(parent, arr).concat("/",n.Text);
+                return getParentString(parent, arr).concat("/", n.Text);
             else
-                return n.Text;
+                return "";
         }
 
 
@@ -163,7 +163,22 @@
                 allowEditing: true
             });
 
-            $("#send").parent().empty().append("<button id='send' disabled='true' class='btn btn-primary'>Select a Topic to enable 'send' ...</button>");
+            $("#send").parent().empty().append("<button onclick='onSend' id='send' disabled='true' class='btn btn-primary'>Select a Topic to enable 'send' ...</button>");
+
+            $("#send").click(function () {
+
+                var topic = $("#send").text().substr("Send to: ".length);
+
+                var content = $("#rteSample").ejRTE("getHtml");
+                jQuery.post("http://localhost:5012/api/Mail/SendMessage",
+                    {
+                        Content: content,
+                        Topic:topic,
+                        EmailSender: "colin.dick@alphastorm.co.uk"
+                    }, function(data) {
+                        alert(JSON.stringify(data));
+                    });
+            });
 
 
             setEmailContent({ Content: "<h3>type new question here</h3>" });

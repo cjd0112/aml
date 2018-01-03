@@ -5,8 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using App4Answers.Models.A4Amodels;
+using App4Answers.Models.A4Amodels.EmailManager;
 using App4Answers.Models.Outlook;
 using As.A4ACore;
+using As.Email;
 using As.Shared;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,10 +23,12 @@ namespace App4Answers.Controllers
     {
         private IHostingEnvironment env;
         private IA4ARepository rep;
-        public MailController(IHostingEnvironment env,A4ARepository rep)
+        private IEmailSender sender;
+        public MailController(IHostingEnvironment env,A4ARepository rep,IEmailSender sender)
         {
             this.env = env;
             this.rep = rep;
+            this.sender = sender;
         }
 
         [AcceptVerbs("GET")]
@@ -56,6 +60,56 @@ namespace App4Answers.Controllers
 
             return new ObjectResult(res);
 
+        }
+
+        public A4AEmailService GetEmailDefinition()
+        {
+            var emailService = rep.GetObjectByPrimaryKey<A4AEmailService>("mailgun");
+            if (emailService == null)
+                throw new Exception(
+                    "Could not load email service settings from database - looking for 'mailgun' entry in 'A4AEmailService' table");
+
+            return emailService;
+        }
+
+        class SaveResponse
+        {
+            public string MessageId { get; set; }
+            public int SendCount { get; set; }
+        }
+
+        SaveResponse SaveMessage(IFormCollection form)
+        {
+            var mail = new A4AMessageDetailViewModel(form).ModelClassFromViewModel();
+
+            mail.Subject = $"A4A Question on '{mail.Topic}'";
+
+            mail.Date = DateTime.Now.ToUniversalTime().ToString("r");
+
+            var userAndExperts = rep.GetUserAndExpertsForMessage(mail);
+
+            if (!userAndExperts.experts.Any())
+                throw new Exception($"Message topic did not select any experts - not sending or saving ... ");
+
+            mail = rep.AddObject(mail);
+
+            int cnt = 0;
+            foreach (var record in sender.SendMail(GetEmailDefinition(), mail, userAndExperts.user, userAndExperts.experts))
+            {
+                var newEmailRecord = rep.AddObject(record);
+                cnt++;
+            }
+
+            return new SaveResponse {MessageId = mail.MessageId, SendCount = cnt};
+
+        }
+
+
+        [Route("SendMessage")]
+        [HttpPost]
+        public IActionResult SendMessage()
+        {            
+            return new ObjectResult(SaveMessage(Request.Form));
         }
 
         [Route("SubscriptionInfo")]
