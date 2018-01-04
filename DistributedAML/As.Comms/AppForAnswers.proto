@@ -1,9 +1,6 @@
 ﻿syntax="proto3";
 
-enum A4AContentType
-{
-	Email=0;
-}
+import "google/protobuf/Timestamp.proto";
 
 enum A4APartyType
 {
@@ -76,6 +73,12 @@ enum A4AAdminLevel
 	Moderator=1;
 }
 
+enum A4AUserNameResolver
+{
+	ResolveNameToEmail = 0;
+	ResolveEmailToName = 1;
+}
+
 message A4AEmailService
 {
 	string ServiceName = 1;
@@ -145,7 +148,7 @@ message A4ASubCategory
 {
 	string SubCategory = 1;
 	string Category = 2;
-	string Profession = 3;
+	string Profession= 3;
 }
 
 message A4ALocation
@@ -157,49 +160,64 @@ message A4ALocation
 
 }
 
-enum EmailStatus
+enum A4AEmailStatus
 {
-	Created = 0;
-	SentMail = 1;
-	Replied = 2;
+	senttoservice = 0;
+	accepted = 1;
+	rejected = 2;
+	delivered = 3;
+	failed = 4;
+	opened = 5;
+	clicked = 6;
+	unsubscribed = 7;
+	complained = 8;
+	stored = 9;
+}
+
+
+enum A4AEmailRecordType
+{
+	UserToExpert = 0;
+	ExpertToUser = 1;
 }
 
 message A4AEmailRecord
 {
 	string EmailRecordId = 1;
 	string MessageId = 2;
-	string EmailFrom = 3;
-	string NameFrom = 4;
-	string EmailTo = 5;
+	string RawFrom = 3;
+	string EmailFrom = 4;
+	string NameFrom = 5;
+	string EmailTo = 6;
+	string NameTo = 7;
+	string RawTo = 8;
 
-	string NameTo = 6;
+	A4AEmailStatus Status = 9;
 
-	string EmailRecordIdRelatedTo = 7;
+	string ServiceMessageId = 10;
 
-	EmailStatus Status = 8;
+	string StatusMessage = 11;
 
-	string ExternalMessageId = 9;
+	google.protobuf.Timestamp Timestamp = 12;
 
-	string ExternalStatus = 10;
+	string Url = 13;
 
-	string UpdatedTime = 11;
+	string Subject = 14;
 
-	string Url = 12;
+	bool Read = 15;
 
-	string Subject = 13;
+	bool Deleted = 16;
 
-	bool Read = 14;
-
-	bool Deleted = 15;
+	A4AEmailRecordType RecordType = 17;
 }
 
 message A4AMessage
 {
 	string MessageId=1;
 
-	string Content=2;
+	string HtmlContent=2;
 
-	A4AContentType ContentType=3;
+	string TextContent=3;
 	
 	string EmailSender = 7;
 	

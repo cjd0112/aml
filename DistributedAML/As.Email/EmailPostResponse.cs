@@ -22,5 +22,8 @@ namespace As.Email
         [JsonProperty("body-plain")]
         public String BodyPlain { get; set; }
 
+        [JsonProperty("body-html")]
+        public String BodyHtml { get; set; }
+
     }
 }

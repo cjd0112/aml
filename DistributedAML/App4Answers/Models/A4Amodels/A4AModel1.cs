@@ -515,73 +515,31 @@ namespace App4Answers.Models.A4Amodels
 
             SaveEmailDefinition(emailDefinition);
 
-            if (emailEvents?.items == null)
+            if (emailEvents?.EmailEvents == null)
             {
                 L.Trace("Found null email events or email events.Items ...");
                 return;
             }
 
-            var incomingEmails = new List<A4AEmailRecord>(); 
-            foreach (var c in emailEvents.items)
+            var incomingEmails = new List<A4AEmailRecord>();
+            foreach (var c in emailEvents.EmailEvents)
             {
                 if (processedEvents.ContainsKey(c.id))
                     continue;
 
-                if (c.message.headers.from.Contains(emailDefinition.Domain))
+                processedEvents[c.id] = DateTime.Now.ToUniversalTime();
+
+                var emailRecord = c.ToRecord((x, y) => { return ""; }, emailDefinition.Domain);
+
+                var savedRecord = Repository.AddObject(emailRecord);
+
+                if (savedRecord.RecordType == A4AEmailRecordType.ExpertToUser && savedRecord.Status == A4AEmailStatus.Stored)
                 {
-                    if (c.eventType == EventTypes.delivered)
-                    {
-                        try
-                        {
-                            var emailRecord =
-                                Repository.UpdateEmailRecordStatus(c.message.headers.messageid, c.eventType.ToString());
-
-                            L.Trace($"Updated email record - {emailRecord.ToJSonString()}");
-
-                           
-                        }
-                        catch (Exception e)
-                        {
-                            L.Trace($"An exception - {e.Message} - occured processign email event - {c.ToJSonString()}");
-                        }
-
-                        processedEvents[c.id] = DateTime.Now.ToUniversalTime();
-                    }
+                    incomingEmails.Add(emailRecord);
                 }
-                else
-                {
-                    // a message to us - a reply - figure out who it is from and to
-                    try
-                    {
-                        var fromEmailAndUser = c.message.headers.from.ParseLongEmailString();
-                        var toEmailAndUser = c.message.headers.to.ParseLongEmailString();
 
-                        var correspondents =
-                            Repository.GetUserAndExpertForReply(toEmailAndUser.userPrefix, $"{fromEmailAndUser.userPrefix}@{fromEmailAndUser.domain}");
-
-                        var emailRecord = new A4AEmailRecord
-                        {
-                            EmailFrom = correspondents.expert.Email,
-                            EmailTo = correspondents.user.Email,
-                            NameFrom = correspondents.expert.ExpertName,
-                            NameTo = correspondents.user.UserName,
-                            ExternalMessageId = c.message.headers.messageid,
-                            ExternalStatus = c.eventType.ToString(),
-                            Url = c.storage.url,
-                            Subject = c.message.headers.subject
-                        };
-
-                        incomingEmails.Add(emailRecord);
-
-                    }
-                    catch (Exception e)
-                    {
-                        L.Trace($"An exception - {e.Message} - occured processign email event - {c.ToJSonString()}");
-                    }
-
-                    processedEvents[c.id] = DateTime.Now.ToUniversalTime();
-                }
             }
+
 
             foreach (var c in incomingEmails)
             {
@@ -591,7 +549,8 @@ namespace App4Answers.Models.A4Amodels
 
                     var message = new A4AMessage
                     {
-                        Content = emailPostResponse.BodyPlain,
+                        HtmlContent = emailPostResponse.BodyHtml??"",
+                        TextContent = emailPostResponse.BodyPlain??"",
                         Subject = emailPostResponse.Subject,
                         Date = emailPostResponse.Date,
                         EmailSender = c.EmailFrom

@@ -71,23 +71,17 @@ namespace As.A4ACore
                 tables[type] =
                     new SqlTableWithPrimaryKey(new SqlitePropertiesAndCommands(TypeContainer.GetTypeContainer(type)));
 
-                if (type == typeof(A4AEmailRecord))
-                    tables[type].ConvertEmptyForeignKeysToNull();
-
             }
 
-            primaryKeyAndTypeManager.AddPrimaryKeyPrefixAndEnum(typeof(A4AExpert), "EXPERT", A4APartyType.Expert)
-                .AddPrimaryKeyPrefixAndEnum(typeof(A4AUser), "USER", A4APartyType.User)
-                .AddPrimaryKeyPrefixAndEnum(typeof(A4AExpert), "ADMIN", A4APartyType.Admin);
+            primaryKeyAndTypeManager.AddPrimaryKeyPrefixAndEnum(typeof(A4AExpert), "E", A4APartyType.Expert)
+                .AddPrimaryKeyPrefixAndEnum(typeof(A4AUser), "U", A4APartyType.User)
+                .AddPrimaryKeyPrefixAndEnum(typeof(A4AAdministrator), "A", A4APartyType.Admin);
 
-            tables[typeof(A4AExpert)]
-                .SetAutoPrimaryKey((i) => primaryKeyAndTypeManager.GenerateId(typeof(A4AExpert), i));
-
-            tables[typeof(A4AUser)]
-                .SetAutoPrimaryKey((i) => primaryKeyAndTypeManager.GenerateId(typeof(A4AUser), i));
-
-            tables[typeof(A4AAdministrator)]
-                .SetAutoPrimaryKey((i) => primaryKeyAndTypeManager.GenerateId(typeof(A4AAdministrator), i));
+            GetTable<A4AExpert>().SetUniqueIdPrefix("EX");
+            GetTable<A4AUser>().SetUniqueIdPrefix("US");
+            GetTable<A4AAdministrator>().SetUniqueIdPrefix("AD");
+            GetTable<A4AMessage>().SetUniqueIdPrefix("MX");
+            GetTable<A4AEmailRecord>().SetUniqueIdPrefix("EM");
 
 
             aggregateMessage = new SqlitePropertiesAndCommands(TypeContainer.GetTypeContainer(typeof(AggregateMessage)));
@@ -217,8 +211,8 @@ namespace As.A4ACore
             {
                 var sqlTable = tables[typeof(T)];
                 foreach (var c in sqlTable.PropertiesAndCommands.typeContainer.Properties
-                    .Where(x => x.foreignKey != null)
-                    .Select(x => x.foreignKey))
+                    .Where(x => x.IsForeignKey)
+                    .Select(x => x.GetForeignKey()))
                 {
                     var table = tables[A4ATypes.First(x => x.Name == c.ParentTableName)];
 
@@ -278,21 +272,6 @@ namespace As.A4ACore
             }
         }
 
-        public A4AEmailRecord UpdateEmailRecordStatus(string externalMessageId, string status)
-        {
-            using (var connection = conn.Connection())
-            {
-                var sqlTable = tables[typeof(A4AEmailRecord)];
-                var z = sqlTable.SelectOne<A4AEmailRecord>(connection, "externalMessageId",externalMessageId);
-                z.ExternalStatus = status;
-                z.UpdatedTime = DateTime.Now.ToUniversalTime().ToString("r");
-
-                sqlTable.InsertOrReplace(connection, new[] {z}, true);
-
-                return z;
-            }
-        }
-
         public (A4AUser user, A4AExpert expert) GetUserAndExpertForReply(string userName, string expertEmail)
         {
             using (var connection = conn.Connection())
@@ -346,23 +325,23 @@ namespace As.A4ACore
         }
 
 
-        (string nameToOrFrom, string externalStatus) GetSearchParameters(A4AMailboxType mailboxType,A4APartyType party)
+        (string nameToOrFrom, A4AEmailStatus externalStatus) GetSearchParameters(A4AMailboxType mailboxType,A4APartyType party)
         {
             if (mailboxType == A4AMailboxType.Inbox && party == A4APartyType.Expert)
             {
-                return ("NameTo", "delivered");
+                return ("NameTo", A4AEmailStatus.Delivered);
             }
             else if (mailboxType == A4AMailboxType.Inbox && party == A4APartyType.User)
             {
-                return ("NameTo", "stored");
+                return ("NameTo", A4AEmailStatus.Stored);
             }
             else if (mailboxType == A4AMailboxType.Sent && party == A4APartyType.Expert)
             {
-                return ("NameFrom", "stored");
+                return ("NameFrom", A4AEmailStatus.Stored);
             }
             else if (mailboxType == A4AMailboxType.Sent && party == A4APartyType.User)
             {
-                return ("NameFrom", "delivered");
+                return ("NameFrom", A4AEmailStatus.Delivered);
             }
 
             throw new Exception($"Unexpected mailboxtype and party - {mailboxType} - {party}");
@@ -557,10 +536,10 @@ namespace As.A4ACore
 
                 (var nameToOrFrom, var externalStatus) = GetSearchParameters(request.MailboxType, request.UserType);
                 mb.Count = GetTable<A4AEmailRecord>().GetCount(connection,new SqlPredicate(nameToOrFrom, request.Owner),
-                    new SqlPredicate("ExternalStatus", externalStatus));
+                    new SqlPredicate("Status", externalStatus));
 
                 foreach (var c in new SqlInnerJoin<AggregateMessage, A4AEmailRecord, A4AMessage>(GetPropertiesAndCommands)
-                    .JoinT1Predicate(connection, "MessageId", new SqlPredicate(nameToOrFrom, request.Owner), new SqlPredicate("ExternalStatus", externalStatus)))
+                    .JoinT1Predicate(connection, "MessageId", new SqlPredicate(nameToOrFrom, request.Owner), new SqlPredicate("Status", externalStatus)))
                 {
                     mb.Messages.Add(c);
 

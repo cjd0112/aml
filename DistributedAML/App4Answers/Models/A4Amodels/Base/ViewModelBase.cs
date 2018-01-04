@@ -133,7 +133,7 @@ namespace App4Answers.Models.A4Amodels.Base
             var newType = TypeContainer.GetTypeContainer(typeof(T));
             T newOne = newType.CreateInstance<T>();
 
-            foreach (var c in typeContainer.Properties)
+            foreach (var c in typeContainer.ProtobufProperties)
             {
                 var modelProperty = newType.GetProperty(c.Name);
                 if (modelProperty == null)

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.ServiceModel.Description;
+using Google.Protobuf.WellKnownTypes;
 using Newtonsoft.Json;
 using RestSharp;
+using Method = RestSharp.Method;
 
 namespace As.Email
 {
@@ -18,6 +20,8 @@ namespace As.Email
         }
         public IEnumerable<A4AEmailRecord> SendMail(A4AEmailService service,A4AMessage msg,A4AUser source, IEnumerable<A4AExpert> targets)
         {
+            var z = new A4AEmailRecord();
+
             var client = new RestClient();
             client.BaseUrl = new Uri(service.Uri);
             client.Authenticator =
@@ -31,7 +35,9 @@ namespace As.Email
                 request.AddParameter("from", $"App4Answers <{source.UserName}@{service.Domain}>");
                 request.AddParameter("to", $"{c.FirstName} {c.LastName} <{c.Email}>");
                 request.AddParameter("subject", msg.Subject);
-                request.AddParameter("text", msg.Content);
+                request.AddParameter("html", msg.HtmlContent);
+                request.AddParameter("text", msg.TextContent);
+
                 request.Method = Method.POST;
                 var result  = client.Execute(request);
 
@@ -46,22 +52,23 @@ namespace As.Email
                     NameFrom = source.UserName,
                     EmailTo = c.Email,
                     NameTo =    c.ExpertName,
-                    Status = EmailStatus.Created,
-                    ExternalMessageId = json.id,
-                    ExternalStatus = json.message,
-                    Subject = request.Parameters.First(x=>x.Name == "subject").Value.ToString()
+                    Status = A4AEmailStatus.Senttoservice,
+                    StatusMessage = json.message,
+                    ServiceMessageId = json.id,
+                    Subject = request.Parameters.First(x=>x.Name == "subject").Value.ToString(),
+                    Timestamp = Timestamp.FromDateTime(DateTime.UtcNow)
                 };
 
-                if (record.ExternalMessageId.StartsWith("<") && record.ExternalMessageId.EndsWith(">"))
-                    record.ExternalMessageId =
-                        record.ExternalMessageId.Substring(1, record.ExternalMessageId.Length - 2);
+                if (record.ServiceMessageId.StartsWith("<") && record.ServiceMessageId.EndsWith(">"))
+                    record.ServiceMessageId=
+                        record.ServiceMessageId.Substring(1, record.ServiceMessageId.Length - 2);
                 yield return record;
 
             }
         }
 
        
-        public EventsResponse GetNextMailEvents(A4AEmailService service)
+        public EmailEventsResponse GetNextMailEvents(A4AEmailService service)
         {
             var client = new RestClient();
             client.BaseUrl = new Uri("https://api.mailgun.net/v3");
@@ -83,13 +90,13 @@ namespace As.Email
 
             request.AddParameter("begin",begin );
             request.AddParameter("end", end);
-            request.AddParameter("event", "delivered OR stored");
+            request.AddParameter("event", "delivered OR stored OR failed OR accepted OR rejected");
 
             service.LastPollTime = DateTime.Now.AddMilliseconds(-DateTime.Now.Millisecond).ToUniversalTime().ToBinary();
 
             var result = client.Execute(request);
 
-            var eventsResponse = JsonConvert.DeserializeObject<EventsResponse>(result.Content);
+            var eventsResponse = JsonConvert.DeserializeObject<EmailEventsResponse>(result.Content);
 
             return eventsResponse;
         }

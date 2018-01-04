@@ -42,7 +42,7 @@ namespace App4Answers.Controllers
                 MailboxType = mbType,
                 PageSize = 20,
                 Start = 0,
-                UserType =  partyType // HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString()).ParseEnum<A4APartyType>()
+                UserType =  partyType // HttpContext.Session.GetString(ModelNames.SessionStrings.UserType.ToString()).ToEnum<A4APartyType>()
             };
             
             return new ObjectResult(rep.GetMailbox(mb));
@@ -80,6 +80,7 @@ namespace App4Answers.Controllers
 
         SaveResponse SaveMessage(IFormCollection form)
         {
+
             var mail = new A4AMessageDetailViewModel(form).ModelClassFromViewModel();
 
             mail.Subject = $"A4A Question on '{mail.Topic}'";

@@ -22,11 +22,6 @@ namespace As.GraphDB.Sql
             return this;
         }
 
-        public String GenerateId(Type t,int ordinal)
-        {
-            return $"{prefixMap[t].Item1}_{ordinal:00000}";
-        }
-
         public Type GetTypeFromId(string id)
         {
             foreach (var c in typeMap.Keys)

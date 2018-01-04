@@ -51,9 +51,9 @@ namespace As.GraphDB.Sql
                     if (pc == null)
                         throw new Exception($"Could not find property - {c.propertyName} on type - {t1.tableName} for join operation");
 
-                    if (pc.PropertyType != typeof(String))
+                    if (pc.PropertyType != typeof(String) && pc.PropertyType.IsEnum == false)
                         throw new Exception(
-                            $"Currently join only works on strings ... - {c.propertyName} - {t1.tableName}");
+                            $"Currently join only works on strings and enums ... - {c.propertyName} - {t1.tableName}");
                     // assume string for now ... 
                     if (tc == t1.typeContainer)
                         yield return $" A.{c.propertyName} = '{c.propertyValue.ToString()}' ";

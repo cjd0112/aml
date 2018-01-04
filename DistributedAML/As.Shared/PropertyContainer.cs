@@ -17,10 +17,10 @@ namespace As.Shared
     public class PropertyContainer
     {
         public PropertyInfo pi;
-        public MemberGetter getter;
-        public MemberSetter setter;
+        private MemberGetter getter;
+        private MemberSetter setter;
         public int index;
-        public ForeignKey foreignKey;
+        ForeignKey foreignKey;
         public bool IsPrimaryKey = false;
 
         public PropertyContainer(PropertyInfo pi,int index = 0,bool isPrimaryKey=false)
@@ -41,6 +41,23 @@ namespace As.Shared
             this.IsPrimaryKey = isPrimaryKey;
         }
 
+        public bool IsNumeric()
+        {
+            return PropertyType == typeof(Int32) || PropertyType == typeof(Int64);
+        }
+
+        public bool IsForeignKey => foreignKey != null;
+
+        public ForeignKey GetForeignKey()
+        {
+            return foreignKey;
+        }
+
+        public void SetForeignKey(ForeignKey fk)
+        {
+            foreignKey = fk;
+        }
+
         public String Name => pi.Name;
 
         public Type PropertyType => pi.PropertyType;
@@ -52,7 +69,7 @@ namespace As.Shared
 
         public void SetValue(Object owningObject, Object value)
         {
-            setter(owningObject, Convert(value));
+            setter(owningObject, value);
         }
 
         public bool Display()
@@ -72,53 +89,7 @@ namespace As.Shared
 
 
 
-        // probably a bit more to do here
-        public Object Convert(Object i)
-        {
-            if (i == null)
-            {
-                if (pi.PropertyType == typeof(String))
-                    return "";
-                else
-                    return 0;
-            }
-
-            Object ret = null;
-            switch (i)
-            {
-                case String s:
-                    if (pi.PropertyType == typeof(String))
-                        ret = s;
-                    else if (pi.PropertyType == typeof(Boolean))
-                    {
-                        if (s.ToLower() == "true")
-                            ret = true;
-                        else if (s.ToLower() == "false")
-                            ret = false;
-                        else
-                        {
-                            var i2 = System.Convert.ToInt32(s);
-                            if (i2 != 0)
-                                ret = true;
-                            else
-                                ret = false;
-                        }
-                    }
-                    else if (pi.PropertyType.IsEnum)
-                        ret = Enum.Parse(pi.PropertyType, s);
-                    else if (pi.PropertyType == typeof(Int32))
-                        ret = System.Convert.ToInt32(s);
-                    else if (pi.PropertyType == typeof(Int64))
-                        ret = System.Convert.ToInt64(s);
-                    else
-                        ret = i;
-                    break;
-                default:
-                    ret = Convert(i.ToString()); // probably not good .... lazy ... etc., 
-                    break;
-            }
-            return ret;
-        }
+       
 
     }
 }

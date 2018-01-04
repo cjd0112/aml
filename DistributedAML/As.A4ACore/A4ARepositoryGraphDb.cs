@@ -29,7 +29,7 @@ namespace As.A4ACore
 
         public A4AMessage AddMessage(A4AMessageSetter setter)
         {
-            int foo = messageSql.InsertOrReplace(conn, new []{new A4AMessage{Content = setter.Message,MessageId=setter.Id}});
+            int foo = messageSql.InsertOrReplace(conn, new []{new A4AMessage{TextContent = setter.Message,MessageId=setter.Id}});
 
             var z = messageSql.SelectData<A4AMessage>(conn, $" MessageId like '{setter.Id}'", new Range(), new Sort()).Select(x=>x.GetObject()).FirstOrDefault();
 

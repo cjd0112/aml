@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using App4Answers.Models.A4Amodels.Base;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Http;
 
 namespace App4Answers.Models.A4Amodels.EmailManager
@@ -23,7 +24,7 @@ namespace App4Answers.Models.A4Amodels.EmailManager
 
         }
 
-        public string EmailRecordId { get; set; }
+        public Int64 EmailRecordId { get; set; }
 
         public string Subject { get; set; }
 
@@ -33,11 +34,11 @@ namespace App4Answers.Models.A4Amodels.EmailManager
 
         public string NameTo { get; set; }
 
-        public string Status { get; set; }
+        public A4AEmailStatus Status { get; set; }
 
-        public string ExternalStatus { get; set; }
+        public string StatusMessage { get; set; }
 
-        public string UpdatedTime { get; set; }
+        public Timestamp  Timestamp{ get; set; }
 
     }
 }

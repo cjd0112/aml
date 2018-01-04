@@ -29,7 +29,10 @@ namespace App4Answers.Models.A4Amodels.EmailManager
 
         public string Subject { get; set; }
 
-        public string Content { get; set; }
+        public string TextContent { get; set; }
+
+        public string HtmlContent { get; set; }
+
 
         public string Date { get; set; }
 

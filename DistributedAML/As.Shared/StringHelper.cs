@@ -7,7 +7,7 @@ namespace As.Shared
 {
     public static class StringHelper
     {
-        public static T ParseEnum<T>(this string foo)
+        public static T ToEnum<T>(this string foo)
         {
             return (T) Enum.Parse(typeof(T), foo);
         }
@@ -26,6 +26,7 @@ namespace As.Shared
             return b.ToString();
         }
 
+        // Colin Dick <colin.dick@btinternet.com> = userName <userPrefix@domain>
         public static (string userName, string userPrefix, string domain) ParseLongEmailString(this string foo)
         {
             if (foo.Contains("<") == false)

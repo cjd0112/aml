@@ -20,6 +20,21 @@ namespace As.Shared
             return Properties.FirstOrDefault(x => x.Name == name);
         }
 
+        private IEnumerable<ProtobufProperties> protobufProperties;
+        public IEnumerable<ProtobufProperties> ProtobufProperties
+        {
+            get
+            {
+                return protobufProperties ??
+                       (protobufProperties = Properties.Select(x => new ProtobufProperties(x)).ToArray());
+            }
+        }
+
+        public ProtobufProperties GetProtobufProperty(String name)
+        {
+            return ProtobufProperties.FirstOrDefault(x => x.Name == name);
+        }
+
         private ConstructorInvoker ci;
 
         private bool setFirstPropertyPrimaryKey = false;

@@ -21,8 +21,6 @@ namespace As.A4ACore
 
         (A4AUser user,IEnumerable<A4AExpert> experts) GetUserAndExpertsForMessage(A4AMessage msg);
 
-        A4AEmailRecord UpdateEmailRecordStatus(string externalMessageId, string status);
-
         (A4AUser user, A4AExpert expert) GetUserAndExpertForReply(string fromEmail, string toEmail);
 
 

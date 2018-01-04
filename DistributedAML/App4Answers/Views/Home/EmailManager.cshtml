@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <div class="col-sm-9" style="height:650px; background-color:gray; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px; padding-right: 0px; margin-right:0px;" align="center">
+    <div class="col-sm-9" style="height:100%; background-color:gray; padding-left: 0px; margin-left: 0px; margin-top: 0px; vertical-align: top; padding-top: 0px; padding-right: 0px; margin-right:0px;" align="center">
         @if (Model is ViewModelListBase)
         {
             @Html.Partial("PartialView/ViewModelListViewerSmall");
@@ -169,10 +169,13 @@
 
                 var topic = $("#send").text().substr("Send to: ".length);
 
-                var content = $("#rteSample").ejRTE("getHtml");
+                var html_content = $("#rteSample").ejRTE("getHtml");
+                var text_content = $("#rteSample").ejRTE("getText");
+
                 jQuery.post("http://localhost:5012/api/Mail/SendMessage",
                     {
-                        Content: content,
+                        HtmlContent: html_content,
+                        TextContent:text_content,
                         Topic:topic,
                         EmailSender: "colin.dick@alphastorm.co.uk"
                     }, function(data) {

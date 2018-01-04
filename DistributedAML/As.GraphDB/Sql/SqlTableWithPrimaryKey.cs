@@ -20,38 +20,32 @@ namespace As.GraphDB.Sql
 
         }
 
-        private Func<int, String> autoPrimaryKey;
 
-        public SqlTableWithPrimaryKey SetAutoPrimaryKey(Func<int,string> autoPrimaryKey)
+        private string prefix = "";
+        public SqlTableWithPrimaryKey SetUniqueIdPrefix(string s)
         {
-            this.autoPrimaryKey = autoPrimaryKey;
+            prefix = s;
             return this;
-        }
 
-        private bool convertEmptyForeignKeysToNull;
-
-        public SqlTableWithPrimaryKey ConvertEmptyForeignKeysToNull()
-        {
-            this.convertEmptyForeignKeysToNull = true;
-            return this;
         }
 
         public SqlitePropertiesAndCommands PropertiesAndCommands => propertiesAndCommands;
 
-        public int GetNextId(SqliteConnection conn)
+        public string GetUniqueId(SqliteConnection conn,string prefix)
         {
             using (var cmd = conn.CreateCommand())
             {
-                cmd.CommandText = $"select max(rowid) from {TableName};";
+                if (String.IsNullOrEmpty(prefix))
+                    cmd.CommandText = $"select hex(randomblob(8));";
+                else
+                    cmd.CommandText = $"select  {prefix} || hex(randomblob(8));";
                 var z = cmd.ExecuteScalar();
-                if (z is DBNull)
-                    return 0;
-                return (Convert.ToInt32(z));
+                return (string) z;
             }
             
         }
 
-        public String GetPrimaryKey(Object o)
+        public Object GetPrimaryKey(Object o)
         {
             return PropertiesAndCommands.GetPrimaryKey(o);
         }
@@ -146,22 +140,22 @@ namespace As.GraphDB.Sql
 
             foreach (var c in propertiesAndCommands.SqlFields())
             {
-                if (!columns.Any(x=>x.Item1 == c.pi.Name))
+                if (columns.All(x => x.Item1 != c.Name))
                 { 
                     if (SqlitePropertiesAndCommands.ConvertPropertyType(c.PropertyType) == "text")
                     {
                         using (var cmd = conn.CreateCommand())
                         {
-                            L.Trace($"Adding new column - {c.pi.Name} to table {propertiesAndCommands.tableName}");
-                            cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.pi.Name, ColumnType.String);
+                            L.Trace($"Adding new column - {c.Name} to table {propertiesAndCommands.tableName}");
+                            cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.Name, ColumnType.String);
                             cmd.ExecuteNonQuery();
                         }
 
                         using (var cmd = conn.CreateCommand())
                         {
-                            L.Trace($"Updating value of {c.pi.Name} in table {propertiesAndCommands.tableName}");
-                            string value = c.pi.PropertyType.IsEnum ? Enum.GetNames(c.pi.PropertyType)[0] : "";
-                            cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandStr(c.pi.Name, value);
+                            L.Trace($"Updating value of {c.Name} in table {propertiesAndCommands.tableName}");
+                            string value = c.PropertyType.IsEnum ? Enum.GetNames(c.PropertyType)[0] : "";
+                            cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandStr(c.Name, value);
                             cmd.ExecuteNonQuery();
                         }
                     }
@@ -169,15 +163,15 @@ namespace As.GraphDB.Sql
                     {
                         using (var cmd = conn.CreateCommand())
                         {
-                            L.Trace($"Adding new column - {c.pi.Name} to table {propertiesAndCommands.tableName}");
-                            cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.pi.Name, ColumnType.Numeric);
+                            L.Trace($"Adding new column - {c.Name} to table {propertiesAndCommands.tableName}");
+                            cmd.CommandText = propertiesAndCommands.AddColumnCommand(c.Name, ColumnType.Numeric);
                             cmd.ExecuteNonQuery();
                         }
 
                         using (var cmd = conn.CreateCommand())
                         {
-                            L.Trace($"Updating value of {c.pi.Name} in table {propertiesAndCommands.tableName}");
-                            cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandNumeric(c.pi.Name, 0);
+                            L.Trace($"Updating value of {c.Name} in table {propertiesAndCommands.tableName}");
+                            cmd.CommandText = propertiesAndCommands.UpdateColumnValuesCommandNumeric(c.Name, 0);
                             cmd.ExecuteNonQuery();
                         }
 
@@ -209,43 +203,23 @@ namespace As.GraphDB.Sql
                         foreach (var g in propertiesAndCommands.SqlFields())
                         {
                             // get new id on primary key unless we are replacing
-                            if (g.IsPrimaryKey)
+                            if (g.Underlying.IsPrimaryKey)
                             {
-                                var pk = (string)g.GetValue(c);
-                                if (String.IsNullOrEmpty(pk))
+                                var pk = (string) g.GetValue(c);
+                                if (String.IsNullOrEmpty((string) pk))
                                 {
-                                    if (autoPrimaryKey == null)
-                                        g.SetValue(c, TableName + GetNextId(connection).ToString());
-                                    else
-                                        g.SetValue(c, autoPrimaryKey(GetNextId(connection)));
-
-                                }
-                                else
-                                {
-                                    g.SetValue(c, pk);
+                                    g.SetValue(c, GetUniqueId(connection, prefix));
                                 }
                             }
 
+                            var toset = g.GetValue(c);
 
-                            if (g.pi.PropertyType.IsEnum)
+                            if (g.Underlying.IsForeignKey && String.IsNullOrEmpty((string)toset))
                             {
-                                cmd.Parameters.AddWithValue(g.pi.Name, g.getter(c).ToString());
+                                toset = DBNull.Value;
                             }
-                            else
-                            {
-                                // the protobuf libraries do not allow setting NULL values on strings - so we have to set direct in SQL code
-                                var q = g.getter(c);
 
-                                if (g.foreignKey != null && convertEmptyForeignKeysToNull && q is string && (string) q== "")
-                                {
-                                    cmd.Parameters.AddWithValue(g.pi.Name, DBNull.Value);
-                                }
-                                else
-                                {
-                                    cmd.Parameters.AddWithValue(g.pi.Name, q);
-                                }
-
-                            }
+                            cmd.Parameters.AddWithValue(g.Underlying.Name, toset);
                         }
 
                         try
@@ -393,7 +367,7 @@ namespace As.GraphDB.Sql
             return null;
         }
 
-        public  T SelectDataByPrimaryKey<T>(SqliteConnection connection, String primaryKey)
+        public  T SelectDataByPrimaryKey<T>(SqliteConnection connection, Object primaryKey)
         {
             string selectCommand = $"{propertiesAndCommands.SelectCommandByPrimaryKey(primaryKey)}";
             using (var queryCmd = connection.CreateCommand())

@@ -30,7 +30,7 @@ namespace App4Answers
                     Code3 = 3,
                     Code4 = 4,
                     UserType = A4APartyType.Expert,
-                    Name="EXPERT_0000"
+                    Name="EX00000"
                 },
                 new A4AAuthenticationAccount
                 {
@@ -40,7 +40,7 @@ namespace App4Answers
                     Code3 = 3,
                     Code4 = 4,
                     UserType = A4APartyType.User,
-                    Name="USER_0000"
+                    Name="US00000"
 
                 },
                 new A4AAuthenticationAccount
@@ -51,7 +51,7 @@ namespace App4Answers
                     Code3 = 3,
                     Code4 = 4,
                     UserType = A4APartyType.Admin,
-                    Name="ADMIN_0000"
+                    Name="AD00000"
 
                 }
             })
@@ -65,7 +65,7 @@ namespace App4Answers
 
             repository.AddObject<A4AExpert>(new A4AExpert
             {
-                ExpertName = "EXPERT_0000",
+                ExpertName = "EX00000",
                 FirstName = "AAAAA",
                 LastName = "BBBBBB",
                 Email = "colin.dick1@btinternet.com",
@@ -75,14 +75,14 @@ namespace App4Answers
 
             repository.AddObject<A4AAdministrator>(new A4AAdministrator
             {
-                AdministratorName = "ADMIN_0000",
+                AdministratorName = "AD00000",
                 Email = "admin@a4a.com",
                 Level = A4AAdminLevel.Administrator
             });
 
             repository.AddObject<A4AUser>(new A4AUser
             {
-                UserName = "USER_0000",
+                UserName = "US00000",
                 Email = "colin.dick@alphastorm.co.uk",
                 Status = A4AUserStatus.Active
             });
@@ -91,14 +91,17 @@ namespace App4Answers
             repository.AddObject<A4ACategory>(new A4ACategory{ Profession = "Information Technology",Category="Software Development" });
             repository.AddObject<A4ASubCategory>(new A4ASubCategory { Profession = "Information Technology", Category = "Software Development",SubCategory = "C#"});
             repository.AddObject<A4ASubCategory>(new A4ASubCategory { Profession = "Information Technology", Category = "Software Development", SubCategory = "Java" });
-            repository.AddObject<A4ASubCategory>(new A4ASubCategory { Profession = "Information Technology", Category = "Software Development", SubCategory = "PYthon" });
+            repository.AddObject<A4ASubCategory>(new A4ASubCategory { Profession = "Information Technology", Category = "Software Development", SubCategory = "Python" });
+            repository.AddObject<A4ALocation>(new A4ALocation { Profession = "Information Technology", Category = "Software Development", SubCategory = "Python", Location="Germany" });
+
 
             repository.AddObject<A4ASubscription>(new A4ASubscription
             {
                 Profession = "Information Technology",
                 Category = "Software Development",
                 SubCategory = "C#",
-                ExpertName = "EXPERT_0000"
+                Location = "Germany",
+                ExpertName = "EX00000"
             });
 
 

@@ -20,88 +20,95 @@ public static partial class AppForAnswersReflection {
   static AppForAnswersReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChNBcHBGb3JBbnN3ZXJzLnByb3RvIpQBChhBNEFBdXRoZW50aWNhdGlvbkFj",
-          "Y291bnQSDQoFRW1haWwYASABKAkSDQoFQ29kZTEYAiABKAUSDQoFQ29kZTIY",
-          "AyABKAUSDQoFQ29kZTMYBCABKAUSDQoFQ29kZTQYBSABKAUSHwoIVXNlclR5",
-          "cGUYByABKA4yDS5BNEFQYXJ0eVR5cGUSDAoETmFtZRgJIAEoCSLfAQoKQTRB",
-          "Q29tcGFueRITCgtDb21wYW55TmFtZRgBIAEoCRIQCghBZGRyZXNzMRgKIAEo",
-          "CRIQCghBZGRyZXNzMhgLIAEoCRIPCgdDb3VudHJ5GAwgASgJEhAKCFBvc3Rj",
-          "b2RlGA0gASgJEhEKCVRlbGVwaG9uZRgPIAEoCRIPCgdXZWJzaXRlGBAgASgJ",
-          "EhIKCk1haW5Db2xvdXIYESABKAkSFwoPU2Vjb25kYXJ5Q29sb3VyGBIgASgJ",
-          "EhYKDlRlcnRpYXJ5Q29sb3VyGBMgASgJEgwKBExvZ28YFCABKAkivAEKD0E0",
-          "QUVtYWlsU2VydmljZRITCgtTZXJ2aWNlTmFtZRgBIAEoCRITCgtBcGlVc2Vy",
-          "TmFtZRgCIAEoCRITCgtBcGlQYXNzd29yZBgDIAEoCRILCgNVcmkYBCABKAkS",
-          "DgoGRG9tYWluGAUgASgJEhQKDGxhc3RQb2xsVGltZRgGIAEoAxIZChFkZWxh",
-          "eU1pbGxpc2Vjb25kcxgHIAEoAxIcChRsb29rYmFja01pbGxpc2Vjb25kcxgI",
-          "IAEoAyJbChBBNEFBZG1pbmlzdHJhdG9yEhkKEUFkbWluaXN0cmF0b3JOYW1l",
-          "GAEgASgJEg0KBUVtYWlsGAIgASgJEh0KBUxldmVsGAMgASgOMg4uQTRBQWRt",
-          "aW5MZXZlbCJKCgdBNEFVc2VyEhAKCFVzZXJOYW1lGAEgASgJEg0KBUVtYWls",
-          "GAIgASgJEh4KBlN0YXR1cxgDIAEoDjIOLkE0QVVzZXJTdGF0dXMieAoJQTRB",
-          "RXhwZXJ0EhIKCkV4cGVydE5hbWUYASABKAkSEQoJRmlyc3ROYW1lGAIgASgJ",
-          "EhAKCExhc3ROYW1lGAMgASgJEg0KBUVtYWlsGAQgASgJEg4KBk1vYmlsZRgH",
-          "IAEoCRITCgtDb21wYW55TmFtZRgIIAEoCSKIAQoPQTRBU3Vic2NyaXB0aW9u",
-          "EhQKDFN1YnNjcmlwdGlvbhgBIAEoCRISCgpQcm9mZXNzaW9uGAIgASgJEhAK",
-          "CENhdGVnb3J5GAMgASgJEhMKC1N1YkNhdGVnb3J5GAQgASgJEhAKCExvY2F0",
-          "aW9uGAUgASgJEhIKCkV4cGVydE5hbWUYBiABKAkiIwoNQTRBUHJvZmVzc2lv",
-          "bhISCgpQcm9mZXNzaW9uGAEgASgJIjMKC0E0QUNhdGVnb3J5EhAKCENhdGVn",
-          "b3J5GAEgASgJEhIKClByb2Zlc3Npb24YAiABKAkiSwoOQTRBU3ViQ2F0ZWdv",
-          "cnkSEwoLU3ViQ2F0ZWdvcnkYASABKAkSEAoIQ2F0ZWdvcnkYAiABKAkSEgoK",
-          "UHJvZmVzc2lvbhgDIAEoCSJaCgtBNEFMb2NhdGlvbhIQCghMb2NhdGlvbhgB",
-          "IAEoCRITCgtTdWJDYXRlZ29yeRgCIAEoCRIQCghDYXRlZ29yeRgDIAEoCRIS",
-          "CgpQcm9mZXNzaW9uGAQgASgJIsMCCg5BNEFFbWFpbFJlY29yZBIVCg1FbWFp",
-          "bFJlY29yZElkGAEgASgJEhEKCU1lc3NhZ2VJZBgCIAEoCRIRCglFbWFpbEZy",
-          "b20YAyABKAkSEAoITmFtZUZyb20YBCABKAkSDwoHRW1haWxUbxgFIAEoCRIO",
-          "CgZOYW1lVG8YBiABKAkSHgoWRW1haWxSZWNvcmRJZFJlbGF0ZWRUbxgHIAEo",
-          "CRIcCgZTdGF0dXMYCCABKA4yDC5FbWFpbFN0YXR1cxIZChFFeHRlcm5hbE1l",
-          "c3NhZ2VJZBgJIAEoCRIWCg5FeHRlcm5hbFN0YXR1cxgKIAEoCRITCgtVcGRh",
-          "dGVkVGltZRgLIAEoCRILCgNVcmwYDCABKAkSDwoHU3ViamVjdBgNIAEoCRIM",
-          "CgRSZWFkGA4gASgIEg8KB0RlbGV0ZWQYDyABKAgimQEKCkE0QU1lc3NhZ2US",
-          "EQoJTWVzc2FnZUlkGAEgASgJEg8KB0NvbnRlbnQYAiABKAkSJAoLQ29udGVu",
-          "dFR5cGUYAyABKA4yDy5BNEFDb250ZW50VHlwZRITCgtFbWFpbFNlbmRlchgH",
-          "IAEoCRIMCgREYXRlGAggASgJEg8KB1N1YmplY3QYCSABKAkSDQoFVG9waWMY",
-          "CiABKAki1AEKDkFnZ3JlZ2F0ZVBhcnR5Eg0KBUVtYWlsGAEgASgJEgwKBE5h",
-          "bWUYAiABKAkSIAoJUGFydHlUeXBlGAMgASgOMg0uQTRBUGFydHlUeXBlEhwK",
-          "BmV4cGVydBgEIAEoCzIKLkE0QUV4cGVydEgAEhgKBHVzZXIYBSABKAsyCC5B",
-          "NEFVc2VySAASIgoFYWRtaW4YBiABKAsyES5BNEFBZG1pbmlzdHJhdG9ySAAS",
-          "HgoHY29tcGFueRgHIAEoCzILLkE0QUNvbXBhbnlIAEIHCgVQYXJ0eSKxAQoQ",
-          "QWdncmVnYXRlTWVzc2FnZRIQCghOYW1lRnJvbRgBIAEoCRIOCgZOYW1lVG8Y",
-          "AiABKAkSEQoJRW1haWxGcm9tGAMgASgJEg8KB0VtYWlsVG8YBCABKAkSEwoL",
-          "VXBkYXRlZFRpbWUYBSABKAkSDwoHU3ViamVjdBgGIAEoCRIRCglNZXNzYWdl",
-          "SWQYByABKAkSDwoHQ29udGVudBgIIAEoCRINCgVUb3BpYxgJIAEoCSKTAQoL",
-          "TWFpbGJveFZpZXcSDQoFQ291bnQYASABKAUSDAoEUmVhZBgCIAEoBRIgCgdy",
-          "ZXF1ZXN0GAMgASgLMg8uTWFpbGJveFJlcXVlc3QSIwoITWVzc2FnZXMYBCAD",
-          "KAsyES5BZ2dyZWdhdGVNZXNzYWdlEiAKB1BhcnRpZXMYBSADKAsyDy5BZ2dy",
-          "ZWdhdGVQYXJ0eSKHAQoOTWFpbGJveFJlcXVlc3QSDQoFU3RhcnQYASABKAUS",
-          "EAoIUGFnZVNpemUYAiABKAUSDQoFT3duZXIYAyABKAkSHwoIVXNlclR5cGUY",
-          "BCABKA4yDS5BNEFQYXJ0eVR5cGUSJAoLTWFpbGJveFR5cGUYBSABKA4yDy5B",
-          "NEFNYWlsYm94VHlwZSIVChNTdWJzY3JpcHRpb25SZXF1ZXN0InoKEFN1YnNj",
-          "cmlwdGlvbk5vZGUSDAoETmFtZRgDIAEoCRIiCgRUeXBlGAQgASgOMhQuQTRB",
-          "U3Vic2NyaXB0aW9uVHlwZRIPCgdFeHBlcnRzGAUgAygJEiMKCENoaWxkcmVu",
-          "GAYgAygLMhEuU3Vic2NyaXB0aW9uTm9kZSJvChFTdWJzY3JpcHRpb25Ob2Rl",
-          "MhIKCgJpZBgBIAEoBRILCgNwaWQYAiABKAUSDAoETmFtZRgDIAEoCRIiCgRU",
-          "eXBlGAQgASgOMhQuQTRBU3Vic2NyaXB0aW9uVHlwZRIPCgdFeHBlcnRzGAUg",
-          "AygJIlQKFFN1YnNjcmlwdGlvblJlc3BvbnNlEh8KBFJvb3QYASABKAsyES5T",
-          "dWJzY3JpcHRpb25Ob2RlEhsKB1BhcnRpZXMYBiADKAsyCi5BNEFFeHBlcnQi",
-          "YgoYU3Vic2NyaXB0aW9uUmVzcG9uc2VGbGF0EikKDVN1YnNjcmlwdGlvbnMY",
-          "ASADKAsyEi5TdWJzY3JpcHRpb25Ob2RlMhIbCgdQYXJ0aWVzGAYgAygLMgou",
-          "QTRBRXhwZXJ0IiMKEk1haWxib3hJbmZvUmVxdWVzdBINCgVPd25lchgBIAEo",
-          "CSJbChNNYWlsYm94SW5mb1Jlc3BvbnNlEiIKDE1haWxib3hJbmZvcxgBIAMo",
-          "CzIMLk1haWxib3hJbmZvEiAKB1BhcnRpZXMYAyADKAsyDy5BZ2dyZWdhdGVQ",
-          "YXJ0eSJfCgtNYWlsYm94SW5mbxINCgVPd25lchgCIAEoCRIkCgtNYWlsYm94",
-          "VHlwZRgDIAEoDjIPLkE0QU1haWxib3hUeXBlEg0KBUNvdW50GAQgASgFEgwK",
-          "BFJlYWQYBSABKAUqGwoOQTRBQ29udGVudFR5cGUSCQoFRW1haWwQACo8CgxB",
-          "NEFQYXJ0eVR5cGUSCQoFQWRtaW4QABIICgRVc2VyEAESCgoGRXhwZXJ0EAIS",
-          "CwoHQ29tcGFueRADKkUKDkE0QU1haWxib3hUeXBlEggKBE5vbmUQABIJCgVJ",
-          "bmJveBABEggKBFNlbnQQAhIJCgVUcmFzaBADEgkKBURyYWZ0EAQqagoTQTRB",
-          "U3Vic2NyaXB0aW9uVHlwZRIJCgVFbXB0eRAAEg4KClByb2Zlc3Npb24QARIM",
-          "CghDYXRlZ29yeRACEg8KC1N1YkNhdGVnb3J5EAMSDAoITG9jYXRpb24QBBIL",
-          "CgdFeHBlcnQyEAUqKgoNQTRBVXNlclN0YXR1cxIKCgZBY3RpdmUQABINCglT",
-          "dXNwZW5kZWQQASoxCg1BNEFBZG1pbkxldmVsEhEKDUFkbWluaXN0cmF0b3IQ",
-          "ABINCglNb2RlcmF0b3IQASo1CgtFbWFpbFN0YXR1cxILCgdDcmVhdGVkEAAS",
-          "DAoIU2VudE1haWwQARILCgdSZXBsaWVkEAJiBnByb3RvMw=="));
+          "ChNBcHBGb3JBbnN3ZXJzLnByb3RvGh9nb29nbGUvcHJvdG9idWYvVGltZXN0",
+          "YW1wLnByb3RvIpQBChhBNEFBdXRoZW50aWNhdGlvbkFjY291bnQSDQoFRW1h",
+          "aWwYASABKAkSDQoFQ29kZTEYAiABKAUSDQoFQ29kZTIYAyABKAUSDQoFQ29k",
+          "ZTMYBCABKAUSDQoFQ29kZTQYBSABKAUSHwoIVXNlclR5cGUYByABKA4yDS5B",
+          "NEFQYXJ0eVR5cGUSDAoETmFtZRgJIAEoCSLfAQoKQTRBQ29tcGFueRITCgtD",
+          "b21wYW55TmFtZRgBIAEoCRIQCghBZGRyZXNzMRgKIAEoCRIQCghBZGRyZXNz",
+          "MhgLIAEoCRIPCgdDb3VudHJ5GAwgASgJEhAKCFBvc3Rjb2RlGA0gASgJEhEK",
+          "CVRlbGVwaG9uZRgPIAEoCRIPCgdXZWJzaXRlGBAgASgJEhIKCk1haW5Db2xv",
+          "dXIYESABKAkSFwoPU2Vjb25kYXJ5Q29sb3VyGBIgASgJEhYKDlRlcnRpYXJ5",
+          "Q29sb3VyGBMgASgJEgwKBExvZ28YFCABKAkivAEKD0E0QUVtYWlsU2Vydmlj",
+          "ZRITCgtTZXJ2aWNlTmFtZRgBIAEoCRITCgtBcGlVc2VyTmFtZRgCIAEoCRIT",
+          "CgtBcGlQYXNzd29yZBgDIAEoCRILCgNVcmkYBCABKAkSDgoGRG9tYWluGAUg",
+          "ASgJEhQKDGxhc3RQb2xsVGltZRgGIAEoAxIZChFkZWxheU1pbGxpc2Vjb25k",
+          "cxgHIAEoAxIcChRsb29rYmFja01pbGxpc2Vjb25kcxgIIAEoAyJbChBBNEFB",
+          "ZG1pbmlzdHJhdG9yEhkKEUFkbWluaXN0cmF0b3JOYW1lGAEgASgJEg0KBUVt",
+          "YWlsGAIgASgJEh0KBUxldmVsGAMgASgOMg4uQTRBQWRtaW5MZXZlbCJKCgdB",
+          "NEFVc2VyEhAKCFVzZXJOYW1lGAEgASgJEg0KBUVtYWlsGAIgASgJEh4KBlN0",
+          "YXR1cxgDIAEoDjIOLkE0QVVzZXJTdGF0dXMieAoJQTRBRXhwZXJ0EhIKCkV4",
+          "cGVydE5hbWUYASABKAkSEQoJRmlyc3ROYW1lGAIgASgJEhAKCExhc3ROYW1l",
+          "GAMgASgJEg0KBUVtYWlsGAQgASgJEg4KBk1vYmlsZRgHIAEoCRITCgtDb21w",
+          "YW55TmFtZRgIIAEoCSKIAQoPQTRBU3Vic2NyaXB0aW9uEhQKDFN1YnNjcmlw",
+          "dGlvbhgBIAEoCRISCgpQcm9mZXNzaW9uGAIgASgJEhAKCENhdGVnb3J5GAMg",
+          "ASgJEhMKC1N1YkNhdGVnb3J5GAQgASgJEhAKCExvY2F0aW9uGAUgASgJEhIK",
+          "CkV4cGVydE5hbWUYBiABKAkiIwoNQTRBUHJvZmVzc2lvbhISCgpQcm9mZXNz",
+          "aW9uGAEgASgJIjMKC0E0QUNhdGVnb3J5EhAKCENhdGVnb3J5GAEgASgJEhIK",
+          "ClByb2Zlc3Npb24YAiABKAkiSwoOQTRBU3ViQ2F0ZWdvcnkSEwoLU3ViQ2F0",
+          "ZWdvcnkYASABKAkSEAoIQ2F0ZWdvcnkYAiABKAkSEgoKUHJvZmVzc2lvbhgD",
+          "IAEoCSJaCgtBNEFMb2NhdGlvbhIQCghMb2NhdGlvbhgBIAEoCRITCgtTdWJD",
+          "YXRlZ29yeRgCIAEoCRIQCghDYXRlZ29yeRgDIAEoCRISCgpQcm9mZXNzaW9u",
+          "GAQgASgJIocDCg5BNEFFbWFpbFJlY29yZBIVCg1FbWFpbFJlY29yZElkGAEg",
+          "ASgJEhEKCU1lc3NhZ2VJZBgCIAEoCRIPCgdSYXdGcm9tGAMgASgJEhEKCUVt",
+          "YWlsRnJvbRgEIAEoCRIQCghOYW1lRnJvbRgFIAEoCRIPCgdFbWFpbFRvGAYg",
+          "ASgJEg4KBk5hbWVUbxgHIAEoCRINCgVSYXdUbxgIIAEoCRIfCgZTdGF0dXMY",
+          "CSABKA4yDy5BNEFFbWFpbFN0YXR1cxIYChBTZXJ2aWNlTWVzc2FnZUlkGAog",
+          "ASgJEhUKDVN0YXR1c01lc3NhZ2UYCyABKAkSLQoJVGltZXN0YW1wGAwgASgL",
+          "MhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBILCgNVcmwYDSABKAkSDwoH",
+          "U3ViamVjdBgOIAEoCRIMCgRSZWFkGA8gASgIEg8KB0RlbGV0ZWQYECABKAgS",
+          "JwoKUmVjb3JkVHlwZRgRIAEoDjITLkE0QUVtYWlsUmVjb3JkVHlwZSKMAQoK",
+          "QTRBTWVzc2FnZRIRCglNZXNzYWdlSWQYASABKAkSEwoLSHRtbENvbnRlbnQY",
+          "AiABKAkSEwoLVGV4dENvbnRlbnQYAyABKAkSEwoLRW1haWxTZW5kZXIYByAB",
+          "KAkSDAoERGF0ZRgIIAEoCRIPCgdTdWJqZWN0GAkgASgJEg0KBVRvcGljGAog",
+          "ASgJItQBCg5BZ2dyZWdhdGVQYXJ0eRINCgVFbWFpbBgBIAEoCRIMCgROYW1l",
+          "GAIgASgJEiAKCVBhcnR5VHlwZRgDIAEoDjINLkE0QVBhcnR5VHlwZRIcCgZl",
+          "eHBlcnQYBCABKAsyCi5BNEFFeHBlcnRIABIYCgR1c2VyGAUgASgLMgguQTRB",
+          "VXNlckgAEiIKBWFkbWluGAYgASgLMhEuQTRBQWRtaW5pc3RyYXRvckgAEh4K",
+          "B2NvbXBhbnkYByABKAsyCy5BNEFDb21wYW55SABCBwoFUGFydHkisQEKEEFn",
+          "Z3JlZ2F0ZU1lc3NhZ2USEAoITmFtZUZyb20YASABKAkSDgoGTmFtZVRvGAIg",
+          "ASgJEhEKCUVtYWlsRnJvbRgDIAEoCRIPCgdFbWFpbFRvGAQgASgJEhMKC1Vw",
+          "ZGF0ZWRUaW1lGAUgASgJEg8KB1N1YmplY3QYBiABKAkSEQoJTWVzc2FnZUlk",
+          "GAcgASgJEg8KB0NvbnRlbnQYCCABKAkSDQoFVG9waWMYCSABKAkikwEKC01h",
+          "aWxib3hWaWV3Eg0KBUNvdW50GAEgASgFEgwKBFJlYWQYAiABKAUSIAoHcmVx",
+          "dWVzdBgDIAEoCzIPLk1haWxib3hSZXF1ZXN0EiMKCE1lc3NhZ2VzGAQgAygL",
+          "MhEuQWdncmVnYXRlTWVzc2FnZRIgCgdQYXJ0aWVzGAUgAygLMg8uQWdncmVn",
+          "YXRlUGFydHkihwEKDk1haWxib3hSZXF1ZXN0Eg0KBVN0YXJ0GAEgASgFEhAK",
+          "CFBhZ2VTaXplGAIgASgFEg0KBU93bmVyGAMgASgJEh8KCFVzZXJUeXBlGAQg",
+          "ASgOMg0uQTRBUGFydHlUeXBlEiQKC01haWxib3hUeXBlGAUgASgOMg8uQTRB",
+          "TWFpbGJveFR5cGUiFQoTU3Vic2NyaXB0aW9uUmVxdWVzdCJ6ChBTdWJzY3Jp",
+          "cHRpb25Ob2RlEgwKBE5hbWUYAyABKAkSIgoEVHlwZRgEIAEoDjIULkE0QVN1",
+          "YnNjcmlwdGlvblR5cGUSDwoHRXhwZXJ0cxgFIAMoCRIjCghDaGlsZHJlbhgG",
+          "IAMoCzIRLlN1YnNjcmlwdGlvbk5vZGUibwoRU3Vic2NyaXB0aW9uTm9kZTIS",
+          "CgoCaWQYASABKAUSCwoDcGlkGAIgASgFEgwKBE5hbWUYAyABKAkSIgoEVHlw",
+          "ZRgEIAEoDjIULkE0QVN1YnNjcmlwdGlvblR5cGUSDwoHRXhwZXJ0cxgFIAMo",
+          "CSJUChRTdWJzY3JpcHRpb25SZXNwb25zZRIfCgRSb290GAEgASgLMhEuU3Vi",
+          "c2NyaXB0aW9uTm9kZRIbCgdQYXJ0aWVzGAYgAygLMgouQTRBRXhwZXJ0ImIK",
+          "GFN1YnNjcmlwdGlvblJlc3BvbnNlRmxhdBIpCg1TdWJzY3JpcHRpb25zGAEg",
+          "AygLMhIuU3Vic2NyaXB0aW9uTm9kZTISGwoHUGFydGllcxgGIAMoCzIKLkE0",
+          "QUV4cGVydCIjChJNYWlsYm94SW5mb1JlcXVlc3QSDQoFT3duZXIYASABKAki",
+          "WwoTTWFpbGJveEluZm9SZXNwb25zZRIiCgxNYWlsYm94SW5mb3MYASADKAsy",
+          "DC5NYWlsYm94SW5mbxIgCgdQYXJ0aWVzGAMgAygLMg8uQWdncmVnYXRlUGFy",
+          "dHkiXwoLTWFpbGJveEluZm8SDQoFT3duZXIYAiABKAkSJAoLTWFpbGJveFR5",
+          "cGUYAyABKA4yDy5BNEFNYWlsYm94VHlwZRINCgVDb3VudBgEIAEoBRIMCgRS",
+          "ZWFkGAUgASgFKjwKDEE0QVBhcnR5VHlwZRIJCgVBZG1pbhAAEggKBFVzZXIQ",
+          "ARIKCgZFeHBlcnQQAhILCgdDb21wYW55EAMqRQoOQTRBTWFpbGJveFR5cGUS",
+          "CAoETm9uZRAAEgkKBUluYm94EAESCAoEU2VudBACEgkKBVRyYXNoEAMSCQoF",
+          "RHJhZnQQBCpqChNBNEFTdWJzY3JpcHRpb25UeXBlEgkKBUVtcHR5EAASDgoK",
+          "UHJvZmVzc2lvbhABEgwKCENhdGVnb3J5EAISDwoLU3ViQ2F0ZWdvcnkQAxIM",
+          "CghMb2NhdGlvbhAEEgsKB0V4cGVydDIQBSoqCg1BNEFVc2VyU3RhdHVzEgoK",
+          "BkFjdGl2ZRAAEg0KCVN1c3BlbmRlZBABKjEKDUE0QUFkbWluTGV2ZWwSEQoN",
+          "QWRtaW5pc3RyYXRvchAAEg0KCU1vZGVyYXRvchABKkUKE0E0QVVzZXJOYW1l",
+          "UmVzb2x2ZXISFgoSUmVzb2x2ZU5hbWVUb0VtYWlsEAASFgoSUmVzb2x2ZUVt",
+          "YWlsVG9OYW1lEAEqoQEKDkE0QUVtYWlsU3RhdHVzEhEKDXNlbnR0b3NlcnZp",
+          "Y2UQABIMCghhY2NlcHRlZBABEgwKCHJlamVjdGVkEAISDQoJZGVsaXZlcmVk",
+          "EAMSCgoGZmFpbGVkEAQSCgoGb3BlbmVkEAUSCwoHY2xpY2tlZBAGEhAKDHVu",
+          "c3Vic2NyaWJlZBAHEg4KCmNvbXBsYWluZWQQCBIKCgZzdG9yZWQQCSo4ChJB",
+          "NEFFbWFpbFJlY29yZFR5cGUSEAoMVXNlclRvRXhwZXJ0EAASEAoMRXhwZXJ0",
+          "VG9Vc2VyEAFiBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
-        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4AContentType), typeof(global::A4APartyType), typeof(global::A4AMailboxType), typeof(global::A4ASubscriptionType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::EmailStatus), }, new pbr::GeneratedClrTypeInfo[] {
+        new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
+        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::A4APartyType), typeof(global::A4AMailboxType), typeof(global::A4ASubscriptionType), typeof(global::A4AUserStatus), typeof(global::A4AAdminLevel), typeof(global::A4AUserNameResolver), typeof(global::A4AEmailStatus), typeof(global::A4AEmailRecordType), }, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AAuthenticationAccount), global::A4AAuthenticationAccount.Parser, new[]{ "Email", "Code1", "Code2", "Code3", "Code4", "UserType", "Name" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ACompany), global::A4ACompany.Parser, new[]{ "CompanyName", "Address1", "Address2", "Country", "Postcode", "Telephone", "Website", "MainColour", "SecondaryColour", "TertiaryColour", "Logo" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailService), global::A4AEmailService.Parser, new[]{ "ServiceName", "ApiUserName", "ApiPassword", "Uri", "Domain", "LastPollTime", "DelayMilliseconds", "LookbackMilliseconds" }, null, null, null),
@@ -113,8 +120,8 @@ public static partial class AppForAnswersReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ACategory), global::A4ACategory.Parser, new[]{ "Category", "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ASubCategory), global::A4ASubCategory.Parser, new[]{ "SubCategory", "Category", "Profession" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::A4ALocation), global::A4ALocation.Parser, new[]{ "Location", "SubCategory", "Category", "Profession" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailRecord), global::A4AEmailRecord.Parser, new[]{ "EmailRecordId", "MessageId", "EmailFrom", "NameFrom", "EmailTo", "NameTo", "EmailRecordIdRelatedTo", "Status", "ExternalMessageId", "ExternalStatus", "UpdatedTime", "Url", "Subject", "Read", "Deleted" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "MessageId", "Content", "ContentType", "EmailSender", "Date", "Subject", "Topic" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AEmailRecord), global::A4AEmailRecord.Parser, new[]{ "EmailRecordId", "MessageId", "RawFrom", "EmailFrom", "NameFrom", "EmailTo", "NameTo", "RawTo", "Status", "ServiceMessageId", "StatusMessage", "Timestamp", "Url", "Subject", "Read", "Deleted", "RecordType" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::A4AMessage), global::A4AMessage.Parser, new[]{ "MessageId", "HtmlContent", "TextContent", "EmailSender", "Date", "Subject", "Topic" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::AggregateParty), global::AggregateParty.Parser, new[]{ "Email", "Name", "PartyType", "Expert", "User", "Admin", "Company" }, new[]{ "Party" }, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::AggregateMessage), global::AggregateMessage.Parser, new[]{ "NameFrom", "NameTo", "EmailFrom", "EmailTo", "UpdatedTime", "Subject", "MessageId", "Content", "Topic" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::MailboxView), global::MailboxView.Parser, new[]{ "Count", "Read", "Request", "Messages", "Parties" }, null, null, null),
@@ -133,10 +140,6 @@ public static partial class AppForAnswersReflection {
 
 }
 #region Enums
-public enum A4AContentType {
-  [pbr::OriginalName("Email")] Email = 0,
-}
-
 public enum A4APartyType {
   [pbr::OriginalName("Admin")] Admin = 0,
   [pbr::OriginalName("User")] User = 1,
@@ -171,10 +174,27 @@ public enum A4AAdminLevel {
   [pbr::OriginalName("Moderator")] Moderator = 1,
 }
 
-public enum EmailStatus {
-  [pbr::OriginalName("Created")] Created = 0,
-  [pbr::OriginalName("SentMail")] SentMail = 1,
-  [pbr::OriginalName("Replied")] Replied = 2,
+public enum A4AUserNameResolver {
+  [pbr::OriginalName("ResolveNameToEmail")] ResolveNameToEmail = 0,
+  [pbr::OriginalName("ResolveEmailToName")] ResolveEmailToName = 1,
+}
+
+public enum A4AEmailStatus {
+  [pbr::OriginalName("senttoservice")] Senttoservice = 0,
+  [pbr::OriginalName("accepted")] Accepted = 1,
+  [pbr::OriginalName("rejected")] Rejected = 2,
+  [pbr::OriginalName("delivered")] Delivered = 3,
+  [pbr::OriginalName("failed")] Failed = 4,
+  [pbr::OriginalName("opened")] Opened = 5,
+  [pbr::OriginalName("clicked")] Clicked = 6,
+  [pbr::OriginalName("unsubscribed")] Unsubscribed = 7,
+  [pbr::OriginalName("complained")] Complained = 8,
+  [pbr::OriginalName("stored")] Stored = 9,
+}
+
+public enum A4AEmailRecordType {
+  [pbr::OriginalName("UserToExpert")] UserToExpert = 0,
+  [pbr::OriginalName("ExpertToUser")] ExpertToUser = 1,
 }
 
 #endregion
@@ -2704,19 +2724,21 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
   public A4AEmailRecord(A4AEmailRecord other) : this() {
     emailRecordId_ = other.emailRecordId_;
     messageId_ = other.messageId_;
+    rawFrom_ = other.rawFrom_;
     emailFrom_ = other.emailFrom_;
     nameFrom_ = other.nameFrom_;
     emailTo_ = other.emailTo_;
     nameTo_ = other.nameTo_;
-    emailRecordIdRelatedTo_ = other.emailRecordIdRelatedTo_;
+    rawTo_ = other.rawTo_;
     status_ = other.status_;
-    externalMessageId_ = other.externalMessageId_;
-    externalStatus_ = other.externalStatus_;
-    updatedTime_ = other.updatedTime_;
+    serviceMessageId_ = other.serviceMessageId_;
+    statusMessage_ = other.statusMessage_;
+    Timestamp = other.timestamp_ != null ? other.Timestamp.Clone() : null;
     url_ = other.url_;
     subject_ = other.subject_;
     read_ = other.read_;
     deleted_ = other.deleted_;
+    recordType_ = other.recordType_;
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2746,8 +2768,19 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
     }
   }
 
+  /// <summary>Field number for the "RawFrom" field.</summary>
+  public const int RawFromFieldNumber = 3;
+  private string rawFrom_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string RawFrom {
+    get { return rawFrom_; }
+    set {
+      rawFrom_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
   /// <summary>Field number for the "EmailFrom" field.</summary>
-  public const int EmailFromFieldNumber = 3;
+  public const int EmailFromFieldNumber = 4;
   private string emailFrom_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string EmailFrom {
@@ -2758,7 +2791,7 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
   }
 
   /// <summary>Field number for the "NameFrom" field.</summary>
-  public const int NameFromFieldNumber = 4;
+  public const int NameFromFieldNumber = 5;
   private string nameFrom_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string NameFrom {
@@ -2769,7 +2802,7 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
   }
 
   /// <summary>Field number for the "EmailTo" field.</summary>
-  public const int EmailToFieldNumber = 5;
+  public const int EmailToFieldNumber = 6;
   private string emailTo_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string EmailTo {
@@ -2780,7 +2813,7 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
   }
 
   /// <summary>Field number for the "NameTo" field.</summary>
-  public const int NameToFieldNumber = 6;
+  public const int NameToFieldNumber = 7;
   private string nameTo_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string NameTo {
@@ -2790,63 +2823,63 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
     }
   }
 
-  /// <summary>Field number for the "EmailRecordIdRelatedTo" field.</summary>
-  public const int EmailRecordIdRelatedToFieldNumber = 7;
-  private string emailRecordIdRelatedTo_ = "";
+  /// <summary>Field number for the "RawTo" field.</summary>
+  public const int RawToFieldNumber = 8;
+  private string rawTo_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string EmailRecordIdRelatedTo {
-    get { return emailRecordIdRelatedTo_; }
+  public string RawTo {
+    get { return rawTo_; }
     set {
-      emailRecordIdRelatedTo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      rawTo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
   /// <summary>Field number for the "Status" field.</summary>
-  public const int StatusFieldNumber = 8;
-  private global::EmailStatus status_ = 0;
+  public const int StatusFieldNumber = 9;
+  private global::A4AEmailStatus status_ = 0;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public global::EmailStatus Status {
+  public global::A4AEmailStatus Status {
     get { return status_; }
     set {
       status_ = value;
     }
   }
 
-  /// <summary>Field number for the "ExternalMessageId" field.</summary>
-  public const int ExternalMessageIdFieldNumber = 9;
-  private string externalMessageId_ = "";
+  /// <summary>Field number for the "ServiceMessageId" field.</summary>
+  public const int ServiceMessageIdFieldNumber = 10;
+  private string serviceMessageId_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string ExternalMessageId {
-    get { return externalMessageId_; }
+  public string ServiceMessageId {
+    get { return serviceMessageId_; }
     set {
-      externalMessageId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      serviceMessageId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
-  /// <summary>Field number for the "ExternalStatus" field.</summary>
-  public const int ExternalStatusFieldNumber = 10;
-  private string externalStatus_ = "";
+  /// <summary>Field number for the "StatusMessage" field.</summary>
+  public const int StatusMessageFieldNumber = 11;
+  private string statusMessage_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string ExternalStatus {
-    get { return externalStatus_; }
+  public string StatusMessage {
+    get { return statusMessage_; }
     set {
-      externalStatus_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      statusMessage_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
-  /// <summary>Field number for the "UpdatedTime" field.</summary>
-  public const int UpdatedTimeFieldNumber = 11;
-  private string updatedTime_ = "";
+  /// <summary>Field number for the "Timestamp" field.</summary>
+  public const int TimestampFieldNumber = 12;
+  private global::Google.Protobuf.WellKnownTypes.Timestamp timestamp_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string UpdatedTime {
-    get { return updatedTime_; }
+  public global::Google.Protobuf.WellKnownTypes.Timestamp Timestamp {
+    get { return timestamp_; }
     set {
-      updatedTime_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      timestamp_ = value;
     }
   }
 
   /// <summary>Field number for the "Url" field.</summary>
-  public const int UrlFieldNumber = 12;
+  public const int UrlFieldNumber = 13;
   private string url_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string Url {
@@ -2857,7 +2890,7 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
   }
 
   /// <summary>Field number for the "Subject" field.</summary>
-  public const int SubjectFieldNumber = 13;
+  public const int SubjectFieldNumber = 14;
   private string subject_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public string Subject {
@@ -2868,7 +2901,7 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
   }
 
   /// <summary>Field number for the "Read" field.</summary>
-  public const int ReadFieldNumber = 14;
+  public const int ReadFieldNumber = 15;
   private bool read_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public bool Read {
@@ -2879,13 +2912,24 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
   }
 
   /// <summary>Field number for the "Deleted" field.</summary>
-  public const int DeletedFieldNumber = 15;
+  public const int DeletedFieldNumber = 16;
   private bool deleted_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public bool Deleted {
     get { return deleted_; }
     set {
       deleted_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "RecordType" field.</summary>
+  public const int RecordTypeFieldNumber = 17;
+  private global::A4AEmailRecordType recordType_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::A4AEmailRecordType RecordType {
+    get { return recordType_; }
+    set {
+      recordType_ = value;
     }
   }
 
@@ -2904,19 +2948,21 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
     }
     if (EmailRecordId != other.EmailRecordId) return false;
     if (MessageId != other.MessageId) return false;
+    if (RawFrom != other.RawFrom) return false;
     if (EmailFrom != other.EmailFrom) return false;
     if (NameFrom != other.NameFrom) return false;
     if (EmailTo != other.EmailTo) return false;
     if (NameTo != other.NameTo) return false;
-    if (EmailRecordIdRelatedTo != other.EmailRecordIdRelatedTo) return false;
+    if (RawTo != other.RawTo) return false;
     if (Status != other.Status) return false;
-    if (ExternalMessageId != other.ExternalMessageId) return false;
-    if (ExternalStatus != other.ExternalStatus) return false;
-    if (UpdatedTime != other.UpdatedTime) return false;
+    if (ServiceMessageId != other.ServiceMessageId) return false;
+    if (StatusMessage != other.StatusMessage) return false;
+    if (!object.Equals(Timestamp, other.Timestamp)) return false;
     if (Url != other.Url) return false;
     if (Subject != other.Subject) return false;
     if (Read != other.Read) return false;
     if (Deleted != other.Deleted) return false;
+    if (RecordType != other.RecordType) return false;
     return true;
   }
 
@@ -2925,19 +2971,21 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
     int hash = 1;
     if (EmailRecordId.Length != 0) hash ^= EmailRecordId.GetHashCode();
     if (MessageId.Length != 0) hash ^= MessageId.GetHashCode();
+    if (RawFrom.Length != 0) hash ^= RawFrom.GetHashCode();
     if (EmailFrom.Length != 0) hash ^= EmailFrom.GetHashCode();
     if (NameFrom.Length != 0) hash ^= NameFrom.GetHashCode();
     if (EmailTo.Length != 0) hash ^= EmailTo.GetHashCode();
     if (NameTo.Length != 0) hash ^= NameTo.GetHashCode();
-    if (EmailRecordIdRelatedTo.Length != 0) hash ^= EmailRecordIdRelatedTo.GetHashCode();
+    if (RawTo.Length != 0) hash ^= RawTo.GetHashCode();
     if (Status != 0) hash ^= Status.GetHashCode();
-    if (ExternalMessageId.Length != 0) hash ^= ExternalMessageId.GetHashCode();
-    if (ExternalStatus.Length != 0) hash ^= ExternalStatus.GetHashCode();
-    if (UpdatedTime.Length != 0) hash ^= UpdatedTime.GetHashCode();
+    if (ServiceMessageId.Length != 0) hash ^= ServiceMessageId.GetHashCode();
+    if (StatusMessage.Length != 0) hash ^= StatusMessage.GetHashCode();
+    if (timestamp_ != null) hash ^= Timestamp.GetHashCode();
     if (Url.Length != 0) hash ^= Url.GetHashCode();
     if (Subject.Length != 0) hash ^= Subject.GetHashCode();
     if (Read != false) hash ^= Read.GetHashCode();
     if (Deleted != false) hash ^= Deleted.GetHashCode();
+    if (RecordType != 0) hash ^= RecordType.GetHashCode();
     return hash;
   }
 
@@ -2956,57 +3004,65 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
       output.WriteRawTag(18);
       output.WriteString(MessageId);
     }
-    if (EmailFrom.Length != 0) {
+    if (RawFrom.Length != 0) {
       output.WriteRawTag(26);
+      output.WriteString(RawFrom);
+    }
+    if (EmailFrom.Length != 0) {
+      output.WriteRawTag(34);
       output.WriteString(EmailFrom);
     }
     if (NameFrom.Length != 0) {
-      output.WriteRawTag(34);
+      output.WriteRawTag(42);
       output.WriteString(NameFrom);
     }
     if (EmailTo.Length != 0) {
-      output.WriteRawTag(42);
+      output.WriteRawTag(50);
       output.WriteString(EmailTo);
     }
     if (NameTo.Length != 0) {
-      output.WriteRawTag(50);
+      output.WriteRawTag(58);
       output.WriteString(NameTo);
     }
-    if (EmailRecordIdRelatedTo.Length != 0) {
-      output.WriteRawTag(58);
-      output.WriteString(EmailRecordIdRelatedTo);
+    if (RawTo.Length != 0) {
+      output.WriteRawTag(66);
+      output.WriteString(RawTo);
     }
     if (Status != 0) {
-      output.WriteRawTag(64);
+      output.WriteRawTag(72);
       output.WriteEnum((int) Status);
     }
-    if (ExternalMessageId.Length != 0) {
-      output.WriteRawTag(74);
-      output.WriteString(ExternalMessageId);
-    }
-    if (ExternalStatus.Length != 0) {
+    if (ServiceMessageId.Length != 0) {
       output.WriteRawTag(82);
-      output.WriteString(ExternalStatus);
+      output.WriteString(ServiceMessageId);
     }
-    if (UpdatedTime.Length != 0) {
+    if (StatusMessage.Length != 0) {
       output.WriteRawTag(90);
-      output.WriteString(UpdatedTime);
+      output.WriteString(StatusMessage);
+    }
+    if (timestamp_ != null) {
+      output.WriteRawTag(98);
+      output.WriteMessage(Timestamp);
     }
     if (Url.Length != 0) {
-      output.WriteRawTag(98);
+      output.WriteRawTag(106);
       output.WriteString(Url);
     }
     if (Subject.Length != 0) {
-      output.WriteRawTag(106);
+      output.WriteRawTag(114);
       output.WriteString(Subject);
     }
     if (Read != false) {
-      output.WriteRawTag(112);
+      output.WriteRawTag(120);
       output.WriteBool(Read);
     }
     if (Deleted != false) {
-      output.WriteRawTag(120);
+      output.WriteRawTag(128, 1);
       output.WriteBool(Deleted);
+    }
+    if (RecordType != 0) {
+      output.WriteRawTag(136, 1);
+      output.WriteEnum((int) RecordType);
     }
   }
 
@@ -3018,6 +3074,9 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
     }
     if (MessageId.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(MessageId);
+    }
+    if (RawFrom.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(RawFrom);
     }
     if (EmailFrom.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(EmailFrom);
@@ -3031,20 +3090,20 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
     if (NameTo.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(NameTo);
     }
-    if (EmailRecordIdRelatedTo.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(EmailRecordIdRelatedTo);
+    if (RawTo.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(RawTo);
     }
     if (Status != 0) {
       size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Status);
     }
-    if (ExternalMessageId.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ExternalMessageId);
+    if (ServiceMessageId.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(ServiceMessageId);
     }
-    if (ExternalStatus.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ExternalStatus);
+    if (StatusMessage.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(StatusMessage);
     }
-    if (UpdatedTime.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(UpdatedTime);
+    if (timestamp_ != null) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Timestamp);
     }
     if (Url.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
@@ -3056,7 +3115,10 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
       size += 1 + 1;
     }
     if (Deleted != false) {
-      size += 1 + 1;
+      size += 2 + 1;
+    }
+    if (RecordType != 0) {
+      size += 2 + pb::CodedOutputStream.ComputeEnumSize((int) RecordType);
     }
     return size;
   }
@@ -3072,6 +3134,9 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
     if (other.MessageId.Length != 0) {
       MessageId = other.MessageId;
     }
+    if (other.RawFrom.Length != 0) {
+      RawFrom = other.RawFrom;
+    }
     if (other.EmailFrom.Length != 0) {
       EmailFrom = other.EmailFrom;
     }
@@ -3084,20 +3149,23 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
     if (other.NameTo.Length != 0) {
       NameTo = other.NameTo;
     }
-    if (other.EmailRecordIdRelatedTo.Length != 0) {
-      EmailRecordIdRelatedTo = other.EmailRecordIdRelatedTo;
+    if (other.RawTo.Length != 0) {
+      RawTo = other.RawTo;
     }
     if (other.Status != 0) {
       Status = other.Status;
     }
-    if (other.ExternalMessageId.Length != 0) {
-      ExternalMessageId = other.ExternalMessageId;
+    if (other.ServiceMessageId.Length != 0) {
+      ServiceMessageId = other.ServiceMessageId;
     }
-    if (other.ExternalStatus.Length != 0) {
-      ExternalStatus = other.ExternalStatus;
+    if (other.StatusMessage.Length != 0) {
+      StatusMessage = other.StatusMessage;
     }
-    if (other.UpdatedTime.Length != 0) {
-      UpdatedTime = other.UpdatedTime;
+    if (other.timestamp_ != null) {
+      if (timestamp_ == null) {
+        timestamp_ = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+      }
+      Timestamp.MergeFrom(other.Timestamp);
     }
     if (other.Url.Length != 0) {
       Url = other.Url;
@@ -3110,6 +3178,9 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
     }
     if (other.Deleted != false) {
       Deleted = other.Deleted;
+    }
+    if (other.RecordType != 0) {
+      RecordType = other.RecordType;
     }
   }
 
@@ -3130,55 +3201,66 @@ public sealed partial class A4AEmailRecord : pb::IMessage<A4AEmailRecord> {
           break;
         }
         case 26: {
-          EmailFrom = input.ReadString();
+          RawFrom = input.ReadString();
           break;
         }
         case 34: {
-          NameFrom = input.ReadString();
+          EmailFrom = input.ReadString();
           break;
         }
         case 42: {
-          EmailTo = input.ReadString();
+          NameFrom = input.ReadString();
           break;
         }
         case 50: {
-          NameTo = input.ReadString();
+          EmailTo = input.ReadString();
           break;
         }
         case 58: {
-          EmailRecordIdRelatedTo = input.ReadString();
+          NameTo = input.ReadString();
           break;
         }
-        case 64: {
-          status_ = (global::EmailStatus) input.ReadEnum();
+        case 66: {
+          RawTo = input.ReadString();
           break;
         }
-        case 74: {
-          ExternalMessageId = input.ReadString();
+        case 72: {
+          status_ = (global::A4AEmailStatus) input.ReadEnum();
           break;
         }
         case 82: {
-          ExternalStatus = input.ReadString();
+          ServiceMessageId = input.ReadString();
           break;
         }
         case 90: {
-          UpdatedTime = input.ReadString();
+          StatusMessage = input.ReadString();
           break;
         }
         case 98: {
-          Url = input.ReadString();
+          if (timestamp_ == null) {
+            timestamp_ = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+          }
+          input.ReadMessage(timestamp_);
           break;
         }
         case 106: {
+          Url = input.ReadString();
+          break;
+        }
+        case 114: {
           Subject = input.ReadString();
           break;
         }
-        case 112: {
+        case 120: {
           Read = input.ReadBool();
           break;
         }
-        case 120: {
+        case 128: {
           Deleted = input.ReadBool();
+          break;
+        }
+        case 136: {
+          recordType_ = (global::A4AEmailRecordType) input.ReadEnum();
           break;
         }
       }
@@ -3212,8 +3294,8 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public A4AMessage(A4AMessage other) : this() {
     messageId_ = other.messageId_;
-    content_ = other.content_;
-    contentType_ = other.contentType_;
+    htmlContent_ = other.htmlContent_;
+    textContent_ = other.textContent_;
     emailSender_ = other.emailSender_;
     date_ = other.date_;
     subject_ = other.subject_;
@@ -3236,25 +3318,25 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     }
   }
 
-  /// <summary>Field number for the "Content" field.</summary>
-  public const int ContentFieldNumber = 2;
-  private string content_ = "";
+  /// <summary>Field number for the "HtmlContent" field.</summary>
+  public const int HtmlContentFieldNumber = 2;
+  private string htmlContent_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string Content {
-    get { return content_; }
+  public string HtmlContent {
+    get { return htmlContent_; }
     set {
-      content_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      htmlContent_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
-  /// <summary>Field number for the "ContentType" field.</summary>
-  public const int ContentTypeFieldNumber = 3;
-  private global::A4AContentType contentType_ = 0;
+  /// <summary>Field number for the "TextContent" field.</summary>
+  public const int TextContentFieldNumber = 3;
+  private string textContent_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public global::A4AContentType ContentType {
-    get { return contentType_; }
+  public string TextContent {
+    get { return textContent_; }
     set {
-      contentType_ = value;
+      textContent_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
@@ -3316,8 +3398,8 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
       return true;
     }
     if (MessageId != other.MessageId) return false;
-    if (Content != other.Content) return false;
-    if (ContentType != other.ContentType) return false;
+    if (HtmlContent != other.HtmlContent) return false;
+    if (TextContent != other.TextContent) return false;
     if (EmailSender != other.EmailSender) return false;
     if (Date != other.Date) return false;
     if (Subject != other.Subject) return false;
@@ -3329,8 +3411,8 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
   public override int GetHashCode() {
     int hash = 1;
     if (MessageId.Length != 0) hash ^= MessageId.GetHashCode();
-    if (Content.Length != 0) hash ^= Content.GetHashCode();
-    if (ContentType != 0) hash ^= ContentType.GetHashCode();
+    if (HtmlContent.Length != 0) hash ^= HtmlContent.GetHashCode();
+    if (TextContent.Length != 0) hash ^= TextContent.GetHashCode();
     if (EmailSender.Length != 0) hash ^= EmailSender.GetHashCode();
     if (Date.Length != 0) hash ^= Date.GetHashCode();
     if (Subject.Length != 0) hash ^= Subject.GetHashCode();
@@ -3349,13 +3431,13 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
       output.WriteRawTag(10);
       output.WriteString(MessageId);
     }
-    if (Content.Length != 0) {
+    if (HtmlContent.Length != 0) {
       output.WriteRawTag(18);
-      output.WriteString(Content);
+      output.WriteString(HtmlContent);
     }
-    if (ContentType != 0) {
-      output.WriteRawTag(24);
-      output.WriteEnum((int) ContentType);
+    if (TextContent.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(TextContent);
     }
     if (EmailSender.Length != 0) {
       output.WriteRawTag(58);
@@ -3381,11 +3463,11 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (MessageId.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(MessageId);
     }
-    if (Content.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Content);
+    if (HtmlContent.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(HtmlContent);
     }
-    if (ContentType != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ContentType);
+    if (TextContent.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(TextContent);
     }
     if (EmailSender.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(EmailSender);
@@ -3410,11 +3492,11 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
     if (other.MessageId.Length != 0) {
       MessageId = other.MessageId;
     }
-    if (other.Content.Length != 0) {
-      Content = other.Content;
+    if (other.HtmlContent.Length != 0) {
+      HtmlContent = other.HtmlContent;
     }
-    if (other.ContentType != 0) {
-      ContentType = other.ContentType;
+    if (other.TextContent.Length != 0) {
+      TextContent = other.TextContent;
     }
     if (other.EmailSender.Length != 0) {
       EmailSender = other.EmailSender;
@@ -3443,11 +3525,11 @@ public sealed partial class A4AMessage : pb::IMessage<A4AMessage> {
           break;
         }
         case 18: {
-          Content = input.ReadString();
+          HtmlContent = input.ReadString();
           break;
         }
-        case 24: {
-          contentType_ = (global::A4AContentType) input.ReadEnum();
+        case 26: {
+          TextContent = input.ReadString();
           break;
         }
         case 58: {

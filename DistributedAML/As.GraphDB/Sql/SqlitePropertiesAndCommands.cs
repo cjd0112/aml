@@ -8,6 +8,8 @@ using System.Text;
 using As.GraphQL.Interface;
 using As.Shared;
 using Fasterflect;
+using Google.Protobuf.WellKnownTypes;
+using Type = System.Type;
 
 namespace As.GraphDB.Sql
 {
@@ -40,7 +42,7 @@ namespace As.GraphDB.Sql
                     // our primary key cannot be foreign key
                     if (!g.IsPrimaryKey && g.Name.StartsWith(c.GetPrimaryKeyProperty().Name))
                     {
-                        g.foreignKey = new ForeignKey {ChildFieldName = g.Name, ParentTableName = c.tableName,ChildTableName = tableName,ParentFieldName = c.GetPrimaryKeyProperty().Name};
+                        g.SetForeignKey(new ForeignKey {ChildFieldName = g.Name, ParentTableName = c.tableName,ChildTableName = tableName,ParentFieldName = c.GetPrimaryKeyProperty().Name});
                     }
                 }
             }
@@ -61,9 +63,9 @@ namespace As.GraphDB.Sql
         public Object CreateInstance(ISupportGetValue sv)
         {
             var t = typeContainer.CreateInstance();
-            foreach (var q in typeContainer.Properties)
+            foreach (var q in SqlFields())
             {
-                q.SetValue(t, sv.GetValue(q.pi.Name));
+                q.SetValue(t, sv.GetValue(q.Name));
             }
             return t;
 
@@ -73,9 +75,9 @@ namespace As.GraphDB.Sql
         public T CreateInstance<T>(ISupportGetValue sv)
         {
             var t = CreateInstance<T>();
-            foreach (var q in typeContainer.Properties)
+            foreach (var q in SqlFields())
             {
-                q.SetValue(t,sv.GetValue(q.pi.Name));
+                q.SetValue(t,sv.GetValue(q.Name));
             }
             return (T) t;
 
@@ -90,10 +92,11 @@ namespace As.GraphDB.Sql
         {
             return typeContainer.Properties.FirstOrDefault(x => x.IsPrimaryKey);
         }
-        
-        public IEnumerable<PropertyContainer> SqlFields()
+
+        private IEnumerable<SqlPropertyConverter> sqlFields = null;
+        public IEnumerable<SqlPropertyConverter> SqlFields()
         {
-            return typeContainer.Properties;
+            return sqlFields ?? (sqlFields = typeContainer.Properties.Select(x => new SqlPropertyConverter(x)).ToArray());
         }
 
      
@@ -197,9 +200,10 @@ namespace As.GraphDB.Sql
             return b.ToString();
         }
 
-        public String SelectCommandByPrimaryKey(string primaryKey)
+        public String SelectCommandByPrimaryKey(object primaryKey)
         {
             return SelectCommand() + $" where {GetPrimaryKeyProperty().Name} = '{primaryKey}'; ";
+
         }
 
 
@@ -236,10 +240,10 @@ namespace As.GraphDB.Sql
                     b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)} primary key,");
                 else
                 {
-                    if (c.foreignKey == null)
+                    if (c.IsForeignKey == false)
                         b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)},");
                     else
-                        b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)} REFERENCES {c.foreignKey.ParentTableName}({c.foreignKey.ParentFieldName}),");
+                        b.Append($"{c.pi.Name} {ConvertPropertyType(c.pi.PropertyType)} REFERENCES {c.GetForeignKey().ParentTableName}({c.GetForeignKey().ParentFieldName}),");
                 }
             }
 
@@ -257,6 +261,12 @@ namespace As.GraphDB.Sql
                 return "text";
             else if (t.IsEnum)
                 return "text";
+            else if (t == typeof(Boolean))
+                return "text";
+            else if (t == typeof(Int32) || t == typeof(Int64))
+                return "integer";
+            else if (t == typeof(Timestamp))
+                return "numeric";
             else
                 return "numeric";
         }

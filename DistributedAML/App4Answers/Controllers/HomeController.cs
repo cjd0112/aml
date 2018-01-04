@@ -169,8 +169,8 @@ namespace App4Answers.Controllers
                 var vm = viewModel as IViewModel;
                 if (vm != null)
                 {
-                    vm.Verb = verb.ParseEnum<ModelNames.Verb>();
-                    vm.ObjectTypes = objecttype.ParseEnum<ModelNames.ObjectTypes>();
+                    vm.Verb = verb.ToEnum<ModelNames.Verb>();
+                    vm.ObjectTypes = objecttype.ToEnum<ModelNames.ObjectTypes>();
                 }
 
 
